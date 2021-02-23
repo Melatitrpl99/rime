@@ -207,7 +207,7 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h2">Penjualan</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -219,7 +219,39 @@
           </button>
         </div>
       </div>
-      <h2>Section title</h2>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Transaksi penjualan</h2>
+         <div class="btn-toolbar mb-2 mb-md-0">
+          </div>
+           <div class="input-group mb-3 col-md-5">
+           <button class="input-group-text" id="basic-addon3">Import</button>
+           <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="search">
+         </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Nomor</th>
+              <th>Nama pelanggan</th>
+              <th>Status</th>
+              <th>Info pesanan</th>
+              <th>Diskon</th>
+              <th>total pembelian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1,015</td>
+              <td>random</td>
+              <td>tabular</td>
+              <td>information</td>
+              <td>text</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </main>
   </div>

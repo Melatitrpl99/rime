@@ -207,7 +207,7 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h2">Laporan</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -219,7 +219,22 @@
           </button>
         </div>
       </div>
-      <h2>Section title</h2>
+      <h2>Laporan kas & pengeluaran</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Jurnal</h5>
+          <p>Daftar semua jurnal...</p>
+
+          <h5>Jurnal</h5>
+          <p>Laporan ini mengukur kas...</p>
+        </div>
+        <div class="col-md-6">
+          <h5>Daftar Pengeluaran</h5>
+          <p>Daftar seluruh pengeluaran...</p>
+          
+          <h5>Pembelian per Produk</h5>
+          <p>Menampilkan daftar kualitas pembelian...</p>
+        </div>
       </div>
     </main>
   </div>
