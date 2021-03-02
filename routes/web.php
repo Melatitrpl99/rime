@@ -55,3 +55,37 @@ Route::resource('categories', App\Http\Controllers\CategoryController::class);
 Route::resource('products', App\Http\Controllers\ProductController::class);
 
 Route::resource('events', App\Http\Controllers\EventsController::class);
+
+Route::resource('activities', App\Http\Controllers\ActivityController::class);
+
+Route::resource('news', App\Http\Controllers\NewsController::class);
+
+Route::resource('carts', App\Http\Controllers\CartsController::class);
+
+Route::resource('cartDetails', App\Http\Controllers\CartDetailController::class);
+
+Route::resource('orders', App\Http\Controllers\OrderController::class);
+
+
+
+
+
+Route::resource('orderDetails', App\Http\Controllers\OrderDetailController::class);
+
+
+
+
+
+Route::resource('transactions', App\Http\Controllers\TransactionController::class);
+
+Route::resource('transactionDetails', App\Http\Controllers\TransactionDetailController::class);
+
+Route::resource('partners', App\Http\Controllers\partnerController::class);
+
+Route::resource('reports', App\Http\Controllers\reportController::class);
+
+Route::resource('shipments', App\Http\Controllers\ShipmentController::class);
+
+Route::resource('discounts', App\Http\Controllers\DiscountController::class);
+
+Route::resource('discountDetails', App\Http\Controllers\DiscountDetailController::class);
