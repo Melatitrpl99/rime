@@ -6,8 +6,8 @@
 
 <!-- Id Produk Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_produk', 'Id Produk:') !!}
-    {!! Form::number('id_produk', null, ['class' => 'form-control']) !!}
+    {!! Form::label('product_id', 'produk id:') !!}
+    {!! Form::number('product_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Minimal Produk Field -->

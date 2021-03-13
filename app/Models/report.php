@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $detail_laporan
  * @property integer $user_id
  */
-class report extends Model
+class Report extends Model
 {
     use SoftDeletes;
 

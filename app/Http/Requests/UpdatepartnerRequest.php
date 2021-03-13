@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\partner;
+use App\Models\Partner;
 
-class UpdatepartnerRequest extends FormRequest
+class UpdatePartnerRequest extends FormRequest
 {
 
     /**

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Partner;
+use App\Models\User;
+use InfyOm\Generator\Request\APIRequest;
 
-class CreatePartnerRequest extends FormRequest
+class UpdateUserAPIRequest extends APIRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,6 +24,8 @@ class CreatePartnerRequest extends FormRequest
      */
     public function rules()
     {
-        return partner::$rules;
+        $rules = User::$rules;
+        
+        return $rules;
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @version March 2, 2021, 6:38 am UTC
  *
  * @property integer $discount_id
- * @property integer $id_produk
+ * @property integer $produk_id
  * @property integer $minimal_produk
  * @property integer $maksimal_produk
  */
@@ -31,7 +31,7 @@ class DiscountDetail extends Model
 
     public $fillable = [
         'discount_id',
-        'id_produk',
+        'product_id',
         'minimal_produk',
         'maksimal_produk'
     ];
@@ -44,7 +44,7 @@ class DiscountDetail extends Model
     protected $casts = [
         'id' => 'integer',
         'discount_id' => 'integer',
-        'id_produk' => 'integer',
+        'product_id' => 'integer',
         'minimal_produk' => 'integer',
         'maksimal_produk' => 'integer'
     ];
@@ -56,7 +56,7 @@ class DiscountDetail extends Model
      */
     public static $rules = [
         'discount_id' => 'required',
-        'id_produk' => 'required',
+        'product_id' => 'required',
         'minimal_produk' => 'required',
         'maksimal_produk' => 'required'
     ];

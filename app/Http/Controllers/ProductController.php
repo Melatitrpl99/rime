@@ -42,7 +42,8 @@ class ProductController extends AppBaseController
      */
     public function create()
     {
-        return view('products.create');
+        $categories = \App\Models\Category::pluck('name', 'id');
+        return view('products.create', compact('categories'));
     }
 
     /**

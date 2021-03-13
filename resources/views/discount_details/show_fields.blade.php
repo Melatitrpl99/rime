@@ -6,8 +6,8 @@
 
 <!-- Id Produk Field -->
 <div class="col-sm-12">
-    {!! Form::label('id_produk', 'Id Produk:') !!}
-    <p>{{ $discountDetail->id_produk }}</p>
+    {!! Form::label('product_id', 'Id Produk:') !!}
+    <p>{{ $discountDetail->product_id }}</p>
 </div>
 
 <!-- Minimal Produk Field -->

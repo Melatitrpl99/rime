@@ -44,48 +44,43 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/dashboard', function () {
+	return view ('dashboard.index');
+})->name('dashboard');
 
+Route::group(['middleware' => 'auth'], function () {
 
+	Route::resource('users', App\Http\Controllers\UserController::class);
 
-Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+	Route::resource('categories', App\Http\Controllers\CategoryController::class);
 
+	Route::resource('products', App\Http\Controllers\ProductController::class);
 
-Route::resource('categories', App\Http\Controllers\CategoryController::class);
+	Route::resource('events', App\Http\Controllers\EventsController::class);
 
-Route::resource('products', App\Http\Controllers\ProductController::class);
+	Route::resource('activities', App\Http\Controllers\ActivityController::class);
 
-Route::resource('events', App\Http\Controllers\EventsController::class);
+	Route::resource('news', App\Http\Controllers\NewsController::class);
 
-Route::resource('activities', App\Http\Controllers\ActivityController::class);
+	Route::resource('carts', App\Http\Controllers\CartsController::class);
 
-Route::resource('news', App\Http\Controllers\NewsController::class);
+	Route::resource('cart_details', App\Http\Controllers\CartDetailController::class)->names('cartDetails');
 
-Route::resource('carts', App\Http\Controllers\CartsController::class);
+	Route::resource('orders', App\Http\Controllers\OrderController::class);
 
-Route::resource('cartDetails', App\Http\Controllers\CartDetailController::class);
+	Route::resource('order_details', App\Http\Controllers\OrderDetailController::class)->names('orderDetails');
 
-Route::resource('orders', App\Http\Controllers\OrderController::class);
+	Route::resource('transactions', App\Http\Controllers\TransactionController::class);
 
+	Route::resource('transaction_details', App\Http\Controllers\TransactionDetailController::class)->names('transactionDetails');
 
+	Route::resource('partners', App\Http\Controllers\PartnerController::class);
 
+	Route::resource('reports', App\Http\Controllers\ReportController::class);
 
+	Route::resource('shipments', App\Http\Controllers\ShipmentController::class);
 
-Route::resource('orderDetails', App\Http\Controllers\OrderDetailController::class);
+	Route::resource('discounts', App\Http\Controllers\DiscountController::class);
 
-
-
-
-
-Route::resource('transactions', App\Http\Controllers\TransactionController::class);
-
-Route::resource('transactionDetails', App\Http\Controllers\TransactionDetailController::class);
-
-Route::resource('partners', App\Http\Controllers\partnerController::class);
-
-Route::resource('reports', App\Http\Controllers\reportController::class);
-
-Route::resource('shipments', App\Http\Controllers\ShipmentController::class);
-
-Route::resource('discounts', App\Http\Controllers\DiscountController::class);
-
-Route::resource('discountDetails', App\Http\Controllers\DiscountDetailController::class);
+	Route::resource('discount_details', App\Http\Controllers\DiscountDetailController::class)->names('discountDetails');
+});

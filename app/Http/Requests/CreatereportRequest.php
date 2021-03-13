@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\report;
+use App\Models\Report;
 
-class CreatereportRequest extends FormRequest
+class CreateReportRequest extends FormRequest
 {
 
     /**

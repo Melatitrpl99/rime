@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatereportRequest;
-use App\Http\Requests\UpdatereportRequest;
-use App\Repositories\reportRepository;
+use App\Http\Requests\CreateReportRequest;
+use App\Http\Requests\UpdateReportRequest;
+use App\Repositories\ReportRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class reportController extends AppBaseController
+class ReportController extends AppBaseController
 {
     /** @var  reportRepository */
     private $reportRepository;
 
-    public function __construct(reportRepository $reportRepo)
+    public function __construct(ReportRepository $reportRepo)
     {
         $this->reportRepository = $reportRepo;
     }
@@ -52,7 +52,7 @@ class reportController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreatereportRequest $request)
+    public function store(CreateReportRequest $request)
     {
         $input = $request->all();
 
@@ -111,7 +111,7 @@ class reportController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdatereportRequest $request)
+    public function update($id, UpdateReportRequest $request)
     {
         $report = $this->reportRepository->find($id);
 

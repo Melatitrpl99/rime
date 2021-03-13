@@ -137,6 +137,7 @@
         
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js" integrity="sha512-J+763o/bd3r9iW+gFEqTaeyi+uAphmzkE/zU8FxY6iAvD3nQKXa+ZAWkBI9QS9QkYEKddQoiy0I5GDxKf/ORBA==" crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 <script>
     $(function () {
         bsCustomFileInput.init();
@@ -150,5 +151,6 @@
 @yield('third_party_scripts')
 
 @stack('page_scripts')
+@stack('scripts')
 </body>
 </html>

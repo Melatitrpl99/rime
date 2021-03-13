@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $email
  * @property string $no_hp
  */
-class partner extends Model
+class Partner extends Model
 {
     use SoftDeletes;
 

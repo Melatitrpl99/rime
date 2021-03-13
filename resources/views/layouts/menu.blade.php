@@ -1,14 +1,25 @@
 
-<li class="{{ Request::is('users*') ? 'active' : '' }}">
-    <a href="{!! route('users.index') !!}"><i class="fa fa-user"></i><span>Users</span></a>
+<li class="nav-item">
+    <a href="{{ route('users.index') }}"
+       class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
+        <span class="fa fa-user mr-2"></span><p>Users</p>
+    </a>
 </li>
 
-<li class="{{ Request::is('categories*') ? 'active' : '' }}">
-    <a href="{!! route('categories.index') !!}"><i class="fa fa-user"></i><span>categories</span></a>
+
+<li class="nav-item">
+    <a href="{{ route('categories.index') }}"
+       class="nav-link {{ Request::is('categories*') ? 'active' : '' }}">
+        <p>Categories</p>
+    </a>
 </li>
 
-<li class="{{ Request::is('products*') ? 'active' : '' }}">
-    <a href="{!! route('products.index') !!}"><i class="fa fa-user"></i><span>products</span></a>
+
+<li class="nav-item">
+    <a href="{{ route('products.index') }}"
+       class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
+        <p>Products</p>
+    </a>
 </li>
 
 

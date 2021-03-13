@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatepartnerRequest;
-use App\Http\Requests\UpdatepartnerRequest;
-use App\Repositories\partnerRepository;
+use App\Http\Requests\CreatePartnerRequest;
+use App\Http\Requests\UpdatePartnerRequest;
+use App\Repositories\PartnerRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class partnerController extends AppBaseController
+class PartnerController extends AppBaseController
 {
     /** @var  partnerRepository */
     private $partnerRepository;
 
-    public function __construct(partnerRepository $partnerRepo)
+    public function __construct(PartnerRepository $partnerRepo)
     {
         $this->partnerRepository = $partnerRepo;
     }
@@ -52,7 +52,7 @@ class partnerController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreatepartnerRequest $request)
+    public function store(CreatePartnerRequest $request)
     {
         $input = $request->all();
 
@@ -111,7 +111,7 @@ class partnerController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdatepartnerRequest $request)
+    public function update($id, UpdatePartnerRequest $request)
     {
         $partner = $this->partnerRepository->find($id);
 

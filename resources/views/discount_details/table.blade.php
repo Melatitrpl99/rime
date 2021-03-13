@@ -13,7 +13,7 @@
         @foreach($discountDetails as $discountDetail)
             <tr>
                 <td>{{ $discountDetail->discount_id }}</td>
-            <td>{{ $discountDetail->id_produk }}</td>
+            <td>{{ $discountDetail->product_id }}</td>
             <td>{{ $discountDetail->minimal_produk }}</td>
             <td>{{ $discountDetail->maksimal_produk }}</td>
                 <td width="120">
