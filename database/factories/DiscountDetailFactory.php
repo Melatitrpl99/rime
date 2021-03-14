@@ -22,8 +22,9 @@ class DiscountDetailFactory extends Factory
     public function definition()
     {
         return [
-            'discount_id' => $this->faker->randomDigitNotNull,
-        'id_produk' => $this->faker->randomDigitNotNull,
+            'discount_id' => $this->faker->word,
+        'product_id' => $this->faker->word,
+        'diskon_harga' => $this->faker->randomDigitNotNull,
         'minimal_produk' => $this->faker->randomDigitNotNull,
         'maksimal_produk' => $this->faker->randomDigitNotNull,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),

@@ -22,9 +22,9 @@ class CartDetailFactory extends Factory
     public function definition()
     {
         return [
-            'cart_id' => $this->faker->randomDigitNotNull,
-        'product_id' => $this->faker->randomDigitNotNull,
-        'jumlah' => $this->faker->randomDigitNotNull,
+            'cart_id' => $this->faker->word,
+        'product_id' => $this->faker->word,
+        'subtotal' => $this->faker->randomDigitNotNull,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

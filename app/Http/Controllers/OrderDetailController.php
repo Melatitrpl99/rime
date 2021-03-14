@@ -31,7 +31,7 @@ class OrderDetailController extends AppBaseController
     {
         $orderDetails = $this->orderDetailRepository->all();
 
-        return view('order_details.index')
+        return view('admin.order_details.index')
             ->with('orderDetails', $orderDetails);
     }
 
@@ -42,7 +42,7 @@ class OrderDetailController extends AppBaseController
      */
     public function create()
     {
-        return view('order_details.create');
+        return view('admin.order_details.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class OrderDetailController extends AppBaseController
 
         Flash::success('Order Detail saved successfully.');
 
-        return redirect(route('orderDetails.index'));
+        return redirect(route('admin.orderDetails.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class OrderDetailController extends AppBaseController
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('orderDetails.index'));
+            return redirect(route('admin.orderDetails.index'));
         }
 
-        return view('order_details.show')->with('orderDetail', $orderDetail);
+        return view('admin.order_details.show')->with('orderDetail', $orderDetail);
     }
 
     /**
@@ -97,10 +97,10 @@ class OrderDetailController extends AppBaseController
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('orderDetails.index'));
+            return redirect(route('admin.orderDetails.index'));
         }
 
-        return view('order_details.edit')->with('orderDetail', $orderDetail);
+        return view('admin.order_details.edit')->with('orderDetail', $orderDetail);
     }
 
     /**
@@ -118,14 +118,14 @@ class OrderDetailController extends AppBaseController
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('orderDetails.index'));
+            return redirect(route('admin.orderDetails.index'));
         }
 
         $orderDetail = $this->orderDetailRepository->update($request->all(), $id);
 
         Flash::success('Order Detail updated successfully.');
 
-        return redirect(route('orderDetails.index'));
+        return redirect(route('admin.orderDetails.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class OrderDetailController extends AppBaseController
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('orderDetails.index'));
+            return redirect(route('admin.orderDetails.index'));
         }
 
         $this->orderDetailRepository->delete($id);
 
         Flash::success('Order Detail deleted successfully.');
 
-        return redirect(route('orderDetails.index'));
+        return redirect(route('admin.orderDetails.index'));
     }
 }

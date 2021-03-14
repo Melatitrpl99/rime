@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\partner;
+use App\Models\Partner;
 use App\Repositories\BaseRepository;
 
 /**
- * Class partnerRepository
+ * Class PartnerRepository
  * @package App\Repositories
- * @version March 2, 2021, 5:27 am UTC
+ * @version March 14, 2021, 12:08 am UTC
 */
 
-class partnerRepository extends BaseRepository
+class PartnerRepository extends BaseRepository
 {
     /**
      * @var array
@@ -22,7 +22,8 @@ class partnerRepository extends BaseRepository
         'alamat',
         'lokasi',
         'email',
-        'no_hp'
+        'no_hp',
+        'slug'
     ];
 
     /**
@@ -40,6 +41,6 @@ class partnerRepository extends BaseRepository
      **/
     public function model()
     {
-        return partner::class;
+        return Partner::class;
     }
 }

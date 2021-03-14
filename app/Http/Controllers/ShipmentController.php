@@ -31,7 +31,7 @@ class ShipmentController extends AppBaseController
     {
         $shipments = $this->shipmentRepository->all();
 
-        return view('shipments.index')
+        return view('admin.shipments.index')
             ->with('shipments', $shipments);
     }
 
@@ -42,7 +42,7 @@ class ShipmentController extends AppBaseController
      */
     public function create()
     {
-        return view('shipments.create');
+        return view('admin.shipments.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class ShipmentController extends AppBaseController
 
         Flash::success('Shipment saved successfully.');
 
-        return redirect(route('shipments.index'));
+        return redirect(route('admin.shipments.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class ShipmentController extends AppBaseController
         if (empty($shipment)) {
             Flash::error('Shipment not found');
 
-            return redirect(route('shipments.index'));
+            return redirect(route('admin.shipments.index'));
         }
 
-        return view('shipments.show')->with('shipment', $shipment);
+        return view('admin.shipments.show')->with('shipment', $shipment);
     }
 
     /**
@@ -97,10 +97,10 @@ class ShipmentController extends AppBaseController
         if (empty($shipment)) {
             Flash::error('Shipment not found');
 
-            return redirect(route('shipments.index'));
+            return redirect(route('admin.shipments.index'));
         }
 
-        return view('shipments.edit')->with('shipment', $shipment);
+        return view('admin.shipments.edit')->with('shipment', $shipment);
     }
 
     /**
@@ -118,14 +118,14 @@ class ShipmentController extends AppBaseController
         if (empty($shipment)) {
             Flash::error('Shipment not found');
 
-            return redirect(route('shipments.index'));
+            return redirect(route('admin.shipments.index'));
         }
 
         $shipment = $this->shipmentRepository->update($request->all(), $id);
 
         Flash::success('Shipment updated successfully.');
 
-        return redirect(route('shipments.index'));
+        return redirect(route('admin.shipments.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class ShipmentController extends AppBaseController
         if (empty($shipment)) {
             Flash::error('Shipment not found');
 
-            return redirect(route('shipments.index'));
+            return redirect(route('admin.shipments.index'));
         }
 
         $this->shipmentRepository->delete($id);
 
         Flash::success('Shipment deleted successfully.');
 
-        return redirect(route('shipments.index'));
+        return redirect(route('admin.shipments.index'));
     }
 }

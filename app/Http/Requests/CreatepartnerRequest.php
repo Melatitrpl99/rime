@@ -25,6 +25,6 @@ class CreatePartnerRequest extends FormRequest
      */
     public function rules()
     {
-        return partner::$rules;
+        return Partner::$rules;
     }
 }

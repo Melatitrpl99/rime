@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class partner
+ * Class Partner
  * @package App\Models
- * @version March 2, 2021, 5:27 am UTC
+ * @version March 14, 2021, 12:08 am UTC
  *
  * @property string $nama
  * @property string $deskripsi
@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $lokasi
  * @property string $email
  * @property string $no_hp
+ * @property string $slug
  */
 class Partner extends Model
 {
@@ -37,7 +38,8 @@ class Partner extends Model
         'alamat',
         'lokasi',
         'email',
-        'no_hp'
+        'no_hp',
+        'slug'
     ];
 
     /**
@@ -46,11 +48,13 @@ class Partner extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
         'nama' => 'string',
+        'deskripsi' => 'string',
+        'alamat' => 'string',
         'lokasi' => 'string',
         'email' => 'string',
-        'no_hp' => 'string'
+        'no_hp' => 'string',
+        'slug' => 'string'
     ];
 
     /**
@@ -63,7 +67,9 @@ class Partner extends Model
         'deskripsi' => 'required',
         'alamat' => 'required',
         'lokasi' => 'required',
-        'email' => 'required'
+        'email' => 'required|email',
+        'no_hp' => 'required|numeric',
+        'slug' => 'nullable'
     ];
 
     

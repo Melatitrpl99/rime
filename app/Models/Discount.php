@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Discount
  * @package App\Models
- * @version March 2, 2021, 6:34 am UTC
+ * @version March 14, 2021, 12:09 am UTC
  *
+ * @property \Illuminate\Database\Eloquent\Collection $discountDetails
  * @property string $judul
+ * @property string $deskripsi
  * @property string $kode
  * @property integer $batas_pemakaian
  * @property string $diskon_kategori
+ * @property string $slug
  */
 class Discount extends Model
 {
@@ -31,9 +34,11 @@ class Discount extends Model
 
     public $fillable = [
         'judul',
+        'deskripsi',
         'kode',
         'batas_pemakaian',
-        'diskon_kategori'
+        'diskon_kategori',
+        'slug'
     ];
 
     /**
@@ -42,11 +47,12 @@ class Discount extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
         'judul' => 'string',
+        'deskripsi' => 'string',
         'kode' => 'string',
         'batas_pemakaian' => 'integer',
-        'diskon_kategori' => 'string'
+        'diskon_kategori' => 'string',
+        'slug' => 'string'
     ];
 
     /**
@@ -56,9 +62,18 @@ class Discount extends Model
      */
     public static $rules = [
         'judul' => 'required',
+        'deskripsi' => 'nullable',
         'kode' => 'required',
-        'batas_pemakaian' => 'required'
+        'batas_pemakaian' => 'nullable|numeric',
+        'diskon_kategori' => 'required',
+        'slug' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function discountDetails()
+    {
+        return $this->hasMany(\App\Models\DiscountDetail::class);
+    }
 }

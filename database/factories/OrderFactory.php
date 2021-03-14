@@ -24,10 +24,10 @@ class OrderFactory extends Factory
         return [
             'nomor_order' => $this->faker->word,
         'status_order' => $this->faker->randomDigitNotNull,
-        'pesan' => $this->faker->word,
+        'pesan' => $this->faker->text,
         'kode_diskon' => $this->faker->word,
         'slug' => $this->faker->word,
-        'user_id' => $this->faker->randomDigitNotNull,
+        'user_id' => $this->faker->word,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

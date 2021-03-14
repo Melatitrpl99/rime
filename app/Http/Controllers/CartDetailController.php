@@ -31,7 +31,7 @@ class CartDetailController extends AppBaseController
     {
         $cartDetails = $this->cartDetailRepository->all();
 
-        return view('cart_details.index')
+        return view('admin.cart_details.index')
             ->with('cartDetails', $cartDetails);
     }
 
@@ -42,7 +42,7 @@ class CartDetailController extends AppBaseController
      */
     public function create()
     {
-        return view('cart_details.create');
+        return view('admin.cart_details.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class CartDetailController extends AppBaseController
 
         Flash::success('Cart Detail saved successfully.');
 
-        return redirect(route('cartDetails.index'));
+        return redirect(route('admin.cartDetails.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class CartDetailController extends AppBaseController
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
 
-            return redirect(route('cartDetails.index'));
+            return redirect(route('admin.cartDetails.index'));
         }
 
-        return view('cart_details.show')->with('cartDetail', $cartDetail);
+        return view('admin.cart_details.show')->with('cartDetail', $cartDetail);
     }
 
     /**
@@ -97,10 +97,10 @@ class CartDetailController extends AppBaseController
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
 
-            return redirect(route('cartDetails.index'));
+            return redirect(route('admin.cartDetails.index'));
         }
 
-        return view('cart_details.edit')->with('cartDetail', $cartDetail);
+        return view('admin.cart_details.edit')->with('cartDetail', $cartDetail);
     }
 
     /**
@@ -118,14 +118,14 @@ class CartDetailController extends AppBaseController
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
 
-            return redirect(route('cartDetails.index'));
+            return redirect(route('admin.cartDetails.index'));
         }
 
         $cartDetail = $this->cartDetailRepository->update($request->all(), $id);
 
         Flash::success('Cart Detail updated successfully.');
 
-        return redirect(route('cartDetails.index'));
+        return redirect(route('admin.cartDetails.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class CartDetailController extends AppBaseController
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
 
-            return redirect(route('cartDetails.index'));
+            return redirect(route('admin.cartDetails.index'));
         }
 
         $this->cartDetailRepository->delete($id);
 
         Flash::success('Cart Detail deleted successfully.');
 
-        return redirect(route('cartDetails.index'));
+        return redirect(route('admin.cartDetails.index'));
     }
 }

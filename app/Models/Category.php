@@ -2,29 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as Model;
-
-
+use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Category
  * @package App\Models
- * @version February 20, 2021, 7:27 am UTC
+ * @version March 14, 2021, 12:06 am UTC
  *
- * @property string $name
+ * @property \Illuminate\Database\Eloquent\Collection $products
+ * @property string $nama
  * @property string $slug
  */
 class Category extends Model
 {
+    use SoftDeletes;
 
+    use HasFactory;
 
     public $table = 'categories';
     
 
+    protected $dates = ['deleted_at'];
+
 
 
     public $fillable = [
-        'name',
+        'nama',
         'slug'
     ];
 
@@ -34,8 +39,7 @@ class Category extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
+        'nama' => 'string',
         'slug' => 'string'
     ];
 
@@ -45,9 +49,15 @@ class Category extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
+        'nama' => 'required',
         'slug' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function products()
+    {
+        return $this->hasMany(\App\Models\Product::class);
+    }
 }

@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "name",
+        "name": "nama",
         "dbType": "string",
         "htmlType": "text",
         "validations": "required",
@@ -25,13 +25,13 @@
     },
     {
         "name": "slug",
-        "dbType": "string",
+        "dbType": "string:nullable",
         "htmlType": null,
-        "validations": "",
+        "validations": "nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
-        "inForm": true,
+        "inForm": false,
         "inIndex": true,
         "inView": true
     },
@@ -58,5 +58,9 @@
         "inForm": false,
         "inIndex": false,
         "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Product"
     }
 ]

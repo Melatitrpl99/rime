@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class ShipmentRepository
  * @package App\Repositories
- * @version March 2, 2021, 5:53 am UTC
+ * @version March 14, 2021, 12:21 am UTC
 */
 
 class ShipmentRepository extends BaseRepository
@@ -17,13 +17,11 @@ class ShipmentRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'order_id',
         'nama_lengkap',
         'alamat',
         'alamat_manual',
         'kode_pos',
-        'rt',
-        'rw'
+        'slug'
     ];
 
     /**

@@ -23,9 +23,11 @@ class DiscountFactory extends Factory
     {
         return [
             'judul' => $this->faker->word,
+        'deskripsi' => $this->faker->text,
         'kode' => $this->faker->word,
         'batas_pemakaian' => $this->faker->randomDigitNotNull,
         'diskon_kategori' => $this->faker->randomElement(['reseller']),
+        'slug' => $this->faker->word,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

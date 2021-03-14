@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Activity
  * @package App\Models
- * @version February 24, 2021, 7:45 am UTC
+ * @version March 14, 2021, 12:05 am UTC
  *
- * @property string $nama
- * @property string $deskripsi
- * @property string $log
- * @property integer $user_id
+ * @property \App\Models\User $user
+ * @property string $name
+ * @property string $desc
+ * @property nullableMorphs $loggable
+ * @property unsignedBigInteger $user_id
  */
 class Activity extends Model
 {
@@ -30,9 +31,9 @@ class Activity extends Model
 
 
     public $fillable = [
-        'nama',
-        'deskripsi',
-        'log',
+        'name',
+        'desc',
+        'loggable',
         'user_id'
     ];
 
@@ -42,10 +43,8 @@ class Activity extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'nama' => 'string',
-        'log' => 'string',
-        'user_id' => 'integer'
+        'name' => 'string',
+        'desc' => 'string'
     ];
 
     /**
@@ -54,10 +53,16 @@ class Activity extends Model
      * @var array
      */
     public static $rules = [
-        'nama' => 'required',
-        'deskripsi' => 'required',
+        'name' => 'required',
+        'desc' => 'nullable',
         'user_id' => 'required'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

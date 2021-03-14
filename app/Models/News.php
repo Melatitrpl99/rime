@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class News
  * @package App\Models
- * @version February 24, 2021, 7:58 am UTC
+ * @version March 14, 2021, 12:07 am UTC
  *
+ * @property \App\Models\User $user
  * @property string $judul
  * @property string $konten
  * @property string $slug
- * @property integer $user_id
+ * @property unsignedBigInteger $user_id
  */
 class News extends Model
 {
@@ -42,10 +43,8 @@ class News extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
         'judul' => 'string',
-        'slug' => 'string',
-        'user_id' => 'integer'
+        'slug' => 'string'
     ];
 
     /**
@@ -60,5 +59,11 @@ class News extends Model
         'user_id' => 'required'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

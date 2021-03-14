@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class DiscountRepository
  * @package App\Repositories
- * @version March 2, 2021, 6:34 am UTC
+ * @version March 14, 2021, 12:09 am UTC
 */
 
 class DiscountRepository extends BaseRepository
@@ -18,9 +18,11 @@ class DiscountRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'judul',
+        'deskripsi',
         'kode',
         'batas_pemakaian',
-        'diskon_kategori'
+        'diskon_kategori',
+        'slug'
     ];
 
     /**

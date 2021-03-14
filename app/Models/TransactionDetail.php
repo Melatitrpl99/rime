@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class TransactionDetail
  * @package App\Models
- * @version March 2, 2021, 5:15 am UTC
+ * @version March 14, 2021, 12:21 am UTC
  *
- * @property integer $order_id
- * @property integer $sub_total
+ * @property \App\Models\Transaction $transaction
+ * @property \App\Models\Order $order
+ * @property unsignedBigInteger $transaction_id
+ * @property unsignedBigInteger $order_id
+ * @property integer $subtotal
  */
 class TransactionDetail extends Model
 {
@@ -28,8 +31,9 @@ class TransactionDetail extends Model
 
 
     public $fillable = [
+        'transaction_id',
         'order_id',
-        'sub_total'
+        'subtotal'
     ];
 
     /**
@@ -38,9 +42,7 @@ class TransactionDetail extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'order_id' => 'integer',
-        'sub_total' => 'integer'
+        'subtotal' => 'integer'
     ];
 
     /**
@@ -49,9 +51,24 @@ class TransactionDetail extends Model
      * @var array
      */
     public static $rules = [
+        'transaction_id' => 'required',
         'order_id' => 'required',
-        'sub_total' => 'required'
+        'subtotal' => 'required|number'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function transaction()
+    {
+        return $this->belongsTo(\App\Models\Transaction::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function order()
+    {
+        return $this->belongsTo(\App\Models\Order::class);
+    }
 }

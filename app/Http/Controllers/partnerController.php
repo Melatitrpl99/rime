@@ -12,7 +12,7 @@ use Response;
 
 class PartnerController extends AppBaseController
 {
-    /** @var  partnerRepository */
+    /** @var  PartnerRepository */
     private $partnerRepository;
 
     public function __construct(PartnerRepository $partnerRepo)
@@ -21,7 +21,7 @@ class PartnerController extends AppBaseController
     }
 
     /**
-     * Display a listing of the partner.
+     * Display a listing of the Partner.
      *
      * @param Request $request
      *
@@ -31,24 +31,24 @@ class PartnerController extends AppBaseController
     {
         $partners = $this->partnerRepository->all();
 
-        return view('partners.index')
+        return view('admin.partners.index')
             ->with('partners', $partners);
     }
 
     /**
-     * Show the form for creating a new partner.
+     * Show the form for creating a new Partner.
      *
      * @return Response
      */
     public function create()
     {
-        return view('partners.create');
+        return view('admin.partners.create');
     }
 
     /**
-     * Store a newly created partner in storage.
+     * Store a newly created Partner in storage.
      *
-     * @param CreatepartnerRequest $request
+     * @param CreatePartnerRequest $request
      *
      * @return Response
      */
@@ -60,11 +60,11 @@ class PartnerController extends AppBaseController
 
         Flash::success('Partner saved successfully.');
 
-        return redirect(route('partners.index'));
+        return redirect(route('admin.partners.index'));
     }
 
     /**
-     * Display the specified partner.
+     * Display the specified Partner.
      *
      * @param int $id
      *
@@ -77,14 +77,14 @@ class PartnerController extends AppBaseController
         if (empty($partner)) {
             Flash::error('Partner not found');
 
-            return redirect(route('partners.index'));
+            return redirect(route('admin.partners.index'));
         }
 
-        return view('partners.show')->with('partner', $partner);
+        return view('admin.partners.show')->with('partner', $partner);
     }
 
     /**
-     * Show the form for editing the specified partner.
+     * Show the form for editing the specified Partner.
      *
      * @param int $id
      *
@@ -97,17 +97,17 @@ class PartnerController extends AppBaseController
         if (empty($partner)) {
             Flash::error('Partner not found');
 
-            return redirect(route('partners.index'));
+            return redirect(route('admin.partners.index'));
         }
 
-        return view('partners.edit')->with('partner', $partner);
+        return view('admin.partners.edit')->with('partner', $partner);
     }
 
     /**
-     * Update the specified partner in storage.
+     * Update the specified Partner in storage.
      *
      * @param int $id
-     * @param UpdatepartnerRequest $request
+     * @param UpdatePartnerRequest $request
      *
      * @return Response
      */
@@ -118,18 +118,18 @@ class PartnerController extends AppBaseController
         if (empty($partner)) {
             Flash::error('Partner not found');
 
-            return redirect(route('partners.index'));
+            return redirect(route('admin.partners.index'));
         }
 
         $partner = $this->partnerRepository->update($request->all(), $id);
 
         Flash::success('Partner updated successfully.');
 
-        return redirect(route('partners.index'));
+        return redirect(route('admin.partners.index'));
     }
 
     /**
-     * Remove the specified partner from storage.
+     * Remove the specified Partner from storage.
      *
      * @param int $id
      *
@@ -144,13 +144,13 @@ class PartnerController extends AppBaseController
         if (empty($partner)) {
             Flash::error('Partner not found');
 
-            return redirect(route('partners.index'));
+            return redirect(route('admin.partners.index'));
         }
 
         $this->partnerRepository->delete($id);
 
         Flash::success('Partner deleted successfully.');
 
-        return redirect(route('partners.index'));
+        return redirect(route('admin.partners.index'));
     }
 }

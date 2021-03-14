@@ -25,6 +25,6 @@ class CreateReportRequest extends FormRequest
      */
     public function rules()
     {
-        return report::$rules;
+        return Report::$rules;
     }
 }

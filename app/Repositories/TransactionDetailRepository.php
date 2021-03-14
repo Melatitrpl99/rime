@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class TransactionDetailRepository
  * @package App\Repositories
- * @version March 2, 2021, 5:15 am UTC
+ * @version March 14, 2021, 12:21 am UTC
 */
 
 class TransactionDetailRepository extends BaseRepository
@@ -17,8 +17,7 @@ class TransactionDetailRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'order_id',
-        'sub_total'
+        'subtotal'
     ];
 
     /**

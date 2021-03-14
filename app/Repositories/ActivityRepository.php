@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class ActivityRepository
  * @package App\Repositories
- * @version February 24, 2021, 7:45 am UTC
+ * @version March 14, 2021, 12:05 am UTC
 */
 
 class ActivityRepository extends BaseRepository
@@ -17,10 +17,9 @@ class ActivityRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'nama',
-        'deskripsi',
-        'log',
-        'user_id'
+        'name',
+        'desc',
+        'loggable'
     ];
 
     /**

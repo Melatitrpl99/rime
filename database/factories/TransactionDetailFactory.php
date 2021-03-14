@@ -22,8 +22,9 @@ class TransactionDetailFactory extends Factory
     public function definition()
     {
         return [
-            'order_id' => $this->faker->randomDigitNotNull,
-        'sub_total' => $this->faker->randomDigitNotNull,
+            'transaction_id' => $this->faker->word,
+        'order_id' => $this->faker->word,
+        'subtotal' => $this->faker->randomDigitNotNull,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

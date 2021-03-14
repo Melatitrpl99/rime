@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class OrderRepository
  * @package App\Repositories
- * @version February 27, 2021, 6:04 am UTC
+ * @version March 14, 2021, 12:10 am UTC
 */
 
 class OrderRepository extends BaseRepository
@@ -21,8 +21,7 @@ class OrderRepository extends BaseRepository
         'status_order',
         'pesan',
         'kode_diskon',
-        'slug',
-        'user_id'
+        'slug'
     ];
 
     /**

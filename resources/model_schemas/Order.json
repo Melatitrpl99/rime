@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -37,32 +37,8 @@
     },
     {
         "name": "pesan",
-        "dbType": "longtext",
+        "dbType": "text:nullable",
         "htmlType": "textarea",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "kode_diskon",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "slug",
-        "dbType": "string",
-        "htmlType": null,
         "validations": "nullable",
         "searchable": true,
         "fillable": true,
@@ -72,16 +48,41 @@
         "inView": true
     },
     {
-        "name": "user_id",
-        "dbType": "integer",
-        "htmlType": "number",
-        "validations": "required",
+        "name": "kode_diskon",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
         "inView": true
+    },
+    {
+        "name": "slug",
+        "dbType": "string:nullable",
+        "htmlType": null,
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": false,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "user_id",
+        "dbType": "unsignedBigInteger:foreign,users,id",
+        "htmlType": "selectTable:users:name,id",
+        "validations": "required",
+        "searchable": false,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true,
+        "relation": "mt1,User"
     },
     {
         "name": "created_at",
@@ -106,5 +107,13 @@
         "inForm": false,
         "inIndex": false,
         "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Shipment"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,TransactionDetail"
     }
 ]

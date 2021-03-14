@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "nama",
+        "name": "name",
         "dbType": "string",
         "htmlType": "text",
         "validations": "required",
@@ -24,10 +24,10 @@
         "inView": true
     },
     {
-        "name": "deskripsi",
-        "dbType": "longtext",
+        "name": "desc",
+        "dbType": "text:nullable",
         "htmlType": "textarea",
-        "validations": "required",
+        "validations": "nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -36,28 +36,29 @@
         "inView": true
     },
     {
-        "name": "log",
-        "dbType": "text",
+        "name": "loggable",
+        "dbType": "nullableMorphs",
         "htmlType": null,
         "validations": "",
         "searchable": true,
         "fillable": true,
         "primary": false,
-        "inForm": true,
+        "inForm": false,
         "inIndex": true,
         "inView": true
     },
     {
         "name": "user_id",
-        "dbType": "integer",
-        "htmlType": "number",
+        "dbType": "unsignedBigInteger:foreign,users,id",
+        "htmlType": "selectTable:users:name,id",
         "validations": "required",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,User"
     },
     {
         "name": "created_at",

@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,22 +12,36 @@
         "inView": false
     },
     {
-        "name": "order_id",
-        "dbType": "integer",
-        "htmlType": "number",
+        "name": "transaction_id",
+        "dbType": "unsignedBigInteger:foreign,transactions,id",
+        "htmlType": "selectTable:transactions:nomor_transaksi,id",
         "validations": "required",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,Transaction"
     },
     {
-        "name": "sub_total",
+        "name": "order_id",
+        "dbType": "unsignedBigInteger:foreign,orders,id",
+        "htmlType": "selectTable:orders:nomor_order,id",
+        "validations": "required",
+        "searchable": false,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true,
+        "relation": "mt1,Order"
+    },
+    {
+        "name": "subtotal",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "required|number",
         "searchable": true,
         "fillable": true,
         "primary": false,

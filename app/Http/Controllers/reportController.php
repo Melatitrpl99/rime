@@ -12,7 +12,7 @@ use Response;
 
 class ReportController extends AppBaseController
 {
-    /** @var  reportRepository */
+    /** @var  ReportRepository */
     private $reportRepository;
 
     public function __construct(ReportRepository $reportRepo)
@@ -21,7 +21,7 @@ class ReportController extends AppBaseController
     }
 
     /**
-     * Display a listing of the report.
+     * Display a listing of the Report.
      *
      * @param Request $request
      *
@@ -31,24 +31,24 @@ class ReportController extends AppBaseController
     {
         $reports = $this->reportRepository->all();
 
-        return view('reports.index')
+        return view('admin.reports.index')
             ->with('reports', $reports);
     }
 
     /**
-     * Show the form for creating a new report.
+     * Show the form for creating a new Report.
      *
      * @return Response
      */
     public function create()
     {
-        return view('reports.create');
+        return view('admin.reports.create');
     }
 
     /**
-     * Store a newly created report in storage.
+     * Store a newly created Report in storage.
      *
-     * @param CreatereportRequest $request
+     * @param CreateReportRequest $request
      *
      * @return Response
      */
@@ -60,11 +60,11 @@ class ReportController extends AppBaseController
 
         Flash::success('Report saved successfully.');
 
-        return redirect(route('reports.index'));
+        return redirect(route('admin.reports.index'));
     }
 
     /**
-     * Display the specified report.
+     * Display the specified Report.
      *
      * @param int $id
      *
@@ -77,14 +77,14 @@ class ReportController extends AppBaseController
         if (empty($report)) {
             Flash::error('Report not found');
 
-            return redirect(route('reports.index'));
+            return redirect(route('admin.reports.index'));
         }
 
-        return view('reports.show')->with('report', $report);
+        return view('admin.reports.show')->with('report', $report);
     }
 
     /**
-     * Show the form for editing the specified report.
+     * Show the form for editing the specified Report.
      *
      * @param int $id
      *
@@ -97,17 +97,17 @@ class ReportController extends AppBaseController
         if (empty($report)) {
             Flash::error('Report not found');
 
-            return redirect(route('reports.index'));
+            return redirect(route('admin.reports.index'));
         }
 
-        return view('reports.edit')->with('report', $report);
+        return view('admin.reports.edit')->with('report', $report);
     }
 
     /**
-     * Update the specified report in storage.
+     * Update the specified Report in storage.
      *
      * @param int $id
-     * @param UpdatereportRequest $request
+     * @param UpdateReportRequest $request
      *
      * @return Response
      */
@@ -118,18 +118,18 @@ class ReportController extends AppBaseController
         if (empty($report)) {
             Flash::error('Report not found');
 
-            return redirect(route('reports.index'));
+            return redirect(route('admin.reports.index'));
         }
 
         $report = $this->reportRepository->update($request->all(), $id);
 
         Flash::success('Report updated successfully.');
 
-        return redirect(route('reports.index'));
+        return redirect(route('admin.reports.index'));
     }
 
     /**
-     * Remove the specified report from storage.
+     * Remove the specified Report from storage.
      *
      * @param int $id
      *
@@ -144,13 +144,13 @@ class ReportController extends AppBaseController
         if (empty($report)) {
             Flash::error('Report not found');
 
-            return redirect(route('reports.index'));
+            return redirect(route('admin.reports.index'));
         }
 
         $this->reportRepository->delete($id);
 
         Flash::success('Report deleted successfully.');
 
-        return redirect(route('reports.index'));
+        return redirect(route('admin.reports.index'));
     }
 }

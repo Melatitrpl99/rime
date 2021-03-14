@@ -31,7 +31,7 @@ class TransactionController extends AppBaseController
     {
         $transactions = $this->transactionRepository->all();
 
-        return view('transactions.index')
+        return view('admin.transactions.index')
             ->with('transactions', $transactions);
     }
 
@@ -42,7 +42,7 @@ class TransactionController extends AppBaseController
      */
     public function create()
     {
-        return view('transactions.create');
+        return view('admin.transactions.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class TransactionController extends AppBaseController
 
         Flash::success('Transaction saved successfully.');
 
-        return redirect(route('transactions.index'));
+        return redirect(route('admin.transactions.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class TransactionController extends AppBaseController
         if (empty($transaction)) {
             Flash::error('Transaction not found');
 
-            return redirect(route('transactions.index'));
+            return redirect(route('admin.transactions.index'));
         }
 
-        return view('transactions.show')->with('transaction', $transaction);
+        return view('admin.transactions.show')->with('transaction', $transaction);
     }
 
     /**
@@ -97,10 +97,10 @@ class TransactionController extends AppBaseController
         if (empty($transaction)) {
             Flash::error('Transaction not found');
 
-            return redirect(route('transactions.index'));
+            return redirect(route('admin.transactions.index'));
         }
 
-        return view('transactions.edit')->with('transaction', $transaction);
+        return view('admin.transactions.edit')->with('transaction', $transaction);
     }
 
     /**
@@ -118,14 +118,14 @@ class TransactionController extends AppBaseController
         if (empty($transaction)) {
             Flash::error('Transaction not found');
 
-            return redirect(route('transactions.index'));
+            return redirect(route('admin.transactions.index'));
         }
 
         $transaction = $this->transactionRepository->update($request->all(), $id);
 
         Flash::success('Transaction updated successfully.');
 
-        return redirect(route('transactions.index'));
+        return redirect(route('admin.transactions.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class TransactionController extends AppBaseController
         if (empty($transaction)) {
             Flash::error('Transaction not found');
 
-            return redirect(route('transactions.index'));
+            return redirect(route('admin.transactions.index'));
         }
 
         $this->transactionRepository->delete($id);
 
         Flash::success('Transaction deleted successfully.');
 
-        return redirect(route('transactions.index'));
+        return redirect(route('admin.transactions.index'));
     }
 }

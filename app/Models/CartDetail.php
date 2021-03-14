@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class CartDetail
  * @package App\Models
- * @version February 24, 2021, 9:06 am UTC
+ * @version March 14, 2021, 12:10 am UTC
  *
- * @property integer $cart_id
- * @property integer $product_id
- * @property integer $jumlah
+ * @property \App\Models\Cart $cart
+ * @property \App\Models\Product $product
+ * @property unsignedBigInteger $cart_id
+ * @property unsignedBigInteger $product_id
+ * @property integer $subtotal
  */
 class CartDetail extends Model
 {
@@ -31,7 +33,7 @@ class CartDetail extends Model
     public $fillable = [
         'cart_id',
         'product_id',
-        'jumlah'
+        'subtotal'
     ];
 
     /**
@@ -40,10 +42,7 @@ class CartDetail extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'cart_id' => 'integer',
-        'product_id' => 'integer',
-        'jumlah' => 'integer'
+        'subtotal' => 'integer'
     ];
 
     /**
@@ -53,8 +52,23 @@ class CartDetail extends Model
      */
     public static $rules = [
         'cart_id' => 'required',
-        'product_id' => 'required'
+        'product_id' => 'required',
+        'subtotal' => 'required|numeric'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function cart()
+    {
+        return $this->belongsTo(\App\Models\Cart::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function product()
+    {
+        return $this->belongsTo(\App\Models\Product::class);
+    }
 }

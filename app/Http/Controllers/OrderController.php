@@ -31,7 +31,7 @@ class OrderController extends AppBaseController
     {
         $orders = $this->orderRepository->all();
 
-        return view('orders.index')
+        return view('admin.orders.index')
             ->with('orders', $orders);
     }
 
@@ -42,7 +42,7 @@ class OrderController extends AppBaseController
      */
     public function create()
     {
-        return view('orders.create');
+        return view('admin.orders.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class OrderController extends AppBaseController
 
         Flash::success('Order saved successfully.');
 
-        return redirect(route('orders.index'));
+        return redirect(route('admin.orders.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class OrderController extends AppBaseController
         if (empty($order)) {
             Flash::error('Order not found');
 
-            return redirect(route('orders.index'));
+            return redirect(route('admin.orders.index'));
         }
 
-        return view('orders.show')->with('order', $order);
+        return view('admin.orders.show')->with('order', $order);
     }
 
     /**
@@ -97,10 +97,10 @@ class OrderController extends AppBaseController
         if (empty($order)) {
             Flash::error('Order not found');
 
-            return redirect(route('orders.index'));
+            return redirect(route('admin.orders.index'));
         }
 
-        return view('orders.edit')->with('order', $order);
+        return view('admin.orders.edit')->with('order', $order);
     }
 
     /**
@@ -118,14 +118,14 @@ class OrderController extends AppBaseController
         if (empty($order)) {
             Flash::error('Order not found');
 
-            return redirect(route('orders.index'));
+            return redirect(route('admin.orders.index'));
         }
 
         $order = $this->orderRepository->update($request->all(), $id);
 
         Flash::success('Order updated successfully.');
 
-        return redirect(route('orders.index'));
+        return redirect(route('admin.orders.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class OrderController extends AppBaseController
         if (empty($order)) {
             Flash::error('Order not found');
 
-            return redirect(route('orders.index'));
+            return redirect(route('admin.orders.index'));
         }
 
         $this->orderRepository->delete($id);
 
         Flash::success('Order deleted successfully.');
 
-        return redirect(route('orders.index'));
+        return redirect(route('admin.orders.index'));
     }
 }

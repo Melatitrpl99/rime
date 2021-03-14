@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class OrderDetail
  * @package App\Models
- * @version February 27, 2021, 7:01 am UTC
+ * @version March 14, 2021, 12:10 am UTC
  *
- * @property integer $cart_id
- * @property integer $total
+ * @property \App\Models\Order $order
+ * @property \App\Models\Cart $cart
+ * @property unsignedBigInteger $order_id
+ * @property unsignedBigInteger $cart_id
+ * @property integer $subtotal
  */
 class OrderDetail extends Model
 {
@@ -28,8 +31,9 @@ class OrderDetail extends Model
 
 
     public $fillable = [
+        'order_id',
         'cart_id',
-        'total'
+        'subtotal'
     ];
 
     /**
@@ -38,9 +42,7 @@ class OrderDetail extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'cart_id' => 'integer',
-        'total' => 'integer'
+        'subtotal' => 'integer'
     ];
 
     /**
@@ -49,9 +51,24 @@ class OrderDetail extends Model
      * @var array
      */
     public static $rules = [
+        'order_id' => 'required',
         'cart_id' => 'required',
-        'total' => 'required'
+        'subtotal' => 'required|numeric'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function order()
+    {
+        return $this->belongsTo(\App\Models\Order::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function cart()
+    {
+        return $this->belongsTo(\App\Models\Cart::class);
+    }
 }

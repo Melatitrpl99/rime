@@ -20,3 +20,77 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 // Route::resource('users', App\Http\Controllers\API\UserAPIController::class);
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('categories', App\Http\Controllers\API\CategoryAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('products', App\Http\Controllers\API\ProductAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('events', App\Http\Controllers\API\EventAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('news', App\Http\Controllers\API\NewsAPIController::class);
+});
+
+
+
+
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('discounts', App\Http\Controllers\API\DiscountAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('discount_details', App\Http\Controllers\API\DiscountDetailAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('carts', App\Http\Controllers\API\CartAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('cart_details', App\Http\Controllers\API\CartDetailAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('orders', App\Http\Controllers\API\OrderAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('order_details', App\Http\Controllers\API\OrderDetailAPIController::class);
+});
+
+
+
+
+
+
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('transactions', App\Http\Controllers\API\TransactionAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('transaction_details', App\Http\Controllers\API\TransactionDetailAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('shipments', App\Http\Controllers\API\ShipmentAPIController::class);
+});

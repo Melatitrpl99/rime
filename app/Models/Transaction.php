@@ -9,10 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Transaction
  * @package App\Models
- * @version March 2, 2021, 4:43 am UTC
+ * @version March 14, 2021, 12:21 am UTC
  *
- * @property string $no_transaksi
- * @property integer $user_id
+ * @property \App\Models\User $user
+ * @property \Illuminate\Database\Eloquent\Collection $transactionDetails
+ * @property string $nomor_transaksi
+ * @property integer $total
+ * @property unsignedBigInteger $user_id
+ * @property string $slug
  */
 class Transaction extends Model
 {
@@ -28,8 +32,10 @@ class Transaction extends Model
 
 
     public $fillable = [
-        'no_transaksi',
-        'user_id'
+        'nomor_transaksi',
+        'total',
+        'user_id',
+        'slug'
     ];
 
     /**
@@ -38,9 +44,9 @@ class Transaction extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'no_transaksi' => 'string',
-        'user_id' => 'integer'
+        'nomor_transaksi' => 'string',
+        'total' => 'integer',
+        'slug' => 'string'
     ];
 
     /**
@@ -49,9 +55,25 @@ class Transaction extends Model
      * @var array
      */
     public static $rules = [
-        'no_transaksi' => 'required',
-        'user_id' => 'required'
+        'nomor_transaksi' => 'required',
+        'total' => 'required|number',
+        'user_id' => 'required',
+        'slug' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function transactionDetails()
+    {
+        return $this->hasMany(\App\Models\TransactionDetail::class);
+    }
 }

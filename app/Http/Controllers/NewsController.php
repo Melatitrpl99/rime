@@ -31,7 +31,7 @@ class NewsController extends AppBaseController
     {
         $news = $this->newsRepository->all();
 
-        return view('news.index')
+        return view('admin.news.index')
             ->with('news', $news);
     }
 
@@ -42,7 +42,7 @@ class NewsController extends AppBaseController
      */
     public function create()
     {
-        return view('news.create');
+        return view('admin.news.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class NewsController extends AppBaseController
 
         Flash::success('News saved successfully.');
 
-        return redirect(route('news.index'));
+        return redirect(route('admin.news.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class NewsController extends AppBaseController
         if (empty($news)) {
             Flash::error('News not found');
 
-            return redirect(route('news.index'));
+            return redirect(route('admin.news.index'));
         }
 
-        return view('news.show')->with('news', $news);
+        return view('admin.news.show')->with('news', $news);
     }
 
     /**
@@ -97,10 +97,10 @@ class NewsController extends AppBaseController
         if (empty($news)) {
             Flash::error('News not found');
 
-            return redirect(route('news.index'));
+            return redirect(route('admin.news.index'));
         }
 
-        return view('news.edit')->with('news', $news);
+        return view('admin.news.edit')->with('news', $news);
     }
 
     /**
@@ -118,14 +118,14 @@ class NewsController extends AppBaseController
         if (empty($news)) {
             Flash::error('News not found');
 
-            return redirect(route('news.index'));
+            return redirect(route('admin.news.index'));
         }
 
         $news = $this->newsRepository->update($request->all(), $id);
 
         Flash::success('News updated successfully.');
 
-        return redirect(route('news.index'));
+        return redirect(route('admin.news.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class NewsController extends AppBaseController
         if (empty($news)) {
             Flash::error('News not found');
 
-            return redirect(route('news.index'));
+            return redirect(route('admin.news.index'));
         }
 
         $this->newsRepository->delete($id);
 
         Flash::success('News deleted successfully.');
 
-        return redirect(route('news.index'));
+        return redirect(route('admin.news.index'));
     }
 }

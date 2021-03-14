@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Order
  * @package App\Models
- * @version February 27, 2021, 6:04 am UTC
+ * @version March 14, 2021, 12:10 am UTC
  *
+ * @property \App\Models\User $user
+ * @property \Illuminate\Database\Eloquent\Collection $shipments
+ * @property \Illuminate\Database\Eloquent\Collection $transactionDetails
  * @property string $nomor_order
  * @property integer $status_order
  * @property string $pesan
  * @property string $kode_diskon
  * @property string $slug
- * @property integer $user_id
+ * @property unsignedBigInteger $user_id
  */
 class Order extends Model
 {
@@ -46,12 +49,11 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
         'nomor_order' => 'string',
         'status_order' => 'integer',
+        'pesan' => 'string',
         'kode_diskon' => 'string',
-        'slug' => 'string',
-        'user_id' => 'integer'
+        'slug' => 'string'
     ];
 
     /**
@@ -62,11 +64,33 @@ class Order extends Model
     public static $rules = [
         'nomor_order' => 'required',
         'status_order' => 'required',
-        'pesan' => 'required',
-        'kode_diskon' => 'required',
+        'pesan' => 'nullable',
+        'kode_diskon' => 'nullable',
         'slug' => 'nullable',
         'user_id' => 'required'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function shipments()
+    {
+        return $this->hasMany(\App\Models\Shipment::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function transactionDetails()
+    {
+        return $this->hasMany(\App\Models\TransactionDetail::class);
+    }
 }

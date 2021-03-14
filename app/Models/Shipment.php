@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Shipment
  * @package App\Models
- * @version March 2, 2021, 5:53 am UTC
+ * @version March 14, 2021, 12:21 am UTC
  *
- * @property integer $order_id
+ * @property \App\Models\Order $order
  * @property string $nama_lengkap
  * @property string $alamat
  * @property string $alamat_manual
  * @property string $kode_pos
- * @property string $rt
- * @property string $rw
+ * @property string $slug
+ * @property unsignedBigInteger $order_id
  */
 class Shipment extends Model
 {
@@ -33,13 +33,12 @@ class Shipment extends Model
 
 
     public $fillable = [
-        'order_id',
         'nama_lengkap',
         'alamat',
         'alamat_manual',
         'kode_pos',
-        'rt',
-        'rw'
+        'slug',
+        'order_id'
     ];
 
     /**
@@ -48,13 +47,10 @@ class Shipment extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'order_id' => 'integer',
         'nama_lengkap' => 'string',
         'alamat' => 'string',
         'kode_pos' => 'string',
-        'rt' => 'string',
-        'rw' => 'string'
+        'slug' => 'string'
     ];
 
     /**
@@ -63,14 +59,19 @@ class Shipment extends Model
      * @var array
      */
     public static $rules = [
-        'order_id' => 'required',
         'nama_lengkap' => 'required',
         'alamat' => 'required',
         'alamat_manual' => 'nullable',
         'kode_pos' => 'required',
-        'rt' => 'required',
-        'rw' => 'required'
+        'slug' => 'nullable',
+        'order_id' => 'required'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function order()
+    {
+        return $this->belongsTo(\App\Models\Order::class);
+    }
 }

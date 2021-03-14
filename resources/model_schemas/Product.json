@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,7 +12,7 @@
         "inView": false
     },
     {
-        "name": "title",
+        "name": "nama",
         "dbType": "string",
         "htmlType": "text",
         "validations": "required",
@@ -24,10 +24,10 @@
         "inView": true
     },
     {
-        "name": "desc",
+        "name": "deskripsi",
         "dbType": "longtext",
         "htmlType": "textarea",
-        "validations": "",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -36,10 +36,10 @@
         "inView": true
     },
     {
-        "name": "stock",
+        "name": "stok",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "",
+        "validations": "required|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -48,10 +48,10 @@
         "inView": true
     },
     {
-        "name": "cust_price",
+        "name": "harga_customer",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "",
+        "validations": "required|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -60,10 +60,10 @@
         "inView": true
     },
     {
-        "name": "reseller_price",
+        "name": "harga_reseller",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "",
+        "validations": "required|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -72,10 +72,10 @@
         "inView": true
     },
     {
-        "name": "reseller_factor",
+        "name": "grosir_minimum",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "",
+        "validations": "required|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -84,7 +84,7 @@
         "inView": true
     },
     {
-        "name": "slug",
+        "name": "warna",
         "dbType": "string",
         "htmlType": null,
         "validations": "",
@@ -96,19 +96,7 @@
         "inView": true
     },
     {
-        "name": "colour",
-        "dbType": "string",
-        "htmlType": null,
-        "validations": "",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "size",
+        "name": "ukuran",
         "dbType": "string",
         "htmlType": "text",
         "validations": "",
@@ -120,16 +108,29 @@
         "inView": true
     },
     {
-        "name": "category_id",
-        "dbType": "integer",
-        "htmlType": "number",
-        "validations": "",
+        "name": "slug",
+        "dbType": "string:nullable",
+        "htmlType": null,
+        "validations": "nullable",
         "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": false,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "category_id",
+        "dbType": "unsignedBigInteger:foreign,categories,id",
+        "htmlType": "selectTable:categories:nama,id",
+        "validations": "required",
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,Category"
     },
     {
         "name": "created_at",
@@ -154,5 +155,13 @@
         "inForm": false,
         "inIndex": false,
         "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,CartDetail"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,DiscountDetail"
     }
 ]

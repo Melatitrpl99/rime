@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -13,33 +13,35 @@
     },
     {
         "name": "cart_id",
-        "dbType": "integer",
-        "htmlType": "number",
+        "dbType": "unsignedBigInteger:foreign,carts,id",
+        "htmlType": "selectTable:carts:judul,id",
         "validations": "required",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,Cart"
     },
     {
         "name": "product_id",
-        "dbType": "integer",
-        "htmlType": "number",
+        "dbType": "unsignedBigInteger:foreign,products,id",
+        "htmlType": "selectTable:products:nama,id",
         "validations": "required",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,Product"
     },
     {
-        "name": "jumlah",
+        "name": "subtotal",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "",
+        "validations": "required|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,

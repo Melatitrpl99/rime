@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -37,27 +37,28 @@
     },
     {
         "name": "slug",
-        "dbType": "string",
+        "dbType": "string:nullable",
         "htmlType": null,
         "validations": "nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
-        "inForm": true,
+        "inForm": false,
         "inIndex": true,
         "inView": true
     },
     {
         "name": "user_id",
-        "dbType": "integer",
-        "htmlType": "number",
+        "dbType": "unsignedBigInteger:foreign,users,id",
+        "htmlType": "selectTable:users:name,id",
         "validations": "required",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,User"
     },
     {
         "name": "created_at",

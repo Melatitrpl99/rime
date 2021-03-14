@@ -31,7 +31,7 @@ class TransactionDetailController extends AppBaseController
     {
         $transactionDetails = $this->transactionDetailRepository->all();
 
-        return view('transaction_details.index')
+        return view('admin.transaction_details.index')
             ->with('transactionDetails', $transactionDetails);
     }
 
@@ -42,7 +42,7 @@ class TransactionDetailController extends AppBaseController
      */
     public function create()
     {
-        return view('transaction_details.create');
+        return view('admin.transaction_details.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class TransactionDetailController extends AppBaseController
 
         Flash::success('Transaction Detail saved successfully.');
 
-        return redirect(route('transactionDetails.index'));
+        return redirect(route('admin.transactionDetails.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class TransactionDetailController extends AppBaseController
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
 
-            return redirect(route('transactionDetails.index'));
+            return redirect(route('admin.transactionDetails.index'));
         }
 
-        return view('transaction_details.show')->with('transactionDetail', $transactionDetail);
+        return view('admin.transaction_details.show')->with('transactionDetail', $transactionDetail);
     }
 
     /**
@@ -97,10 +97,10 @@ class TransactionDetailController extends AppBaseController
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
 
-            return redirect(route('transactionDetails.index'));
+            return redirect(route('admin.transactionDetails.index'));
         }
 
-        return view('transaction_details.edit')->with('transactionDetail', $transactionDetail);
+        return view('admin.transaction_details.edit')->with('transactionDetail', $transactionDetail);
     }
 
     /**
@@ -118,14 +118,14 @@ class TransactionDetailController extends AppBaseController
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
 
-            return redirect(route('transactionDetails.index'));
+            return redirect(route('admin.transactionDetails.index'));
         }
 
         $transactionDetail = $this->transactionDetailRepository->update($request->all(), $id);
 
         Flash::success('Transaction Detail updated successfully.');
 
-        return redirect(route('transactionDetails.index'));
+        return redirect(route('admin.transactionDetails.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class TransactionDetailController extends AppBaseController
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
 
-            return redirect(route('transactionDetails.index'));
+            return redirect(route('admin.transactionDetails.index'));
         }
 
         $this->transactionDetailRepository->delete($id);
 
         Flash::success('Transaction Detail deleted successfully.');
 
-        return redirect(route('transactionDetails.index'));
+        return redirect(route('admin.transactionDetails.index'));
     }
 }

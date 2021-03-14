@@ -2,45 +2,52 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as Model;
-
-
+use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Product
  * @package App\Models
- * @version February 20, 2021, 7:43 am UTC
+ * @version March 14, 2021, 12:06 am UTC
  *
- * @property string $title
- * @property string $desc
- * @property integer $stock
- * @property integer $cust_price
- * @property integer $reseller_price
- * @property integer $reseller_factor
+ * @property \App\Models\Category $category
+ * @property \Illuminate\Database\Eloquent\Collection $cartDetails
+ * @property \Illuminate\Database\Eloquent\Collection $discountDetails
+ * @property string $nama
+ * @property string $deskripsi
+ * @property integer $stok
+ * @property integer $harga_customer
+ * @property integer $harga_reseller
+ * @property integer $grosir_minimum
+ * @property string $warna
+ * @property string $ukuran
  * @property string $slug
- * @property string $colour
- * @property string $size
- * @property integer $category_id
+ * @property unsignedBigInteger $category_id
  */
 class Product extends Model
 {
+    use SoftDeletes;
 
+    use HasFactory;
 
     public $table = 'products';
     
 
+    protected $dates = ['deleted_at'];
+
 
 
     public $fillable = [
-        'title',
-        'desc',
-        'stock',
-        'cust_price',
-        'reseller_price',
-        'reseller_factor',
+        'nama',
+        'deskripsi',
+        'stok',
+        'harga_customer',
+        'harga_reseller',
+        'grosir_minimum',
+        'warna',
+        'ukuran',
         'slug',
-        'colour',
-        'size',
         'category_id'
     ];
 
@@ -50,16 +57,14 @@ class Product extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'title' => 'string',
-        'stock' => 'integer',
-        'cust_price' => 'integer',
-        'reseller_price' => 'integer',
-        'reseller_factor' => 'integer',
-        'slug' => 'string',
-        'colour' => 'string',
-        'size' => 'string',
-        'category_id' => 'integer'
+        'nama' => 'string',
+        'stok' => 'integer',
+        'harga_customer' => 'integer',
+        'harga_reseller' => 'integer',
+        'grosir_minimum' => 'integer',
+        'warna' => 'string',
+        'ukuran' => 'string',
+        'slug' => 'string'
     ];
 
     /**
@@ -68,8 +73,37 @@ class Product extends Model
      * @var array
      */
     public static $rules = [
-        'title' => 'required'
+        'nama' => 'required',
+        'deskripsi' => 'required',
+        'stok' => 'required|numeric',
+        'harga_customer' => 'required|numeric',
+        'harga_reseller' => 'required|numeric',
+        'grosir_minimum' => 'required|numeric',
+        'slug' => 'nullable',
+        'category_id' => 'required'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function category()
+    {
+        return $this->belongsTo(\App\Models\Category::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function cartDetails()
+    {
+        return $this->hasMany(\App\Models\CartDetail::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function discountDetails()
+    {
+        return $this->hasMany(\App\Models\DiscountDetail::class);
+    }
 }

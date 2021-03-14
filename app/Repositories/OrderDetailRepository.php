@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class OrderDetailRepository
  * @package App\Repositories
- * @version February 27, 2021, 7:01 am UTC
+ * @version March 14, 2021, 12:10 am UTC
 */
 
 class OrderDetailRepository extends BaseRepository
@@ -17,8 +17,7 @@ class OrderDetailRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'cart_id',
-        'total'
+        'subtotal'
     ];
 
     /**

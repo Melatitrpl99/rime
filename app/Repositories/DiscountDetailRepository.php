@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class DiscountDetailRepository
  * @package App\Repositories
- * @version March 2, 2021, 6:38 am UTC
+ * @version March 14, 2021, 12:09 am UTC
 */
 
 class DiscountDetailRepository extends BaseRepository
@@ -17,8 +17,7 @@ class DiscountDetailRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'discount_id',
-        'id_produk',
+        'diskon_harga',
         'minimal_produk',
         'maksimal_produk'
     ];

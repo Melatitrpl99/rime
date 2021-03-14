@@ -22,8 +22,9 @@ class OrderDetailFactory extends Factory
     public function definition()
     {
         return [
-            'cart_id' => $this->faker->randomDigitNotNull,
-        'total' => $this->faker->randomDigitNotNull,
+            'order_id' => $this->faker->word,
+        'cart_id' => $this->faker->word,
+        'subtotal' => $this->faker->randomDigitNotNull,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

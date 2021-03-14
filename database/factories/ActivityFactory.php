@@ -22,12 +22,12 @@ class ActivityFactory extends Factory
     public function definition()
     {
         return [
-            'nama' => $this->faker->word,
-        'deskripsi' => $this->faker->word,
-        'log' => $this->faker->text,
-        'user_id' => $this->faker->randomDigitNotNull,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'name' => $this->faker->word,
+            'desc' => $this->faker->text,
+            'loggable' => $this->faker->word,
+            'user_id' => $this->faker->word,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

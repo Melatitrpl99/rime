@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class NewsRepository
  * @package App\Repositories
- * @version February 24, 2021, 7:58 am UTC
+ * @version March 14, 2021, 12:07 am UTC
 */
 
 class NewsRepository extends BaseRepository
@@ -19,8 +19,7 @@ class NewsRepository extends BaseRepository
     protected $fieldSearchable = [
         'judul',
         'konten',
-        'slug',
-        'user_id'
+        'slug'
     ];
 
     /**

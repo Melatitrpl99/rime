@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class report
+ * Class Report
  * @package App\Models
- * @version March 2, 2021, 5:37 am UTC
+ * @version March 14, 2021, 12:20 am UTC
  *
+ * @property \App\Models\User $user
  * @property string $judul
  * @property string $deskripsi
- * @property integer $is_import
- * @property string $slug
+ * @property boolean $is_import
  * @property string $detail_laporan
- * @property integer $user_id
+ * @property string $slug
+ * @property unsignedBigInteger $user_id
  */
 class Report extends Model
 {
@@ -35,8 +36,8 @@ class Report extends Model
         'judul',
         'deskripsi',
         'is_import',
-        'slug',
         'detail_laporan',
+        'slug',
         'user_id'
     ];
 
@@ -46,11 +47,9 @@ class Report extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
         'judul' => 'string',
-        'is_import' => 'integer',
-        'slug' => 'string',
-        'user_id' => 'integer'
+        'is_import' => 'boolean',
+        'slug' => 'string'
     ];
 
     /**
@@ -60,11 +59,17 @@ class Report extends Model
      */
     public static $rules = [
         'judul' => 'required',
-        'deskripsi' => 'required',
-        'is_import' => 'required',
+        'deskripsi' => 'nullable',
+        'is_import' => 'nullable',
         'slug' => 'nullable',
-        'detail_laporan' => 'required'
+        'user_id' => 'required'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

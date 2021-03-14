@@ -31,7 +31,7 @@ class ActivityController extends AppBaseController
     {
         $activities = $this->activityRepository->all();
 
-        return view('activities.index')
+        return view('admin.activities.index')
             ->with('activities', $activities);
     }
 
@@ -42,7 +42,7 @@ class ActivityController extends AppBaseController
      */
     public function create()
     {
-        return view('activities.create');
+        return view('admin.activities.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class ActivityController extends AppBaseController
 
         Flash::success('Activity saved successfully.');
 
-        return redirect(route('activities.index'));
+        return redirect(route('admin.activities.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class ActivityController extends AppBaseController
         if (empty($activity)) {
             Flash::error('Activity not found');
 
-            return redirect(route('activities.index'));
+            return redirect(route('admin.activities.index'));
         }
 
-        return view('activities.show')->with('activity', $activity);
+        return view('admin.activities.show')->with('activity', $activity);
     }
 
     /**
@@ -97,10 +97,10 @@ class ActivityController extends AppBaseController
         if (empty($activity)) {
             Flash::error('Activity not found');
 
-            return redirect(route('activities.index'));
+            return redirect(route('admin.activities.index'));
         }
 
-        return view('activities.edit')->with('activity', $activity);
+        return view('admin.activities.edit')->with('activity', $activity);
     }
 
     /**
@@ -118,14 +118,14 @@ class ActivityController extends AppBaseController
         if (empty($activity)) {
             Flash::error('Activity not found');
 
-            return redirect(route('activities.index'));
+            return redirect(route('admin.activities.index'));
         }
 
         $activity = $this->activityRepository->update($request->all(), $id);
 
         Flash::success('Activity updated successfully.');
 
-        return redirect(route('activities.index'));
+        return redirect(route('admin.activities.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class ActivityController extends AppBaseController
         if (empty($activity)) {
             Flash::error('Activity not found');
 
-            return redirect(route('activities.index'));
+            return redirect(route('admin.activities.index'));
         }
 
         $this->activityRepository->delete($id);
 
         Flash::success('Activity deleted successfully.');
 
-        return redirect(route('activities.index'));
+        return redirect(route('admin.activities.index'));
     }
 }

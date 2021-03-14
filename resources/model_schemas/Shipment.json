@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -10,18 +10,6 @@
         "inForm": false,
         "inIndex": false,
         "inView": false
-    },
-    {
-        "name": "order_id",
-        "dbType": "integer",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
     },
     {
         "name": "nama_lengkap",
@@ -49,7 +37,7 @@
     },
     {
         "name": "alamat_manual",
-        "dbType": "longtext",
+        "dbType": "longtext:nullable",
         "htmlType": "textarea",
         "validations": "nullable",
         "searchable": true,
@@ -72,28 +60,29 @@
         "inView": true
     },
     {
-        "name": "rt",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "required",
+        "name": "slug",
+        "dbType": "string:nullable",
+        "htmlType": null,
+        "validations": "nullable",
         "searchable": true,
         "fillable": true,
         "primary": false,
-        "inForm": true,
+        "inForm": false,
         "inIndex": true,
         "inView": true
     },
     {
-        "name": "rw",
-        "dbType": "string",
-        "htmlType": "text",
+        "name": "order_id",
+        "dbType": "unsignedBigInteger:foreign,orders,id",
+        "htmlType": "selectTable:orders:nomor_order,id",
         "validations": "required",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,Order"
     },
     {
         "name": "created_at",

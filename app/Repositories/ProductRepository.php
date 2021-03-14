@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class ProductRepository
  * @package App\Repositories
- * @version February 20, 2021, 7:43 am UTC
+ * @version March 14, 2021, 12:06 am UTC
 */
 
 class ProductRepository extends BaseRepository
@@ -17,16 +17,15 @@ class ProductRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'title',
-        'desc',
-        'stock',
-        'cust_price',
-        'reseller_price',
-        'reseller_factor',
-        'slug',
-        'colour',
-        'size',
-        'category_id'
+        'nama',
+        'deskripsi',
+        'stok',
+        'harga_customer',
+        'harga_reseller',
+        'grosir_minimum',
+        'warna',
+        'ukuran',
+        'slug'
     ];
 
     /**

@@ -22,8 +22,10 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
-            'no_transaksi' => $this->faker->word,
-        'user_id' => $this->faker->randomDigitNotNull,
+            'nomor_transaksi' => $this->faker->word,
+        'total' => $this->faker->randomDigitNotNull,
+        'user_id' => $this->faker->word,
+        'slug' => $this->faker->word,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

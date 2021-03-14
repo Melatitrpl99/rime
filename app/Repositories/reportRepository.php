@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\report;
+use App\Models\Report;
 use App\Repositories\BaseRepository;
 
 /**
- * Class reportRepository
+ * Class ReportRepository
  * @package App\Repositories
- * @version March 2, 2021, 5:37 am UTC
+ * @version March 14, 2021, 12:20 am UTC
 */
 
-class reportRepository extends BaseRepository
+class ReportRepository extends BaseRepository
 {
     /**
      * @var array
@@ -20,9 +20,8 @@ class reportRepository extends BaseRepository
         'judul',
         'deskripsi',
         'is_import',
-        'slug',
         'detail_laporan',
-        'user_id'
+        'slug'
     ];
 
     /**
@@ -40,6 +39,6 @@ class reportRepository extends BaseRepository
      **/
     public function model()
     {
-        return report::class;
+        return Report::class;
     }
 }

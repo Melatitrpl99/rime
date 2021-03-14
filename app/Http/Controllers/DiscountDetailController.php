@@ -31,7 +31,7 @@ class DiscountDetailController extends AppBaseController
     {
         $discountDetails = $this->discountDetailRepository->all();
 
-        return view('discount_details.index')
+        return view('admin.discount_details.index')
             ->with('discountDetails', $discountDetails);
     }
 
@@ -42,7 +42,7 @@ class DiscountDetailController extends AppBaseController
      */
     public function create()
     {
-        return view('discount_details.create');
+        return view('admin.discount_details.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class DiscountDetailController extends AppBaseController
 
         Flash::success('Discount Detail saved successfully.');
 
-        return redirect(route('discountDetails.index'));
+        return redirect(route('admin.discountDetails.index'));
     }
 
     /**
@@ -77,10 +77,10 @@ class DiscountDetailController extends AppBaseController
         if (empty($discountDetail)) {
             Flash::error('Discount Detail not found');
 
-            return redirect(route('discountDetails.index'));
+            return redirect(route('admin.discountDetails.index'));
         }
 
-        return view('discount_details.show')->with('discountDetail', $discountDetail);
+        return view('admin.discount_details.show')->with('discountDetail', $discountDetail);
     }
 
     /**
@@ -97,10 +97,10 @@ class DiscountDetailController extends AppBaseController
         if (empty($discountDetail)) {
             Flash::error('Discount Detail not found');
 
-            return redirect(route('discountDetails.index'));
+            return redirect(route('admin.discountDetails.index'));
         }
 
-        return view('discount_details.edit')->with('discountDetail', $discountDetail);
+        return view('admin.discount_details.edit')->with('discountDetail', $discountDetail);
     }
 
     /**
@@ -118,14 +118,14 @@ class DiscountDetailController extends AppBaseController
         if (empty($discountDetail)) {
             Flash::error('Discount Detail not found');
 
-            return redirect(route('discountDetails.index'));
+            return redirect(route('admin.discountDetails.index'));
         }
 
         $discountDetail = $this->discountDetailRepository->update($request->all(), $id);
 
         Flash::success('Discount Detail updated successfully.');
 
-        return redirect(route('discountDetails.index'));
+        return redirect(route('admin.discountDetails.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class DiscountDetailController extends AppBaseController
         if (empty($discountDetail)) {
             Flash::error('Discount Detail not found');
 
-            return redirect(route('discountDetails.index'));
+            return redirect(route('admin.discountDetails.index'));
         }
 
         $this->discountDetailRepository->delete($id);
 
         Flash::success('Discount Detail deleted successfully.');
 
-        return redirect(route('discountDetails.index'));
+        return redirect(route('admin.discountDetails.index'));
     }
 }

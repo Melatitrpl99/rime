@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "increments",
+        "dbType": "bigIncrements",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -24,6 +24,18 @@
         "inView": true
     },
     {
+        "name": "deskripsi",
+        "dbType": "text:nullable",
+        "htmlType": "textarea",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "kode",
         "dbType": "string",
         "htmlType": "text",
@@ -37,9 +49,9 @@
     },
     {
         "name": "batas_pemakaian",
-        "dbType": "integer",
+        "dbType": "integer:nullable",
         "htmlType": "number",
-        "validations": "required",
+        "validations": "nullable|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -50,12 +62,24 @@
     {
         "name": "diskon_kategori",
         "dbType": "enum,customer,reseller",
-        "htmlType": "select:customer,reseller",
-        "validations": "",
+        "htmlType": "radio:customer,reseller",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
         "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "slug",
+        "dbType": "string:nullable",
+        "htmlType": null,
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": false,
         "inIndex": true,
         "inView": true
     },
@@ -82,5 +106,9 @@
         "inForm": false,
         "inIndex": false,
         "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,DiscountDetail"
     }
 ]
