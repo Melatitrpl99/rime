@@ -25,7 +25,7 @@ class Transaction extends Model
     use HasFactory;
 
     public $table = 'transactions';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -56,7 +56,7 @@ class Transaction extends Model
      */
     public static $rules = [
         'nomor_transaksi' => 'required',
-        'total' => 'required|number',
+        'total' => 'required|integer',
         'user_id' => 'required',
         'slug' => 'nullable'
     ];

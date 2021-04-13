@@ -29,10 +29,21 @@ Auth::routes();
 // });
 
 
-// Route::get('/laporan', function () {
-//     return view('laporan.index');
-// });
+Route::get('/laporan', function () {
+    return view('laporan.index');
+});
 
+Route::get('/bukubesar', function () {
+    return view('laporan.bukubesar');
+});
+
+Route::get('/labarugi', function () {
+    return view('laporan.labarugi');
+});
+
+Route::get('/pengeluaran', function () {
+    return view('laporan.pengeluaran');
+});
 // Route::get('/setting', function () {
 //     return view('setting.index');
 // });

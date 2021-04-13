@@ -117,7 +117,7 @@
 
     </style>
 
-    
+
 
     <!-- Bootstrap core CSS -->
 <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -141,12 +141,12 @@
       }
     </style>
 
-    
+
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
   </head>
   <body>
-    
+
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -222,18 +222,22 @@
       <h2>Laporan kas & pengeluaran</h2>
       <div class="row">
         <div class="col-md-6">
-          <h5>Jurnal</h5>
-          <p>Daftar semua jurnal...</p>
+          <h5>Buku Besar</h5>
+          <p>Daftar semua jurnal pertransaksi</p>
+          <a href="#" class="btn btn-primary mb-4" role="button" aria-pressed="true">Lihat Laporan</a>
 
-          <h5>Jurnal</h5>
-          <p>Laporan ini mengukur kas...</p>
+          <h5>Laporan Laba&Rugi</h5>
+          <p>Menampilkan setiap tipe transaksi dan jumlah total untuk pendapatan dan pengeluaran anda</p>
+          <a href="#" class="btn btn-primary" role="button" aria-pressed="true">Lihat Laporan</a>
         </div>
         <div class="col-md-6">
           <h5>Daftar Pengeluaran</h5>
           <p>Daftar seluruh pengeluaran...</p>
-          
+          <a href="#" class="btn btn-primary mb-4" role="button" aria-pressed="true">Lihat Laporan</a>
+
           <h5>Pembelian per Produk</h5>
           <p>Menampilkan daftar kualitas pembelian...</p>
+          <a href="#" class="btn btn-primary" role="button" aria-pressed="true">Lihat Laporan</a>
         </div>
       </div>
     </main>
@@ -244,7 +248,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-      
+
         <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
         <script src="dashboard.js"></script>

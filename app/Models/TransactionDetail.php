@@ -24,7 +24,7 @@ class TransactionDetail extends Model
     use HasFactory;
 
     public $table = 'transaction_details';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -53,7 +53,7 @@ class TransactionDetail extends Model
     public static $rules = [
         'transaction_id' => 'required',
         'order_id' => 'required',
-        'subtotal' => 'required|number'
+        'subtotal' => 'required|integer'
     ];
 
     /**
