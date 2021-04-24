@@ -234,10 +234,6 @@
           <h5>Daftar Pengeluaran</h5>
           <p>Daftar seluruh pengeluaran...</p>
           <a href="#" class="btn btn-primary mb-4" role="button" aria-pressed="true">Lihat Laporan</a>
-
-          <h5>Pembelian per Produk</h5>
-          <p>Menampilkan daftar kualitas pembelian...</p>
-          <a href="#" class="btn btn-primary" role="button" aria-pressed="true">Lihat Laporan</a>
         </div>
       </div>
     </main>

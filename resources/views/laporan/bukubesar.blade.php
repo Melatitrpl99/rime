@@ -46,6 +46,26 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($transaksis as $key => $transaksi )
+                            <tr>
+                                <td>
+                                    ({{ $transaksi->created_at->format('d F j') }}
+                                </td>
+                                <td>
+                                    {{ $transaksi->user->name }}
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    {{ $transaksi->total }}
+                                </td>
+                            </tr>
+
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -33,9 +33,7 @@ Route::get('/laporan', function () {
     return view('laporan.index');
 });
 
-Route::get('/bukubesar', function () {
-    return view('laporan.bukubesar');
-});
+Route::resource('/bukubesar',App\Http\Controllers\Laporan\BukuBesarController::class);
 
 Route::get('/labarugi', function () {
     return view('laporan.labarugi');
