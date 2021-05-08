@@ -46,54 +46,36 @@
 
                             <tr>
                                 <td>Total pendapatan dari penjualan </td>
-                                <td>0,00</td>
+                                <td>Rp {{ number_format($pemasukan,2) }}</td>
                             </tr>
                             <tr>
-                                <td colspan="2"> <b>Harga pokok penjualan</b> </td>
+                                <td colspan="2"> <b>Pengeluaran/Harga Pokok penjualan</b> </td>
                             </tr>
                             <tr>
-                                <td> Total harga pokok penjualan </td>
-                                <td>0,00</td>
+                                <td> Total Pengeluaran </td>
+                                <td>Rp {{ number_format($pengeluaran,2) }}</td>
                             </tr>
 
                             <tr>
                                 <td> <b>Laba Kotor</b> </td>
-                                <td>0,00</td>
+                                <td>Rp {{ number_format($pemasukan-$pengeluaran,2) }}</td>
                             </tr>
                             <tr>
                                 <td colspan="2"></td>
                             </tr>
                             <tr>
-                                <td colspan="2"> <b>Biaya Operasional</b> </td>
+                                <td colspan="2"> <b>Biaya lain/tambahan</b> </td>
                             </tr>
                             <tr>
-                                <td> Total Biaya </td>
-                                <td>0,00</td>
-                            </tr>
-                            <tr>
-                                <td> <b>Pendapatan Bersih Operasional</b> </td>
-                                <td>0,00</td>
+                                <td> Total Biaya Lain </td>
+                                <td>Rp {{ number_format($biayaLain,2) }}</td>
                             </tr>
                             <tr>
                                 <td colspan="2"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"> <b>Pendapatan lainnya</b> </td>
-                            </tr>
-                            <tr>
-                                <td> Total Pendapatan Lainnya </td>
-                                <td>0,00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"> <b>Biaya Lainnya</b> </td>
-                            </tr>
-                            <tr>
-                                <td> Total Biaya Lainnya </td>
-                                <td>0,00</td>
                             </tr>
                             <tr>
                                 <td> <b>Pendapatan Bersih</b> </td>
-                                <td>0,00</td>
+                                <td>Rp {{ number_format(($pemasukan-$pengeluaran)-$biayaLain,2) }}</td>
                             </tr>
 
 

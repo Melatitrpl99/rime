@@ -35,9 +35,7 @@ Route::get('/laporan', function () {
 
 Route::resource('/bukubesar',App\Http\Controllers\Laporan\BukuBesarController::class);
 
-Route::get('/labarugi', function () {
-    return view('laporan.labarugi');
-});
+Route::resource('/labarugi',App\Http\Controllers\Laporan\LabaRugiController::class);
 
 Route::get('/pengeluaran', function () {
     return view('laporan.pengeluaran');
@@ -80,4 +78,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('transaction_details', App\Http\Controllers\TransactionDetailController::class)->names('transactionDetails');
         Route::resource('shipments', App\Http\Controllers\ShipmentController::class);
     });
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('spendings', App\Http\Controllers\SpendingController::class, ["as" => 'admin']);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('additionalCosts', App\Http\Controllers\AdditionalCostController::class, ["as" => 'admin']);
 });

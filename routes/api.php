@@ -94,3 +94,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::resource('shipments', App\Http\Controllers\API\ShipmentAPIController::class);
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('additional_costs', App\Http\Controllers\API\AdditionalCostAPIController::class);
+});

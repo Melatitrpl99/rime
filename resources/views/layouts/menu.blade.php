@@ -120,3 +120,19 @@
         <p>Reports</p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('admin.spendings.index') }}"
+       class="nav-link {{ Request::is('admin/spendings*') ? 'active' : '' }}">
+        <p>Spendings</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('admin.additionalCosts.index') }}"
+       class="nav-link {{ Request::is('admin/additionalCosts*') ? 'active' : '' }}">
+        <p>Additional Costs</p>
+    </a>
+</li>
+
+
