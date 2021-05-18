@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-use App\Repositories\OrderRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class OrderController extends AppBaseController
+class OrderController extends Controller
 {
-    /** @var  OrderRepository */
-    private $orderRepository;
-
-    public function __construct(OrderRepository $orderRepo)
-    {
-        $this->orderRepository = $orderRepo;
-    }
-
     /**
      * Display a listing of the Order.
      *
@@ -29,7 +21,8 @@ class OrderController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $orders = $this->orderRepository->all();
+        /** @var Order $orders */
+        $orders = Order::all();
 
         return view('admin.orders.index')
             ->with('orders', $orders);
@@ -56,7 +49,8 @@ class OrderController extends AppBaseController
     {
         $input = $request->all();
 
-        $order = $this->orderRepository->create($input);
+        /** @var Order $order */
+        $order = Order::create($input);
 
         Flash::success('Order saved successfully.');
 
@@ -72,7 +66,8 @@ class OrderController extends AppBaseController
      */
     public function show($id)
     {
-        $order = $this->orderRepository->find($id);
+        /** @var Order $order */
+        $order = Order::find($id);
 
         if (empty($order)) {
             Flash::error('Order not found');
@@ -92,7 +87,8 @@ class OrderController extends AppBaseController
      */
     public function edit($id)
     {
-        $order = $this->orderRepository->find($id);
+        /** @var Order $order */
+        $order = Order::find($id);
 
         if (empty($order)) {
             Flash::error('Order not found');
@@ -113,7 +109,8 @@ class OrderController extends AppBaseController
      */
     public function update($id, UpdateOrderRequest $request)
     {
-        $order = $this->orderRepository->find($id);
+        /** @var Order $order */
+        $order = Order::find($id);
 
         if (empty($order)) {
             Flash::error('Order not found');
@@ -121,7 +118,8 @@ class OrderController extends AppBaseController
             return redirect(route('admin.orders.index'));
         }
 
-        $order = $this->orderRepository->update($request->all(), $id);
+        $order->fill($request->all());
+        $order->save();
 
         Flash::success('Order updated successfully.');
 
@@ -139,7 +137,8 @@ class OrderController extends AppBaseController
      */
     public function destroy($id)
     {
-        $order = $this->orderRepository->find($id);
+        /** @var Order $order */
+        $order = Order::find($id);
 
         if (empty($order)) {
             Flash::error('Order not found');
@@ -147,7 +146,7 @@ class OrderController extends AppBaseController
             return redirect(route('admin.orders.index'));
         }
 
-        $this->orderRepository->delete($id);
+        $order->delete();
 
         Flash::success('Order deleted successfully.');
 

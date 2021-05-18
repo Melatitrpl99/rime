@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateShipmentRequest;
 use App\Http\Requests\UpdateShipmentRequest;
-use App\Repositories\ShipmentRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class ShipmentController extends AppBaseController
+class ShipmentController extends Controller
 {
-    /** @var  ShipmentRepository */
-    private $shipmentRepository;
-
-    public function __construct(ShipmentRepository $shipmentRepo)
-    {
-        $this->shipmentRepository = $shipmentRepo;
-    }
-
     /**
      * Display a listing of the Shipment.
      *
@@ -29,7 +21,8 @@ class ShipmentController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $shipments = $this->shipmentRepository->all();
+        /** @var Shipment $shipments */
+        $shipments = Shipment::all();
 
         return view('admin.shipments.index')
             ->with('shipments', $shipments);
@@ -56,7 +49,8 @@ class ShipmentController extends AppBaseController
     {
         $input = $request->all();
 
-        $shipment = $this->shipmentRepository->create($input);
+        /** @var Shipment $shipment */
+        $shipment = Shipment::create($input);
 
         Flash::success('Shipment saved successfully.');
 
@@ -72,7 +66,8 @@ class ShipmentController extends AppBaseController
      */
     public function show($id)
     {
-        $shipment = $this->shipmentRepository->find($id);
+        /** @var Shipment $shipment */
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             Flash::error('Shipment not found');
@@ -92,7 +87,8 @@ class ShipmentController extends AppBaseController
      */
     public function edit($id)
     {
-        $shipment = $this->shipmentRepository->find($id);
+        /** @var Shipment $shipment */
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             Flash::error('Shipment not found');
@@ -113,7 +109,8 @@ class ShipmentController extends AppBaseController
      */
     public function update($id, UpdateShipmentRequest $request)
     {
-        $shipment = $this->shipmentRepository->find($id);
+        /** @var Shipment $shipment */
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             Flash::error('Shipment not found');
@@ -121,7 +118,8 @@ class ShipmentController extends AppBaseController
             return redirect(route('admin.shipments.index'));
         }
 
-        $shipment = $this->shipmentRepository->update($request->all(), $id);
+        $shipment->fill($request->all());
+        $shipment->save();
 
         Flash::success('Shipment updated successfully.');
 
@@ -139,7 +137,8 @@ class ShipmentController extends AppBaseController
      */
     public function destroy($id)
     {
-        $shipment = $this->shipmentRepository->find($id);
+        /** @var Shipment $shipment */
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             Flash::error('Shipment not found');
@@ -147,7 +146,7 @@ class ShipmentController extends AppBaseController
             return redirect(route('admin.shipments.index'));
         }
 
-        $this->shipmentRepository->delete($id);
+        $shipment->delete();
 
         Flash::success('Shipment deleted successfully.');
 

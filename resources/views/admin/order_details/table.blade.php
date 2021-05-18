@@ -2,8 +2,7 @@
     <table class="table" id="orderDetails-table">
         <thead>
             <tr>
-                <th>Order Id</th>
-        <th>Cart Id</th>
+                <th>Jumlah</th>
         <th>Subtotal</th>
                 <th colspan="3">Action</th>
             </tr>
@@ -11,8 +10,7 @@
         <tbody>
         @foreach($orderDetails as $orderDetail)
             <tr>
-                <td>{{ $orderDetail->order_id }}</td>
-            <td>{{ $orderDetail->cart_id }}</td>
+                <td>{{ $orderDetail->jumlah }}</td>
             <td>{{ $orderDetail->subtotal }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.orderDetails.destroy', $orderDetail->id], 'method' => 'delete']) !!}

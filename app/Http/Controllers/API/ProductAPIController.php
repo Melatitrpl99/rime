@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateProductAPIRequest;
 use App\Http\Requests\API\UpdateProductAPIRequest;
 use App\Models\Product;
-use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class ProductAPIController extends AppBaseController
+class ProductAPIController extends Controller
 {
-    /** @var  ProductRepository */
-    private $productRepository;
-
-    public function __construct(ProductRepository $productRepo)
-    {
-        $this->productRepository = $productRepo;
-    }
-
     /**
      * Display a listing of the Product.
      * GET|HEAD /products
@@ -35,11 +26,16 @@ class ProductAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $products = $this->productRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Product::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $products = $query->get();
 
         return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully');
     }
@@ -56,7 +52,8 @@ class ProductAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $product = $this->productRepository->create($input);
+        /** @var Product $product */
+        $product = Product::create($input);
 
         return $this->sendResponse(new ProductResource($product), 'Product saved successfully');
     }
@@ -72,7 +69,7 @@ class ProductAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Product $product */
-        $product = $this->productRepository->find($id);
+        $product = Product::find($id);
 
         if (empty($product)) {
             return $this->sendError('Product not found');
@@ -92,16 +89,15 @@ class ProductAPIController extends AppBaseController
      */
     public function update($id, UpdateProductAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Product $product */
-        $product = $this->productRepository->find($id);
+        $product = Product::find($id);
 
         if (empty($product)) {
             return $this->sendError('Product not found');
         }
 
-        $product = $this->productRepository->update($input, $id);
+        $product->fill($request->all());
+        $product->save();
 
         return $this->sendResponse(new ProductResource($product), 'Product updated successfully');
     }
@@ -119,7 +115,7 @@ class ProductAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Product $product */
-        $product = $this->productRepository->find($id);
+        $product = Product::find($id);
 
         if (empty($product)) {
             return $this->sendError('Product not found');

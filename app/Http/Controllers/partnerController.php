@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePartnerRequest;
 use App\Http\Requests\UpdatePartnerRequest;
-use App\Repositories\PartnerRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Partner;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class PartnerController extends AppBaseController
+class PartnerController extends Controller
 {
-    /** @var  PartnerRepository */
-    private $partnerRepository;
-
-    public function __construct(PartnerRepository $partnerRepo)
-    {
-        $this->partnerRepository = $partnerRepo;
-    }
-
     /**
      * Display a listing of the Partner.
      *
@@ -29,7 +21,8 @@ class PartnerController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $partners = $this->partnerRepository->all();
+        /** @var Partner $partners */
+        $partners = Partner::all();
 
         return view('admin.partners.index')
             ->with('partners', $partners);
@@ -56,7 +49,8 @@ class PartnerController extends AppBaseController
     {
         $input = $request->all();
 
-        $partner = $this->partnerRepository->create($input);
+        /** @var Partner $partner */
+        $partner = Partner::create($input);
 
         Flash::success('Partner saved successfully.');
 
@@ -72,7 +66,8 @@ class PartnerController extends AppBaseController
      */
     public function show($id)
     {
-        $partner = $this->partnerRepository->find($id);
+        /** @var Partner $partner */
+        $partner = Partner::find($id);
 
         if (empty($partner)) {
             Flash::error('Partner not found');
@@ -92,7 +87,8 @@ class PartnerController extends AppBaseController
      */
     public function edit($id)
     {
-        $partner = $this->partnerRepository->find($id);
+        /** @var Partner $partner */
+        $partner = Partner::find($id);
 
         if (empty($partner)) {
             Flash::error('Partner not found');
@@ -113,7 +109,8 @@ class PartnerController extends AppBaseController
      */
     public function update($id, UpdatePartnerRequest $request)
     {
-        $partner = $this->partnerRepository->find($id);
+        /** @var Partner $partner */
+        $partner = Partner::find($id);
 
         if (empty($partner)) {
             Flash::error('Partner not found');
@@ -121,7 +118,8 @@ class PartnerController extends AppBaseController
             return redirect(route('admin.partners.index'));
         }
 
-        $partner = $this->partnerRepository->update($request->all(), $id);
+        $partner->fill($request->all());
+        $partner->save();
 
         Flash::success('Partner updated successfully.');
 
@@ -139,7 +137,8 @@ class PartnerController extends AppBaseController
      */
     public function destroy($id)
     {
-        $partner = $this->partnerRepository->find($id);
+        /** @var Partner $partner */
+        $partner = Partner::find($id);
 
         if (empty($partner)) {
             Flash::error('Partner not found');
@@ -147,7 +146,7 @@ class PartnerController extends AppBaseController
             return redirect(route('admin.partners.index'));
         }
 
-        $this->partnerRepository->delete($id);
+        $partner->delete();
 
         Flash::success('Partner deleted successfully.');
 

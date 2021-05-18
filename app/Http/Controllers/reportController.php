@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateReportRequest;
 use App\Http\Requests\UpdateReportRequest;
-use App\Repositories\ReportRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class ReportController extends AppBaseController
+class ReportController extends Controller
 {
-    /** @var  ReportRepository */
-    private $reportRepository;
-
-    public function __construct(ReportRepository $reportRepo)
-    {
-        $this->reportRepository = $reportRepo;
-    }
-
     /**
      * Display a listing of the Report.
      *
@@ -29,7 +21,8 @@ class ReportController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $reports = $this->reportRepository->all();
+        /** @var Report $reports */
+        $reports = Report::all();
 
         return view('admin.reports.index')
             ->with('reports', $reports);
@@ -56,7 +49,8 @@ class ReportController extends AppBaseController
     {
         $input = $request->all();
 
-        $report = $this->reportRepository->create($input);
+        /** @var Report $report */
+        $report = Report::create($input);
 
         Flash::success('Report saved successfully.');
 
@@ -72,7 +66,8 @@ class ReportController extends AppBaseController
      */
     public function show($id)
     {
-        $report = $this->reportRepository->find($id);
+        /** @var Report $report */
+        $report = Report::find($id);
 
         if (empty($report)) {
             Flash::error('Report not found');
@@ -92,7 +87,8 @@ class ReportController extends AppBaseController
      */
     public function edit($id)
     {
-        $report = $this->reportRepository->find($id);
+        /** @var Report $report */
+        $report = Report::find($id);
 
         if (empty($report)) {
             Flash::error('Report not found');
@@ -113,7 +109,8 @@ class ReportController extends AppBaseController
      */
     public function update($id, UpdateReportRequest $request)
     {
-        $report = $this->reportRepository->find($id);
+        /** @var Report $report */
+        $report = Report::find($id);
 
         if (empty($report)) {
             Flash::error('Report not found');
@@ -121,7 +118,8 @@ class ReportController extends AppBaseController
             return redirect(route('admin.reports.index'));
         }
 
-        $report = $this->reportRepository->update($request->all(), $id);
+        $report->fill($request->all());
+        $report->save();
 
         Flash::success('Report updated successfully.');
 
@@ -139,7 +137,8 @@ class ReportController extends AppBaseController
      */
     public function destroy($id)
     {
-        $report = $this->reportRepository->find($id);
+        /** @var Report $report */
+        $report = Report::find($id);
 
         if (empty($report)) {
             Flash::error('Report not found');
@@ -147,7 +146,7 @@ class ReportController extends AppBaseController
             return redirect(route('admin.reports.index'));
         }
 
-        $this->reportRepository->delete($id);
+        $report->delete();
 
         Flash::success('Report deleted successfully.');
 

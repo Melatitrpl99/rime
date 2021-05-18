@@ -2,28 +2,26 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Cart
  * @package App\Models
- * @version March 14, 2021, 12:09 am UTC
+ * @version May 18, 2021, 2:10 am UTC
  *
  * @property \App\Models\User $user
- * @property \Illuminate\Database\Eloquent\Collection $cartDetails
- * @property \Illuminate\Database\Eloquent\Collection $orderDetails
+ * @property \Illuminate\Database\Eloquent\Collection $products
  * @property string $judul
  * @property string $deskripsi
  * @property string $slug
- * @property unsignedBigInteger $user_id
+ * @property foreignId $user_id
  */
 class Cart extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'carts';
     
@@ -71,18 +69,10 @@ class Cart extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
-    public function cartDetails()
+    public function products()
     {
-        return $this->hasMany(\App\Models\CartDetail::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function orderDetails()
-    {
-        return $this->hasMany(\App\Models\OrderDetail::class);
+        return $this->belongsToMany(\App\Models\Product::class, 'cart_details');
     }
 }

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateShipmentAPIRequest;
 use App\Http\Requests\API\UpdateShipmentAPIRequest;
 use App\Models\Shipment;
-use App\Repositories\ShipmentRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ShipmentResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class ShipmentAPIController extends AppBaseController
+class ShipmentAPIController extends Controller
 {
-    /** @var  ShipmentRepository */
-    private $shipmentRepository;
-
-    public function __construct(ShipmentRepository $shipmentRepo)
-    {
-        $this->shipmentRepository = $shipmentRepo;
-    }
-
     /**
      * Display a listing of the Shipment.
      * GET|HEAD /shipments
@@ -35,11 +26,16 @@ class ShipmentAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $shipments = $this->shipmentRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Shipment::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $shipments = $query->get();
 
         return $this->sendResponse(ShipmentResource::collection($shipments), 'Shipments retrieved successfully');
     }
@@ -56,7 +52,8 @@ class ShipmentAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $shipment = $this->shipmentRepository->create($input);
+        /** @var Shipment $shipment */
+        $shipment = Shipment::create($input);
 
         return $this->sendResponse(new ShipmentResource($shipment), 'Shipment saved successfully');
     }
@@ -72,7 +69,7 @@ class ShipmentAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Shipment $shipment */
-        $shipment = $this->shipmentRepository->find($id);
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             return $this->sendError('Shipment not found');
@@ -92,16 +89,15 @@ class ShipmentAPIController extends AppBaseController
      */
     public function update($id, UpdateShipmentAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Shipment $shipment */
-        $shipment = $this->shipmentRepository->find($id);
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             return $this->sendError('Shipment not found');
         }
 
-        $shipment = $this->shipmentRepository->update($input, $id);
+        $shipment->fill($request->all());
+        $shipment->save();
 
         return $this->sendResponse(new ShipmentResource($shipment), 'Shipment updated successfully');
     }
@@ -119,7 +115,7 @@ class ShipmentAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Shipment $shipment */
-        $shipment = $this->shipmentRepository->find($id);
+        $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
             return $this->sendError('Shipment not found');

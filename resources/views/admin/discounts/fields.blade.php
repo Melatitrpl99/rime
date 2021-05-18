@@ -23,14 +23,14 @@
 </div>
 
 <!-- Diskon Kategori Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('diskon_kategori', 'Diskon Kategori:') !!}
-    <div class="form-check">
-        {!! Form::radio('diskon_kategori', 'customer', ['class' => 'form-control']) !!}
-        {!! Form::label('diskon_kategori', 'Customer') !!}
-    </div>
-    <div class="form-check">
-        {!! Form::radio('diskon_kategori', 'reseller', ['class' => 'form-control']) !!}
-        {!! Form::label('diskon_kategori', 'Reseller') !!}
-    </div>
+<div class="form-group col-sm-12">
+    {!! Form::label('diskon_kategori', 'Diskon Kategori', ['class' => 'form-check-label']) !!}
+    <label class="form-check">
+        {!! Form::radio('diskon_kategori', "Customer", null, ['class' => 'form-check-input']) !!} customer
+    </label>
+
+    <label class="form-check">
+        {!! Form::radio('diskon_kategori', "Reseller", null, ['class' => 'form-check-input']) !!} reseller
+    </label>
+
 </div>

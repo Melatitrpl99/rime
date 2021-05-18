@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -44,12 +44,12 @@
         "fillable": true,
         "primary": false,
         "inForm": false,
-        "inIndex": true,
+        "inIndex": false,
         "inView": true
     },
     {
         "name": "user_id",
-        "dbType": "unsignedBigInteger:foreign,users,id",
+        "dbType": "foreignId:constrained",
         "htmlType": "selectTable:users:name,id",
         "validations": "required",
         "searchable": false,
@@ -86,10 +86,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,CartDetail"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,OrderDetail"
+        "relation": "mtm,Product,cart_details"
     }
 ]

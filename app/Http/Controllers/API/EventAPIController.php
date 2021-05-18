@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateEventAPIRequest;
 use App\Http\Requests\API\UpdateEventAPIRequest;
 use App\Models\Event;
-use App\Repositories\EventRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\EventResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class EventAPIController extends AppBaseController
+class EventAPIController extends Controller
 {
-    /** @var  EventRepository */
-    private $eventRepository;
-
-    public function __construct(EventRepository $eventRepo)
-    {
-        $this->eventRepository = $eventRepo;
-    }
-
     /**
      * Display a listing of the Event.
      * GET|HEAD /events
@@ -35,11 +26,16 @@ class EventAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $events = $this->eventRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Event::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $events = $query->get();
 
         return $this->sendResponse(EventResource::collection($events), 'Events retrieved successfully');
     }
@@ -56,7 +52,8 @@ class EventAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $event = $this->eventRepository->create($input);
+        /** @var Event $event */
+        $event = Event::create($input);
 
         return $this->sendResponse(new EventResource($event), 'Event saved successfully');
     }
@@ -72,7 +69,7 @@ class EventAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Event $event */
-        $event = $this->eventRepository->find($id);
+        $event = Event::find($id);
 
         if (empty($event)) {
             return $this->sendError('Event not found');
@@ -92,16 +89,15 @@ class EventAPIController extends AppBaseController
      */
     public function update($id, UpdateEventAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Event $event */
-        $event = $this->eventRepository->find($id);
+        $event = Event::find($id);
 
         if (empty($event)) {
             return $this->sendError('Event not found');
         }
 
-        $event = $this->eventRepository->update($input, $id);
+        $event->fill($request->all());
+        $event->save();
 
         return $this->sendResponse(new EventResource($event), 'Event updated successfully');
     }
@@ -119,7 +115,7 @@ class EventAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Event $event */
-        $event = $this->eventRepository->find($id);
+        $event = Event::find($id);
 
         if (empty($event)) {
             return $this->sendError('Event not found');

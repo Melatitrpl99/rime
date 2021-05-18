@@ -1,19 +1,7 @@
-<!-- Tanggal Field -->
-<div class="col-sm-12">
-    {!! Form::label('tanggal', 'Tanggal:') !!}
-    <p>{{ $spending->tanggal }}</p>
-</div>
-
 <!-- Nomor Field -->
 <div class="col-sm-12">
     {!! Form::label('nomor', 'Nomor:') !!}
     <p>{{ $spending->nomor }}</p>
-</div>
-
-<!-- Kategori Field -->
-<div class="col-sm-12">
-    {!! Form::label('kategori', 'Kategori:') !!}
-    <p>{{ $spending->kategori }}</p>
 </div>
 
 <!-- Deskripsi Field -->
@@ -22,22 +10,22 @@
     <p>{{ $spending->deskripsi }}</p>
 </div>
 
-<!-- Jumlah Barang Field -->
+<!-- Tanggal Field -->
 <div class="col-sm-12">
-    {!! Form::label('jumlah_barang', 'Jumlah Barang:') !!}
-    <p>{{ $spending->jumlah_barang }}</p>
+    {!! Form::label('tanggal', 'Tanggal:') !!}
+    <p>{{ $spending->tanggal }}</p>
 </div>
 
-<!-- Total Field -->
+<!-- Kategori Field -->
 <div class="col-sm-12">
-    {!! Form::label('total', 'Total:') !!}
-    <p>{{ $spending->total }}</p>
+    {!! Form::label('kategori', 'Kategori:') !!}
+    <p>{{ $spending->kategori }}</p>
 </div>
 
-<!-- Biaya Tambahan Field -->
+<!-- Qty Field -->
 <div class="col-sm-12">
-    {!! Form::label('biaya_tambahan', 'Biaya Tambahan:') !!}
-    <p>{{ $spending->biaya_tambahan }}</p>
+    {!! Form::label('qty', 'Qty:') !!}
+    <p>{{ $spending->qty }}</p>
 </div>
 
 <!-- Sub Total Field -->

@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEventRequest;
 use App\Http\Requests\UpdateEventRequest;
-use App\Repositories\EventRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class EventController extends AppBaseController
+class EventController extends Controller
 {
-    /** @var  EventRepository */
-    private $eventRepository;
-
-    public function __construct(EventRepository $eventRepo)
-    {
-        $this->eventRepository = $eventRepo;
-    }
-
     /**
      * Display a listing of the Event.
      *
@@ -29,7 +21,8 @@ class EventController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $events = $this->eventRepository->all();
+        /** @var Event $events */
+        $events = Event::all();
 
         return view('admin.events.index')
             ->with('events', $events);
@@ -56,7 +49,8 @@ class EventController extends AppBaseController
     {
         $input = $request->all();
 
-        $event = $this->eventRepository->create($input);
+        /** @var Event $event */
+        $event = Event::create($input);
 
         Flash::success('Event saved successfully.');
 
@@ -72,7 +66,8 @@ class EventController extends AppBaseController
      */
     public function show($id)
     {
-        $event = $this->eventRepository->find($id);
+        /** @var Event $event */
+        $event = Event::find($id);
 
         if (empty($event)) {
             Flash::error('Event not found');
@@ -92,7 +87,8 @@ class EventController extends AppBaseController
      */
     public function edit($id)
     {
-        $event = $this->eventRepository->find($id);
+        /** @var Event $event */
+        $event = Event::find($id);
 
         if (empty($event)) {
             Flash::error('Event not found');
@@ -113,7 +109,8 @@ class EventController extends AppBaseController
      */
     public function update($id, UpdateEventRequest $request)
     {
-        $event = $this->eventRepository->find($id);
+        /** @var Event $event */
+        $event = Event::find($id);
 
         if (empty($event)) {
             Flash::error('Event not found');
@@ -121,7 +118,8 @@ class EventController extends AppBaseController
             return redirect(route('admin.events.index'));
         }
 
-        $event = $this->eventRepository->update($request->all(), $id);
+        $event->fill($request->all());
+        $event->save();
 
         Flash::success('Event updated successfully.');
 
@@ -139,7 +137,8 @@ class EventController extends AppBaseController
      */
     public function destroy($id)
     {
-        $event = $this->eventRepository->find($id);
+        /** @var Event $event */
+        $event = Event::find($id);
 
         if (empty($event)) {
             Flash::error('Event not found');
@@ -147,7 +146,7 @@ class EventController extends AppBaseController
             return redirect(route('admin.events.index'));
         }
 
-        $this->eventRepository->delete($id);
+        $event->delete();
 
         Flash::success('Event deleted successfully.');
 

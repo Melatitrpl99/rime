@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Partner
  * @package App\Models
- * @version March 14, 2021, 12:08 am UTC
+ * @version May 18, 2021, 2:03 am UTC
  *
  * @property string $nama
  * @property string $deskripsi
@@ -23,7 +23,6 @@ class Partner extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'partners';
     

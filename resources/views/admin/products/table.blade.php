@@ -4,12 +4,12 @@
             <tr>
                 <th>Nama</th>
         <th>Deskripsi</th>
-        <th>Stok</th>
         <th>Harga Customer</th>
         <th>Harga Reseller</th>
-        <th>Grosir Minimum</th>
+        <th>Resellser Minimum</th>
         <th>Warna</th>
-        <th>Ukuran</th>
+        <th>Size</th>
+        <th>Dimensi</th>
         <th>Slug</th>
         <th>Category Id</th>
                 <th colspan="3">Action</th>
@@ -20,12 +20,12 @@
             <tr>
                 <td>{{ $product->nama }}</td>
             <td>{{ $product->deskripsi }}</td>
-            <td>{{ $product->stok }}</td>
             <td>{{ $product->harga_customer }}</td>
             <td>{{ $product->harga_reseller }}</td>
-            <td>{{ $product->grosir_minimum }}</td>
+            <td>{{ $product->resellser_minimum }}</td>
             <td>{{ $product->warna }}</td>
-            <td>{{ $product->ukuran }}</td>
+            <td>{{ $product->size }}</td>
+            <td>{{ $product->dimensi }}</td>
             <td>{{ $product->slug }}</td>
             <td>{{ $product->category_id }}</td>
                 <td width="120">

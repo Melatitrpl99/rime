@@ -2,18 +2,16 @@
     <table class="table" id="cartDetails-table">
         <thead>
             <tr>
-                <th>Cart Id</th>
-                <th>Product Id</th>
-                <th>Subtotal</th>
+                <th>Jumlah</th>
+        <th>Subtotal</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($cartDetails as $cartDetail)
+        @foreach($cartDetails as $cartDetail)
             <tr>
-                <td>{{ $cartDetail->cart_id }}</td>
-                <td>{{ $cartDetail->product_id }}</td>
-                <td>{{ $cartDetail->subtotal }}</td>
+                <td>{{ $cartDetail->jumlah }}</td>
+            <td>{{ $cartDetail->subtotal }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.cartDetails.destroy', $cartDetail->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -28,7 +26,7 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
-            @endforeach
+        @endforeach
         </tbody>
     </table>
 </div>

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateTransactionDetailAPIRequest;
 use App\Http\Requests\API\UpdateTransactionDetailAPIRequest;
 use App\Models\TransactionDetail;
-use App\Repositories\TransactionDetailRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionDetailResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class TransactionDetailAPIController extends AppBaseController
+class TransactionDetailAPIController extends Controller
 {
-    /** @var  TransactionDetailRepository */
-    private $transactionDetailRepository;
-
-    public function __construct(TransactionDetailRepository $transactionDetailRepo)
-    {
-        $this->transactionDetailRepository = $transactionDetailRepo;
-    }
-
     /**
      * Display a listing of the TransactionDetail.
      * GET|HEAD /transactionDetails
@@ -35,11 +26,16 @@ class TransactionDetailAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $transactionDetails = $this->transactionDetailRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = TransactionDetail::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $transactionDetails = $query->get();
 
         return $this->sendResponse(TransactionDetailResource::collection($transactionDetails), 'Transaction Details retrieved successfully');
     }
@@ -56,7 +52,8 @@ class TransactionDetailAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $transactionDetail = $this->transactionDetailRepository->create($input);
+        /** @var TransactionDetail $transactionDetail */
+        $transactionDetail = TransactionDetail::create($input);
 
         return $this->sendResponse(new TransactionDetailResource($transactionDetail), 'Transaction Detail saved successfully');
     }
@@ -72,7 +69,7 @@ class TransactionDetailAPIController extends AppBaseController
     public function show($id)
     {
         /** @var TransactionDetail $transactionDetail */
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             return $this->sendError('Transaction Detail not found');
@@ -92,16 +89,15 @@ class TransactionDetailAPIController extends AppBaseController
      */
     public function update($id, UpdateTransactionDetailAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var TransactionDetail $transactionDetail */
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             return $this->sendError('Transaction Detail not found');
         }
 
-        $transactionDetail = $this->transactionDetailRepository->update($input, $id);
+        $transactionDetail->fill($request->all());
+        $transactionDetail->save();
 
         return $this->sendResponse(new TransactionDetailResource($transactionDetail), 'TransactionDetail updated successfully');
     }
@@ -119,7 +115,7 @@ class TransactionDetailAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var TransactionDetail $transactionDetail */
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             return $this->sendError('Transaction Detail not found');

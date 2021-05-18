@@ -2,28 +2,24 @@
     <table class="table" id="spendings-table">
         <thead>
             <tr>
-                <th>Tanggal</th>
-        <th>Nomor</th>
-        <th>Kategori</th>
+                <th>Nomor</th>
         <th>Deskripsi</th>
-        <th>Jumlah Barang</th>
-        <th>Harga</th>
-        <th>Biaya Tambahan</th>
-        <th>Total</th>
+        <th>Tanggal</th>
+        <th>Kategori</th>
+        <th>Qty</th>
+        <th>Sub Total</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($spendings as $spending)
             <tr>
-                <td>{{ $spending->tanggal }}</td>
-            <td>{{ $spending->nomor }}</td>
-            <td>{{ $spending->kategori }}</td>
+                <td>{{ $spending->nomor }}</td>
             <td>{{ $spending->deskripsi }}</td>
-            <td>{{ $spending->jumlah_barang }}</td>
+            <td>{{ $spending->tanggal }}</td>
+            <td>{{ $spending->kategori }}</td>
+            <td>{{ $spending->qty }}</td>
             <td>{{ $spending->sub_total }}</td>
-            <td>{{ $spending->biaya_tambahan }}</td>
-            <td>{{ $spending->total }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.spendings.destroy', $spending->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

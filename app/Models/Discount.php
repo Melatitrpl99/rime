@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Discount
  * @package App\Models
- * @version March 14, 2021, 12:09 am UTC
+ * @version May 18, 2021, 2:14 am UTC
  *
- * @property \Illuminate\Database\Eloquent\Collection $discountDetails
+ * @property \Illuminate\Database\Eloquent\Collection $products
  * @property string $judul
  * @property string $deskripsi
  * @property string $kode
@@ -23,7 +23,6 @@ class Discount extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'discounts';
     
@@ -63,17 +62,17 @@ class Discount extends Model
     public static $rules = [
         'judul' => 'required',
         'deskripsi' => 'nullable',
-        'kode' => 'required',
+        'kode' => 'required|unique',
         'batas_pemakaian' => 'nullable|numeric',
         'diskon_kategori' => 'required',
         'slug' => 'nullable'
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
-    public function discountDetails()
+    public function products()
     {
-        return $this->hasMany(\App\Models\DiscountDetail::class);
+        return $this->belongsToMany(\App\Models\Product::class, 'discount_details');
     }
 }

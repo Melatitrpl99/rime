@@ -1,7 +1,7 @@
-<!-- Nomor Transaksi Field -->
+<!-- Nomor Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nomor_transaksi', 'Nomor Transaksi:') !!}
-    {!! Form::text('nomor_transaksi', null, ['class' => 'form-control']) !!}
+    {!! Form::label('nomor', 'Nomor:') !!}
+    {!! Form::text('nomor', null, ['class' => 'form-control','maxlength' => 16]) !!}
 </div>
 
 <!-- Total Field -->

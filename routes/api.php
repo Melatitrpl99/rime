@@ -18,12 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 // Route::resource('users', App\Http\Controllers\API\UserAPIController::class);
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('categories', App\Http\Controllers\API\CategoryAPIController::class);
-});
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -32,26 +27,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::resource('events', App\Http\Controllers\API\EventAPIController::class);
-});
-
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('news', App\Http\Controllers\API\NewsAPIController::class);
-});
-
-
-
-
-
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('discounts', App\Http\Controllers\API\DiscountAPIController::class);
-});
-
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('discount_details', App\Http\Controllers\API\DiscountDetailAPIController::class);
+    Route::resource('product_stocks', App\Http\Controllers\API\ProductStockAPIController::class);
 });
 
 
@@ -75,12 +51,6 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 
-
-
-
-
-
-
 Route::group(['prefix' => 'admin'], function () {
     Route::resource('transactions', App\Http\Controllers\API\TransactionAPIController::class);
 });
@@ -91,11 +61,48 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('discounts', App\Http\Controllers\API\DiscountAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('discount_details', App\Http\Controllers\API\DiscountDetailAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('events', App\Http\Controllers\API\EventAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('files', App\Http\Controllers\API\FileAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('file_thumbs', App\Http\Controllers\API\FileThumbAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('post_categories', App\Http\Controllers\API\PostCategoryAPIController::class);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('posts', App\Http\Controllers\API\PostAPIController::class);
+});
+
+
 Route::group(['prefix' => 'admin'], function () {
     Route::resource('shipments', App\Http\Controllers\API\ShipmentAPIController::class);
 });
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::resource('additional_costs', App\Http\Controllers\API\AdditionalCostAPIController::class);
+    Route::resource('categories', App\Http\Controllers\API\CategoryAPIController::class);
 });

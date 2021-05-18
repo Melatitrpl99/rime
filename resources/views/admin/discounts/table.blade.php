@@ -7,7 +7,6 @@
         <th>Kode</th>
         <th>Batas Pemakaian</th>
         <th>Diskon Kategori</th>
-        <th>Slug</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -19,7 +18,6 @@
             <td>{{ $discount->kode }}</td>
             <td>{{ $discount->batas_pemakaian }}</td>
             <td>{{ $discount->diskon_kategori }}</td>
-            <td>{{ $discount->slug }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.discounts.destroy', $discount->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

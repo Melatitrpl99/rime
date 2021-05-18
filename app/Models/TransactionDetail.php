@@ -2,38 +2,33 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class TransactionDetail
  * @package App\Models
- * @version March 14, 2021, 12:21 am UTC
+ * @version May 18, 2021, 2:11 am UTC
  *
  * @property \App\Models\Transaction $transaction
  * @property \App\Models\Order $order
- * @property unsignedBigInteger $transaction_id
- * @property unsignedBigInteger $order_id
- * @property integer $subtotal
  */
 class TransactionDetail extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'transaction_details';
-
+    
 
     protected $dates = ['deleted_at'];
 
 
+    protected $primaryKey = 'order_id';
 
     public $fillable = [
-        'transaction_id',
-        'order_id',
-        'subtotal'
+        
     ];
 
     /**
@@ -42,7 +37,7 @@ class TransactionDetail extends Model
      * @var array
      */
     protected $casts = [
-        'subtotal' => 'integer'
+        
     ];
 
     /**
@@ -52,8 +47,7 @@ class TransactionDetail extends Model
      */
     public static $rules = [
         'transaction_id' => 'required',
-        'order_id' => 'required',
-        'subtotal' => 'required|integer'
+        'order_id' => 'required'
     ];
 
     /**

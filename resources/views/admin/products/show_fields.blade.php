@@ -10,12 +10,6 @@
     <p>{{ $product->deskripsi }}</p>
 </div>
 
-<!-- Stok Field -->
-<div class="col-sm-12">
-    {!! Form::label('stok', 'Stok:') !!}
-    <p>{{ $product->stok }}</p>
-</div>
-
 <!-- Harga Customer Field -->
 <div class="col-sm-12">
     {!! Form::label('harga_customer', 'Harga Customer:') !!}
@@ -28,10 +22,10 @@
     <p>{{ $product->harga_reseller }}</p>
 </div>
 
-<!-- Grosir Minimum Field -->
+<!-- Resellser Minimum Field -->
 <div class="col-sm-12">
-    {!! Form::label('grosir_minimum', 'Grosir Minimum:') !!}
-    <p>{{ $product->grosir_minimum }}</p>
+    {!! Form::label('resellser_minimum', 'Resellser Minimum:') !!}
+    <p>{{ $product->resellser_minimum }}</p>
 </div>
 
 <!-- Warna Field -->
@@ -40,10 +34,16 @@
     <p>{{ $product->warna }}</p>
 </div>
 
-<!-- Ukuran Field -->
+<!-- Size Field -->
 <div class="col-sm-12">
-    {!! Form::label('ukuran', 'Ukuran:') !!}
-    <p>{{ $product->ukuran }}</p>
+    {!! Form::label('size', 'Size:') !!}
+    <p>{{ $product->size }}</p>
+</div>
+
+<!-- Dimensi Field -->
+<div class="col-sm-12">
+    {!! Form::label('dimensi', 'Dimensi:') !!}
+    <p>{{ $product->dimensi }}</p>
 </div>
 
 <!-- Slug Field -->

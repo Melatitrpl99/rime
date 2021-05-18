@@ -2,26 +2,24 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class OrderDetail
  * @package App\Models
- * @version March 14, 2021, 12:10 am UTC
+ * @version May 18, 2021, 2:11 am UTC
  *
  * @property \App\Models\Order $order
  * @property \App\Models\Cart $cart
- * @property unsignedBigInteger $order_id
- * @property unsignedBigInteger $cart_id
+ * @property integer $jumlah
  * @property integer $subtotal
  */
 class OrderDetail extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'order_details';
     
@@ -29,10 +27,10 @@ class OrderDetail extends Model
     protected $dates = ['deleted_at'];
 
 
+    protected $primaryKey = 'cart_id';
 
     public $fillable = [
-        'order_id',
-        'cart_id',
+        'jumlah',
         'subtotal'
     ];
 
@@ -42,6 +40,7 @@ class OrderDetail extends Model
      * @var array
      */
     protected $casts = [
+        'jumlah' => 'integer',
         'subtotal' => 'integer'
     ];
 
@@ -53,7 +52,8 @@ class OrderDetail extends Model
     public static $rules = [
         'order_id' => 'required',
         'cart_id' => 'required',
-        'subtotal' => 'required|numeric'
+        'jumlah' => 'required|numeric',
+        'subtotal' => 'required|integer'
     ];
 
     /**

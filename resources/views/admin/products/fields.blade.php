@@ -10,12 +10,6 @@
     {!! Form::textarea('deskripsi', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Stok Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('stok', 'Stok:') !!}
-    {!! Form::number('stok', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Harga Customer Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('harga_customer', 'Harga Customer:') !!}
@@ -28,10 +22,10 @@
     {!! Form::number('harga_reseller', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Grosir Minimum Field -->
+<!-- Resellser Minimum Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('grosir_minimum', 'Grosir Minimum:') !!}
-    {!! Form::number('grosir_minimum', null, ['class' => 'form-control']) !!}
+    {!! Form::label('resellser_minimum', 'Resellser Minimum:') !!}
+    {!! Form::number('resellser_minimum', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Warna Field -->
@@ -40,10 +34,16 @@
     {!! Form::text('warna', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Ukuran Field -->
+<!-- Size Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ukuran', 'Ukuran:') !!}
-    {!! Form::text('ukuran', null, ['class' => 'form-control']) !!}
+    {!! Form::label('size', 'Size:') !!}
+    {!! Form::text('size', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Dimensi Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('dimensi', 'Dimensi:') !!}
+    {!! Form::text('dimensi', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Category Id Field -->

@@ -15,12 +15,10 @@ class OrderDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'order_id' => $this->order_id,
             'cart_id' => $this->cart_id,
-            'subtotal' => $this->subtotal,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'jumlah' => $this->jumlah,
+            'subtotal' => $this->subtotal
         ];
     }
 }

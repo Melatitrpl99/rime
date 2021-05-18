@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateDiscountAPIRequest;
 use App\Http\Requests\API\UpdateDiscountAPIRequest;
 use App\Models\Discount;
-use App\Repositories\DiscountRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\DiscountResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class DiscountAPIController extends AppBaseController
+class DiscountAPIController extends Controller
 {
-    /** @var  DiscountRepository */
-    private $discountRepository;
-
-    public function __construct(DiscountRepository $discountRepo)
-    {
-        $this->discountRepository = $discountRepo;
-    }
-
     /**
      * Display a listing of the Discount.
      * GET|HEAD /discounts
@@ -35,11 +26,16 @@ class DiscountAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $discounts = $this->discountRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Discount::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $discounts = $query->get();
 
         return $this->sendResponse(DiscountResource::collection($discounts), 'Discounts retrieved successfully');
     }
@@ -56,7 +52,8 @@ class DiscountAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $discount = $this->discountRepository->create($input);
+        /** @var Discount $discount */
+        $discount = Discount::create($input);
 
         return $this->sendResponse(new DiscountResource($discount), 'Discount saved successfully');
     }
@@ -72,7 +69,7 @@ class DiscountAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Discount $discount */
-        $discount = $this->discountRepository->find($id);
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             return $this->sendError('Discount not found');
@@ -92,16 +89,15 @@ class DiscountAPIController extends AppBaseController
      */
     public function update($id, UpdateDiscountAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Discount $discount */
-        $discount = $this->discountRepository->find($id);
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             return $this->sendError('Discount not found');
         }
 
-        $discount = $this->discountRepository->update($input, $id);
+        $discount->fill($request->all());
+        $discount->save();
 
         return $this->sendResponse(new DiscountResource($discount), 'Discount updated successfully');
     }
@@ -119,7 +115,7 @@ class DiscountAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Discount $discount */
-        $discount = $this->discountRepository->find($id);
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             return $this->sendError('Discount not found');

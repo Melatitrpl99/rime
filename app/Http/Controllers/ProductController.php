@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Repositories\ProductRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class ProductController extends AppBaseController
+class ProductController extends Controller
 {
-    /** @var  ProductRepository */
-    private $productRepository;
-
-    public function __construct(ProductRepository $productRepo)
-    {
-        $this->productRepository = $productRepo;
-    }
-
     /**
      * Display a listing of the Product.
      *
@@ -29,7 +21,8 @@ class ProductController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $products = $this->productRepository->all();
+        /** @var Product $products */
+        $products = Product::all();
 
         return view('admin.products.index')
             ->with('products', $products);
@@ -56,7 +49,8 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
 
-        $product = $this->productRepository->create($input);
+        /** @var Product $product */
+        $product = Product::create($input);
 
         Flash::success('Product saved successfully.');
 
@@ -72,7 +66,8 @@ class ProductController extends AppBaseController
      */
     public function show($id)
     {
-        $product = $this->productRepository->find($id);
+        /** @var Product $product */
+        $product = Product::find($id);
 
         if (empty($product)) {
             Flash::error('Product not found');
@@ -92,7 +87,8 @@ class ProductController extends AppBaseController
      */
     public function edit($id)
     {
-        $product = $this->productRepository->find($id);
+        /** @var Product $product */
+        $product = Product::find($id);
 
         if (empty($product)) {
             Flash::error('Product not found');
@@ -113,7 +109,8 @@ class ProductController extends AppBaseController
      */
     public function update($id, UpdateProductRequest $request)
     {
-        $product = $this->productRepository->find($id);
+        /** @var Product $product */
+        $product = Product::find($id);
 
         if (empty($product)) {
             Flash::error('Product not found');
@@ -121,7 +118,8 @@ class ProductController extends AppBaseController
             return redirect(route('admin.products.index'));
         }
 
-        $product = $this->productRepository->update($request->all(), $id);
+        $product->fill($request->all());
+        $product->save();
 
         Flash::success('Product updated successfully.');
 
@@ -139,7 +137,8 @@ class ProductController extends AppBaseController
      */
     public function destroy($id)
     {
-        $product = $this->productRepository->find($id);
+        /** @var Product $product */
+        $product = Product::find($id);
 
         if (empty($product)) {
             Flash::error('Product not found');
@@ -147,7 +146,7 @@ class ProductController extends AppBaseController
             return redirect(route('admin.products.index'));
         }
 
-        $this->productRepository->delete($id);
+        $product->delete();
 
         Flash::success('Product deleted successfully.');
 

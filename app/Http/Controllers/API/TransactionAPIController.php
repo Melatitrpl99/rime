@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateTransactionAPIRequest;
 use App\Http\Requests\API\UpdateTransactionAPIRequest;
 use App\Models\Transaction;
-use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class TransactionAPIController extends AppBaseController
+class TransactionAPIController extends Controller
 {
-    /** @var  TransactionRepository */
-    private $transactionRepository;
-
-    public function __construct(TransactionRepository $transactionRepo)
-    {
-        $this->transactionRepository = $transactionRepo;
-    }
-
     /**
      * Display a listing of the Transaction.
      * GET|HEAD /transactions
@@ -35,11 +26,16 @@ class TransactionAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $transactions = $this->transactionRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Transaction::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $transactions = $query->get();
 
         return $this->sendResponse(TransactionResource::collection($transactions), 'Transactions retrieved successfully');
     }
@@ -56,7 +52,8 @@ class TransactionAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $transaction = $this->transactionRepository->create($input);
+        /** @var Transaction $transaction */
+        $transaction = Transaction::create($input);
 
         return $this->sendResponse(new TransactionResource($transaction), 'Transaction saved successfully');
     }
@@ -72,7 +69,7 @@ class TransactionAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Transaction $transaction */
-        $transaction = $this->transactionRepository->find($id);
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             return $this->sendError('Transaction not found');
@@ -92,16 +89,15 @@ class TransactionAPIController extends AppBaseController
      */
     public function update($id, UpdateTransactionAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Transaction $transaction */
-        $transaction = $this->transactionRepository->find($id);
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             return $this->sendError('Transaction not found');
         }
 
-        $transaction = $this->transactionRepository->update($input, $id);
+        $transaction->fill($request->all());
+        $transaction->save();
 
         return $this->sendResponse(new TransactionResource($transaction), 'Transaction updated successfully');
     }
@@ -119,7 +115,7 @@ class TransactionAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Transaction $transaction */
-        $transaction = $this->transactionRepository->find($id);
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             return $this->sendError('Transaction not found');

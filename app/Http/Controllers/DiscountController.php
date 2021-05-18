@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateDiscountRequest;
 use App\Http\Requests\UpdateDiscountRequest;
-use App\Repositories\DiscountRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class DiscountController extends AppBaseController
+class DiscountController extends Controller
 {
-    /** @var  DiscountRepository */
-    private $discountRepository;
-
-    public function __construct(DiscountRepository $discountRepo)
-    {
-        $this->discountRepository = $discountRepo;
-    }
-
     /**
      * Display a listing of the Discount.
      *
@@ -29,7 +21,8 @@ class DiscountController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $discounts = $this->discountRepository->all();
+        /** @var Discount $discounts */
+        $discounts = Discount::all();
 
         return view('admin.discounts.index')
             ->with('discounts', $discounts);
@@ -56,7 +49,8 @@ class DiscountController extends AppBaseController
     {
         $input = $request->all();
 
-        $discount = $this->discountRepository->create($input);
+        /** @var Discount $discount */
+        $discount = Discount::create($input);
 
         Flash::success('Discount saved successfully.');
 
@@ -72,7 +66,8 @@ class DiscountController extends AppBaseController
      */
     public function show($id)
     {
-        $discount = $this->discountRepository->find($id);
+        /** @var Discount $discount */
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             Flash::error('Discount not found');
@@ -92,7 +87,8 @@ class DiscountController extends AppBaseController
      */
     public function edit($id)
     {
-        $discount = $this->discountRepository->find($id);
+        /** @var Discount $discount */
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             Flash::error('Discount not found');
@@ -113,7 +109,8 @@ class DiscountController extends AppBaseController
      */
     public function update($id, UpdateDiscountRequest $request)
     {
-        $discount = $this->discountRepository->find($id);
+        /** @var Discount $discount */
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             Flash::error('Discount not found');
@@ -121,7 +118,8 @@ class DiscountController extends AppBaseController
             return redirect(route('admin.discounts.index'));
         }
 
-        $discount = $this->discountRepository->update($request->all(), $id);
+        $discount->fill($request->all());
+        $discount->save();
 
         Flash::success('Discount updated successfully.');
 
@@ -139,7 +137,8 @@ class DiscountController extends AppBaseController
      */
     public function destroy($id)
     {
-        $discount = $this->discountRepository->find($id);
+        /** @var Discount $discount */
+        $discount = Discount::find($id);
 
         if (empty($discount)) {
             Flash::error('Discount not found');
@@ -147,7 +146,7 @@ class DiscountController extends AppBaseController
             return redirect(route('admin.discounts.index'));
         }
 
-        $this->discountRepository->delete($id);
+        $discount->delete();
 
         Flash::success('Discount deleted successfully.');
 

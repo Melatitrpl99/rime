@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Category
  * @package App\Models
- * @version March 14, 2021, 12:06 am UTC
+ * @version May 18, 2021, 2:19 am UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $products
  * @property string $nama
@@ -19,7 +19,6 @@ class Category extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'categories';
     

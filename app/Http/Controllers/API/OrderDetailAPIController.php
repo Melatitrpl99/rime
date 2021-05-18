@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateOrderDetailAPIRequest;
 use App\Http\Requests\API\UpdateOrderDetailAPIRequest;
 use App\Models\OrderDetail;
-use App\Repositories\OrderDetailRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderDetailResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class OrderDetailAPIController extends AppBaseController
+class OrderDetailAPIController extends Controller
 {
-    /** @var  OrderDetailRepository */
-    private $orderDetailRepository;
-
-    public function __construct(OrderDetailRepository $orderDetailRepo)
-    {
-        $this->orderDetailRepository = $orderDetailRepo;
-    }
-
     /**
      * Display a listing of the OrderDetail.
      * GET|HEAD /orderDetails
@@ -35,11 +26,16 @@ class OrderDetailAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $orderDetails = $this->orderDetailRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = OrderDetail::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $orderDetails = $query->get();
 
         return $this->sendResponse(OrderDetailResource::collection($orderDetails), 'Order Details retrieved successfully');
     }
@@ -56,7 +52,8 @@ class OrderDetailAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $orderDetail = $this->orderDetailRepository->create($input);
+        /** @var OrderDetail $orderDetail */
+        $orderDetail = OrderDetail::create($input);
 
         return $this->sendResponse(new OrderDetailResource($orderDetail), 'Order Detail saved successfully');
     }
@@ -72,7 +69,7 @@ class OrderDetailAPIController extends AppBaseController
     public function show($id)
     {
         /** @var OrderDetail $orderDetail */
-        $orderDetail = $this->orderDetailRepository->find($id);
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             return $this->sendError('Order Detail not found');
@@ -92,16 +89,15 @@ class OrderDetailAPIController extends AppBaseController
      */
     public function update($id, UpdateOrderDetailAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var OrderDetail $orderDetail */
-        $orderDetail = $this->orderDetailRepository->find($id);
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             return $this->sendError('Order Detail not found');
         }
 
-        $orderDetail = $this->orderDetailRepository->update($input, $id);
+        $orderDetail->fill($request->all());
+        $orderDetail->save();
 
         return $this->sendResponse(new OrderDetailResource($orderDetail), 'OrderDetail updated successfully');
     }
@@ -119,7 +115,7 @@ class OrderDetailAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var OrderDetail $orderDetail */
-        $orderDetail = $this->orderDetailRepository->find($id);
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             return $this->sendError('Order Detail not found');

@@ -15,14 +15,11 @@ class DiscountDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'discount_id' => $this->discount_id,
             'product_id' => $this->product_id,
             'diskon_harga' => $this->diskon_harga,
             'minimal_produk' => $this->minimal_produk,
-            'maksimal_produk' => $this->maksimal_produk,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'maksimal_produk' => $this->maksimal_produk
         ];
     }
 }

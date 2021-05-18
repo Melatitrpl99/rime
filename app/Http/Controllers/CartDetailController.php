@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCartDetailRequest;
 use App\Http\Requests\UpdateCartDetailRequest;
-use App\Repositories\CartDetailRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\CartDetail;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class CartDetailController extends AppBaseController
+class CartDetailController extends Controller
 {
-    /** @var  CartDetailRepository */
-    private $cartDetailRepository;
-
-    public function __construct(CartDetailRepository $cartDetailRepo)
-    {
-        $this->cartDetailRepository = $cartDetailRepo;
-    }
-
     /**
      * Display a listing of the CartDetail.
      *
@@ -29,7 +21,8 @@ class CartDetailController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $cartDetails = $this->cartDetailRepository->all();
+        /** @var CartDetail $cartDetails */
+        $cartDetails = CartDetail::all();
 
         return view('admin.cart_details.index')
             ->with('cartDetails', $cartDetails);
@@ -56,7 +49,8 @@ class CartDetailController extends AppBaseController
     {
         $input = $request->all();
 
-        $cartDetail = $this->cartDetailRepository->create($input);
+        /** @var CartDetail $cartDetail */
+        $cartDetail = CartDetail::create($input);
 
         Flash::success('Cart Detail saved successfully.');
 
@@ -72,7 +66,8 @@ class CartDetailController extends AppBaseController
      */
     public function show($id)
     {
-        $cartDetail = $this->cartDetailRepository->find($id);
+        /** @var CartDetail $cartDetail */
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
@@ -92,7 +87,8 @@ class CartDetailController extends AppBaseController
      */
     public function edit($id)
     {
-        $cartDetail = $this->cartDetailRepository->find($id);
+        /** @var CartDetail $cartDetail */
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
@@ -113,7 +109,8 @@ class CartDetailController extends AppBaseController
      */
     public function update($id, UpdateCartDetailRequest $request)
     {
-        $cartDetail = $this->cartDetailRepository->find($id);
+        /** @var CartDetail $cartDetail */
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
@@ -121,7 +118,8 @@ class CartDetailController extends AppBaseController
             return redirect(route('admin.cartDetails.index'));
         }
 
-        $cartDetail = $this->cartDetailRepository->update($request->all(), $id);
+        $cartDetail->fill($request->all());
+        $cartDetail->save();
 
         Flash::success('Cart Detail updated successfully.');
 
@@ -139,7 +137,8 @@ class CartDetailController extends AppBaseController
      */
     public function destroy($id)
     {
-        $cartDetail = $this->cartDetailRepository->find($id);
+        /** @var CartDetail $cartDetail */
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             Flash::error('Cart Detail not found');
@@ -147,7 +146,7 @@ class CartDetailController extends AppBaseController
             return redirect(route('admin.cartDetails.index'));
         }
 
-        $this->cartDetailRepository->delete($id);
+        $cartDetail->delete();
 
         Flash::success('Cart Detail deleted successfully.');
 

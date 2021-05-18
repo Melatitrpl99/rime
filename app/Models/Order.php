@@ -2,30 +2,29 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Order
  * @package App\Models
- * @version March 14, 2021, 12:10 am UTC
+ * @version May 18, 2021, 2:11 am UTC
  *
  * @property \App\Models\User $user
  * @property \Illuminate\Database\Eloquent\Collection $shipments
- * @property \Illuminate\Database\Eloquent\Collection $transactionDetails
- * @property string $nomor_order
- * @property integer $status_order
+ * @property \Illuminate\Database\Eloquent\Collection $products
+ * @property \Illuminate\Database\Eloquent\Collection $transactions
+ * @property string $nomor
  * @property string $pesan
  * @property string $kode_diskon
- * @property string $slug
- * @property unsignedBigInteger $user_id
+ * @property integer $status_id
+ * @property foreignId $user_id
  */
 class Order extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'orders';
     
@@ -35,11 +34,10 @@ class Order extends Model
 
 
     public $fillable = [
-        'nomor_order',
-        'status_order',
+        'nomor',
         'pesan',
         'kode_diskon',
-        'slug',
+        'status_id',
         'user_id'
     ];
 
@@ -49,11 +47,10 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
-        'nomor_order' => 'string',
-        'status_order' => 'integer',
+        'nomor' => 'string',
         'pesan' => 'string',
         'kode_diskon' => 'string',
-        'slug' => 'string'
+        'status_id' => 'integer'
     ];
 
     /**
@@ -62,11 +59,10 @@ class Order extends Model
      * @var array
      */
     public static $rules = [
-        'nomor_order' => 'required',
-        'status_order' => 'required',
+        'nomor' => 'required|max:16',
         'pesan' => 'nullable',
         'kode_diskon' => 'nullable',
-        'slug' => 'nullable',
+        'status_id' => 'required',
         'user_id' => 'required'
     ];
 
@@ -87,10 +83,18 @@ class Order extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
-    public function transactionDetails()
+    public function products()
     {
-        return $this->hasMany(\App\Models\TransactionDetail::class);
+        return $this->belongsToMany(\App\Models\Product::class, 'order_details');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function transactions()
+    {
+        return $this->belongsToMany(\App\Models\Transaction::class, 'transaction_details');
     }
 }

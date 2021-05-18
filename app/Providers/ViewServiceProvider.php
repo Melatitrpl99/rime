@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers;
+use App\Models\PostCategory;
 use App\Models\Transaction;
 use App\Models\Order;
 use App\Models\Cart;
@@ -31,6 +32,54 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::composer(['admin.shipments.fields'], function ($view) {
+            $orderItems = Order::pluck('nomor','id')->toArray();
+            $view->with('orderItems', $orderItems);
+        });
+        View::composer(['admin.posts.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.posts.fields'], function ($view) {
+            $post_categoryItems = PostCategory::pluck('name','id')->toArray();
+            $view->with('post_categoryItems', $post_categoryItems);
+        });
+        View::composer(['admin.transactions.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.orders.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.carts.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.product_stocks.fields'], function ($view) {
+            $productItems = Product::pluck('nama','id')->toArray();
+            $view->with('productItems', $productItems);
+        });
+        View::composer(['admin.products.fields'], function ($view) {
+            $categoryItems = Category::pluck('nama','id')->toArray();
+            $view->with('categoryItems', $categoryItems);
+        });
+        View::composer(['admin.reports.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.product_stocks.fields'], function ($view) {
+            $productItems = Product::pluck('nama','id')->toArray();
+            $view->with('productItems', $productItems);
+        });
+        View::composer(['admin.products.fields'], function ($view) {
+            $categoryItems = Category::pluck('nama','id')->toArray();
+            $view->with('categoryItems', $categoryItems);
+        });
+        View::composer(['admin.products.fields'], function ($view) {
+            $categoryItems = Category::pluck('nama','id')->toArray();
+            $view->with('categoryItems', $categoryItems);
+        });
         View::composer(['admin.shipments.fields'], function ($view) {
             $orderItems = Order::pluck('nomor_order','id')->toArray();
             $view->with('orderItems', $orderItems);

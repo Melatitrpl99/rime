@@ -2,29 +2,27 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Spending
  * @package App\Models
- * @version April 28, 2021, 3:49 am UTC
+ * @version May 18, 2021, 2:05 am UTC
  *
- * @property string $tanggal
- * @property integer $nomor
- * @property string $kategori
+ * @property \Illuminate\Database\Eloquent\Collection $spendingDetails
+ * @property string $nomor
  * @property string $deskripsi
- * @property integer $jumlah_barang
- * @property integer $total
- * @property integer $biaya_tambahan
+ * @property string $tanggal
+ * @property string $kategori
+ * @property integer $qty
  * @property integer $sub_total
  */
 class Spending extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'spendings';
     
@@ -34,13 +32,11 @@ class Spending extends Model
 
 
     public $fillable = [
-        'tanggal',
         'nomor',
-        'kategori',
         'deskripsi',
-        'jumlah_barang',
-        'total',
-        'biaya_tambahan',
+        'tanggal',
+        'kategori',
+        'qty',
         'sub_total'
     ];
 
@@ -50,12 +46,10 @@ class Spending extends Model
      * @var array
      */
     protected $casts = [
-        'nomor' => 'integer',
-        'kategori' => 'string',
+        'nomor' => 'string',
         'deskripsi' => 'string',
-        'jumlah_barang' => 'integer',
-        'total' => 'integer',
-        'biaya_tambahan' => 'integer',
+        'kategori' => 'string',
+        'qty' => 'integer',
         'sub_total' => 'integer'
     ];
 
@@ -65,8 +59,14 @@ class Spending extends Model
      * @var array
      */
     public static $rules = [
-        
+        'nomor' => 'required|max:16'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function spendingDetails()
+    {
+        return $this->hasMany(\App\Models\SpendingDetail::class);
+    }
 }

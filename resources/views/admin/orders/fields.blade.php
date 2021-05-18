@@ -1,13 +1,7 @@
-<!-- Nomor Order Field -->
+<!-- Nomor Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nomor_order', 'Nomor Order:') !!}
-    {!! Form::text('nomor_order', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Status Order Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('status_order', 'Status Order:') !!}
-    {!! Form::number('status_order', null, ['class' => 'form-control']) !!}
+    {!! Form::label('nomor', 'Nomor:') !!}
+    {!! Form::text('nomor', null, ['class' => 'form-control','maxlength' => 16]) !!}
 </div>
 
 <!-- Pesan Field -->
@@ -20,6 +14,12 @@
 <div class="form-group col-sm-6">
     {!! Form::label('kode_diskon', 'Kode Diskon:') !!}
     {!! Form::text('kode_diskon', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Status Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('status_id', 'Status Id:') !!}
+    {!! Form::number('status_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- User Id Field -->

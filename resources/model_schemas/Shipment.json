@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -36,7 +36,91 @@
         "inView": true
     },
     {
-        "name": "alamat_manual",
+        "name": "no",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "rt",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "rw",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "desa_kelurahan",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "kecamatan",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "kabupaten_kota",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "provinsi",
+        "dbType": "string:nullable",
+        "htmlType": "text",
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "catatan",
         "dbType": "longtext:nullable",
         "htmlType": "textarea",
         "validations": "nullable",
@@ -60,21 +144,9 @@
         "inView": true
     },
     {
-        "name": "slug",
-        "dbType": "string:nullable",
-        "htmlType": null,
-        "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": false,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "order_id",
-        "dbType": "unsignedBigInteger:foreign,orders,id",
-        "htmlType": "selectTable:orders:nomor_order,id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:orders:nomor,id",
         "validations": "required",
         "searchable": false,
         "fillable": true,

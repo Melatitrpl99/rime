@@ -16,12 +16,6 @@
     <p>{{ $report->is_import }}</p>
 </div>
 
-<!-- Detail Laporan Field -->
-<div class="col-sm-12">
-    {!! Form::label('detail_laporan', 'Detail Laporan:') !!}
-    <p>{{ $report->detail_laporan }}</p>
-</div>
-
 <!-- Slug Field -->
 <div class="col-sm-12">
     {!! Form::label('slug', 'Slug:') !!}

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateCategoryAPIRequest;
 use App\Http\Requests\API\UpdateCategoryAPIRequest;
 use App\Models\Category;
-use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class CategoryAPIController extends AppBaseController
+class CategoryAPIController extends Controller
 {
-    /** @var  CategoryRepository */
-    private $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepo)
-    {
-        $this->categoryRepository = $categoryRepo;
-    }
-
     /**
      * Display a listing of the Category.
      * GET|HEAD /categories
@@ -35,11 +26,16 @@ class CategoryAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $categories = $this->categoryRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Category::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $categories = $query->get();
 
         return $this->sendResponse(CategoryResource::collection($categories), 'Categories retrieved successfully');
     }
@@ -56,7 +52,8 @@ class CategoryAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $category = $this->categoryRepository->create($input);
+        /** @var Category $category */
+        $category = Category::create($input);
 
         return $this->sendResponse(new CategoryResource($category), 'Category saved successfully');
     }
@@ -72,7 +69,7 @@ class CategoryAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Category $category */
-        $category = $this->categoryRepository->find($id);
+        $category = Category::find($id);
 
         if (empty($category)) {
             return $this->sendError('Category not found');
@@ -92,16 +89,15 @@ class CategoryAPIController extends AppBaseController
      */
     public function update($id, UpdateCategoryAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Category $category */
-        $category = $this->categoryRepository->find($id);
+        $category = Category::find($id);
 
         if (empty($category)) {
             return $this->sendError('Category not found');
         }
 
-        $category = $this->categoryRepository->update($input, $id);
+        $category->fill($request->all());
+        $category->save();
 
         return $this->sendResponse(new CategoryResource($category), 'Category updated successfully');
     }
@@ -119,7 +115,7 @@ class CategoryAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Category $category */
-        $category = $this->categoryRepository->find($id);
+        $category = Category::find($id);
 
         if (empty($category)) {
             return $this->sendError('Category not found');

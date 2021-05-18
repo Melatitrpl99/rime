@@ -15,12 +15,8 @@ class TransactionDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'transaction_id' => $this->transaction_id,
-            'order_id' => $this->order_id,
-            'subtotal' => $this->subtotal,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'order_id' => $this->order_id
         ];
     }
 }

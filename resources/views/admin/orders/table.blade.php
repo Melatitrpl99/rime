@@ -2,11 +2,10 @@
     <table class="table" id="orders-table">
         <thead>
             <tr>
-                <th>Nomor Order</th>
-        <th>Status Order</th>
+                <th>Nomor</th>
         <th>Pesan</th>
         <th>Kode Diskon</th>
-        <th>Slug</th>
+        <th>Status Id</th>
         <th>User Id</th>
                 <th colspan="3">Action</th>
             </tr>
@@ -14,11 +13,10 @@
         <tbody>
         @foreach($orders as $order)
             <tr>
-                <td>{{ $order->nomor_order }}</td>
-            <td>{{ $order->status_order }}</td>
+                <td>{{ $order->nomor }}</td>
             <td>{{ $order->pesan }}</td>
             <td>{{ $order->kode_diskon }}</td>
-            <td>{{ $order->slug }}</td>
+            <td>{{ $order->status_id }}</td>
             <td>{{ $order->user_id }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.orders.destroy', $order->id], 'method' => 'delete']) !!}

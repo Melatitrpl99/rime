@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCartRequest;
 use App\Http\Requests\UpdateCartRequest;
-use App\Repositories\CartRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class CartController extends AppBaseController
+class CartController extends Controller
 {
-    /** @var  CartRepository */
-    private $cartRepository;
-
-    public function __construct(CartRepository $cartRepo)
-    {
-        $this->cartRepository = $cartRepo;
-    }
-
     /**
      * Display a listing of the Cart.
      *
@@ -29,7 +21,8 @@ class CartController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $carts = $this->cartRepository->all();
+        /** @var Cart $carts */
+        $carts = Cart::all();
 
         return view('admin.carts.index')
             ->with('carts', $carts);
@@ -56,7 +49,8 @@ class CartController extends AppBaseController
     {
         $input = $request->all();
 
-        $cart = $this->cartRepository->create($input);
+        /** @var Cart $cart */
+        $cart = Cart::create($input);
 
         Flash::success('Cart saved successfully.');
 
@@ -72,7 +66,8 @@ class CartController extends AppBaseController
      */
     public function show($id)
     {
-        $cart = $this->cartRepository->find($id);
+        /** @var Cart $cart */
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             Flash::error('Cart not found');
@@ -92,7 +87,8 @@ class CartController extends AppBaseController
      */
     public function edit($id)
     {
-        $cart = $this->cartRepository->find($id);
+        /** @var Cart $cart */
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             Flash::error('Cart not found');
@@ -113,7 +109,8 @@ class CartController extends AppBaseController
      */
     public function update($id, UpdateCartRequest $request)
     {
-        $cart = $this->cartRepository->find($id);
+        /** @var Cart $cart */
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             Flash::error('Cart not found');
@@ -121,7 +118,8 @@ class CartController extends AppBaseController
             return redirect(route('admin.carts.index'));
         }
 
-        $cart = $this->cartRepository->update($request->all(), $id);
+        $cart->fill($request->all());
+        $cart->save();
 
         Flash::success('Cart updated successfully.');
 
@@ -139,7 +137,8 @@ class CartController extends AppBaseController
      */
     public function destroy($id)
     {
-        $cart = $this->cartRepository->find($id);
+        /** @var Cart $cart */
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             Flash::error('Cart not found');
@@ -147,7 +146,7 @@ class CartController extends AppBaseController
             return redirect(route('admin.carts.index'));
         }
 
-        $this->cartRepository->delete($id);
+        $cart->delete();
 
         Flash::success('Cart deleted successfully.');
 

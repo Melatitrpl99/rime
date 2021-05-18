@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateCartAPIRequest;
 use App\Http\Requests\API\UpdateCartAPIRequest;
 use App\Models\Cart;
-use App\Repositories\CartRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class CartAPIController extends AppBaseController
+class CartAPIController extends Controller
 {
-    /** @var  CartRepository */
-    private $cartRepository;
-
-    public function __construct(CartRepository $cartRepo)
-    {
-        $this->cartRepository = $cartRepo;
-    }
-
     /**
      * Display a listing of the Cart.
      * GET|HEAD /carts
@@ -35,11 +26,16 @@ class CartAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $carts = $this->cartRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Cart::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $carts = $query->get();
 
         return $this->sendResponse(CartResource::collection($carts), 'Carts retrieved successfully');
     }
@@ -56,7 +52,8 @@ class CartAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $cart = $this->cartRepository->create($input);
+        /** @var Cart $cart */
+        $cart = Cart::create($input);
 
         return $this->sendResponse(new CartResource($cart), 'Cart saved successfully');
     }
@@ -72,7 +69,7 @@ class CartAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Cart $cart */
-        $cart = $this->cartRepository->find($id);
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             return $this->sendError('Cart not found');
@@ -92,16 +89,15 @@ class CartAPIController extends AppBaseController
      */
     public function update($id, UpdateCartAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Cart $cart */
-        $cart = $this->cartRepository->find($id);
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             return $this->sendError('Cart not found');
         }
 
-        $cart = $this->cartRepository->update($input, $id);
+        $cart->fill($request->all());
+        $cart->save();
 
         return $this->sendResponse(new CartResource($cart), 'Cart updated successfully');
     }
@@ -119,7 +115,7 @@ class CartAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Cart $cart */
-        $cart = $this->cartRepository->find($id);
+        $cart = Cart::find($id);
 
         if (empty($cart)) {
             return $this->sendError('Cart not found');

@@ -4,9 +4,15 @@
             <tr>
                 <th>Nama Lengkap</th>
         <th>Alamat</th>
-        <th>Alamat Manual</th>
+        <th>No</th>
+        <th>Rt</th>
+        <th>Rw</th>
+        <th>Desa Kelurahan</th>
+        <th>Kecamatan</th>
+        <th>Kabupaten Kota</th>
+        <th>Provinsi</th>
+        <th>Catatan</th>
         <th>Kode Pos</th>
-        <th>Slug</th>
         <th>Order Id</th>
                 <th colspan="3">Action</th>
             </tr>
@@ -16,9 +22,15 @@
             <tr>
                 <td>{{ $shipment->nama_lengkap }}</td>
             <td>{{ $shipment->alamat }}</td>
-            <td>{{ $shipment->alamat_manual }}</td>
+            <td>{{ $shipment->no }}</td>
+            <td>{{ $shipment->rt }}</td>
+            <td>{{ $shipment->rw }}</td>
+            <td>{{ $shipment->desa_kelurahan }}</td>
+            <td>{{ $shipment->kecamatan }}</td>
+            <td>{{ $shipment->kabupaten_kota }}</td>
+            <td>{{ $shipment->provinsi }}</td>
+            <td>{{ $shipment->catatan }}</td>
             <td>{{ $shipment->kode_pos }}</td>
-            <td>{{ $shipment->slug }}</td>
             <td>{{ $shipment->order_id }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.shipments.destroy', $shipment->id], 'method' => 'delete']) !!}

@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,

@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Event
  * @package App\Models
- * @version March 14, 2021, 12:07 am UTC
+ * @version May 18, 2021, 2:15 am UTC
  *
  * @property string $judul
  * @property string $deskripsi
@@ -24,7 +24,6 @@ class Event extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'events';
     

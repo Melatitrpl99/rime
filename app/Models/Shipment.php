@@ -2,28 +2,33 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Shipment
  * @package App\Models
- * @version March 14, 2021, 12:21 am UTC
+ * @version May 18, 2021, 2:18 am UTC
  *
  * @property \App\Models\Order $order
  * @property string $nama_lengkap
  * @property string $alamat
- * @property string $alamat_manual
+ * @property string $no
+ * @property string $rt
+ * @property string $rw
+ * @property string $desa_kelurahan
+ * @property string $kecamatan
+ * @property string $kabupaten_kota
+ * @property string $provinsi
+ * @property string $catatan
  * @property string $kode_pos
- * @property string $slug
- * @property unsignedBigInteger $order_id
+ * @property foreignId $order_id
  */
 class Shipment extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'shipments';
     
@@ -35,9 +40,15 @@ class Shipment extends Model
     public $fillable = [
         'nama_lengkap',
         'alamat',
-        'alamat_manual',
+        'no',
+        'rt',
+        'rw',
+        'desa_kelurahan',
+        'kecamatan',
+        'kabupaten_kota',
+        'provinsi',
+        'catatan',
         'kode_pos',
-        'slug',
         'order_id'
     ];
 
@@ -49,8 +60,14 @@ class Shipment extends Model
     protected $casts = [
         'nama_lengkap' => 'string',
         'alamat' => 'string',
-        'kode_pos' => 'string',
-        'slug' => 'string'
+        'no' => 'string',
+        'rt' => 'string',
+        'rw' => 'string',
+        'desa_kelurahan' => 'string',
+        'kecamatan' => 'string',
+        'kabupaten_kota' => 'string',
+        'provinsi' => 'string',
+        'kode_pos' => 'string'
     ];
 
     /**
@@ -61,9 +78,15 @@ class Shipment extends Model
     public static $rules = [
         'nama_lengkap' => 'required',
         'alamat' => 'required',
-        'alamat_manual' => 'nullable',
+        'no' => 'nullable',
+        'rt' => 'nullable',
+        'rw' => 'nullable',
+        'desa_kelurahan' => 'nullable',
+        'kecamatan' => 'nullable',
+        'kabupaten_kota' => 'nullable',
+        'provinsi' => 'nullable',
+        'catatan' => 'nullable',
         'kode_pos' => 'required',
-        'slug' => 'nullable',
         'order_id' => 'required'
     ];
 

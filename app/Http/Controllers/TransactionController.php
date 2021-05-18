@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
-use App\Repositories\TransactionRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class TransactionController extends AppBaseController
+class TransactionController extends Controller
 {
-    /** @var  TransactionRepository */
-    private $transactionRepository;
-
-    public function __construct(TransactionRepository $transactionRepo)
-    {
-        $this->transactionRepository = $transactionRepo;
-    }
-
     /**
      * Display a listing of the Transaction.
      *
@@ -29,7 +21,8 @@ class TransactionController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $transactions = $this->transactionRepository->all();
+        /** @var Transaction $transactions */
+        $transactions = Transaction::all();
 
         return view('admin.transactions.index')
             ->with('transactions', $transactions);
@@ -56,7 +49,8 @@ class TransactionController extends AppBaseController
     {
         $input = $request->all();
 
-        $transaction = $this->transactionRepository->create($input);
+        /** @var Transaction $transaction */
+        $transaction = Transaction::create($input);
 
         Flash::success('Transaction saved successfully.');
 
@@ -72,7 +66,8 @@ class TransactionController extends AppBaseController
      */
     public function show($id)
     {
-        $transaction = $this->transactionRepository->find($id);
+        /** @var Transaction $transaction */
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             Flash::error('Transaction not found');
@@ -92,7 +87,8 @@ class TransactionController extends AppBaseController
      */
     public function edit($id)
     {
-        $transaction = $this->transactionRepository->find($id);
+        /** @var Transaction $transaction */
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             Flash::error('Transaction not found');
@@ -113,7 +109,8 @@ class TransactionController extends AppBaseController
      */
     public function update($id, UpdateTransactionRequest $request)
     {
-        $transaction = $this->transactionRepository->find($id);
+        /** @var Transaction $transaction */
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             Flash::error('Transaction not found');
@@ -121,7 +118,8 @@ class TransactionController extends AppBaseController
             return redirect(route('admin.transactions.index'));
         }
 
-        $transaction = $this->transactionRepository->update($request->all(), $id);
+        $transaction->fill($request->all());
+        $transaction->save();
 
         Flash::success('Transaction updated successfully.');
 
@@ -139,7 +137,8 @@ class TransactionController extends AppBaseController
      */
     public function destroy($id)
     {
-        $transaction = $this->transactionRepository->find($id);
+        /** @var Transaction $transaction */
+        $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
             Flash::error('Transaction not found');
@@ -147,7 +146,7 @@ class TransactionController extends AppBaseController
             return redirect(route('admin.transactions.index'));
         }
 
-        $this->transactionRepository->delete($id);
+        $transaction->delete();
 
         Flash::success('Transaction deleted successfully.');
 

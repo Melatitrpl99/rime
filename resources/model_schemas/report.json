@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -38,20 +38,8 @@
     {
         "name": "is_import",
         "dbType": "boolean:nullable",
-        "htmlType": "checkbox:1",
+        "htmlType": "checkbox,1",
         "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "detail_laporan",
-        "dbType": "longtext",
-        "htmlType": "textarea",
-        "validations": "",
         "searchable": true,
         "fillable": true,
         "primary": false,

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
 use App\Models\Order;
-use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class OrderAPIController extends AppBaseController
+class OrderAPIController extends Controller
 {
-    /** @var  OrderRepository */
-    private $orderRepository;
-
-    public function __construct(OrderRepository $orderRepo)
-    {
-        $this->orderRepository = $orderRepo;
-    }
-
     /**
      * Display a listing of the Order.
      * GET|HEAD /orders
@@ -35,11 +26,16 @@ class OrderAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $orders = $this->orderRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = Order::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $orders = $query->get();
 
         return $this->sendResponse(OrderResource::collection($orders), 'Orders retrieved successfully');
     }
@@ -56,7 +52,8 @@ class OrderAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $order = $this->orderRepository->create($input);
+        /** @var Order $order */
+        $order = Order::create($input);
 
         return $this->sendResponse(new OrderResource($order), 'Order saved successfully');
     }
@@ -72,7 +69,7 @@ class OrderAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Order $order */
-        $order = $this->orderRepository->find($id);
+        $order = Order::find($id);
 
         if (empty($order)) {
             return $this->sendError('Order not found');
@@ -92,16 +89,15 @@ class OrderAPIController extends AppBaseController
      */
     public function update($id, UpdateOrderAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var Order $order */
-        $order = $this->orderRepository->find($id);
+        $order = Order::find($id);
 
         if (empty($order)) {
             return $this->sendError('Order not found');
         }
 
-        $order = $this->orderRepository->update($input, $id);
+        $order->fill($request->all());
+        $order->save();
 
         return $this->sendResponse(new OrderResource($order), 'Order updated successfully');
     }
@@ -119,7 +115,7 @@ class OrderAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Order $order */
-        $order = $this->orderRepository->find($id);
+        $order = Order::find($id);
 
         if (empty($order)) {
             return $this->sendError('Order not found');

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateCartDetailAPIRequest;
 use App\Http\Requests\API\UpdateCartDetailAPIRequest;
 use App\Models\CartDetail;
-use App\Repositories\CartDetailRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CartDetailResource;
 use Response;
 
@@ -16,16 +15,8 @@ use Response;
  * @package App\Http\Controllers\API
  */
 
-class CartDetailAPIController extends AppBaseController
+class CartDetailAPIController extends Controller
 {
-    /** @var  CartDetailRepository */
-    private $cartDetailRepository;
-
-    public function __construct(CartDetailRepository $cartDetailRepo)
-    {
-        $this->cartDetailRepository = $cartDetailRepo;
-    }
-
     /**
      * Display a listing of the CartDetail.
      * GET|HEAD /cartDetails
@@ -35,11 +26,16 @@ class CartDetailAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $cartDetails = $this->cartDetailRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $query = CartDetail::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $cartDetails = $query->get();
 
         return $this->sendResponse(CartDetailResource::collection($cartDetails), 'Cart Details retrieved successfully');
     }
@@ -56,7 +52,8 @@ class CartDetailAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $cartDetail = $this->cartDetailRepository->create($input);
+        /** @var CartDetail $cartDetail */
+        $cartDetail = CartDetail::create($input);
 
         return $this->sendResponse(new CartDetailResource($cartDetail), 'Cart Detail saved successfully');
     }
@@ -72,7 +69,7 @@ class CartDetailAPIController extends AppBaseController
     public function show($id)
     {
         /** @var CartDetail $cartDetail */
-        $cartDetail = $this->cartDetailRepository->find($id);
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             return $this->sendError('Cart Detail not found');
@@ -92,16 +89,15 @@ class CartDetailAPIController extends AppBaseController
      */
     public function update($id, UpdateCartDetailAPIRequest $request)
     {
-        $input = $request->all();
-
         /** @var CartDetail $cartDetail */
-        $cartDetail = $this->cartDetailRepository->find($id);
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             return $this->sendError('Cart Detail not found');
         }
 
-        $cartDetail = $this->cartDetailRepository->update($input, $id);
+        $cartDetail->fill($request->all());
+        $cartDetail->save();
 
         return $this->sendResponse(new CartDetailResource($cartDetail), 'CartDetail updated successfully');
     }
@@ -119,7 +115,7 @@ class CartDetailAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var CartDetail $cartDetail */
-        $cartDetail = $this->cartDetailRepository->find($id);
+        $cartDetail = CartDetail::find($id);
 
         if (empty($cartDetail)) {
             return $this->sendError('Cart Detail not found');

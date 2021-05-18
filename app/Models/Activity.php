@@ -2,26 +2,22 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Activity
  * @package App\Models
- * @version March 14, 2021, 12:05 am UTC
+ * @version May 18, 2021, 2:02 am UTC
  *
- * @property \App\Models\User $user
- * @property string $name
- * @property string $desc
- * @property nullableMorphs $loggable
- * @property unsignedBigInteger $user_id
+ * @property morphs $loggable
+ * @property string $log
  */
 class Activity extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'activities';
     
@@ -31,10 +27,8 @@ class Activity extends Model
 
 
     public $fillable = [
-        'name',
-        'desc',
         'loggable',
-        'user_id'
+        'log'
     ];
 
     /**
@@ -43,8 +37,7 @@ class Activity extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string',
-        'desc' => 'string'
+        
     ];
 
     /**
@@ -53,16 +46,8 @@ class Activity extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
-        'desc' => 'nullable',
-        'user_id' => 'required'
+        
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function user()
-    {
-        return $this->belongsTo(\App\Models\User::class);
-    }
+    
 }

@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Repositories\CategoryRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class CategoryController extends AppBaseController
+class CategoryController extends Controller
 {
-    /** @var  CategoryRepository */
-    private $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepo)
-    {
-        $this->categoryRepository = $categoryRepo;
-    }
-
     /**
      * Display a listing of the Category.
      *
@@ -29,7 +21,8 @@ class CategoryController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $categories = $this->categoryRepository->all();
+        /** @var Category $categories */
+        $categories = Category::all();
 
         return view('admin.categories.index')
             ->with('categories', $categories);
@@ -56,7 +49,8 @@ class CategoryController extends AppBaseController
     {
         $input = $request->all();
 
-        $category = $this->categoryRepository->create($input);
+        /** @var Category $category */
+        $category = Category::create($input);
 
         Flash::success('Category saved successfully.');
 
@@ -72,7 +66,8 @@ class CategoryController extends AppBaseController
      */
     public function show($id)
     {
-        $category = $this->categoryRepository->find($id);
+        /** @var Category $category */
+        $category = Category::find($id);
 
         if (empty($category)) {
             Flash::error('Category not found');
@@ -92,7 +87,8 @@ class CategoryController extends AppBaseController
      */
     public function edit($id)
     {
-        $category = $this->categoryRepository->find($id);
+        /** @var Category $category */
+        $category = Category::find($id);
 
         if (empty($category)) {
             Flash::error('Category not found');
@@ -113,7 +109,8 @@ class CategoryController extends AppBaseController
      */
     public function update($id, UpdateCategoryRequest $request)
     {
-        $category = $this->categoryRepository->find($id);
+        /** @var Category $category */
+        $category = Category::find($id);
 
         if (empty($category)) {
             Flash::error('Category not found');
@@ -121,7 +118,8 @@ class CategoryController extends AppBaseController
             return redirect(route('admin.categories.index'));
         }
 
-        $category = $this->categoryRepository->update($request->all(), $id);
+        $category->fill($request->all());
+        $category->save();
 
         Flash::success('Category updated successfully.');
 
@@ -139,7 +137,8 @@ class CategoryController extends AppBaseController
      */
     public function destroy($id)
     {
-        $category = $this->categoryRepository->find($id);
+        /** @var Category $category */
+        $category = Category::find($id);
 
         if (empty($category)) {
             Flash::error('Category not found');
@@ -147,7 +146,7 @@ class CategoryController extends AppBaseController
             return redirect(route('admin.categories.index'));
         }
 
-        $this->categoryRepository->delete($id);
+        $category->delete();
 
         Flash::success('Category deleted successfully.');
 

@@ -2,40 +2,37 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Transaction
  * @package App\Models
- * @version March 14, 2021, 12:21 am UTC
+ * @version May 18, 2021, 2:11 am UTC
  *
  * @property \App\Models\User $user
- * @property \Illuminate\Database\Eloquent\Collection $transactionDetails
- * @property string $nomor_transaksi
+ * @property \Illuminate\Database\Eloquent\Collection $products
+ * @property string $nomor
  * @property integer $total
- * @property unsignedBigInteger $user_id
- * @property string $slug
+ * @property foreignId $user_id
  */
 class Transaction extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
 
     public $table = 'transactions';
-
+    
 
     protected $dates = ['deleted_at'];
 
 
 
     public $fillable = [
-        'nomor_transaksi',
+        'nomor',
         'total',
-        'user_id',
-        'slug'
+        'user_id'
     ];
 
     /**
@@ -44,9 +41,8 @@ class Transaction extends Model
      * @var array
      */
     protected $casts = [
-        'nomor_transaksi' => 'string',
-        'total' => 'integer',
-        'slug' => 'string'
+        'nomor' => 'string',
+        'total' => 'integer'
     ];
 
     /**
@@ -55,10 +51,9 @@ class Transaction extends Model
      * @var array
      */
     public static $rules = [
-        'nomor_transaksi' => 'required',
+        'nomor' => 'required|max:16',
         'total' => 'required|integer',
-        'user_id' => 'required',
-        'slug' => 'nullable'
+        'user_id' => 'required'
     ];
 
     /**
@@ -70,10 +65,10 @@ class Transaction extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
-    public function transactionDetails()
+    public function products()
     {
-        return $this->hasMany(\App\Models\TransactionDetail::class);
+        return $this->belongsToMany(\App\Models\Product::class, 'transaction_details');
     }
 }

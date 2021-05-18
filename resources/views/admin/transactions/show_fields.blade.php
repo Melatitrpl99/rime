@@ -1,7 +1,7 @@
-<!-- Nomor Transaksi Field -->
+<!-- Nomor Field -->
 <div class="col-sm-12">
-    {!! Form::label('nomor_transaksi', 'Nomor Transaksi:') !!}
-    <p>{{ $transaction->nomor_transaksi }}</p>
+    {!! Form::label('nomor', 'Nomor:') !!}
+    <p>{{ $transaction->nomor }}</p>
 </div>
 
 <!-- Total Field -->
@@ -14,12 +14,6 @@
 <div class="col-sm-12">
     {!! Form::label('user_id', 'User Id:') !!}
     <p>{{ $transaction->user_id }}</p>
-</div>
-
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $transaction->slug }}</p>
 </div>
 
 <!-- Created At Field -->

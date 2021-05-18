@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,35 +12,10 @@
         "inView": false
     },
     {
-        "name": "tanggal",
-        "dbType": "timestamp",
-        "htmlType": "date",
-        "validations": null,
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "nomor",
-        "dbType": "integer",
-        "htmlType": "number",
-        "validations": null,
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-
-    {
-        "name": "kategori",
         "dbType": "string",
-        "htmlType": "text",
-        "validations": null,
+        "htmlType": "number",
+        "validations": "required|max:16",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -61,9 +36,9 @@
         "inView": true
     },
     {
-        "name": "jumlah_barang",
-        "dbType": "integer",
-        "htmlType": "number",
+        "name": "tanggal",
+        "dbType": "timestamp",
+        "htmlType": "date",
         "validations": null,
         "searchable": true,
         "fillable": true,
@@ -73,9 +48,9 @@
         "inView": true
     },
     {
-        "name": "total",
-        "dbType": "integer",
-        "htmlType": "number",
+        "name": "kategori",
+        "dbType": "string",
+        "htmlType": "text",
         "validations": null,
         "searchable": true,
         "fillable": true,
@@ -84,9 +59,8 @@
         "inIndex": true,
         "inView": true
     },
-
     {
-        "name": "biaya_tambahan",
+        "name": "qty",
         "dbType": "integer",
         "htmlType": "number",
         "validations": null,
@@ -132,5 +106,9 @@
         "inForm": false,
         "inIndex": false,
         "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,SpendingDetail"
     }
 ]

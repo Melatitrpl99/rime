@@ -1,25 +1,13 @@
-<!-- Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $activity->name }}</p>
-</div>
-
-<!-- Desc Field -->
-<div class="col-sm-12">
-    {!! Form::label('desc', 'Desc:') !!}
-    <p>{{ $activity->desc }}</p>
-</div>
-
 <!-- Loggable Field -->
 <div class="col-sm-12">
     {!! Form::label('loggable', 'Loggable:') !!}
     <p>{{ $activity->loggable }}</p>
 </div>
 
-<!-- User Id Field -->
+<!-- Log Field -->
 <div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $activity->user_id }}</p>
+    {!! Form::label('log', 'Log:') !!}
+    <p>{{ $activity->log }}</p>
 </div>
 
 <!-- Created At Field -->

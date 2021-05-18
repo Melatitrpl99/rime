@@ -2,9 +2,7 @@
     <table class="table" id="discountDetails-table">
         <thead>
             <tr>
-                <th>Discount Id</th>
-        <th>Product Id</th>
-        <th>Diskon Harga</th>
+                <th>Diskon Harga</th>
         <th>Minimal Produk</th>
         <th>Maksimal Produk</th>
                 <th colspan="3">Action</th>
@@ -13,9 +11,7 @@
         <tbody>
         @foreach($discountDetails as $discountDetail)
             <tr>
-                <td>{{ $discountDetail->discount_id }}</td>
-            <td>{{ $discountDetail->product_id }}</td>
-            <td>{{ $discountDetail->diskon_harga }}</td>
+                <td>{{ $discountDetail->diskon_harga }}</td>
             <td>{{ $discountDetail->minimal_produk }}</td>
             <td>{{ $discountDetail->maksimal_produk }}</td>
                 <td width="120">

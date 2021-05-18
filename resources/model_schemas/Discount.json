@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -37,9 +37,9 @@
     },
     {
         "name": "kode",
-        "dbType": "string",
+        "dbType": "string:unique",
         "htmlType": "text",
-        "validations": "required",
+        "validations": "required|unique",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -62,7 +62,7 @@
     {
         "name": "diskon_kategori",
         "dbType": "enum,customer,reseller",
-        "htmlType": "radio:customer,reseller",
+        "htmlType": "radio,customer:Customer,reseller:Reseller",
         "validations": "required",
         "searchable": true,
         "fillable": true,
@@ -80,7 +80,7 @@
         "fillable": true,
         "primary": false,
         "inForm": false,
-        "inIndex": true,
+        "inIndex": false,
         "inView": true
     },
     {
@@ -109,6 +109,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,DiscountDetail"
+        "relation": "mtm,Product,discount_details"
     }
 ]

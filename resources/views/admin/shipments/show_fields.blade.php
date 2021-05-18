@@ -10,22 +10,58 @@
     <p>{{ $shipment->alamat }}</p>
 </div>
 
-<!-- Alamat Manual Field -->
+<!-- No Field -->
 <div class="col-sm-12">
-    {!! Form::label('alamat_manual', 'Alamat Manual:') !!}
-    <p>{{ $shipment->alamat_manual }}</p>
+    {!! Form::label('no', 'No:') !!}
+    <p>{{ $shipment->no }}</p>
+</div>
+
+<!-- Rt Field -->
+<div class="col-sm-12">
+    {!! Form::label('rt', 'Rt:') !!}
+    <p>{{ $shipment->rt }}</p>
+</div>
+
+<!-- Rw Field -->
+<div class="col-sm-12">
+    {!! Form::label('rw', 'Rw:') !!}
+    <p>{{ $shipment->rw }}</p>
+</div>
+
+<!-- Desa Kelurahan Field -->
+<div class="col-sm-12">
+    {!! Form::label('desa_kelurahan', 'Desa Kelurahan:') !!}
+    <p>{{ $shipment->desa_kelurahan }}</p>
+</div>
+
+<!-- Kecamatan Field -->
+<div class="col-sm-12">
+    {!! Form::label('kecamatan', 'Kecamatan:') !!}
+    <p>{{ $shipment->kecamatan }}</p>
+</div>
+
+<!-- Kabupaten Kota Field -->
+<div class="col-sm-12">
+    {!! Form::label('kabupaten_kota', 'Kabupaten Kota:') !!}
+    <p>{{ $shipment->kabupaten_kota }}</p>
+</div>
+
+<!-- Provinsi Field -->
+<div class="col-sm-12">
+    {!! Form::label('provinsi', 'Provinsi:') !!}
+    <p>{{ $shipment->provinsi }}</p>
+</div>
+
+<!-- Catatan Field -->
+<div class="col-sm-12">
+    {!! Form::label('catatan', 'Catatan:') !!}
+    <p>{{ $shipment->catatan }}</p>
 </div>
 
 <!-- Kode Pos Field -->
 <div class="col-sm-12">
     {!! Form::label('kode_pos', 'Kode Pos:') !!}
     <p>{{ $shipment->kode_pos }}</p>
-</div>
-
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $shipment->slug }}</p>
 </div>
 
 <!-- Order Id Field -->

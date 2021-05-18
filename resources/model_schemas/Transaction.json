@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,10 +12,10 @@
         "inView": false
     },
     {
-        "name": "nomor_transaksi",
-        "dbType": "string",
+        "name": "nomor",
+        "dbType": "string:unique",
         "htmlType": "text",
-        "validations": "required",
+        "validations": "required|max:16",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -27,7 +27,7 @@
         "name": "total",
         "dbType": "integer",
         "htmlType": "number",
-        "validations": "required|number",
+        "validations": "required|integer",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -37,7 +37,7 @@
     },
     {
         "name": "user_id",
-        "dbType": "unsignedBigInteger:foreign,users,id",
+        "dbType": "foreignId:constrained",
         "htmlType": "selectTable:users:name,id",
         "validations": "required",
         "searchable": false,
@@ -47,18 +47,6 @@
         "inIndex": true,
         "inView": true,
         "relation": "mt1,User"
-    },
-    {
-        "name": "slug",
-        "dbType": "string:nullable",
-        "htmlType": null,
-        "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": false,
-        "inIndex": true,
-        "inView": true
     },
     {
         "name": "created_at",
@@ -86,6 +74,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,TransactionDetail"
+        "relation": "mtm,Product,transaction_details"
     }
 ]

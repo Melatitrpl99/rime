@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "bigIncrements",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -12,22 +12,10 @@
         "inView": false
     },
     {
-        "name": "nomor_order",
-        "dbType": "string",
+        "name": "nomor",
+        "dbType": "string:unique",
         "htmlType": "text",
-        "validations": "required",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "status_order",
-        "dbType": "integer",
-        "htmlType": "number",
-        "validations": "required",
+        "validations": "required|max:16",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -60,20 +48,20 @@
         "inView": true
     },
     {
-        "name": "slug",
-        "dbType": "string:nullable",
-        "htmlType": null,
-        "validations": "nullable",
+        "name": "status_id",
+        "dbType": "integer",
+        "htmlType": "number",
+        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
-        "inForm": false,
+        "inForm": true,
         "inIndex": true,
         "inView": true
     },
     {
         "name": "user_id",
-        "dbType": "unsignedBigInteger:foreign,users,id",
+        "dbType": "foreignId:constrained",
         "htmlType": "selectTable:users:name,id",
         "validations": "required",
         "searchable": false,
@@ -114,6 +102,10 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,TransactionDetail"
+        "relation": "mtm,Product,order_details"
+    },
+    {
+        "type": "relation",
+        "relation": "mtm,Transaction,transaction_details"
     }
 ]

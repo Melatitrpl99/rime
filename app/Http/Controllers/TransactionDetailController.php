@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTransactionDetailRequest;
 use App\Http\Requests\UpdateTransactionDetailRequest;
-use App\Repositories\TransactionDetailRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class TransactionDetailController extends AppBaseController
+class TransactionDetailController extends Controller
 {
-    /** @var  TransactionDetailRepository */
-    private $transactionDetailRepository;
-
-    public function __construct(TransactionDetailRepository $transactionDetailRepo)
-    {
-        $this->transactionDetailRepository = $transactionDetailRepo;
-    }
-
     /**
      * Display a listing of the TransactionDetail.
      *
@@ -29,7 +21,8 @@ class TransactionDetailController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $transactionDetails = $this->transactionDetailRepository->all();
+        /** @var TransactionDetail $transactionDetails */
+        $transactionDetails = TransactionDetail::all();
 
         return view('admin.transaction_details.index')
             ->with('transactionDetails', $transactionDetails);
@@ -56,7 +49,8 @@ class TransactionDetailController extends AppBaseController
     {
         $input = $request->all();
 
-        $transactionDetail = $this->transactionDetailRepository->create($input);
+        /** @var TransactionDetail $transactionDetail */
+        $transactionDetail = TransactionDetail::create($input);
 
         Flash::success('Transaction Detail saved successfully.');
 
@@ -72,7 +66,8 @@ class TransactionDetailController extends AppBaseController
      */
     public function show($id)
     {
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        /** @var TransactionDetail $transactionDetail */
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
@@ -92,7 +87,8 @@ class TransactionDetailController extends AppBaseController
      */
     public function edit($id)
     {
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        /** @var TransactionDetail $transactionDetail */
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
@@ -113,7 +109,8 @@ class TransactionDetailController extends AppBaseController
      */
     public function update($id, UpdateTransactionDetailRequest $request)
     {
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        /** @var TransactionDetail $transactionDetail */
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
@@ -121,7 +118,8 @@ class TransactionDetailController extends AppBaseController
             return redirect(route('admin.transactionDetails.index'));
         }
 
-        $transactionDetail = $this->transactionDetailRepository->update($request->all(), $id);
+        $transactionDetail->fill($request->all());
+        $transactionDetail->save();
 
         Flash::success('Transaction Detail updated successfully.');
 
@@ -139,7 +137,8 @@ class TransactionDetailController extends AppBaseController
      */
     public function destroy($id)
     {
-        $transactionDetail = $this->transactionDetailRepository->find($id);
+        /** @var TransactionDetail $transactionDetail */
+        $transactionDetail = TransactionDetail::find($id);
 
         if (empty($transactionDetail)) {
             Flash::error('Transaction Detail not found');
@@ -147,7 +146,7 @@ class TransactionDetailController extends AppBaseController
             return redirect(route('admin.transactionDetails.index'));
         }
 
-        $this->transactionDetailRepository->delete($id);
+        $transactionDetail->delete();
 
         Flash::success('Transaction Detail deleted successfully.');
 

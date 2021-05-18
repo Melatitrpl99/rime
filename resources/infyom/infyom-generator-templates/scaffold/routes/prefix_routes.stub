@@ -1,0 +1,4 @@
+Route::group(['prefix' => '$RAW_ROUTE_PREFIX$', 'as' => '$RAW_ROUTE_PREFIX$.'], function () {
+    Route::resource('$MODEL_NAME_PLURAL_SNAKE$', $NAMESPACE_CONTROLLER$\$PATH_PREFIX$$MODEL_NAME$Controller::class)
+        ->names('$MODEL_NAME_PLURAL_CAMEL$');
+});

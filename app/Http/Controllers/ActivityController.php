@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
-use App\Repositories\ActivityRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class ActivityController extends AppBaseController
+class ActivityController extends Controller
 {
-    /** @var  ActivityRepository */
-    private $activityRepository;
-
-    public function __construct(ActivityRepository $activityRepo)
-    {
-        $this->activityRepository = $activityRepo;
-    }
-
     /**
      * Display a listing of the Activity.
      *
@@ -29,7 +21,8 @@ class ActivityController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $activities = $this->activityRepository->all();
+        /** @var Activity $activities */
+        $activities = Activity::all();
 
         return view('admin.activities.index')
             ->with('activities', $activities);
@@ -56,7 +49,8 @@ class ActivityController extends AppBaseController
     {
         $input = $request->all();
 
-        $activity = $this->activityRepository->create($input);
+        /** @var Activity $activity */
+        $activity = Activity::create($input);
 
         Flash::success('Activity saved successfully.');
 
@@ -72,7 +66,8 @@ class ActivityController extends AppBaseController
      */
     public function show($id)
     {
-        $activity = $this->activityRepository->find($id);
+        /** @var Activity $activity */
+        $activity = Activity::find($id);
 
         if (empty($activity)) {
             Flash::error('Activity not found');
@@ -92,7 +87,8 @@ class ActivityController extends AppBaseController
      */
     public function edit($id)
     {
-        $activity = $this->activityRepository->find($id);
+        /** @var Activity $activity */
+        $activity = Activity::find($id);
 
         if (empty($activity)) {
             Flash::error('Activity not found');
@@ -113,7 +109,8 @@ class ActivityController extends AppBaseController
      */
     public function update($id, UpdateActivityRequest $request)
     {
-        $activity = $this->activityRepository->find($id);
+        /** @var Activity $activity */
+        $activity = Activity::find($id);
 
         if (empty($activity)) {
             Flash::error('Activity not found');
@@ -121,7 +118,8 @@ class ActivityController extends AppBaseController
             return redirect(route('admin.activities.index'));
         }
 
-        $activity = $this->activityRepository->update($request->all(), $id);
+        $activity->fill($request->all());
+        $activity->save();
 
         Flash::success('Activity updated successfully.');
 
@@ -139,7 +137,8 @@ class ActivityController extends AppBaseController
      */
     public function destroy($id)
     {
-        $activity = $this->activityRepository->find($id);
+        /** @var Activity $activity */
+        $activity = Activity::find($id);
 
         if (empty($activity)) {
             Flash::error('Activity not found');
@@ -147,7 +146,7 @@ class ActivityController extends AppBaseController
             return redirect(route('admin.activities.index'));
         }
 
-        $this->activityRepository->delete($id);
+        $activity->delete();
 
         Flash::success('Activity deleted successfully.');
 

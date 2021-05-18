@@ -4,7 +4,6 @@
             <tr>
                 <th>Judul</th>
         <th>Deskripsi</th>
-        <th>Slug</th>
         <th>User Id</th>
                 <th colspan="3">Action</th>
             </tr>
@@ -14,7 +13,6 @@
             <tr>
                 <td>{{ $cart->judul }}</td>
             <td>{{ $cart->deskripsi }}</td>
-            <td>{{ $cart->slug }}</td>
             <td>{{ $cart->user_id }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.carts.destroy', $cart->id], 'method' => 'delete']) !!}

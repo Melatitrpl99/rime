@@ -9,7 +9,6 @@
         <th>Alamat</th>
         <th>Nomor Hp</th>
         <th>Email</th>
-        <th>Slug</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -23,7 +22,6 @@
             <td>{{ $event->alamat }}</td>
             <td>{{ $event->nomor_hp }}</td>
             <td>{{ $event->email }}</td>
-            <td>{{ $event->slug }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.events.destroy', $event->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

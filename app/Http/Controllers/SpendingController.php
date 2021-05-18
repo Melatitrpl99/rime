@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSpendingRequest;
 use App\Http\Requests\UpdateSpendingRequest;
-use App\Repositories\SpendingRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\Spending;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class SpendingController extends AppBaseController
+class SpendingController extends Controller
 {
-    /** @var  SpendingRepository */
-    private $spendingRepository;
-
-    public function __construct(SpendingRepository $spendingRepo)
-    {
-        $this->spendingRepository = $spendingRepo;
-    }
-
     /**
      * Display a listing of the Spending.
      *
@@ -29,7 +21,8 @@ class SpendingController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $spendings = $this->spendingRepository->all();
+        /** @var Spending $spendings */
+        $spendings = Spending::all();
 
         return view('admin.spendings.index')
             ->with('spendings', $spendings);
@@ -56,7 +49,8 @@ class SpendingController extends AppBaseController
     {
         $input = $request->all();
 
-        $spending = $this->spendingRepository->create($input);
+        /** @var Spending $spending */
+        $spending = Spending::create($input);
 
         Flash::success('Spending saved successfully.');
 
@@ -72,7 +66,8 @@ class SpendingController extends AppBaseController
      */
     public function show($id)
     {
-        $spending = $this->spendingRepository->find($id);
+        /** @var Spending $spending */
+        $spending = Spending::find($id);
 
         if (empty($spending)) {
             Flash::error('Spending not found');
@@ -92,7 +87,8 @@ class SpendingController extends AppBaseController
      */
     public function edit($id)
     {
-        $spending = $this->spendingRepository->find($id);
+        /** @var Spending $spending */
+        $spending = Spending::find($id);
 
         if (empty($spending)) {
             Flash::error('Spending not found');
@@ -113,7 +109,8 @@ class SpendingController extends AppBaseController
      */
     public function update($id, UpdateSpendingRequest $request)
     {
-        $spending = $this->spendingRepository->find($id);
+        /** @var Spending $spending */
+        $spending = Spending::find($id);
 
         if (empty($spending)) {
             Flash::error('Spending not found');
@@ -121,7 +118,8 @@ class SpendingController extends AppBaseController
             return redirect(route('admin.spendings.index'));
         }
 
-        $spending = $this->spendingRepository->update($request->all(), $id);
+        $spending->fill($request->all());
+        $spending->save();
 
         Flash::success('Spending updated successfully.');
 
@@ -139,7 +137,8 @@ class SpendingController extends AppBaseController
      */
     public function destroy($id)
     {
-        $spending = $this->spendingRepository->find($id);
+        /** @var Spending $spending */
+        $spending = Spending::find($id);
 
         if (empty($spending)) {
             Flash::error('Spending not found');
@@ -147,7 +146,7 @@ class SpendingController extends AppBaseController
             return redirect(route('admin.spendings.index'));
         }
 
-        $this->spendingRepository->delete($id);
+        $spending->delete();
 
         Flash::success('Spending deleted successfully.');
 

@@ -1,13 +1,7 @@
-<!-- Nomor Order Field -->
+<!-- Nomor Field -->
 <div class="col-sm-12">
-    {!! Form::label('nomor_order', 'Nomor Order:') !!}
-    <p>{{ $order->nomor_order }}</p>
-</div>
-
-<!-- Status Order Field -->
-<div class="col-sm-12">
-    {!! Form::label('status_order', 'Status Order:') !!}
-    <p>{{ $order->status_order }}</p>
+    {!! Form::label('nomor', 'Nomor:') !!}
+    <p>{{ $order->nomor }}</p>
 </div>
 
 <!-- Pesan Field -->
@@ -22,10 +16,10 @@
     <p>{{ $order->kode_diskon }}</p>
 </div>
 
-<!-- Slug Field -->
+<!-- Status Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $order->slug }}</p>
+    {!! Form::label('status_id', 'Status Id:') !!}
+    <p>{{ $order->status_id }}</p>
 </div>
 
 <!-- User Id Field -->

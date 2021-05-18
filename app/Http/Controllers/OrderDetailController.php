@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateOrderDetailRequest;
 use App\Http\Requests\UpdateOrderDetailRequest;
-use App\Repositories\OrderDetailRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class OrderDetailController extends AppBaseController
+class OrderDetailController extends Controller
 {
-    /** @var  OrderDetailRepository */
-    private $orderDetailRepository;
-
-    public function __construct(OrderDetailRepository $orderDetailRepo)
-    {
-        $this->orderDetailRepository = $orderDetailRepo;
-    }
-
     /**
      * Display a listing of the OrderDetail.
      *
@@ -29,7 +21,8 @@ class OrderDetailController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $orderDetails = $this->orderDetailRepository->all();
+        /** @var OrderDetail $orderDetails */
+        $orderDetails = OrderDetail::all();
 
         return view('admin.order_details.index')
             ->with('orderDetails', $orderDetails);
@@ -56,7 +49,8 @@ class OrderDetailController extends AppBaseController
     {
         $input = $request->all();
 
-        $orderDetail = $this->orderDetailRepository->create($input);
+        /** @var OrderDetail $orderDetail */
+        $orderDetail = OrderDetail::create($input);
 
         Flash::success('Order Detail saved successfully.');
 
@@ -72,7 +66,8 @@ class OrderDetailController extends AppBaseController
      */
     public function show($id)
     {
-        $orderDetail = $this->orderDetailRepository->find($id);
+        /** @var OrderDetail $orderDetail */
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
@@ -92,7 +87,8 @@ class OrderDetailController extends AppBaseController
      */
     public function edit($id)
     {
-        $orderDetail = $this->orderDetailRepository->find($id);
+        /** @var OrderDetail $orderDetail */
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
@@ -113,7 +109,8 @@ class OrderDetailController extends AppBaseController
      */
     public function update($id, UpdateOrderDetailRequest $request)
     {
-        $orderDetail = $this->orderDetailRepository->find($id);
+        /** @var OrderDetail $orderDetail */
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
@@ -121,7 +118,8 @@ class OrderDetailController extends AppBaseController
             return redirect(route('admin.orderDetails.index'));
         }
 
-        $orderDetail = $this->orderDetailRepository->update($request->all(), $id);
+        $orderDetail->fill($request->all());
+        $orderDetail->save();
 
         Flash::success('Order Detail updated successfully.');
 
@@ -139,7 +137,8 @@ class OrderDetailController extends AppBaseController
      */
     public function destroy($id)
     {
-        $orderDetail = $this->orderDetailRepository->find($id);
+        /** @var OrderDetail $orderDetail */
+        $orderDetail = OrderDetail::find($id);
 
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
@@ -147,7 +146,7 @@ class OrderDetailController extends AppBaseController
             return redirect(route('admin.orderDetails.index'));
         }
 
-        $this->orderDetailRepository->delete($id);
+        $orderDetail->delete();
 
         Flash::success('Order Detail deleted successfully.');
 
