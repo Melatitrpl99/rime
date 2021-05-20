@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;;
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 use Hash;
 use App\Models\User;
-class UserController extends AppBaseController
+class UserController extends Controller
 {
     /**
      * Display a listing of the User.

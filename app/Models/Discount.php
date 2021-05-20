@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
  * Class Discount
  * @package App\Models
@@ -23,13 +22,9 @@ class Discount extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'discounts';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'judul',
@@ -73,6 +68,7 @@ class Discount extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'discount_details');
+        return $this->belongsToMany(\App\Models\Product::class, 'discount_details')
+            ->withPivot(['diskon_harga', 'minimal_produk', 'maksimal_produk']);
     }
 }

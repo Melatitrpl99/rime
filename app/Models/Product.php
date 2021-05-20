@@ -31,13 +31,9 @@ class Product extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'products';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'nama',
@@ -96,7 +92,8 @@ class Product extends Model
      **/
     public function carts()
     {
-        return $this->belongsToMany(\App\Models\Cart::class, 'cart_details');
+        return $this->belongsToMany(\App\Models\Cart::class, 'cart_details')
+            ->withPivot(['jumlah', 'subtotal']);
     }
 
     /**
@@ -104,7 +101,8 @@ class Product extends Model
      **/
     public function orders()
     {
-        return $this->belongsToMany(\App\Models\Order::class, 'order_details');
+        return $this->belongsToMany(\App\Models\Order::class, 'order_details')
+            ->withPivot(['jumlah', 'subtotal']);
     }
 
     /**
@@ -112,7 +110,8 @@ class Product extends Model
      **/
     public function discounts()
     {
-        return $this->belongsToMany(\App\Models\Discount::class, 'discount_details');
+        return $this->belongsToMany(\App\Models\Discount::class, 'discount_details')
+            ->withPivot(['diskon_harga', 'minimal_produk', 'maksimal_produk']);
     }
 
     /**

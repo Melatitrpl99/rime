@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,16 +19,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/produk', function () {
-//     return view('produk.index');
-// });
-
-// Route::get('/penjualan', function () {
-//     return view('penjualan.index');
-// });
-
 
 Route::get('/laporan', function () {
     return view('laporan.index');
@@ -48,7 +39,6 @@ Route::get('/pengeluaran', function () {
 //     return view('ussers.index');
 // });
 // Auth::routes();
-
 
 
 Route::get('/dashboard', function () {

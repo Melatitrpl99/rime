@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
  * Class Transaction
  * @package App\Models
@@ -21,13 +20,9 @@ class Transaction extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'transactions';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'nomor',

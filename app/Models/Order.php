@@ -25,13 +25,9 @@ class Order extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'orders';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'nomor',
@@ -87,7 +83,8 @@ class Order extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'order_details');
+        return $this->belongsToMany(\App\Models\Product::class, 'order_details')
+            ->withPivot(['jumlah', 'subtotal']);
     }
 
     /**

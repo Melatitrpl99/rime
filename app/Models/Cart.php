@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
  * Class Cart
  * @package App\Models
@@ -22,13 +21,9 @@ class Cart extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'carts';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'judul',
@@ -73,6 +68,7 @@ class Cart extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'cart_details');
+        return $this->belongsToMany(\App\Models\Product::class, 'cart_details')
+            ->withPivot(['jumlah', 'subtotal']);
     }
 }

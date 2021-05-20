@@ -19,13 +19,11 @@ class Status extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'statuses';
-    
 
     protected $dates = ['deleted_at'];
 
-
+    public $timestamps = false;
 
     public $fillable = [
         'id',
@@ -54,6 +52,4 @@ class Status extends Model
         'name' => 'required',
         'desc' => 'nullable'
     ];
-
-    
 }
