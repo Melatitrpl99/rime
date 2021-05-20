@@ -19,6 +19,7 @@ class CreateStatusesTable extends Migration
             $table->string('name');
             $table->text('desc')->nullable();
             $table->softDeletes();
+            $table->primary('id');
         });
     }
 
