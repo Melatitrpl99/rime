@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers;
+
 use App\Models\PostCategory;
 use App\Models\Transaction;
 use App\Models\Order;
@@ -8,6 +9,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Discount;
 use App\Models\Category;
+use App\Models\Status;
 use App\Models\User;
 
 use Illuminate\Support\ServiceProvider;
@@ -171,6 +173,10 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(['admin.activities.fields'], function ($view) {
             $userItems = User::pluck('name','id')->toArray();
             $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.orders.fields'], function ($view) {
+            $statusItems = Status::pluck('name','id')->toArray();
+            $view->with('statusItems', $statusItems);
         });
         //
     }
