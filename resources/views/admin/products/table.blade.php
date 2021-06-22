@@ -3,15 +3,10 @@
         <thead>
             <tr>
                 <th>Nama</th>
-        <th>Deskripsi</th>
-        <th>Harga Customer</th>
-        <th>Harga Reseller</th>
-        <th>Resellser Minimum</th>
-        <th>Warna</th>
-        <th>Size</th>
-        <th>Dimensi</th>
-        <th>Slug</th>
-        <th>Category Id</th>
+                <th>Kategori</th>
+                <th>Harga Customer / Reseller</th>
+                <th>Warna</th>
+                <th>Size / Dimensi</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -19,15 +14,22 @@
         @foreach($products as $product)
             <tr>
                 <td>{{ $product->nama }}</td>
-            <td>{{ $product->deskripsi }}</td>
-            <td>{{ $product->harga_customer }}</td>
-            <td>{{ $product->harga_reseller }}</td>
-            <td>{{ $product->resellser_minimum }}</td>
-            <td>{{ $product->warna }}</td>
-            <td>{{ $product->size }}</td>
-            <td>{{ $product->dimensi }}</td>
-            <td>{{ $product->slug }}</td>
-            <td>{{ $product->category_id }}</td>
+                <td>{{ $product->category->nama ?? '' }}</td>
+                <td>{{ $product->harga_customer }} / {{ $product->harga_reseller }}</td>
+                <td>
+                    @foreach ($product->productStocks as $stock)
+                        <span class="badge badge-secondary mr-1">{{ $stock->warna }}</span>
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($product->productStocks as $stock)
+                        {{ $stock->size->unique ?? '' }}
+                    @endforeach
+                    /
+                    @foreach ($product->productStocks as $stock)
+                        {{ $stock->dimensi->unique ?? '' }}
+                    @endforeach
+                </td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.products.destroy', $product->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -28,26 +28,8 @@
     {!! Form::number('resellser_minimum', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Warna Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('warna', 'Warna:') !!}
-    {!! Form::text('warna', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Size Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('size', 'Size:') !!}
-    {!! Form::text('size', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Dimensi Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('dimensi', 'Dimensi:') !!}
-    {!! Form::text('dimensi', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Category Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('category_id', 'Category Id:') !!}
+    {!! Form::label('category_id', 'Category:') !!}
     {!! Form::select('category_id', $categoryItems, null, ['class' => 'form-control custom-select']) !!}
 </div>

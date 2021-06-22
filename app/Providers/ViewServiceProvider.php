@@ -178,6 +178,10 @@ class ViewServiceProvider extends ServiceProvider
             $statusItems = Status::pluck('name','id')->toArray();
             $view->with('statusItems', $statusItems);
         });
+        View::composer(['admin.orders.fields'], function ($view) {
+            $productItems = Product::all()->pluck('produk_pelanggan', 'id')->toArray();
+            $view->with('productItems', $productItems);
+        });
         //
     }
 }

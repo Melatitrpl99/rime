@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Misc\ExcelController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,9 +42,10 @@ Route::get('/pengeluaran', function () {
 // Auth::routes();
 
 
-Route::get('/dashboard', function () {
-	return view ('dashboard.index');
-})->name('dashboard');
+Route::redirect('/', 'login');
+
+Route::view('upload', 'upload')->name('upload');
+Route::post('import', [ExcelController::class, 'import'])->name('import');
 
 Route::group(['middleware' => 'auth'], function () {
 

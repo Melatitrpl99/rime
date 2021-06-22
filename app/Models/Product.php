@@ -41,9 +41,6 @@ class Product extends Model
         'harga_customer',
         'harga_reseller',
         'resellser_minimum',
-        'warna',
-        'size',
-        'dimensi',
         'slug',
         'category_id'
     ];
@@ -120,5 +117,15 @@ class Product extends Model
     public function productStocks()
     {
         return $this->hasMany(\App\Models\ProductStock::class);
+    }
+
+    public function getProdukPelangganAttribute()
+    {
+        return $this->nama . ' - Rp. ' . number_format($this->harga_customer, 0, ',', '.');
+    }
+
+    public function getProdukResellerAttribute()
+    {
+        return "{$this->nama} - {$this->harga_reseller}";
     }
 }
