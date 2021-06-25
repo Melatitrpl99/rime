@@ -18,7 +18,7 @@ class TransactionResource extends JsonResource
             'id' => $this->id,
             'nomor' => $this->nomor,
             'total' => $this->total,
-            'user_id' => $this->user_id,
+            'user' => $this->user->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

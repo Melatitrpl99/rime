@@ -24,8 +24,7 @@ class ProductResource extends JsonResource
             'warna' => $this->warna,
             'size' => $this->size,
             'dimensi' => $this->dimensi,
-            'slug' => $this->slug,
-            'category_id' => $this->category_id,
+            'category' => $this->category->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

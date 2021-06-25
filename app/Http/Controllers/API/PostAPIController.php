@@ -37,7 +37,7 @@ class PostAPIController extends Controller
 
         $posts = $query->get();
 
-        return $this->sendResponse(PostResource::collection($posts), 'Posts retrieved successfully');
+        return response()->json(PostResource::collection($posts));
     }
 
     /**
@@ -55,7 +55,7 @@ class PostAPIController extends Controller
         /** @var Post $post */
         $post = Post::create($input);
 
-        return $this->sendResponse(new PostResource($post), 'Post saved successfully');
+        return response()->json(new PostResource($post));
     }
 
     /**
@@ -75,7 +75,7 @@ class PostAPIController extends Controller
             return $this->sendError('Post not found');
         }
 
-        return $this->sendResponse(new PostResource($post), 'Post retrieved successfully');
+        return response()->json($post);
     }
 
     /**
@@ -99,7 +99,7 @@ class PostAPIController extends Controller
         $post->fill($request->all());
         $post->save();
 
-        return $this->sendResponse(new PostResource($post), 'Post updated successfully');
+        return response()->json(new PostResource($post));
     }
 
     /**

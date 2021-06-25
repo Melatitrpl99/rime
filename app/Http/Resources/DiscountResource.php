@@ -21,7 +21,6 @@ class DiscountResource extends JsonResource
             'kode' => $this->kode,
             'batas_pemakaian' => $this->batas_pemakaian,
             'diskon_kategori' => $this->diskon_kategori,
-            'slug' => $this->slug,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

@@ -19,8 +19,8 @@ class OrderResource extends JsonResource
             'nomor' => $this->nomor,
             'pesan' => $this->pesan,
             'kode_diskon' => $this->kode_diskon,
-            'status_id' => $this->status_id,
-            'user_id' => $this->user_id,
+            'status' => $this->status->name,
+            'user' => $this->user->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
