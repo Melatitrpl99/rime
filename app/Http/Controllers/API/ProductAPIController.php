@@ -37,7 +37,7 @@ class ProductAPIController extends Controller
 
         $products = $query->get();
 
-        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully');
+        return response()->json(ProductResource::collection($products));
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductAPIController extends Controller
         /** @var Product $product */
         $product = Product::create($input);
 
-        return $this->sendResponse(new ProductResource($product), 'Product saved successfully');
+        return response()->json(new ProductResource($product));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductAPIController extends Controller
             return $this->sendError('Product not found');
         }
 
-        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully');
+        return response()->json($product);
     }
 
     /**
@@ -99,7 +99,7 @@ class ProductAPIController extends Controller
         $product->fill($request->all());
         $product->save();
 
-        return $this->sendResponse(new ProductResource($product), 'Product updated successfully');
+        return response()->json(new ProductResource($product));
     }
 
     /**
@@ -123,6 +123,6 @@ class ProductAPIController extends Controller
 
         $product->delete();
 
-        return $this->sendSuccess('Product deleted successfully');
+        return response()->json(['status' => 'Data deleted successfully.']);
     }
 }

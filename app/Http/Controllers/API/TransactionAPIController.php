@@ -37,7 +37,7 @@ class TransactionAPIController extends Controller
 
         $transactions = $query->get();
 
-        return $this->sendResponse(TransactionResource::collection($transactions), 'Transactions retrieved successfully');
+        return response()->json(TransactionResource::collection($transactions));
     }
 
     /**
@@ -55,7 +55,7 @@ class TransactionAPIController extends Controller
         /** @var Transaction $transaction */
         $transaction = Transaction::create($input);
 
-        return $this->sendResponse(new TransactionResource($transaction), 'Transaction saved successfully');
+        return response()->json(new TransactionResource($transaction));
     }
 
     /**
@@ -75,7 +75,7 @@ class TransactionAPIController extends Controller
             return $this->sendError('Transaction not found');
         }
 
-        return $this->sendResponse(new TransactionResource($transaction), 'Transaction retrieved successfully');
+        return response()->json(new TransactionResource($transaction));
     }
 
     /**
@@ -99,7 +99,7 @@ class TransactionAPIController extends Controller
         $transaction->fill($request->all());
         $transaction->save();
 
-        return $this->sendResponse(new TransactionResource($transaction), 'Transaction updated successfully');
+        return response()->json(new TransactionResource($transaction));
     }
 
     /**

@@ -71,20 +71,20 @@ Route::group(['middleware' => 'auth'], function () {
             ->names('productStocks');
         Route::resource('carts', App\Http\Controllers\CartController::class)
             ->names('carts');
-        Route::resource('cart_details', App\Http\Controllers\CartDetailController::class)
-            ->names('cartDetails');
+        //Route::resource('cart_details', App\Http\Controllers\CartDetailController::class)
+        //    ->names('cartDetails');
         Route::resource('orders', App\Http\Controllers\OrderController::class)
             ->names('orders');
-        Route::resource('order_details', App\Http\Controllers\OrderDetailController::class)
-            ->names('orderDetails');
+        //Route::resource('order_details', App\Http\Controllers\OrderDetailController::class)
+        //    ->names('orderDetails');
         Route::resource('transactions', App\Http\Controllers\TransactionController::class)
             ->names('transactions');
-        Route::resource('transaction_details', App\Http\Controllers\TransactionDetailController::class)
-            ->names('transactionDetails');
+        //Route::resource('transaction_details', App\Http\Controllers\TransactionDetailController::class)
+        //    ->names('transactionDetails');
         Route::resource('discounts', App\Http\Controllers\DiscountController::class)
             ->names('discounts');
-        Route::resource('discount_details', App\Http\Controllers\DiscountDetailController::class)
-            ->names('discountDetails');
+        //Route::resource('discount_details', App\Http\Controllers\DiscountDetailController::class)
+        //    ->names('discountDetails');
         Route::resource('events', App\Http\Controllers\EventController::class)
             ->names('events');
         Route::resource('files', App\Http\Controllers\FileController::class)

@@ -37,7 +37,7 @@ class ShipmentAPIController extends Controller
 
         $shipments = $query->get();
 
-        return $this->sendResponse(ShipmentResource::collection($shipments), 'Shipments retrieved successfully');
+        return response()->json(ShipmentResource::collection($shipments));
     }
 
     /**
@@ -55,7 +55,7 @@ class ShipmentAPIController extends Controller
         /** @var Shipment $shipment */
         $shipment = Shipment::create($input);
 
-        return $this->sendResponse(new ShipmentResource($shipment), 'Shipment saved successfully');
+        return response()->json(new ShipmentResource($shipment));
     }
 
     /**
@@ -75,7 +75,7 @@ class ShipmentAPIController extends Controller
             return $this->sendError('Shipment not found');
         }
 
-        return $this->sendResponse(new ShipmentResource($shipment), 'Shipment retrieved successfully');
+        return response()->json($shipment);
     }
 
     /**
@@ -99,7 +99,7 @@ class ShipmentAPIController extends Controller
         $shipment->fill($request->all());
         $shipment->save();
 
-        return $this->sendResponse(new ShipmentResource($shipment), 'Shipment updated successfully');
+        return response()->json(new ShipmentResource($shipment));
     }
 
     /**

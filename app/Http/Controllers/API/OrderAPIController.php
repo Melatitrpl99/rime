@@ -37,7 +37,7 @@ class OrderAPIController extends Controller
 
         $orders = $query->get();
 
-        return $this->sendResponse(OrderResource::collection($orders), 'Orders retrieved successfully');
+        return response()->json(OrderResource::collection($orders));
     }
 
     /**
@@ -55,7 +55,7 @@ class OrderAPIController extends Controller
         /** @var Order $order */
         $order = Order::create($input);
 
-        return $this->sendResponse(new OrderResource($order), 'Order saved successfully');
+        return response()->json(new OrderResource($order));
     }
 
     /**
@@ -75,7 +75,7 @@ class OrderAPIController extends Controller
             return $this->sendError('Order not found');
         }
 
-        return $this->sendResponse(new OrderResource($order), 'Order retrieved successfully');
+        return response()->json($order);
     }
 
     /**
@@ -99,7 +99,7 @@ class OrderAPIController extends Controller
         $order->fill($request->all());
         $order->save();
 
-        return $this->sendResponse(new OrderResource($order), 'Order updated successfully');
+        return response()->json(new OrderResource($order));
     }
 
     /**

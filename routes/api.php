@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('register', [AuthAPIController::class, 'register']);
+Route::group(['middleware' => 'api'], function ($router) {
+    Route::post('login', [AuthAPIController::class, 'login']);
+    Route::post('logout', [AuthAPIController::class, 'logout']);
+    Route::post('refresh', [AuthAPIController::class, 'refresh']);
+    Route::post('me', [AuthAPIController::class, 'me']);
 });
 
 // Route::resource('users', App\Http\Controllers\API\UserAPIController::class);
@@ -25,13 +30,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('products', App\Http\Controllers\API\ProductAPIController::class);
     Route::resource('product_stocks', App\Http\Controllers\API\ProductStockAPIController::class);
     Route::resource('carts', App\Http\Controllers\API\CartAPIController::class);
-    Route::resource('cart_details', App\Http\Controllers\API\CartDetailAPIController::class);
+    //Route::resource('cart_details', App\Http\Controllers\API\CartDetailAPIController::class);
     Route::resource('orders', App\Http\Controllers\API\OrderAPIController::class);
-    Route::resource('order_details', App\Http\Controllers\API\OrderDetailAPIController::class);
+    //Route::resource('order_details', App\Http\Controllers\API\OrderDetailAPIController::class);
     Route::resource('transactions', App\Http\Controllers\API\TransactionAPIController::class);
-    Route::resource('transaction_details', App\Http\Controllers\API\TransactionDetailAPIController::class);
+    //Route::resource('transaction_details', App\Http\Controllers\API\TransactionDetailAPIController::class);
     Route::resource('discounts', App\Http\Controllers\API\DiscountAPIController::class);
-    Route::resource('discount_details', App\Http\Controllers\API\DiscountDetailAPIController::class);
+    //Route::resource('discount_details', App\Http\Controllers\API\DiscountDetailAPIController::class);
     Route::resource('events', App\Http\Controllers\API\EventAPIController::class);
     Route::resource('files', App\Http\Controllers\API\FileAPIController::class);
     Route::resource('file_thumbs', App\Http\Controllers\API\FileThumbAPIController::class);

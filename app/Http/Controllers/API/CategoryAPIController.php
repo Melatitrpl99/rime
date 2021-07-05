@@ -37,7 +37,7 @@ class CategoryAPIController extends Controller
 
         $categories = $query->get();
 
-        return $this->sendResponse(CategoryResource::collection($categories), 'Categories retrieved successfully');
+        return response()->json(CategoryResource::collection($categories));
     }
 
     /**
@@ -55,7 +55,7 @@ class CategoryAPIController extends Controller
         /** @var Category $category */
         $category = Category::create($input);
 
-        return $this->sendResponse(new CategoryResource($category), 'Category saved successfully');
+        return response()->json(new CategoryResource($category));
     }
 
     /**
@@ -75,7 +75,7 @@ class CategoryAPIController extends Controller
             return $this->sendError('Category not found');
         }
 
-        return $this->sendResponse(new CategoryResource($category), 'Category retrieved successfully');
+        return response()->json($category);
     }
 
     /**
@@ -99,7 +99,7 @@ class CategoryAPIController extends Controller
         $category->fill($request->all());
         $category->save();
 
-        return $this->sendResponse(new CategoryResource($category), 'Category updated successfully');
+        return response()->json(new CategoryResource($category));
     }
 
     /**

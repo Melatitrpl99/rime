@@ -37,7 +37,7 @@ class DiscountAPIController extends Controller
 
         $discounts = $query->get();
 
-        return $this->sendResponse(DiscountResource::collection($discounts), 'Discounts retrieved successfully');
+        return response()->json(DiscountResource::collection($discounts));
     }
 
     /**
@@ -55,7 +55,7 @@ class DiscountAPIController extends Controller
         /** @var Discount $discount */
         $discount = Discount::create($input);
 
-        return $this->sendResponse(new DiscountResource($discount), 'Discount saved successfully');
+        return response()->json(new DiscountResource($discount));
     }
 
     /**
@@ -75,7 +75,7 @@ class DiscountAPIController extends Controller
             return $this->sendError('Discount not found');
         }
 
-        return $this->sendResponse(new DiscountResource($discount), 'Discount retrieved successfully');
+        return response()->json($discount);
     }
 
     /**
@@ -99,7 +99,7 @@ class DiscountAPIController extends Controller
         $discount->fill($request->all());
         $discount->save();
 
-        return $this->sendResponse(new DiscountResource($discount), 'Discount updated successfully');
+        return response()->json(new DiscountResource($discount));
     }
 
     /**

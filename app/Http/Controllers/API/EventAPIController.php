@@ -37,7 +37,7 @@ class EventAPIController extends Controller
 
         $events = $query->get();
 
-        return $this->sendResponse(EventResource::collection($events), 'Events retrieved successfully');
+        return response()->json(EventResource::collection($events));
     }
 
     /**
@@ -55,7 +55,7 @@ class EventAPIController extends Controller
         /** @var Event $event */
         $event = Event::create($input);
 
-        return $this->sendResponse(new EventResource($event), 'Event saved successfully');
+        return response()->json(new EventResource($event));
     }
 
     /**
@@ -75,7 +75,7 @@ class EventAPIController extends Controller
             return $this->sendError('Event not found');
         }
 
-        return $this->sendResponse(new EventResource($event), 'Event retrieved successfully');
+        return response()->json($event);
     }
 
     /**
@@ -99,7 +99,7 @@ class EventAPIController extends Controller
         $event->fill($request->all());
         $event->save();
 
-        return $this->sendResponse(new EventResource($event), 'Event updated successfully');
+        return response()->json(new EventResource($event));
     }
 
     /**

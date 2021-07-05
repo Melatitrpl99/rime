@@ -37,7 +37,7 @@ class PostCategoryAPIController extends Controller
 
         $postCategories = $query->get();
 
-        return $this->sendResponse(PostCategoryResource::collection($postCategories), 'Post Categories retrieved successfully');
+        return response()->json(PostCategoryResource::collection($postCategories));
     }
 
     /**
@@ -55,7 +55,7 @@ class PostCategoryAPIController extends Controller
         /** @var PostCategory $postCategory */
         $postCategory = PostCategory::create($input);
 
-        return $this->sendResponse(new PostCategoryResource($postCategory), 'Post Category saved successfully');
+        return response()->json(new PostCategoryResource($postCategory));
     }
 
     /**
@@ -75,7 +75,7 @@ class PostCategoryAPIController extends Controller
             return $this->sendError('Post Category not found');
         }
 
-        return $this->sendResponse(new PostCategoryResource($postCategory), 'Post Category retrieved successfully');
+        return response()->json($postCategory);
     }
 
     /**
@@ -99,7 +99,7 @@ class PostCategoryAPIController extends Controller
         $postCategory->fill($request->all());
         $postCategory->save();
 
-        return $this->sendResponse(new PostCategoryResource($postCategory), 'PostCategory updated successfully');
+        return response()->json(new PostCategoryResource($postCategory));
     }
 
     /**
