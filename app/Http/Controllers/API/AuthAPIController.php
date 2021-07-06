@@ -25,21 +25,20 @@ class AuthAPIController extends Controller
 
     public function register(Request $request)
     {
-        $input = $request->only(['name', 'email', 'password']);
+        $register = $request->only(['name', 'email', 'password']);
+        $login = $request->only(['email', 'password']);
 
-        $rules = Validator::make([
+        $register['password'] = bcrypt($register['password']);
+
+        $input = Validator::make($register, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-        ], $input);
+        ]);
 
-        dd($rules);
+        $user = User::create($register);
 
-        $user = User::create($rules);
-
-        dd($user);
-
-        if (! $token = auth('api')->attempt(['email' => $input['email'], 'password'=> $input['password']])) {
+        if (! $token = auth('api')->attempt($login)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
