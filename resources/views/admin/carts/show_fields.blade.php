@@ -1,3 +1,9 @@
+<!-- Nomor Field -->
+<div class="col-sm-12">
+    {!! Form::label('nomor', 'Nomor:') !!}
+    <p>{{ $cart->nomor }}</p>
+</div>
+
 <!-- Judul Field -->
 <div class="col-sm-12">
     {!! Form::label('judul', 'Judul:') !!}
@@ -8,12 +14,6 @@
 <div class="col-sm-12">
     {!! Form::label('deskripsi', 'Deskripsi:') !!}
     <p>{{ $cart->deskripsi }}</p>
-</div>
-
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $cart->slug }}</p>
 </div>
 
 <!-- User Id Field -->

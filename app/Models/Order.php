@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Order
  * @package App\Models
- * @version May 18, 2021, 2:11 am UTC
+ * @version July 8, 2021, 12:05 am UTC
  *
  * @property \App\Models\User $user
  * @property \Illuminate\Database\Eloquent\Collection $shipments
@@ -18,16 +18,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $nomor
  * @property string $pesan
  * @property string $kode_diskon
- * @property integer $status_id
+ * @property foreignId $status_id
  * @property foreignId $user_id
  */
 class Order extends Model
 {
     use SoftDeletes;
 
+
     public $table = 'orders';
+    
 
     protected $dates = ['deleted_at'];
+
+
 
     public $fillable = [
         'nomor',
@@ -45,8 +49,7 @@ class Order extends Model
     protected $casts = [
         'nomor' => 'string',
         'pesan' => 'string',
-        'kode_diskon' => 'string',
-        'status_id' => 'integer'
+        'kode_diskon' => 'string'
     ];
 
     /**
@@ -83,8 +86,7 @@ class Order extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'order_details')
-            ->withPivot(['jumlah', 'subtotal']);
+        return $this->belongsToMany(\App\Models\Product::class, 'order_details');
     }
 
     /**

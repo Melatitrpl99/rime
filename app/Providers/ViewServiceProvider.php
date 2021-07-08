@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers;
+use App\Models\Dimension;
+use App\Models\Size;
+use App\Models\Colour;
 
 use App\Models\PostCategory;
 use App\Models\Transaction;
@@ -34,6 +37,34 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::composer(['admin.product_stocks.fields'], function ($view) {
+            $dimensionItems = Dimension::pluck('nama')->toArray();
+            $view->with('dimensionItems', $dimensionItems);
+        });
+        View::composer(['admin.product_stocks.fields'], function ($view) {
+            $sizeItems = Size::pluck('nama')->toArray();
+            $view->with('sizeItems', $sizeItems);
+        });
+        View::composer(['admin.product_stocks.fields'], function ($view) {
+            $colourItems = Colour::pluck('nama')->toArray();
+            $view->with('colourItems', $colourItems);
+        });
+        View::composer(['admin.product_stocks.fields'], function ($view) {
+            $productItems = Product::pluck('nama','id')->toArray();
+            $view->with('productItems', $productItems);
+        });
+        View::composer(['admin.orders.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
+        View::composer(['admin.orders.fields'], function ($view) {
+            $statusItems = Status::pluck('name','id')->toArray();
+            $view->with('statusItems', $statusItems);
+        });
+        View::composer(['admin.carts.fields'], function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+            $view->with('userItems', $userItems);
+        });
         View::composer(['admin.shipments.fields'], function ($view) {
             $orderItems = Order::pluck('nomor','id')->toArray();
             $view->with('orderItems', $orderItems);

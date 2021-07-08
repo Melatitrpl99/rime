@@ -60,7 +60,31 @@
         "inView": true
     },
     {
+        "name": "size",
+        "dbType": "string",
+        "htmlType": null,
+        "validations": null,
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": false,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "path",
+        "dbType": "string:nullable",
+        "htmlType": null,
+        "validations": "nullable",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": false,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "url",
         "dbType": "string:nullable",
         "htmlType": null,
         "validations": "nullable",

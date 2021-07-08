@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th>Product Id</th>
-        <th>Stok</th>
-        <th>Warna</th>
-        <th>Size</th>
-        <th>Dimensi</th>
+        <th>Colour Id</th>
+        <th>Size Id</th>
+        <th>Dimension Id</th>
+        <th>Stok Ready</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -14,10 +14,10 @@
         @foreach($productStocks as $productStock)
             <tr>
                 <td>{{ $productStock->product_id }}</td>
-            <td>{{ $productStock->stok }}</td>
-            <td>{{ $productStock->warna }}</td>
-            <td>{{ $productStock->size }}</td>
-            <td>{{ $productStock->dimensi }}</td>
+            <td>{{ $productStock->colour_id }}</td>
+            <td>{{ $productStock->size_id }}</td>
+            <td>{{ $productStock->dimension_id }}</td>
+            <td>{{ $productStock->stok_ready }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.productStocks.destroy', $productStock->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

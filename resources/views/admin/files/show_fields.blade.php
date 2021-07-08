@@ -22,10 +22,22 @@
     <p>{{ $file->format }}</p>
 </div>
 
+<!-- Size Field -->
+<div class="col-sm-12">
+    {!! Form::label('size', 'Size:') !!}
+    <p>{{ $file->size }}</p>
+</div>
+
 <!-- Path Field -->
 <div class="col-sm-12">
     {!! Form::label('path', 'Path:') !!}
     <p>{{ $file->path }}</p>
+</div>
+
+<!-- Url Field -->
+<div class="col-sm-12">
+    {!! Form::label('url', 'Url:') !!}
+    <p>{{ $file->url }}</p>
 </div>
 
 <!-- Created At Field -->

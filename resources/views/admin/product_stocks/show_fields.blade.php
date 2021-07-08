@@ -4,28 +4,28 @@
     <p>{{ $productStock->product_id }}</p>
 </div>
 
-<!-- Stok Field -->
+<!-- Colour Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('stok', 'Stok:') !!}
-    <p>{{ $productStock->stok }}</p>
+    {!! Form::label('colour_id', 'Colour Id:') !!}
+    <p>{{ $productStock->colour_id }}</p>
 </div>
 
-<!-- Warna Field -->
+<!-- Size Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('warna', 'Warna:') !!}
-    <p>{{ $productStock->warna }}</p>
+    {!! Form::label('size_id', 'Size Id:') !!}
+    <p>{{ $productStock->size_id }}</p>
 </div>
 
-<!-- Size Field -->
+<!-- Dimension Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('size', 'Size:') !!}
-    <p>{{ $productStock->size }}</p>
+    {!! Form::label('dimension_id', 'Dimension Id:') !!}
+    <p>{{ $productStock->dimension_id }}</p>
 </div>
 
-<!-- Dimensi Field -->
+<!-- Stok Ready Field -->
 <div class="col-sm-12">
-    {!! Form::label('dimensi', 'Dimensi:') !!}
-    <p>{{ $productStock->dimensi }}</p>
+    {!! Form::label('stok_ready', 'Stok Ready:') !!}
+    <p>{{ $productStock->stok_ready }}</p>
 </div>
 
 <!-- Created At Field -->

@@ -2,14 +2,16 @@
     <table class="table" id="activities-table">
         <thead>
             <tr>
-                <th>Log</th>
+                <th>User Agent</th>
+        <th>Ip Address</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($activities as $activity)
             <tr>
-                <td>{{ $activity->log }}</td>
+                <td>{{ $activity->user_agent }}</td>
+            <td>{{ $activity->ip_address }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.activities.destroy', $activity->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

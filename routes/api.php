@@ -1,7 +1,24 @@
 <?php
 
+use App\Http\Controllers\API\ActivityAPIController;
 use App\Http\Controllers\API\AuthAPIController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\CartAPIController;
+use App\Http\Controllers\API\CategoryAPIController;
+use App\Http\Controllers\API\DiscountAPIController;
+use App\Http\Controllers\API\EventAPIController;
+use App\Http\Controllers\API\FileAPIController;
+use App\Http\Controllers\API\OrderAPIController;
+use App\Http\Controllers\API\PostAPIController;
+use App\Http\Controllers\API\PostCategoryAPIController;
+use App\Http\Controllers\API\ProductAPIController;
+use App\Http\Controllers\API\ProductColorAPIController;
+use App\Http\Controllers\API\ProductDimensionAPIController;
+use App\Http\Controllers\API\ProductSizeAPIController;
+use App\Http\Controllers\API\ProductStockAPIController;
+use App\Http\Controllers\API\ShipmentAPIController;
+use App\Http\Controllers\API\StatusAPIController;
+use App\Http\Controllers\API\TransactionAPIController;
+use App\Http\Controllers\API\UserAPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,25 +40,23 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('me', [AuthAPIController::class, 'me']);
 });
 
-// Route::resource('users', App\Http\Controllers\API\UserAPIController::class);
-
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('products', App\Http\Controllers\API\ProductAPIController::class);
-    Route::resource('product_stocks', App\Http\Controllers\API\ProductStockAPIController::class);
-    Route::resource('carts', App\Http\Controllers\API\CartAPIController::class);
-    //Route::resource('cart_details', App\Http\Controllers\API\CartDetailAPIController::class);
-    Route::resource('orders', App\Http\Controllers\API\OrderAPIController::class);
-    //Route::resource('order_details', App\Http\Controllers\API\OrderDetailAPIController::class);
-    Route::resource('transactions', App\Http\Controllers\API\TransactionAPIController::class);
-    //Route::resource('transaction_details', App\Http\Controllers\API\TransactionDetailAPIController::class);
-    Route::resource('discounts', App\Http\Controllers\API\DiscountAPIController::class);
-    //Route::resource('discount_details', App\Http\Controllers\API\DiscountDetailAPIController::class);
-    Route::resource('events', App\Http\Controllers\API\EventAPIController::class);
-    Route::resource('files', App\Http\Controllers\API\FileAPIController::class);
-    Route::resource('file_thumbs', App\Http\Controllers\API\FileThumbAPIController::class);
-    Route::resource('post_categories', App\Http\Controllers\API\PostCategoryAPIController::class);
-    Route::resource('posts', App\Http\Controllers\API\PostAPIController::class);
-    Route::resource('shipments', App\Http\Controllers\API\ShipmentAPIController::class);
-    Route::resource('categories', App\Http\Controllers\API\CategoryAPIController::class);
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::apiResource('users', UserAPIController::class);
+    Route::apiResource('products', ProductAPIController::class);
+    Route::apiResource('product_stocks', ProductStockAPIController::class);
+    Route::apiResource('carts', CartAPIController::class);
+    Route::apiResource('orders', OrderAPIController::class);
+    Route::apiResource('transactions', TransactionAPIController::class);
+    Route::apiResource('discounts', DiscountAPIController::class);
+    Route::apiResource('events', EventAPIController::class);
+    Route::apiResource('files', FileAPIController::class);
+    Route::apiResource('post_categories', PostCategoryAPIController::class);
+    Route::apiResource('posts', PostAPIController::class);
+    Route::apiResource('shipments', ShipmentAPIController::class);
+    Route::apiResource('categories', CategoryAPIController::class);
+    Route::apiResource('activities', ActivityAPIController::class);
+    Route::apiResource('product_colors', ProductColorAPIController::class);
+    Route::apiResource('product_dimensions', ProductDimensionAPIController::class);
+    Route::apiResource('product_sizes', ProductSizeAPIController::class);
+    Route::apiResource('statuses', StatusAPIController::class);
 });

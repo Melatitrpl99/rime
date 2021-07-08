@@ -37,7 +37,7 @@ class FileThumbAPIController extends Controller
 
         $fileThumbs = $query->get();
 
-        return response()->json(FileThumbResource::collection($fileThumbs));
+        return $this->sendResponse(FileThumbResource::collection($fileThumbs), 'File Thumbs retrieved successfully');
     }
 
     /**
@@ -55,7 +55,7 @@ class FileThumbAPIController extends Controller
         /** @var FileThumb $fileThumb */
         $fileThumb = FileThumb::create($input);
 
-        return response()->json(new FileThumbResource($fileThumb));
+        return $this->sendResponse(new FileThumbResource($fileThumb), 'File Thumb saved successfully');
     }
 
     /**
@@ -75,7 +75,7 @@ class FileThumbAPIController extends Controller
             return $this->sendError('File Thumb not found');
         }
 
-        return response()->json($fileThumb);
+        return $this->sendResponse(new FileThumbResource($fileThumb), 'File Thumb retrieved successfully');
     }
 
     /**
@@ -99,7 +99,7 @@ class FileThumbAPIController extends Controller
         $fileThumb->fill($request->all());
         $fileThumb->save();
 
-        return response()->json(new FileThumbResource($fileThumb));
+        return $this->sendResponse(new FileThumbResource($fileThumb), 'FileThumb updated successfully');
     }
 
     /**

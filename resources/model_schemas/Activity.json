@@ -24,8 +24,20 @@
         "inView": true
     },
     {
-        "name": "log",
-        "dbType": "longText",
+        "name": "user_agent",
+        "dbType": "text",
+        "htmlType": null,
+        "validations": null,
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": false,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "ip_address",
+        "dbType": "string",
         "htmlType": null,
         "validations": null,
         "searchable": true,

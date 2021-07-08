@@ -37,7 +37,7 @@ class FileAPIController extends Controller
 
         $files = $query->get();
 
-        return response()->json(FileResource::collection($files));
+        return $this->sendResponse(FileResource::collection($files), 'Files retrieved successfully');
     }
 
     /**
@@ -55,7 +55,7 @@ class FileAPIController extends Controller
         /** @var File $file */
         $file = File::create($input);
 
-        return response()->json(new FileResource($file));
+        return $this->sendResponse(new FileResource($file), 'File saved successfully');
     }
 
     /**
@@ -75,7 +75,7 @@ class FileAPIController extends Controller
             return $this->sendError('File not found');
         }
 
-        return response()->json($file);
+        return $this->sendResponse(new FileResource($file), 'File retrieved successfully');
     }
 
     /**
@@ -99,7 +99,7 @@ class FileAPIController extends Controller
         $file->fill($request->all());
         $file->save();
 
-        return response()->json(new FileResource($file));
+        return $this->sendResponse(new FileResource($file), 'File updated successfully');
     }
 
     /**

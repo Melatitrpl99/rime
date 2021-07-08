@@ -9,26 +9,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class FileThumb
  * @package App\Models
- * @version May 18, 2021, 2:15 am UTC
+ * @version July 8, 2021, 12:04 am UTC
  *
  * @property mt1:File
  * @property string $path
+ * @property string $dimensions
+ * @property string $size
  */
 class FileThumb extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'file_thumbs';
-    
 
     protected $dates = ['deleted_at'];
-
 
     protected $primaryKey = 'file_id';
 
     public $fillable = [
-        'path'
+        'path',
+        'dimensions',
+        'size'
     ];
 
     /**
@@ -37,7 +38,9 @@ class FileThumb extends Model
      * @var array
      */
     protected $casts = [
-        'path' => 'string'
+        'path' => 'string',
+        'dimensions' => 'string',
+        'size' => 'string'
     ];
 
     /**
@@ -49,5 +52,5 @@ class FileThumb extends Model
         'path' => 'nullable'
     ];
 
-    
+
 }

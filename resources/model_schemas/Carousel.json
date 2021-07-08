@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "uuid",
+        "dbType": "id",
         "htmlType": null,
         "validations": null,
         "searchable": false,

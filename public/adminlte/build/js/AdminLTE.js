@@ -8,7 +8,6 @@ import Fullscreen from './Fullscreen'
 import IFrame from './IFrame'
 import Layout from './Layout'
 import PushMenu from './PushMenu'
-import SidebarSearch from './SidebarSearch'
 import NavbarSearch from './NavbarSearch'
 import Toasts from './Toasts'
 import TodoList from './TodoList'
@@ -25,7 +24,6 @@ export {
   IFrame,
   Layout,
   PushMenu,
-  SidebarSearch,
   NavbarSearch,
   Toasts,
   TodoList,

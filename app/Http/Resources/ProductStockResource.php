@@ -17,10 +17,10 @@ class ProductStockResource extends JsonResource
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
-            'stok' => $this->stok,
-            'warna' => $this->warna,
-            'size' => $this->size,
-            'dimensi' => $this->dimensi,
+            'colour_id' => $this->colour_id,
+            'size_id' => $this->size_id,
+            'dimension_id' => $this->dimension_id,
+            'stok_ready' => $this->stok_ready,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

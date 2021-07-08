@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
  * Class Category
  * @package App\Models
@@ -19,13 +18,9 @@ class Category extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'categories';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'nama',

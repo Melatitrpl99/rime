@@ -17,6 +17,8 @@ class FileThumbResource extends JsonResource
         return [
             'file_id' => $this->file_id,
             'path' => $this->path,
+            'dimensions' => $this->dimensions,
+            'size' => $this->size,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

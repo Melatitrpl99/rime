@@ -37,7 +37,7 @@ class ProductStockAPIController extends Controller
 
         $productStocks = $query->get();
 
-        return response()->json(ProductStockResource::collection($productStocks));
+        return $this->sendResponse(ProductStockResource::collection($productStocks), 'Product Stocks retrieved successfully');
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductStockAPIController extends Controller
         /** @var ProductStock $productStock */
         $productStock = ProductStock::create($input);
 
-        return response()->json(new ProductStockResource($productStock));
+        return $this->sendResponse(new ProductStockResource($productStock), 'Product Stock saved successfully');
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductStockAPIController extends Controller
             return $this->sendError('Product Stock not found');
         }
 
-        return response()->json($productStock);
+        return $this->sendResponse(new ProductStockResource($productStock), 'Product Stock retrieved successfully');
     }
 
     /**
@@ -99,7 +99,7 @@ class ProductStockAPIController extends Controller
         $productStock->fill($request->all());
         $productStock->save();
 
-        return response()->json(new ProductStockResource($productStock));
+        return $this->sendResponse(new ProductStockResource($productStock), 'ProductStock updated successfully');
     }
 
     /**

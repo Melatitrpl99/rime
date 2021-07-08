@@ -12,6 +12,18 @@
         "inView": false
     },
     {
+        "name": "nomor",
+        "dbType": "string:unique",
+        "htmlType": "text",
+        "validations": "required|max:16",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "judul",
         "dbType": "string",
         "htmlType": "text",
@@ -33,18 +45,6 @@
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "slug",
-        "dbType": "string:nullable",
-        "htmlType": null,
-        "validations": "nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": false,
-        "inIndex": false,
         "inView": true
     },
     {

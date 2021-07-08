@@ -5,7 +5,9 @@
                 <th>Name</th>
         <th>Mime Type</th>
         <th>Format</th>
+        <th>Size</th>
         <th>Path</th>
+        <th>Url</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -15,7 +17,9 @@
                 <td>{{ $file->name }}</td>
             <td>{{ $file->mime_type }}</td>
             <td>{{ $file->format }}</td>
+            <td>{{ $file->size }}</td>
             <td>{{ $file->path }}</td>
+            <td>{{ $file->url }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.files.destroy', $file->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

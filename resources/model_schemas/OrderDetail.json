@@ -13,9 +13,9 @@
         "relation": "mt1,Order"
     },
     {
-        "name": "cart_id",
+        "name": "product_id",
         "dbType": "foreignId:constrained",
-        "htmlType": "selectTable:carts:judul,id",
+        "htmlType": "selectTable:carts:nama,id",
         "validations": "required",
         "searchable": false,
         "fillable": false,
@@ -23,7 +23,46 @@
         "inForm": false,
         "inIndex": false,
         "inView": false,
-        "relation": "mt1,Cart"
+        "relation": "mt1,Product"
+    },
+    {
+        "name": "colour_id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:colours:nama:id",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true,
+        "relation": "mt1,Colour"
+    },
+    {
+        "name": "size_id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:sizes:nama:id",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true,
+        "relation": "mt1,Size"
+    },
+    {
+        "name": "dimension_id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:dimensions:nama:id",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true,
+        "relation": "mt1,Dimensions"
     },
     {
         "name": "jumlah",

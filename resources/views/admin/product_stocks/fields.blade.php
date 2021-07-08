@@ -5,26 +5,29 @@
 </div>
 
 
-<!-- Stok Field -->
+<!-- Colour Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('stok', 'Stok:') !!}
-    {!! Form::number('stok', null, ['class' => 'form-control']) !!}
+    {!! Form::label('colour_id', 'Colour Id:') !!}
+    {!! Form::select('colour_id', $colourItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
-<!-- Warna Field -->
+
+<!-- Size Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('warna', 'Warna:') !!}
-    {!! Form::text('warna', null, ['class' => 'form-control']) !!}
+    {!! Form::label('size_id', 'Size Id:') !!}
+    {!! Form::select('size_id', $sizeItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
-<!-- Size Field -->
+
+<!-- Dimension Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('size', 'Size:') !!}
-    {!! Form::text('size', null, ['class' => 'form-control']) !!}
+    {!! Form::label('dimension_id', 'Dimension Id:') !!}
+    {!! Form::select('dimension_id', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
-<!-- Dimensi Field -->
+
+<!-- Stok Ready Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('dimensi', 'Dimensi:') !!}
-    {!! Form::text('dimensi', null, ['class' => 'form-control']) !!}
+    {!! Form::label('stok_ready', 'Stok Ready:') !!}
+    {!! Form::number('stok_ready', null, ['class' => 'form-control']) !!}
 </div>

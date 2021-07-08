@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Status
  * @package App\Models
- * @version May 18, 2021, 2:03 am UTC
+ * @version July 8, 2021, 12:39 am UTC
  *
  * @property integer $id
  * @property string $name
@@ -19,11 +19,13 @@ class Status extends Model
 {
     use SoftDeletes;
 
+
     public $table = 'statuses';
+    
 
     protected $dates = ['deleted_at'];
 
-    public $timestamps = false;
+
 
     public $fillable = [
         'id',
@@ -52,4 +54,6 @@ class Status extends Model
         'name' => 'required',
         'desc' => 'nullable'
     ];
+
+    
 }

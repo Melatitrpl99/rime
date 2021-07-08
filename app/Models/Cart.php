@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Cart
  * @package App\Models
- * @version May 18, 2021, 2:10 am UTC
+ * @version July 8, 2021, 12:02 am UTC
  *
  * @property \App\Models\User $user
  * @property \Illuminate\Database\Eloquent\Collection $products
+ * @property string $nomor
  * @property string $judul
  * @property string $deskripsi
- * @property string $slug
  * @property foreignId $user_id
  */
 class Cart extends Model
@@ -26,9 +26,9 @@ class Cart extends Model
     protected $dates = ['deleted_at'];
 
     public $fillable = [
+        'nomor',
         'judul',
         'deskripsi',
-        'slug',
         'user_id'
     ];
 
@@ -38,9 +38,9 @@ class Cart extends Model
      * @var array
      */
     protected $casts = [
+        'nomor' => 'string',
         'judul' => 'string',
-        'deskripsi' => 'string',
-        'slug' => 'string'
+        'deskripsi' => 'string'
     ];
 
     /**
@@ -49,9 +49,9 @@ class Cart extends Model
      * @var array
      */
     public static $rules = [
+        'nomor' => 'required|max:16',
         'judul' => 'required',
         'deskripsi' => 'nullable',
-        'slug' => 'nullable',
         'user_id' => 'required'
     ];
 
@@ -68,7 +68,6 @@ class Cart extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'cart_details')
-            ->withPivot(['jumlah', 'subtotal']);
+        return $this->belongsToMany(\App\Models\Product::class, 'cart_details');
     }
 }

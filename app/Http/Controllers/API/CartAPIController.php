@@ -37,7 +37,7 @@ class CartAPIController extends Controller
 
         $carts = $query->get();
 
-        return response()->json(CartResource::collection($carts));
+        return $this->sendResponse(CartResource::collection($carts), 'Carts retrieved successfully');
     }
 
     /**
@@ -55,7 +55,7 @@ class CartAPIController extends Controller
         /** @var Cart $cart */
         $cart = Cart::create($input);
 
-        return response()->json(new CartResource($cart));
+        return $this->sendResponse(new CartResource($cart), 'Cart saved successfully');
     }
 
     /**
@@ -75,7 +75,7 @@ class CartAPIController extends Controller
             return $this->sendError('Cart not found');
         }
 
-        return response()->json($cart);
+        return $this->sendResponse(new CartResource($cart), 'Cart retrieved successfully');
     }
 
     /**
@@ -99,7 +99,7 @@ class CartAPIController extends Controller
         $cart->fill($request->all());
         $cart->save();
 
-        return response()->json(new CartResource($cart));
+        return $this->sendResponse(new CartResource($cart), 'Cart updated successfully');
     }
 
     /**

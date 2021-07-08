@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class File
  * @package App\Models
- * @version May 18, 2021, 2:15 am UTC
+ * @version July 8, 2021, 12:04 am UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $fileThumbs
  * @property string $name
  * @property morphs $fileable
  * @property string $mime_type
  * @property string $format
+ * @property string $size
  * @property string $path
+ * @property string $url
  */
 class File extends Model
 {
@@ -35,7 +37,9 @@ class File extends Model
         'fileable',
         'mime_type',
         'format',
-        'path'
+        'size',
+        'path',
+        'url'
     ];
 
     /**
@@ -47,7 +51,9 @@ class File extends Model
         'name' => 'string',
         'mime_type' => 'string',
         'format' => 'string',
-        'path' => 'string'
+        'size' => 'string',
+        'path' => 'string',
+        'url' => 'string'
     ];
 
     /**
@@ -56,7 +62,8 @@ class File extends Model
      * @var array
      */
     public static $rules = [
-        'path' => 'nullable'
+        'path' => 'nullable',
+        'url' => 'nullable'
     ];
 
     /**

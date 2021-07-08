@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class ProductStock
  * @package App\Models
- * @version May 18, 2021, 2:07 am UTC
+ * @version July 8, 2021, 12:39 am UTC
  *
  * @property \App\Models\Product $product
+ * @property \App\Models\Colour $colour
+ * @property \App\Models\Size $size
+ * @property \App\Models\Dimensions $dimensions
  * @property foreignId $product_id
- * @property integer $stok
- * @property string $warna
- * @property string $size
- * @property string $dimensi
+ * @property foreignId $colour_id
+ * @property foreignId $size_id
+ * @property foreignId $dimension_id
+ * @property integer $stok_ready
  */
 class ProductStock extends Model
 {
@@ -32,10 +35,10 @@ class ProductStock extends Model
 
     public $fillable = [
         'product_id',
-        'stok',
-        'warna',
-        'size',
-        'dimensi'
+        'colour_id',
+        'size_id',
+        'dimension_id',
+        'stok_ready'
     ];
 
     /**
@@ -44,10 +47,7 @@ class ProductStock extends Model
      * @var array
      */
     protected $casts = [
-        'stok' => 'integer',
-        'warna' => 'string',
-        'size' => 'string',
-        'dimensi' => 'string'
+        'stok_ready' => 'integer'
     ];
 
     /**
@@ -57,10 +57,10 @@ class ProductStock extends Model
      */
     public static $rules = [
         'product_id' => 'required',
-        'stok' => 'required|numeric|default:0',
-        'warna' => 'nullable',
-        'size' => 'nullable',
-        'dimensi' => 'nullable'
+        'colour_id' => 'required',
+        'size_id' => 'required',
+        'dimension_id' => 'required',
+        'stok_ready' => 'required'
     ];
 
     /**
@@ -69,5 +69,29 @@ class ProductStock extends Model
     public function product()
     {
         return $this->belongsTo(\App\Models\Product::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function colour()
+    {
+        return $this->belongsTo(\App\Models\Colour::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function size()
+    {
+        return $this->belongsTo(\App\Models\Size::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function dimensions()
+    {
+        return $this->belongsTo(\App\Models\Dimensions::class);
     }
 }

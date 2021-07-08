@@ -17,23 +17,24 @@
         </div>
     </section>
 
-    <div class="content px-3">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    @include('flash::message')
+                    <div class="clearfix"></div>
+                    <div class="card">
+                        <div class="card-body p-0">
+                            @include('admin.product_stocks.table')
+                            <div class="card-footer clearfix float-right">
+                                <div class="float-right">
 
-        @include('flash::message')
-
-        <div class="clearfix"></div>
-
-        <div class="card">
-            <div class="card-body p-0">
-                @include('admin.product_stocks.table')
-
-                <div class="card-footer clearfix float-right">
-                    <div class="float-right">
-                        
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

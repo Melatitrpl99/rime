@@ -1,6 +1,31 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Laporan\BukuBesarController;
+use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\Misc\ExcelController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductDimensionController;
+use App\Http\Controllers\ProductSizeController;
+use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ShipmentController;
+use App\Http\Controllers\SpendingController;
+use App\Http\Controllers\SpendingDetailController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,19 +40,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', 'login');
 
 Auth::routes();
 
 Route::get('/laporan', function () {
     return view('laporan.index');
 });
-
-Route::resource('/bukubesar',App\Http\Controllers\Laporan\BukuBesarController::class);
-
-Route::resource('/labarugi',App\Http\Controllers\Laporan\LabaRugiController::class);
 
 Route::get('/pengeluaran', function () {
     return view('laporan.pengeluaran');
@@ -41,63 +60,59 @@ Route::get('/pengeluaran', function () {
 // });
 // Auth::routes();
 
-
-Route::redirect('/', 'login');
-
 Route::view('upload', 'upload')->name('upload');
 Route::post('import', [ExcelController::class, 'import'])->name('import');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('bukubesar', BukuBesarController::class)->names('buku_besar');
+
+    Route::resource('labarugi', LabaRugiController::class)->names('laba_rugi');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-        Route::resource('activities', App\Http\Controllers\ActivityController::class)
+        Route::resource('users', UserController::class);
+        Route::resource('activities', ActivityController::class)
             ->names('activities');
-        Route::resource('reports', App\Http\Controllers\ReportController::class)
+        Route::resource('reports', ReportController::class)
             ->names('reports');
-        Route::resource('statuses', App\Http\Controllers\StatusController::class)
+        Route::resource('statuses', StatusController::class)
             ->names('statuses');
-        Route::resource('partners', App\Http\Controllers\PartnerController::class)
+        Route::resource('partners', PartnerController::class)
             ->names('partners');
-        Route::resource('spendings', App\Http\Controllers\SpendingController::class)
+        Route::resource('spendings', SpendingController::class)
             ->names('spendings');
-        Route::resource('spending_details', App\Http\Controllers\SpendingDetailController::class)
+        Route::resource('spending_details', SpendingDetailController::class)
             ->names('spendingDetails');
-        Route::resource('products', App\Http\Controllers\ProductController::class)
+        Route::resource('products', ProductController::class)
             ->names('products');
-        Route::resource('product_stocks', App\Http\Controllers\ProductStockController::class)
+        Route::resource('product_stocks', ProductStockController::class)
             ->names('productStocks');
-        Route::resource('carts', App\Http\Controllers\CartController::class)
+        Route::resource('carts', CartController::class)
             ->names('carts');
-        //Route::resource('cart_details', App\Http\Controllers\CartDetailController::class)
-        //    ->names('cartDetails');
-        Route::resource('orders', App\Http\Controllers\OrderController::class)
+        Route::resource('orders', OrderController::class)
             ->names('orders');
-        //Route::resource('order_details', App\Http\Controllers\OrderDetailController::class)
-        //    ->names('orderDetails');
-        Route::resource('transactions', App\Http\Controllers\TransactionController::class)
+        Route::resource('transactions', TransactionController::class)
             ->names('transactions');
-        //Route::resource('transaction_details', App\Http\Controllers\TransactionDetailController::class)
-        //    ->names('transactionDetails');
-        Route::resource('discounts', App\Http\Controllers\DiscountController::class)
+        Route::resource('discounts', DiscountController::class)
             ->names('discounts');
-        //Route::resource('discount_details', App\Http\Controllers\DiscountDetailController::class)
-        //    ->names('discountDetails');
-        Route::resource('events', App\Http\Controllers\EventController::class)
+        Route::resource('events', EventController::class)
             ->names('events');
-        Route::resource('files', App\Http\Controllers\FileController::class)
+        Route::resource('files', FileController::class)
             ->names('files');
-        Route::resource('file_thumbs', App\Http\Controllers\FileThumbController::class)
-            ->names('fileThumbs');
-        Route::resource('post_categories', App\Http\Controllers\PostCategoryController::class)
+        Route::resource('post_categories', PostCategoryController::class)
             ->names('postCategories');
-        Route::resource('posts', App\Http\Controllers\PostController::class)
+        Route::resource('posts', PostController::class)
             ->names('posts');
-        Route::resource('shipments', App\Http\Controllers\ShipmentController::class)
+        Route::resource('shipments', ShipmentController::class)
             ->names('shipments');
-        Route::resource('categories', App\Http\Controllers\CategoryController::class)
+        Route::resource('categories', CategoryController::class)
             ->names('categories');
+        Route::resource('product_colors', ProductColorController::class)
+            ->names('productColors');
+        Route::resource('product_dimensions', ProductDimensionController::class)
+            ->names('productDimensions');
+        Route::resource('product_sizes', ProductSizeController::class)
+            ->names('productSizes');
     });
 });

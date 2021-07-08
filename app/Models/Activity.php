@@ -5,30 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
  * Class Activity
  * @package App\Models
- * @version May 18, 2021, 2:02 am UTC
+ * @version July 8, 2021, 12:01 am UTC
  *
  * @property morphs $loggable
- * @property string $log
+ * @property string $user_agent
+ * @property string $ip_address
  */
 class Activity extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'activities';
-    
 
     protected $dates = ['deleted_at'];
 
+    protected $keyType = 'string';
 
+    public $incrementing = false;
 
     public $fillable = [
         'loggable',
-        'log'
+        'user_agent',
+        'ip_address'
     ];
 
     /**
@@ -37,7 +38,8 @@ class Activity extends Model
      * @var array
      */
     protected $casts = [
-        
+        'user_agent' => 'string',
+        'ip_address' => 'string'
     ];
 
     /**
@@ -46,8 +48,6 @@ class Activity extends Model
      * @var array
      */
     public static $rules = [
-        
-    ];
 
-    
+    ];
 }
