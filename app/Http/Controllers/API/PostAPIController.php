@@ -123,6 +123,6 @@ class PostAPIController extends Controller
 
         $post->delete();
 
-        return $this->sendSuccess('Post deleted successfully');
+        return response()->json('Post deleted successfully');
     }
 }

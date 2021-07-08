@@ -40,7 +40,7 @@ class UserAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        return response()->json($users);
     }
 
     /**
@@ -57,7 +57,7 @@ class UserAPIController extends AppBaseController
 
         $user = $this->userRepository->create($input);
 
-        return $this->sendResponse($user->toArray(), 'User saved successfully');
+        return response()->json($user);
     }
 
     /**
@@ -77,7 +77,7 @@ class UserAPIController extends AppBaseController
             return $this->sendError('User not found');
         }
 
-        return $this->sendResponse($user->toArray(), 'User retrieved successfully');
+        return response()->json($user);
     }
 
     /**
@@ -102,7 +102,7 @@ class UserAPIController extends AppBaseController
 
         $user = $this->userRepository->update($input, $id);
 
-        return $this->sendResponse($user->toArray(), 'User updated successfully');
+        return response()->json($user);
     }
 
     /**
@@ -126,6 +126,6 @@ class UserAPIController extends AppBaseController
 
         $user->delete();
 
-        return $this->sendSuccess('User deleted successfully');
+        return response()->json('User deleted successfully');
     }
 }

@@ -123,6 +123,6 @@ class PostCategoryAPIController extends Controller
 
         $postCategory->delete();
 
-        return $this->sendSuccess('Post Category deleted successfully');
+        return response()->json('Post Category deleted successfully');
     }
 }

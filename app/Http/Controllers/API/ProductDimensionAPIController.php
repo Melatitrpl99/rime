@@ -37,7 +37,7 @@ class ProductDimensionAPIController extends Controller
 
         $productDimensions = $query->get();
 
-        return $this->sendResponse(ProductDimensionResource::collection($productDimensions), 'Product Dimensions retrieved successfully');
+        return response()->json(ProductDimensionResource::collection($productDimensions));
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductDimensionAPIController extends Controller
         /** @var ProductDimension $productDimension */
         $productDimension = ProductDimension::create($input);
 
-        return $this->sendResponse(new ProductDimensionResource($productDimension), 'Product Dimension saved successfully');
+        return response()->json(new ProductDimensionResource($productDimension));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductDimensionAPIController extends Controller
             return $this->sendError('Product Dimension not found');
         }
 
-        return $this->sendResponse(new ProductDimensionResource($productDimension), 'Product Dimension retrieved successfully');
+        return response(new ProductDimensionResource($productDimension));
     }
 
     /**
@@ -99,7 +99,7 @@ class ProductDimensionAPIController extends Controller
         $productDimension->fill($request->all());
         $productDimension->save();
 
-        return $this->sendResponse(new ProductDimensionResource($productDimension), 'ProductDimension updated successfully');
+        return response()->json(new ProductDimensionResource($productDimension));
     }
 
     /**
@@ -123,6 +123,6 @@ class ProductDimensionAPIController extends Controller
 
         $productDimension->delete();
 
-        return $this->sendSuccess('Product Dimension deleted successfully');
+        return response()->json('Product Dimension deleted successfully');
     }
 }

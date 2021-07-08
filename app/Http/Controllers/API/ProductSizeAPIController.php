@@ -37,7 +37,7 @@ class ProductSizeAPIController extends Controller
 
         $productSizes = $query->get();
 
-        return $this->sendResponse(ProductSizeResource::collection($productSizes), 'Product Sizes retrieved successfully');
+        return response()->json(ProductSizeResource::collection($productSizes));
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductSizeAPIController extends Controller
         /** @var ProductSize $productSize */
         $productSize = ProductSize::create($input);
 
-        return $this->sendResponse(new ProductSizeResource($productSize), 'Product Size saved successfully');
+        return response()->json(new ProductSizeResource($productSize));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductSizeAPIController extends Controller
             return $this->sendError('Product Size not found');
         }
 
-        return $this->sendResponse(new ProductSizeResource($productSize), 'Product Size retrieved successfully');
+        return response()->json(new ProductSizeResource($productSize));
     }
 
     /**
@@ -99,7 +99,7 @@ class ProductSizeAPIController extends Controller
         $productSize->fill($request->all());
         $productSize->save();
 
-        return $this->sendResponse(new ProductSizeResource($productSize), 'ProductSize updated successfully');
+        return response()->json(new ProductSizeResource($productSize));
     }
 
     /**
@@ -123,6 +123,6 @@ class ProductSizeAPIController extends Controller
 
         $productSize->delete();
 
-        return $this->sendSuccess('Product Size deleted successfully');
+        return response()->json('Product Size deleted successfully');
     }
 }

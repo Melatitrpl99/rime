@@ -37,7 +37,7 @@ class ActivityAPIController extends Controller
 
         $activities = $query->get();
 
-        return $this->sendResponse(ActivityResource::collection($activities), 'Activities retrieved successfully');
+        return response()->json(ActivityResource::collection($activities));
     }
 
     /**
@@ -55,7 +55,7 @@ class ActivityAPIController extends Controller
         /** @var Activity $activity */
         $activity = Activity::create($input);
 
-        return $this->sendResponse(new ActivityResource($activity), 'Activity saved successfully');
+        return response()->json(new ActivityResource($activity));
     }
 
     /**
@@ -75,7 +75,7 @@ class ActivityAPIController extends Controller
             return $this->sendError('Activity not found');
         }
 
-        return $this->sendResponse(new ActivityResource($activity), 'Activity retrieved successfully');
+        return response()->json(new ActivityResource($activity));
     }
 
     /**
@@ -99,7 +99,7 @@ class ActivityAPIController extends Controller
         $activity->fill($request->all());
         $activity->save();
 
-        return $this->sendResponse(new ActivityResource($activity), 'Activity updated successfully');
+        return response()->json(new ActivityResource($activity));
     }
 
     /**
@@ -123,6 +123,6 @@ class ActivityAPIController extends Controller
 
         $activity->delete();
 
-        return $this->sendSuccess('Activity deleted successfully');
+        return response()->json('Activity deleted successfully');
     }
 }

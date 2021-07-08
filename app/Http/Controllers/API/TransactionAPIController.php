@@ -123,6 +123,6 @@ class TransactionAPIController extends Controller
 
         $transaction->delete();
 
-        return $this->sendSuccess('Transaction deleted successfully');
+        return response()->json('Transaction deleted successfully');
     }
 }

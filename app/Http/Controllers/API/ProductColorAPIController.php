@@ -37,7 +37,7 @@ class ProductColorAPIController extends Controller
 
         $productColors = $query->get();
 
-        return $this->sendResponse(ProductColorResource::collection($productColors), 'Product Colors retrieved successfully');
+        return response()->json(ProductColorResource::collection($productColors));
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductColorAPIController extends Controller
         /** @var ProductColor $productColor */
         $productColor = ProductColor::create($input);
 
-        return $this->sendResponse(new ProductColorResource($productColor), 'Product Color saved successfully');
+        return response()->json(new ProductColorResource($productColor));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductColorAPIController extends Controller
             return $this->sendError('Product Color not found');
         }
 
-        return $this->sendResponse(new ProductColorResource($productColor), 'Product Color retrieved successfully');
+        return response()->json(new ProductColorResource($productColor));
     }
 
     /**
@@ -99,7 +99,7 @@ class ProductColorAPIController extends Controller
         $productColor->fill($request->all());
         $productColor->save();
 
-        return $this->sendResponse(new ProductColorResource($productColor), 'ProductColor updated successfully');
+        return response()->json(new ProductColorResource($productColor));
     }
 
     /**
@@ -123,6 +123,6 @@ class ProductColorAPIController extends Controller
 
         $productColor->delete();
 
-        return $this->sendSuccess('Product Color deleted successfully');
+        return response()->json('Product Color deleted successfully');
     }
 }

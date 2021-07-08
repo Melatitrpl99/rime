@@ -123,6 +123,6 @@ class EventAPIController extends Controller
 
         $event->delete();
 
-        return $this->sendSuccess('Event deleted successfully');
+        return response()->json('Event deleted successfully');
     }
 }

@@ -123,6 +123,6 @@ class ShipmentAPIController extends Controller
 
         $shipment->delete();
 
-        return $this->sendSuccess('Shipment deleted successfully');
+        return response()->json('Shipment deleted successfully');
     }
 }

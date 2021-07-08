@@ -123,6 +123,6 @@ class DiscountAPIController extends Controller
 
         $discount->delete();
 
-        return $this->sendSuccess('Discount deleted successfully');
+        return response()->json('Discount deleted successfully');
     }
 }

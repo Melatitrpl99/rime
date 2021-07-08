@@ -37,7 +37,7 @@ class StatusAPIController extends Controller
 
         $statuses = $query->get();
 
-        return $this->sendResponse(StatusResource::collection($statuses), 'Statuses retrieved successfully');
+        return response()->json(StatusResource::collection($statuses));
     }
 
     /**
@@ -55,7 +55,7 @@ class StatusAPIController extends Controller
         /** @var Status $status */
         $status = Status::create($input);
 
-        return $this->sendResponse(new StatusResource($status), 'Status saved successfully');
+        return response()->json(new StatusResource($status));
     }
 
     /**
@@ -75,7 +75,7 @@ class StatusAPIController extends Controller
             return $this->sendError('Status not found');
         }
 
-        return $this->sendResponse(new StatusResource($status), 'Status retrieved successfully');
+        return response()->json(new StatusResource($status));
     }
 
     /**
@@ -99,7 +99,7 @@ class StatusAPIController extends Controller
         $status->fill($request->all());
         $status->save();
 
-        return $this->sendResponse(new StatusResource($status), 'Status updated successfully');
+        return response()->json(new StatusResource($status));
     }
 
     /**
@@ -123,6 +123,6 @@ class StatusAPIController extends Controller
 
         $status->delete();
 
-        return $this->sendSuccess('Status deleted successfully');
+        return response()->json('Status deleted successfully');
     }
 }
