@@ -1,9 +1,6 @@
 <?php
 
-namespace App\Providers;
-use App\Models\Dimension;
-use App\Models\Size;
-use App\Models\Colour;
+namespace App\Providers;
 
 use App\Models\PostCategory;
 use App\Models\Transaction;
@@ -12,6 +9,9 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Discount;
 use App\Models\Category;
+use App\Models\ProductColor;
+use App\Models\ProductDimension;
+use App\Models\ProductSize;
 use App\Models\Status;
 use App\Models\User;
 
@@ -42,15 +42,15 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('categoryItems', $categoryItems);
         });
         View::composer(['admin.product_stocks.fields'], function ($view) {
-            $dimensionItems = Dimension::pluck('nama')->toArray();
+            $dimensionItems = ProductDimension::pluck('name')->toArray();
             $view->with('dimensionItems', $dimensionItems);
         });
         View::composer(['admin.product_stocks.fields'], function ($view) {
-            $sizeItems = Size::pluck('nama')->toArray();
+            $sizeItems = ProductSize::pluck('name')->toArray();
             $view->with('sizeItems', $sizeItems);
         });
         View::composer(['admin.product_stocks.fields'], function ($view) {
-            $colourItems = Colour::pluck('nama')->toArray();
+            $colourItems = ProductColor::pluck('name')->toArray();
             $view->with('colourItems', $colourItems);
         });
         View::composer(['admin.product_stocks.fields'], function ($view) {

@@ -27,7 +27,7 @@ class ProductStock extends Model
 
 
     public $table = 'product_stocks';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -35,9 +35,9 @@ class ProductStock extends Model
 
     public $fillable = [
         'product_id',
-        'colour_id',
-        'size_id',
-        'dimension_id',
+        'product_color_id',
+        'product_size_id',
+        'product_dimension_id',
         'stok_ready'
     ];
 
@@ -57,9 +57,9 @@ class ProductStock extends Model
      */
     public static $rules = [
         'product_id' => 'required',
-        'colour_id' => 'required',
-        'size_id' => 'required',
-        'dimension_id' => 'required',
+        'product_color_id' => 'required',
+        'product_size_id' => 'required',
+        'product_dimension_id' => 'required',
         'stok_ready' => 'required'
     ];
 
@@ -74,24 +74,24 @@ class ProductStock extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function colour()
+    public function productColor()
     {
-        return $this->belongsTo(\App\Models\Colour::class);
+        return $this->belongsTo(\App\Models\ProductColour::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function size()
+    public function productSize()
     {
-        return $this->belongsTo(\App\Models\Size::class);
+        return $this->belongsTo(\App\Models\ProductSize::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function dimensions()
+    public function productDimension()
     {
-        return $this->belongsTo(\App\Models\Dimensions::class);
+        return $this->belongsTo(\App\Models\ProductDimension::class);
     }
 }
