@@ -37,6 +37,10 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::composer(['admin.products.fields'], function ($view) {
+            $categoryItems = Category::pluck('nama','id')->toArray();
+            $view->with('categoryItems', $categoryItems);
+        });
         View::composer(['admin.product_stocks.fields'], function ($view) {
             $dimensionItems = Dimension::pluck('nama')->toArray();
             $view->with('dimensionItems', $dimensionItems);

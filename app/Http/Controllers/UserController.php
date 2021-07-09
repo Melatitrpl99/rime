@@ -54,7 +54,7 @@ class UserController extends Controller
 
         Flash::success('User saved successfully.');
 
-        return redirect(route('users.index'));
+        return redirect(route('admin.users.index'));
     }
 
     /**
@@ -72,7 +72,7 @@ class UserController extends Controller
         if (empty($user)) {
             Flash::error('User not found');
 
-            return redirect(route('users.index'));
+            return redirect(route('admin.users.index'));
         }
 
         return view('users.show')->with('user', $user);
@@ -93,7 +93,7 @@ class UserController extends Controller
         if (empty($user)) {
             Flash::error('User not found');
 
-            return redirect(route('users.index'));
+            return redirect(route('admin.users.index'));
         }
 
         return view('users.edit')->with('user', $user);
@@ -115,7 +115,7 @@ class UserController extends Controller
         if (empty($user)) {
             Flash::error('User not found');
 
-            return redirect(route('users.index'));
+            return redirect(route('admin.users.index'));
         }
         $input =  $request->all();
         if (!empty($input['password'])) {
@@ -128,7 +128,7 @@ class UserController extends Controller
 
         Flash::success('User updated successfully.');
 
-        return redirect(route('users.index'));
+        return redirect(route('admin.users.index'));
     }
 
     /**
@@ -148,13 +148,13 @@ class UserController extends Controller
         if (empty($user)) {
             Flash::error('User not found');
 
-            return redirect(route('users.index'));
+            return redirect(route('admin.users.index'));
         }
 
         $user->delete();
 
         Flash::success('User deleted successfully.');
 
-        return redirect(route('users.index'));
+        return redirect(route('admin.users.index'));
     }
 }

@@ -20,11 +20,9 @@ class ProductResource extends JsonResource
             'deskripsi' => $this->deskripsi,
             'harga_customer' => $this->harga_customer,
             'harga_reseller' => $this->harga_reseller,
-            'resellser_minimum' => $this->resellser_minimum,
-            'warna' => $this->warna,
-            'size' => $this->size,
-            'dimensi' => $this->dimensi,
-            'category' => $this->category->name,
+            'reseller_minimum' => $this->reseller_minimum,
+            'slug' => $this->slug,
+            'category_id' => $this->category_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

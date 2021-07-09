@@ -15,7 +15,7 @@
         "name": "nama",
         "dbType": "string",
         "htmlType": "text",
-        "validations": "required",
+        "validations": "required|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -27,7 +27,7 @@
         "name": "deskripsi",
         "dbType": "longtext",
         "htmlType": "textarea",
-        "validations": "required",
+        "validations": "required|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -60,7 +60,7 @@
         "inView": true
     },
     {
-        "name": "resellser_minimum",
+        "name": "reseller_minimum",
         "dbType": "integer",
         "htmlType": "number",
         "validations": "required|numeric",

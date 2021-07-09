@@ -55,6 +55,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::apiResource('shipments', ShipmentAPIController::class);
     Route::apiResource('categories', CategoryAPIController::class);
     Route::apiResource('activities', ActivityAPIController::class);
+    Route::apiResource('products', ProductAPIController::class);
     Route::apiResource('product_colors', ProductColorAPIController::class);
     Route::apiResource('product_dimensions', ProductDimensionAPIController::class);
     Route::apiResource('product_sizes', ProductSizeAPIController::class);

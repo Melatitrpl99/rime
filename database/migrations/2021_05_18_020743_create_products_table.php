@@ -20,10 +20,7 @@ class CreateProductsTable extends Migration
             $table->longtext('deskripsi');
             $table->integer('harga_customer');
             $table->integer('harga_reseller');
-            $table->integer('resellser_minimum');
-            $table->string('warna');
-            $table->string('size');
-            $table->string('dimensi');
+            $table->integer('reseller_minimum');
             $table->string('slug')->nullable();
             $table->foreignId('category_id')->constrained();
             $table->timestamps();

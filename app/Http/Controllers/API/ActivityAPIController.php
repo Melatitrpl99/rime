@@ -50,9 +50,8 @@ class ActivityAPIController extends Controller
      */
     public function store(CreateActivityAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
-        /** @var Activity $activity */
         $activity = Activity::create($input);
 
         return response()->json(new ActivityResource($activity));
@@ -66,13 +65,12 @@ class ActivityAPIController extends Controller
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
-        if (empty($activity)) {
-            return $this->sendError('Activity not found');
+        if (!$activity) {
+            return response()->json([
+                'error' => 'Activity not found'
+            ], 404);
         }
 
         return response()->json(new ActivityResource($activity));
@@ -87,17 +85,15 @@ class ActivityAPIController extends Controller
      *
      * @return Response
      */
-    public function update($id, UpdateActivityAPIRequest $request)
+    public function update(UpdateActivityAPIRequest $request, Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
-        if (empty($activity)) {
-            return $this->sendError('Activity not found');
+        if (!$activity) {
+            return response()->json([
+                'error' => 'Activity not found'
+            ], 404);
         }
 
-        $activity->fill($request->all());
-        $activity->save();
+        $activity->update($request->validated());
 
         return response()->json(new ActivityResource($activity));
     }
@@ -112,13 +108,12 @@ class ActivityAPIController extends Controller
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
-        if (empty($activity)) {
-            return $this->sendError('Activity not found');
+        if (!$activity) {
+            return response()->json([
+                'error' => 'Activity not found'
+            ], 404);
         }
 
         $activity->delete();

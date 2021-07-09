@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Product
  * @package App\Models
- * @version May 18, 2021, 2:07 am UTC
+ * @version July 8, 2021, 8:41 am UTC
  *
  * @property \App\Models\Category $category
  * @property \Illuminate\Database\Eloquent\Collection $carts
@@ -20,10 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $deskripsi
  * @property integer $harga_customer
  * @property integer $harga_reseller
- * @property integer $resellser_minimum
- * @property string $warna
- * @property string $size
- * @property string $dimensi
+ * @property integer $reseller_minimum
  * @property string $slug
  * @property foreignId $category_id
  */
@@ -31,16 +28,20 @@ class Product extends Model
 {
     use SoftDeletes;
 
+
     public $table = 'products';
+    
 
     protected $dates = ['deleted_at'];
+
+
 
     public $fillable = [
         'nama',
         'deskripsi',
         'harga_customer',
         'harga_reseller',
-        'resellser_minimum',
+        'reseller_minimum',
         'slug',
         'category_id'
     ];
@@ -54,10 +55,7 @@ class Product extends Model
         'nama' => 'string',
         'harga_customer' => 'integer',
         'harga_reseller' => 'integer',
-        'resellser_minimum' => 'integer',
-        'warna' => 'string',
-        'size' => 'string',
-        'dimensi' => 'string',
+        'reseller_minimum' => 'integer',
         'slug' => 'string'
     ];
 
@@ -67,11 +65,11 @@ class Product extends Model
      * @var array
      */
     public static $rules = [
-        'nama' => 'required',
-        'deskripsi' => 'required',
+        'nama' => 'required|string',
+        'deskripsi' => 'required|string',
         'harga_customer' => 'required|numeric',
         'harga_reseller' => 'required|numeric',
-        'resellser_minimum' => 'required|numeric',
+        'reseller_minimum' => 'required|numeric',
         'slug' => 'nullable',
         'category_id' => 'required'
     ];
@@ -89,8 +87,7 @@ class Product extends Model
      **/
     public function carts()
     {
-        return $this->belongsToMany(\App\Models\Cart::class, 'cart_details')
-            ->withPivot(['jumlah', 'subtotal']);
+        return $this->belongsToMany(\App\Models\Cart::class, 'cart_details');
     }
 
     /**
@@ -98,8 +95,7 @@ class Product extends Model
      **/
     public function orders()
     {
-        return $this->belongsToMany(\App\Models\Order::class, 'order_details')
-            ->withPivot(['jumlah', 'subtotal']);
+        return $this->belongsToMany(\App\Models\Order::class, 'order_details');
     }
 
     /**
@@ -107,8 +103,7 @@ class Product extends Model
      **/
     public function discounts()
     {
-        return $this->belongsToMany(\App\Models\Discount::class, 'discount_details')
-            ->withPivot(['diskon_harga', 'minimal_produk', 'maksimal_produk']);
+        return $this->belongsToMany(\App\Models\Discount::class, 'discount_details');
     }
 
     /**
@@ -117,15 +112,5 @@ class Product extends Model
     public function productStocks()
     {
         return $this->hasMany(\App\Models\ProductStock::class);
-    }
-
-    public function getProdukPelangganAttribute()
-    {
-        return $this->nama . ' - Rp. ' . number_format($this->harga_customer, 0, ',', '.');
-    }
-
-    public function getProdukResellerAttribute()
-    {
-        return "{$this->nama} - {$this->harga_reseller}";
     }
 }

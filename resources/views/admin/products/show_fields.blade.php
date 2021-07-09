@@ -22,28 +22,10 @@
     <p>{{ $product->harga_reseller }}</p>
 </div>
 
-<!-- Resellser Minimum Field -->
+<!-- Reseller Minimum Field -->
 <div class="col-sm-12">
-    {!! Form::label('resellser_minimum', 'Resellser Minimum:') !!}
-    <p>{{ $product->resellser_minimum }}</p>
-</div>
-
-<!-- Warna Field -->
-<div class="col-sm-12">
-    {!! Form::label('warna', 'Warna:') !!}
-    <p>{{ $product->warna }}</p>
-</div>
-
-<!-- Size Field -->
-<div class="col-sm-12">
-    {!! Form::label('size', 'Size:') !!}
-    <p>{{ $product->size }}</p>
-</div>
-
-<!-- Dimensi Field -->
-<div class="col-sm-12">
-    {!! Form::label('dimensi', 'Dimensi:') !!}
-    <p>{{ $product->dimensi }}</p>
+    {!! Form::label('reseller_minimum', 'Reseller Minimum:') !!}
+    <p>{{ $product->reseller_minimum }}</p>
 </div>
 
 <!-- Slug Field -->
