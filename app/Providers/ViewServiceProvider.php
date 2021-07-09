@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+
+
+use App\Models\Dimension;
+use App\Models\Size;
+use App\Models\Colour;
+
 use App\Models\PostCategory;
 use App\Models\Transaction;
 use App\Models\Order;
@@ -37,6 +43,18 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::composer(['admin.order_details.fields'], function ($view) {
+            $dimensionItems = ProductDimension::pluck('name','id')->toArray();
+            $view->with('dimensionItems', $dimensionItems);
+        });
+        View::composer(['admin.order_details.fields'], function ($view) {
+            $sizeItems = ProductSize::pluck('name','id')->toArray();
+            $view->with('sizeItems', $sizeItems);
+        });
+        View::composer(['admin.order_details.fields'], function ($view) {
+            $colourItems = ProductColour::pluck('name','id')->toArray();
+            $view->with('colourItems', $colourItems);
+        });
         View::composer(['admin.products.fields'], function ($view) {
             $categoryItems = Category::pluck('nama','id')->toArray();
             $view->with('categoryItems', $categoryItems);

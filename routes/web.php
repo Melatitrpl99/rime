@@ -116,3 +116,9 @@ Route::group(['middleware' => 'auth'], function () {
             ->names('productSizes');
     });
 });
+
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('order_details', App\Http\Controllers\OrderDetailController::class)
+        ->names('orderDetails');
+});

@@ -1,4 +1,4 @@
-{{-- 
+{{--
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -38,24 +38,6 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.activities.index') }}" class="nav-link {{ Request::is('activities*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-list-ul"></i>
-        <p>
-            Activities
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.carts.index') }}" class="nav-link {{ Request::is('carts*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-shopping-cart"></i>
-        <p>
-            Carts
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
     <a href="{{ route('admin.categories.index') }}" class="nav-link {{ Request::is('categories*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-bars"></i>
         <p>
@@ -65,64 +47,10 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.discounts.index') }}" class="nav-link {{ Request::is('discounts*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-percent"></i>
+    <a href="{{ route('admin.products.index') }}" class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-tshirt"></i>
         <p>
-            Discounts
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.events.index') }}" class="nav-link {{ Request::is('events*') ? 'active' : '' }}">
-        <i class="nav-icon far fa-calendar-check"></i>
-        <p>
-            Events
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.files.index') }}" class="nav-link {{ Request::is('files*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-file-alt"></i>
-        <p>
-            Files
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.orders.index') }}" class="nav-link {{ Request::is('orders*') ? 'active' : '' }}">
-        <i class="nav-icon far fa-sticky-note"></i>
-        <p>
-            Orders
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.partners.index') }}" class="nav-link {{ Request::is('partners*') ? 'active' : '' }}">
-        <i class="nav-icon far fa-handshake"></i>
-        <p>
-            Partners
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.postCategories.index') }}" class="nav-link {{ Request::is('postCategories*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-bars"></i>
-        <p>
-            Post Categories
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.posts.index') }}" class="nav-link {{ Request::is('posts*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-newspaper"></i>
-        <p>
-            Posts
+            Products
         </p>
     </a>
 </li>
@@ -164,37 +92,19 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.products.index') }}" class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-tshirt"></i>
+    <a href="{{ route('admin.discounts.index') }}" class="nav-link {{ Request::is('discounts*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-percent"></i>
         <p>
-            Products
+            Discounts
         </p>
     </a>
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.reports.index') }}" class="nav-link {{ Request::is('reports*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-file-invoice"></i>
+    <a href="{{ route('admin.carts.index') }}" class="nav-link {{ Request::is('carts*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-shopping-cart"></i>
         <p>
-            Reports
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.shipments.index') }}" class="nav-link {{ Request::is('shipments*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-truck"></i>
-        <p>
-            Shipments
-        </p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.spendings.index') }}" class="nav-link {{ Request::is('spendings*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-money-bill"></i>
-        <p>
-            Spendings
+            Carts
         </p>
     </a>
 </li>
@@ -209,10 +119,101 @@
 </li>
 
 <li class="nav-item">
+    <a href="{{ route('admin.orders.index') }}" class="nav-link {{ Request::is('orders*') ? 'active' : '' }}">
+        <i class="nav-icon far fa-sticky-note"></i>
+        <p>
+            Orders
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.shipments.index') }}" class="nav-link {{ Request::is('shipments*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-truck"></i>
+        <p>
+            Shipments
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
     <a href="{{ route('admin.transactions.index') }}" class="nav-link {{ Request::is('transactions*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-cash-register"></i>
         <p>
             Transactions
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.activities.index') }}" class="nav-link {{ Request::is('activities*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-list-ul"></i>
+        <p>
+            Activities
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.events.index') }}" class="nav-link {{ Request::is('events*') ? 'active' : '' }}">
+        <i class="nav-icon far fa-calendar-check"></i>
+        <p>
+            Events
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.files.index') }}" class="nav-link {{ Request::is('files*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-file-alt"></i>
+        <p>
+            Files
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.partners.index') }}" class="nav-link {{ Request::is('partners*') ? 'active' : '' }}">
+        <i class="nav-icon far fa-handshake"></i>
+        <p>
+            Partners
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.postCategories.index') }}" class="nav-link {{ Request::is('postCategories*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-bars"></i>
+        <p>
+            Post Categories
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.posts.index') }}" class="nav-link {{ Request::is('posts*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-newspaper"></i>
+        <p>
+            Posts
+        </p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('admin.reports.index') }}" class="nav-link {{ Request::is('reports*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-file-invoice"></i>
+        <p>
+            Reports
+        </p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.spendings.index') }}" class="nav-link {{ Request::is('spendings*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-money-bill"></i>
+        <p>
+            Spendings
         </p>
     </a>
 </li>
