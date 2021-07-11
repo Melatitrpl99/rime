@@ -54,7 +54,7 @@ class PostCategoryController extends Controller
 
         Flash::success('Post Category saved successfully.');
 
-        return redirect(route('admin.postCategories.index'));
+        return redirect(route('admin.post_categories.index'));
     }
 
     /**
@@ -72,7 +72,7 @@ class PostCategoryController extends Controller
         if (empty($postCategory)) {
             Flash::error('Post Category not found');
 
-            return redirect(route('admin.postCategories.index'));
+            return redirect(route('admin.post_categories.index'));
         }
 
         return view('admin.post_categories.show')->with('postCategory', $postCategory);
@@ -93,7 +93,7 @@ class PostCategoryController extends Controller
         if (empty($postCategory)) {
             Flash::error('Post Category not found');
 
-            return redirect(route('admin.postCategories.index'));
+            return redirect(route('admin.post_categories.index'));
         }
 
         return view('admin.post_categories.edit')->with('postCategory', $postCategory);
@@ -115,7 +115,7 @@ class PostCategoryController extends Controller
         if (empty($postCategory)) {
             Flash::error('Post Category not found');
 
-            return redirect(route('admin.postCategories.index'));
+            return redirect(route('admin.post_categories.index'));
         }
 
         $postCategory->fill($request->all());
@@ -123,7 +123,7 @@ class PostCategoryController extends Controller
 
         Flash::success('Post Category updated successfully.');
 
-        return redirect(route('admin.postCategories.index'));
+        return redirect(route('admin.post_categories.index'));
     }
 
     /**
@@ -143,13 +143,13 @@ class PostCategoryController extends Controller
         if (empty($postCategory)) {
             Flash::error('Post Category not found');
 
-            return redirect(route('admin.postCategories.index'));
+            return redirect(route('admin.post_categories.index'));
         }
 
         $postCategory->delete();
 
         Flash::success('Post Category deleted successfully.');
 
-        return redirect(route('admin.postCategories.index'));
+        return redirect(route('admin.post_categories.index'));
     }
 }

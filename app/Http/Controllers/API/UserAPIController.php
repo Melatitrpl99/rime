@@ -5,26 +5,17 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
 use App\Models\User;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Http\Controllers\Controller;
 
 /**
  * Class UserController
  * @package App\Http\Controllers\API
  */
 
-class UserAPIController extends AppBaseController
+class UserAPIController extends Controller
 {
-    /** @var  UserRepository */
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepo)
-    {
-        $this->userRepository = $userRepo;
-    }
-
     /**
      * Display a listing of the User.
      * GET|HEAD /users
@@ -34,11 +25,7 @@ class UserAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $users = User::all();
 
         return response()->json($users);
     }

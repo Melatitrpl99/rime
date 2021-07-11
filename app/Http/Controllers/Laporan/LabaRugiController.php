@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdditionalCost;
 use App\Models\Spending;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -19,11 +18,9 @@ class LabaRugiController extends Controller
     {
         $jumlahTransaksi=Transaction::all()->sum('total');
         // dd($jumlahTransaksi);
-        $biayaLain=AdditionalCost::all()->sum('total');
 
         $pengeluaran=Spending::all()->sum('total');
-        return view('laporan.labarugi')->with('pemasukan',$jumlahTransaksi)
-            ->with('biayaLain',$biayaLain)
+        return view('laporan.labarugi')->with('pemasukan', $jumlahTransaksi)
             ->with('pengeluaran',$pengeluaran);
         //
     }

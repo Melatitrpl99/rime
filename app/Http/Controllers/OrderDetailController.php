@@ -54,7 +54,7 @@ class OrderDetailController extends Controller
 
         Flash::success('Order Detail saved successfully.');
 
-        return redirect(route('admin.orderDetails.index'));
+        return redirect(route('admin.order_details.index'));
     }
 
     /**
@@ -72,7 +72,7 @@ class OrderDetailController extends Controller
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('admin.orderDetails.index'));
+            return redirect(route('admin.order_details.index'));
         }
 
         return view('admin.order_details.show')->with('orderDetail', $orderDetail);
@@ -93,7 +93,7 @@ class OrderDetailController extends Controller
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('admin.orderDetails.index'));
+            return redirect(route('admin.order_details.index'));
         }
 
         return view('admin.order_details.edit')->with('orderDetail', $orderDetail);
@@ -115,7 +115,7 @@ class OrderDetailController extends Controller
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('admin.orderDetails.index'));
+            return redirect(route('admin.order_details.index'));
         }
 
         $orderDetail->fill($request->all());
@@ -123,7 +123,7 @@ class OrderDetailController extends Controller
 
         Flash::success('Order Detail updated successfully.');
 
-        return redirect(route('admin.orderDetails.index'));
+        return redirect(route('admin.order_details.index'));
     }
 
     /**
@@ -143,13 +143,13 @@ class OrderDetailController extends Controller
         if (empty($orderDetail)) {
             Flash::error('Order Detail not found');
 
-            return redirect(route('admin.orderDetails.index'));
+            return redirect(route('admin.order_details.index'));
         }
 
         $orderDetail->delete();
 
         Flash::success('Order Detail deleted successfully.');
 
-        return redirect(route('admin.orderDetails.index'));
+        return redirect(route('admin.order_details.index'));
     }
 }

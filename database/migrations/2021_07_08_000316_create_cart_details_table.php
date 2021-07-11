@@ -17,9 +17,9 @@ class CreateCartDetailsTable extends Migration
         Schema::create('cart_details', function (Blueprint $table) {
             $table->foreignId('cart_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->foreignId('product_color_id')->nullable()->constrained();
-            $table->foreignId('product_size_id')->nullable()->constrained();
-            $table->foreignId('product_dimension_id')->nullable()->constrained();
+            $table->foreignId('color_id')->nullable()->constrained();
+            $table->foreignId('size_id')->nullable()->constrained();
+            $table->foreignId('dimension_id')->nullable()->constrained();
             $table->integer('jumlah');
             $table->integer('subtotal');
             $table->softDeletes();

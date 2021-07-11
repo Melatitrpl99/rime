@@ -27,7 +27,8 @@ class Activity extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'loggable',
+        'loggable_type',
+        'loggable_id',
         'user_agent',
         'ip_address'
     ];

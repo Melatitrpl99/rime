@@ -19,7 +19,7 @@ class ProductStockAPIController extends Controller
 {
     /**
      * Display a listing of the ProductStock.
-     * GET|HEAD /productStocks
+     * GET|HEAD /product_stocks
      *
      * @param Request $request
      * @return Response
@@ -42,7 +42,7 @@ class ProductStockAPIController extends Controller
 
     /**
      * Store a newly created ProductStock in storage.
-     * POST /productStocks
+     * POST /product_stocks
      *
      * @param CreateProductStockAPIRequest $request
      *
@@ -60,7 +60,7 @@ class ProductStockAPIController extends Controller
 
     /**
      * Display the specified ProductStock.
-     * GET|HEAD /productStocks/{id}
+     * GET|HEAD /product_stocks/{id}
      *
      * @param int $id
      *
@@ -80,7 +80,7 @@ class ProductStockAPIController extends Controller
 
     /**
      * Update the specified ProductStock in storage.
-     * PUT/PATCH /productStocks/{id}
+     * PUT/PATCH /product_stocks/{id}
      *
      * @param int $id
      * @param UpdateProductStockAPIRequest $request
@@ -104,7 +104,7 @@ class ProductStockAPIController extends Controller
 
     /**
      * Remove the specified ProductStock from storage.
-     * DELETE /productStocks/{id}
+     * DELETE /product_stocks/{id}
      *
      * @param int $id
      *

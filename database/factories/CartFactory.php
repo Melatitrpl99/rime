@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Cart;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CartFactory extends Factory
@@ -21,10 +22,11 @@ class CartFactory extends Factory
      */
     public function definition()
     {
-        $nama = ucfirst($this->faker->word);
         return [
-            'nama' => $nama,
-            'slug' => Str::slug($nama)
+            'nomor' => $this->faker->regexify('[A-Za-z]{2}[0-9]{4}'),
+            'judul' => $this->faker->sentence(3),
+            'deskripsi' => $this->faker->text(rand(100, 200)),
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

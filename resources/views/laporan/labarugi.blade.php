@@ -68,14 +68,14 @@
                             </tr>
                             <tr>
                                 <td> Total Biaya Lain </td>
-                                <td>Rp {{ number_format($biayaLain,2) }}</td>
+                                <td>Rp 0</td>
                             </tr>
                             <tr>
                                 <td colspan="2"></td>
                             </tr>
                             <tr>
                                 <td> <b>Pendapatan Bersih</b> </td>
-                                <td>Rp {{ number_format(($pemasukan-$pengeluaran)-$biayaLain,2) }}</td>
+                                <td>Rp {{ number_format(($pemasukan-$pengeluaran), 2) }}</td>
                             </tr>
 
 

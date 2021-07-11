@@ -26,9 +26,9 @@
         "relation": "mt1,Product"
     },
     {
-        "name": "colour_id",
+        "name": "color_id",
         "dbType": "foreignId:constrained",
-        "htmlType": "selectTable:colours:nama:id",
+        "htmlType": "selectTable:colors:nama:id",
         "validations": "required",
         "searchable": true,
         "fillable": true,
@@ -36,7 +36,7 @@
         "inForm": true,
         "inIndex": true,
         "inView": true,
-        "relation": "mt1,Colour"
+        "relation": "mt1,Color"
     },
     {
         "name": "size_id",

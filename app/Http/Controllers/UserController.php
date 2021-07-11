@@ -48,8 +48,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        /** @var User $user */
+        $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
         Flash::success('User saved successfully.');

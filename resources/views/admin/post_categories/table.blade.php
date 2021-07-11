@@ -11,15 +11,15 @@
             <tr>
                 <td>{{ $postCategory->name }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.postCategories.destroy', $postCategory->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.post_categories.destroy', $postCategory->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('admin.postCategories.show', [$postCategory->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.post_categories.show', [$postCategory->id]) }}" class='btn btn-default btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('admin.postCategories.edit', [$postCategory->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.post_categories.edit', [$postCategory->id]) }}" class='btn btn-default btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>

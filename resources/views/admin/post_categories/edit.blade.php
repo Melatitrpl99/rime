@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($postCategory, ['route' => ['admin.postCategories.update', $postCategory->id], 'method' => 'patch']) !!}
+            {!! Form::model($postCategory, ['route' => ['admin.post_categories.update', $postCategory->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.postCategories.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.post_categories.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
            {!! Form::close() !!}

@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-2">
     <a href="{{ route('home') }}" class="brand-link">
         <img src="{{ asset('logo.png') }}" alt="Rime Syari Logo" class="brand-image">
         <span class="brand-text font-weight-light">Rime Syari</span>

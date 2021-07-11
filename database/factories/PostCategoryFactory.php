@@ -21,8 +21,10 @@ class PostCategoryFactory extends Factory
      */
     public function definition()
     {
+        $nama = ucfirst($this->faker->word);
         return [
-            //
+            'name' => $nama,
+            'slug' => Str::slug($nama)
         ];
     }
 }

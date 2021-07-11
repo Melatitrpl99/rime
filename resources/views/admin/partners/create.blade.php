@@ -5,35 +5,33 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Partner</h1>
+                    <h1>Add new Partner</h1>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="content px-3">
-
-        @include('adminlte-templates::common.errors')
-
-        <div class="card">
-
-            {!! Form::open(['route' => 'admin.partners.store']) !!}
-
-            <div class="card-body">
-
-                <div class="row">
-                    @include('admin.partners.fields')
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    @include('adminlte-templates::common.errors')
                 </div>
-
+                <div class="col-12">
+                    <div class="card">
+                        {!! Form::open(['route' => 'admin.partners.store']) !!}
+                        <div class="card-body">
+                            <div class="row">
+                                @include('admin.partners.fields')
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                            <a href="{{ route('admin.partners.index') }}" class="btn btn-default">Cancel</a>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             </div>
-
-            <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.partners.index') }}" class="btn btn-default">Cancel</a>
-            </div>
-
-            {!! Form::close() !!}
-
         </div>
-    </div>
+    </section>
 @endsection

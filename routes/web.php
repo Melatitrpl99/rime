@@ -2,22 +2,26 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartDetailController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\DiscountDetailController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\FileThumbController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Laporan\BukuBesarController;
 use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\Misc\ExcelController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductDimensionController;
-use App\Http\Controllers\ProductSizeController;
+use App\Http\Controllers\DimensionController;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShipmentController;
@@ -25,6 +29,7 @@ use App\Http\Controllers\SpendingController;
 use App\Http\Controllers\SpendingDetailController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -72,53 +77,31 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('users', UserController::class);
-        Route::resource('activities', ActivityController::class)
-            ->names('activities');
-        Route::resource('reports', ReportController::class)
-            ->names('reports');
-        Route::resource('statuses', StatusController::class)
-            ->names('statuses');
-        Route::resource('partners', PartnerController::class)
-            ->names('partners');
-        Route::resource('spendings', SpendingController::class)
-            ->names('spendings');
-        Route::resource('spending_details', SpendingDetailController::class)
-            ->names('spendingDetails');
-        Route::resource('products', ProductController::class)
-            ->names('products');
-        Route::resource('product_stocks', ProductStockController::class)
-            ->names('productStocks');
-        Route::resource('carts', CartController::class)
-            ->names('carts');
-        Route::resource('orders', OrderController::class)
-            ->names('orders');
-        Route::resource('transactions', TransactionController::class)
-            ->names('transactions');
-        Route::resource('discounts', DiscountController::class)
-            ->names('discounts');
-        Route::resource('events', EventController::class)
-            ->names('events');
-        Route::resource('files', FileController::class)
-            ->names('files');
-        Route::resource('post_categories', PostCategoryController::class)
-            ->names('postCategories');
-        Route::resource('posts', PostController::class)
-            ->names('posts');
-        Route::resource('shipments', ShipmentController::class)
-            ->names('shipments');
-        Route::resource('categories', CategoryController::class)
-            ->names('categories');
-        Route::resource('product_colors', ProductColorController::class)
-            ->names('productColors');
-        Route::resource('product_dimensions', ProductDimensionController::class)
-            ->names('productDimensions');
-        Route::resource('product_sizes', ProductSizeController::class)
-            ->names('productSizes');
+        Route::resource('activities', ActivityController::class);
+        Route::resource('reports', ReportController::class);
+        Route::resource('statuses', StatusController::class);
+        Route::resource('partners', PartnerController::class);
+        Route::resource('spendings', SpendingController::class);
+        Route::resource('spending_details', SpendingDetailController::class);
+        Route::resource('products', ProductController::class);
+        Route::resource('product_stocks', ProductStockController::class);
+        Route::resource('carts', CartController::class);
+        Route::resource('orders', OrderController::class);
+        Route::resource('transactions', TransactionController::class);
+        Route::resource('discounts', DiscountController::class);
+        Route::resource('events', EventController::class);
+        Route::resource('files', FileController::class);
+        Route::resource('post_categories', PostCategoryController::class);
+        Route::resource('posts', PostController::class);
+        Route::resource('shipments', ShipmentController::class);
+        Route::resource('categories', CategoryController::class);
+        Route::resource('colors', ColorController::class);
+        Route::resource('dimensions', DimensionController::class);
+        Route::resource('sizes', SizeController::class);
+        Route::resource('order_details', OrderDetailController::class);
+        Route::resource('cart_details', CartDetailController::class);
+        Route::resource('transaction_details', TransactionDetailController::class);
+        Route::resource('discount_details', DiscountDetailController::class);
+        Route::resource('file_thumbs', FileThumbController::class);
     });
-});
-
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('order_details', App\Http\Controllers\OrderDetailController::class)
-        ->names('orderDetails');
 });

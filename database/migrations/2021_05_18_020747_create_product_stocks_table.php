@@ -17,9 +17,9 @@ class CreateProductStocksTable extends Migration
         Schema::create('product_stocks', function (Blueprint $table) {
             $table->id('id');
             $table->foreignId('product_id')->constrained();
-            $table->foreignId('product_color_id')->constrained();
-            $table->foreignId('product_size_id')->constrained();
-            $table->foreignId('product_dimension_id')->constrained();
+            $table->foreignId('color_id')->constrained();
+            $table->foreignId('size_id')->constrained();
+            $table->foreignId('dimension_id')->constrained();
             $table->integer('stok_ready');
             $table->timestamps();
             $table->softDeletes();

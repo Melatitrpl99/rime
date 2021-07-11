@@ -30,7 +30,7 @@ class Product extends Model
 
 
     public $table = 'products';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -79,7 +79,7 @@ class Product extends Model
      **/
     public function category()
     {
-        return $this->belongsTo(\App\Models\Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     /**

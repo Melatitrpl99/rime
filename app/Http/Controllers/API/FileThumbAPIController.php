@@ -19,7 +19,7 @@ class FileThumbAPIController extends Controller
 {
     /**
      * Display a listing of the FileThumb.
-     * GET|HEAD /fileThumbs
+     * GET|HEAD /file_thumbs
      *
      * @param Request $request
      * @return Response
@@ -42,7 +42,7 @@ class FileThumbAPIController extends Controller
 
     /**
      * Store a newly created FileThumb in storage.
-     * POST /fileThumbs
+     * POST /file_thumbs
      *
      * @param CreateFileThumbAPIRequest $request
      *
@@ -60,7 +60,7 @@ class FileThumbAPIController extends Controller
 
     /**
      * Display the specified FileThumb.
-     * GET|HEAD /fileThumbs/{id}
+     * GET|HEAD /file_thumbs/{id}
      *
      * @param int $id
      *
@@ -80,7 +80,7 @@ class FileThumbAPIController extends Controller
 
     /**
      * Update the specified FileThumb in storage.
-     * PUT/PATCH /fileThumbs/{id}
+     * PUT/PATCH /file_thumbs/{id}
      *
      * @param int $id
      * @param UpdateFileThumbAPIRequest $request
@@ -104,7 +104,7 @@ class FileThumbAPIController extends Controller
 
     /**
      * Remove the specified FileThumb from storage.
-     * DELETE /fileThumbs/{id}
+     * DELETE /file_thumbs/{id}
      *
      * @param int $id
      *

@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($productStock, ['route' => ['admin.productStocks.update', $productStock->id], 'method' => 'patch']) !!}
+            {!! Form::model($productStock, ['route' => ['admin.product_stocks.update', $productStock->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.productStocks.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.product_stocks.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
            {!! Form::close() !!}

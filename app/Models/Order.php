@@ -25,13 +25,9 @@ class Order extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'orders';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'nomor',

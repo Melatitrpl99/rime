@@ -7,8 +7,8 @@
 
 <!-- Colour Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('colour_id', 'Colour Id:') !!}
-    {!! Form::select('colour_id', $colourItems, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::label('color_id', 'Colour Id:') !!}
+    {!! Form::select('color_id', $colorItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 

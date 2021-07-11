@@ -30,9 +30,9 @@ class CartDetail extends Pivot
     protected $dates = ['deleted_at'];
 
     public $fillable = [
-        'product_color_id',
-        'product_size_id',
-        'product_dimension_id',
+        'color_id',
+        'size_id',
+        'dimension_id',
         'jumlah',
         'subtotal'
     ];
@@ -55,9 +55,9 @@ class CartDetail extends Pivot
     public static $rules = [
         'cart_id' => 'required',
         'product_id' => 'required',
-        'product_color_id' => 'required',
-        'product_size_id' => 'required',
-        'product_dimension_id' => 'required',
+        'color_id' => 'required',
+        'size_id' => 'required',
+        'dimension_id' => 'required',
         'jumlah' => 'required|numeric',
         'subtotal' => 'required|integer'
     ];

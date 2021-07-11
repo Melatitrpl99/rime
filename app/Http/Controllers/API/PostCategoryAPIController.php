@@ -19,7 +19,7 @@ class PostCategoryAPIController extends Controller
 {
     /**
      * Display a listing of the PostCategory.
-     * GET|HEAD /postCategories
+     * GET|HEAD /post_categories
      *
      * @param Request $request
      * @return Response
@@ -42,7 +42,7 @@ class PostCategoryAPIController extends Controller
 
     /**
      * Store a newly created PostCategory in storage.
-     * POST /postCategories
+     * POST /post_categories
      *
      * @param CreatePostCategoryAPIRequest $request
      *
@@ -60,7 +60,7 @@ class PostCategoryAPIController extends Controller
 
     /**
      * Display the specified PostCategory.
-     * GET|HEAD /postCategories/{id}
+     * GET|HEAD /post_categories/{id}
      *
      * @param int $id
      *
@@ -80,7 +80,7 @@ class PostCategoryAPIController extends Controller
 
     /**
      * Update the specified PostCategory in storage.
-     * PUT/PATCH /postCategories/{id}
+     * PUT/PATCH /post_categories/{id}
      *
      * @param int $id
      * @param UpdatePostCategoryAPIRequest $request
@@ -104,7 +104,7 @@ class PostCategoryAPIController extends Controller
 
     /**
      * Remove the specified PostCategory from storage.
-     * DELETE /postCategories/{id}
+     * DELETE /post_categories/{id}
      *
      * @param int $id
      *

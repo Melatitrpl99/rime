@@ -5,6 +5,6 @@
 <!-- AdminLTE -->
 <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
 <!-- overlayScrollbars -->
-<script src="{{ asset('adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"
+<script src="{{ asset('adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 @stack('scripts')
 

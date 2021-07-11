@@ -7,35 +7,23 @@
                 <div class="col-sm-6">
                     <h1>Activities</h1>
                 </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('admin.activities.create') }}">
-                        Add New
-                    </a>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    @include('flash::message')
+                    <div class="cleafix"></div>
+                    <div class="card">
+                        <div class="card-body p-0">
+                            @include('admin.activities.table')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="content px-3">
-
-        @include('flash::message')
-
-        <div class="clearfix"></div>
-
-        <div class="card">
-            <div class="card-body p-0">
-                @include('admin.activities.table')
-
-                <div class="card-footer clearfix float-right">
-                    <div class="float-right">
-                        
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
 @endsection
 

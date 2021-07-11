@@ -54,7 +54,7 @@ class ProductStockController extends Controller
 
         Flash::success('Product Stock saved successfully.');
 
-        return redirect(route('admin.productStocks.index'));
+        return redirect(route('admin.product_stocks.index'));
     }
 
     /**
@@ -72,7 +72,7 @@ class ProductStockController extends Controller
         if (empty($productStock)) {
             Flash::error('Product Stock not found');
 
-            return redirect(route('admin.productStocks.index'));
+            return redirect(route('admin.product_stocks.index'));
         }
 
         return view('admin.product_stocks.show')->with('productStock', $productStock);
@@ -93,7 +93,7 @@ class ProductStockController extends Controller
         if (empty($productStock)) {
             Flash::error('Product Stock not found');
 
-            return redirect(route('admin.productStocks.index'));
+            return redirect(route('admin.product_stocks.index'));
         }
 
         return view('admin.product_stocks.edit')->with('productStock', $productStock);
@@ -115,7 +115,7 @@ class ProductStockController extends Controller
         if (empty($productStock)) {
             Flash::error('Product Stock not found');
 
-            return redirect(route('admin.productStocks.index'));
+            return redirect(route('admin.product_stocks.index'));
         }
 
         $productStock->fill($request->all());
@@ -123,7 +123,7 @@ class ProductStockController extends Controller
 
         Flash::success('Product Stock updated successfully.');
 
-        return redirect(route('admin.productStocks.index'));
+        return redirect(route('admin.product_stocks.index'));
     }
 
     /**
@@ -143,13 +143,13 @@ class ProductStockController extends Controller
         if (empty($productStock)) {
             Flash::error('Product Stock not found');
 
-            return redirect(route('admin.productStocks.index'));
+            return redirect(route('admin.product_stocks.index'));
         }
 
         $productStock->delete();
 
         Flash::success('Product Stock deleted successfully.');
 
-        return redirect(route('admin.productStocks.index'));
+        return redirect(route('admin.product_stocks.index'));
     }
 }

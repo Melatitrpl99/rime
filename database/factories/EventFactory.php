@@ -21,8 +21,22 @@ class EventFactory extends Factory
      */
     public function definition()
     {
+        $judul = $this->faker->sentence(rand(3, 10));
         return [
-            //
+            'judul' => $judul,
+            'deskripsi' => function () {
+                $desc = '';
+                for ($i = 0; $i < rand(2, 5); $i++) {
+                    $desc += '<p>'.$this->faker->paragraph(rand(3, 12)).'</p>';
+                }
+                return $desc;
+            },
+            'waktu_mulai' => $this->faker->dateTime(),
+            'waktu_selesai' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'alamat' => $this->faker->address(),
+            'nomor_hp' => $this->faker->phoneNumber(),
+            'email' => $this->faker->safeEmail(),
+            'slug' => Str::slug($judul),
         ];
     }
 }

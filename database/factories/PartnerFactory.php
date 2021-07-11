@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Partner;
+use App\Models\Regency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PartnerFactory extends Factory
@@ -21,8 +22,14 @@ class PartnerFactory extends Factory
      */
     public function definition()
     {
+        $lokasi = Regency::inRandomOrder()->pluck('id');
         return [
-            //
+            'nama' => $this->faker->name,
+            'deskripsi' => $this->faker->paragraph(rand(5, 12)),
+            'alamat' => $this->faker->address(),
+            'lokasi' => $this->faker->randomElement($lokasi),
+            'email' => $this->faker->safeEmail(),
+            'no_hp' => $this->faker->phoneNumber(),
         ];
     }
 }

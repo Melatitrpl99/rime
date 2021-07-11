@@ -56,7 +56,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.productColors.index') }}" class="nav-link {{ Request::is('productColors*') ? 'active' : '' }}">
+    <a href="{{ route('admin.colors.index') }}" class="nav-link {{ Request::is('colors*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-palette"></i>
         <p>
             Product Colors
@@ -65,7 +65,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.productSizes.index') }}" class="nav-link {{ Request::is('productSizes*') ? 'active' : '' }}">
+    <a href="{{ route('admin.sizes.index') }}" class="nav-link {{ Request::is('sizes*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-arrows-alt-h"></i>
         <p>
             Product Sizes
@@ -74,7 +74,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.productDimensions.index') }}" class="nav-link {{ Request::is('productDimensions*') ? 'active' : '' }}">
+    <a href="{{ route('admin.dimensions.index') }}" class="nav-link {{ Request::is('dimensions*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-ruler-combined"></i>
         <p>
             Product Dimensions
@@ -83,7 +83,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.productStocks.index') }}" class="nav-link {{ Request::is('productStocks*') ? 'active' : '' }}">
+    <a href="{{ route('admin.product_stocks.index') }}" class="nav-link {{ Request::is('product_stocks*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-cubes"></i>
         <p>
             Product Stocks
@@ -182,7 +182,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.postCategories.index') }}" class="nav-link {{ Request::is('postCategories*') ? 'active' : '' }}">
+    <a href="{{ route('admin.post_categories.index') }}" class="nav-link {{ Request::is('post_categories*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-bars"></i>
         <p>
             Post Categories

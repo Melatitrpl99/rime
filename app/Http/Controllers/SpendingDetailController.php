@@ -54,7 +54,7 @@ class SpendingDetailController extends Controller
 
         Flash::success('Spending Detail saved successfully.');
 
-        return redirect(route('admin.spendingDetails.index'));
+        return redirect(route('admin.spending_details.index'));
     }
 
     /**
@@ -72,7 +72,7 @@ class SpendingDetailController extends Controller
         if (empty($spendingDetail)) {
             Flash::error('Spending Detail not found');
 
-            return redirect(route('admin.spendingDetails.index'));
+            return redirect(route('admin.spending_details.index'));
         }
 
         return view('admin.spending_details.show')->with('spendingDetail', $spendingDetail);
@@ -93,7 +93,7 @@ class SpendingDetailController extends Controller
         if (empty($spendingDetail)) {
             Flash::error('Spending Detail not found');
 
-            return redirect(route('admin.spendingDetails.index'));
+            return redirect(route('admin.spending_details.index'));
         }
 
         return view('admin.spending_details.edit')->with('spendingDetail', $spendingDetail);
@@ -115,7 +115,7 @@ class SpendingDetailController extends Controller
         if (empty($spendingDetail)) {
             Flash::error('Spending Detail not found');
 
-            return redirect(route('admin.spendingDetails.index'));
+            return redirect(route('admin.spending_details.index'));
         }
 
         $spendingDetail->fill($request->all());
@@ -123,7 +123,7 @@ class SpendingDetailController extends Controller
 
         Flash::success('Spending Detail updated successfully.');
 
-        return redirect(route('admin.spendingDetails.index'));
+        return redirect(route('admin.spending_details.index'));
     }
 
     /**
@@ -143,13 +143,13 @@ class SpendingDetailController extends Controller
         if (empty($spendingDetail)) {
             Flash::error('Spending Detail not found');
 
-            return redirect(route('admin.spendingDetails.index'));
+            return redirect(route('admin.spending_details.index'));
         }
 
         $spendingDetail->delete();
 
         Flash::success('Spending Detail deleted successfully.');
 
-        return redirect(route('admin.spendingDetails.index'));
+        return redirect(route('admin.spending_details.index'));
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="en">
 <html>
 <head>
     <meta charset="UTF-8">
@@ -18,9 +18,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <section class="content">
-                @yield('content')
-            </section>
+            @yield('content')
         </div>
 
         <!-- Main Footer -->
@@ -31,5 +29,6 @@
             <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a></strong> &nbsp;&bull;&nbsp;All rights reserved.
         </footer>
     </div>
+    @include('layouts.js')
 </body>
 </html>

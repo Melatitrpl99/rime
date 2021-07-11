@@ -21,8 +21,14 @@ class DiscountFactory extends Factory
      */
     public function definition()
     {
+        $judul = $this->faker->sentence(rand(1, 3));
         return [
-            //
+            'judul' => $judul,
+            'deskripsi' => $this->faker->text(rand(100, 200)),
+            'kode' => $this->faker->regexify('[A-Za-z]{5}[0-9]{3}'),
+            'batas_pemakaian' => $this->faker->randomDigit(),
+            'diskon_kategori' => $this->faker->randomElement(['customer', 'reseller']),
+            'slug' => Str::slug($judul),
         ];
     }
 }

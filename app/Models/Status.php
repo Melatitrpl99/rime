@@ -19,16 +19,11 @@ class Status extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'statuses';
-    
 
     protected $dates = ['deleted_at'];
 
-
-
     public $fillable = [
-        'id',
         'name',
         'desc'
     ];
@@ -39,7 +34,6 @@ class Status extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
         'name' => 'string',
         'desc' => 'string'
     ];
@@ -50,10 +44,9 @@ class Status extends Model
      * @var array
      */
     public static $rules = [
-        'id' => 'required|numeric',
         'name' => 'required',
         'desc' => 'nullable'
     ];
 
-    
+
 }

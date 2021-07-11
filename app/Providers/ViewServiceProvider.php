@@ -2,27 +2,32 @@
 
 namespace App\Providers;
 
-
-
-use App\Models\Dimension;
-use App\Models\Size;
-use App\Models\Colour;
-
-use App\Models\PostCategory;
-use App\Models\Transaction;
-use App\Models\Order;
+use App\Models\Activity;
 use App\Models\Cart;
-use App\Models\Product;
-use App\Models\Discount;
 use App\Models\Category;
-use App\Models\ProductColor;
-use App\Models\ProductDimension;
-use App\Models\ProductSize;
+use App\Models\Color;
+use App\Models\Dimension;
+use App\Models\Discount;
+use App\Models\District;
+use App\Models\Event;
+use App\Models\File;
+use App\Models\Order;
+use App\Models\Partner;
+use App\Models\Post;
+use App\Models\PostCategory;
+use App\Models\Product;
+use App\Models\Province;
+use App\Models\Regency;
+use App\Models\Report;
+use App\Models\Size;
+use App\Models\Spending;
 use App\Models\Status;
+use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Village;
+use Spatie\Permission\Models\Role;
 
 use Illuminate\Support\ServiceProvider;
-use View;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -43,198 +48,141 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['admin.order_details.fields'], function ($view) {
-            $dimensionItems = ProductDimension::pluck('name','id')->toArray();
-            $view->with('dimensionItems', $dimensionItems);
-        });
-        View::composer(['admin.order_details.fields'], function ($view) {
-            $sizeItems = ProductSize::pluck('name','id')->toArray();
-            $view->with('sizeItems', $sizeItems);
-        });
-        View::composer(['admin.order_details.fields'], function ($view) {
-            $colourItems = ProductColour::pluck('name','id')->toArray();
-            $view->with('colourItems', $colourItems);
-        });
-        View::composer(['admin.products.fields'], function ($view) {
-            $categoryItems = Category::pluck('nama','id')->toArray();
-            $view->with('categoryItems', $categoryItems);
-        });
-        View::composer(['admin.product_stocks.fields'], function ($view) {
-            $dimensionItems = ProductDimension::pluck('name')->toArray();
-            $view->with('dimensionItems', $dimensionItems);
-        });
-        View::composer(['admin.product_stocks.fields'], function ($view) {
-            $sizeItems = ProductSize::pluck('name')->toArray();
-            $view->with('sizeItems', $sizeItems);
-        });
-        View::composer(['admin.product_stocks.fields'], function ($view) {
-            $colourItems = ProductColor::pluck('name')->toArray();
-            $view->with('colourItems', $colourItems);
-        });
-        View::composer(['admin.product_stocks.fields'], function ($view) {
+        $categoryItems = Category::pluck('nama','id')->toArray();
+        $postCategoryItems = PostCategory::pluck('name','id')->toArray();
+        $statusItems = Status::pluck('name','id')->toArray();
+
+        $colorItems = Color::pluck('name','id')->toArray();
+        $dimensionItems = Dimension::pluck('name','id')->toArray();
+        $sizeItems = Size::pluck('name','id')->toArray();
+
+        $provinceItems = Province::pluck('name', 'id')->toArray();
+        $regencyItems = Regency::pluck('name', 'id')->toArray();
+        $districtItems = District::pluck('name', 'id')->toArray();
+        $villageItems = Village::pluck('name', 'id')->toArray();
+
+        $roleItems = Role::pluck('name', 'id')->toArray();
+
+        $activityItems = Activity::pluck('user_agent', 'id')->toArray();
+        $cartItems = Cart::pluck('nomor', 'id')->toArray();
+        $discountItems = Discount::pluck('judul', 'id')->toArray();
+        $eventItems = Event::pluck('judul', 'id')->toArray();
+        $fileItems = File::pluck('name', 'id')->toArray();
+        $orderItems = Order::pluck('nomor', 'id')->toArray();
+        $partnerItems = Partner::pluck('nama', 'id')->toArray();
+        $postItems = Post::pluck('judul', 'id')->toArray();
+        $productItems = Product::pluck('nama','id')->toArray();
+        $reportItems = Report::pluck('judul', 'id')->toArray();
+        $spendingItems = Spending::pluck('nomor', 'id')->toArray();
+        $transactionItems = Transaction::pluck('nomor', 'id')->toArray();
+        $userItems = User::pluck('name','id')->toArray();
+
+        view()->composer('admin.cart_details.fields', function ($view) {
+            $cartItems = Cart::pluck('nomor', 'id')->toArray();
             $productItems = Product::pluck('nama','id')->toArray();
-            $view->with('productItems', $productItems);
+            $colorItems = Color::pluck('name','id')->toArray();
+            $dimensionItems = Dimension::pluck('name','id')->toArray();
+            $sizeItems = Size::pluck('name','id')->toArray();
+
+            $view->with('cartItems', $cartItems)
+                ->with('productItems', $productItems)
+                ->with('colorItems', $colorItems)
+                ->with('dimensionItems', $dimensionItems)
+                ->with('sizeItems', $sizeItems);
         });
-        View::composer(['admin.orders.fields'], function ($view) {
+
+        view()->composer('admin.carts.fields', function ($view) {
             $userItems = User::pluck('name','id')->toArray();
+
             $view->with('userItems', $userItems);
         });
-        View::composer(['admin.orders.fields'], function ($view) {
+
+        view()->composer('admin.discount_details.fields', function ($view) {
+            $discountItems = Discount::pluck('judul', 'id')->toArray();
+            $productItems = Product::pluck('nama','id')->toArray();
+
+            $view->with('discountItems', $discountItems)
+                ->with('productItems', $productItems);
+        });
+
+        view()->composer('admin.order_details.fields', function ($view) {
+            $orderItems = Order::pluck('nomor', 'id')->toArray();
+            $productItems = Product::pluck('nama','id')->toArray();
+            $colorItems = Color::pluck('name','id')->toArray();
+            $dimensionItems = Dimension::pluck('name','id')->toArray();
+            $sizeItems = Size::pluck('name','id')->toArray();
+
+            $view->with('orderItems', $orderItems)
+                ->with('productItems', $productItems)
+                ->with('colorItems', $colorItems)
+                ->with('dimensionItems', $dimensionItems)
+                ->with('sizeItems', $sizeItems);
+        });
+
+        view()->composer('admin.orders.fields', function ($view) {
             $statusItems = Status::pluck('name','id')->toArray();
-            $view->with('statusItems', $statusItems);
-        });
-        View::composer(['admin.carts.fields'], function ($view) {
             $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
+
+            $view->with('statusItems', $statusItems)
+                ->with('userItems', $userItems);
         });
-        View::composer(['admin.shipments.fields'], function ($view) {
-            $orderItems = Order::pluck('nomor','id')->toArray();
-            $view->with('orderItems', $orderItems);
+
+        view()->composer('admin.posts.fields', function ($view) {
+            $postCategoryItems = PostCategory::pluck('name','id')->toArray();
+
+            $view->with('postCategoryItems', $postCategoryItems);
         });
-        View::composer(['admin.posts.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.posts.fields'], function ($view) {
-            $post_categoryItems = PostCategory::pluck('name','id')->toArray();
-            $view->with('post_categoryItems', $post_categoryItems);
-        });
-        View::composer(['admin.transactions.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.orders.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.carts.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.product_stocks.fields'], function ($view) {
+
+        view()->composer('admin.product_stocks.fields', function ($view) {
             $productItems = Product::pluck('nama','id')->toArray();
-            $view->with('productItems', $productItems);
+            $colorItems = Color::pluck('name','id')->toArray();
+            $dimensionItems = Dimension::pluck('name','id')->toArray();
+            $sizeItems = Size::pluck('name','id')->toArray();
+
+            $view->with('productItems', $productItems)
+                ->with('colorItems', $colorItems)
+                ->with('dimensionItems', $dimensionItems)
+                ->with('sizeItems', $sizeItems);
         });
-        View::composer(['admin.products.fields'], function ($view) {
+
+        view()->composer('admin.products.fields', function ($view) {
             $categoryItems = Category::pluck('nama','id')->toArray();
+
             $view->with('categoryItems', $categoryItems);
         });
-        View::composer(['admin.reports.fields'], function ($view) {
+
+        view()->composer('admin.reports.fields', function ($view) {
             $userItems = User::pluck('name','id')->toArray();
+
             $view->with('userItems', $userItems);
         });
-        View::composer(['admin.product_stocks.fields'], function ($view) {
-            $productItems = Product::pluck('nama','id')->toArray();
-            $view->with('productItems', $productItems);
+
+        view()->composer('admin.shipments.fields', function ($view) {
+            $orderItems = Order::pluck('nomor', 'id')->toArray();
+            $provinceItems = Province::pluck('name', 'id')->toArray();
+            $regencyItems = Regency::pluck('name', 'id')->toArray();
+            $districtItems = District::pluck('name', 'id')->toArray();
+            $villageItems = Village::pluck('name', 'id')->toArray();
+
+            $view->with('orderItems', $orderItems)
+                ->with('provinceItems', $provinceItems)
+                ->with('regencyItems', $regencyItems)
+                ->with('districtItems', $districtItems)
+                ->with('villageItems', $villageItems);
         });
-        View::composer(['admin.products.fields'], function ($view) {
-            $categoryItems = Category::pluck('nama','id')->toArray();
-            $view->with('categoryItems', $categoryItems);
+
+        view()->composer('admin.transaction_details.fields', function ($view) {
+            $orderItems = Order::pluck('nomor', 'id')->toArray();
+            $transactionItems = Transaction::pluck('nomor', 'id')->toArray();
+
+            $view->with('orderItems', $orderItems)
+                ->with('transactionItems', $transactionItems);
         });
-        View::composer(['admin.products.fields'], function ($view) {
-            $categoryItems = Category::pluck('nama','id')->toArray();
-            $view->with('categoryItems', $categoryItems);
-        });
-        View::composer(['admin.shipments.fields'], function ($view) {
-            $orderItems = Order::pluck('nomor_order','id')->toArray();
-            $view->with('orderItems', $orderItems);
-        });
-        View::composer(['admin.transaction_details.fields'], function ($view) {
-            $orderItems = Order::pluck('nomor_order','id')->toArray();
-            $view->with('orderItems', $orderItems);
-        });
-        View::composer(['admin.transaction_details.fields'], function ($view) {
-            $transactionItems = Transaction::pluck('nomor_transaksi','id')->toArray();
-            $view->with('transactionItems', $transactionItems);
-        });
-        View::composer(['admin.transactions.fields'], function ($view) {
+
+        view()->composer('admin.transactions.fields', function ($view) {
             $userItems = User::pluck('name','id')->toArray();
+
             $view->with('userItems', $userItems);
         });
-        View::composer(['admin.reports.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.reports.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.transaction_details.fields'], function ($view) {
-            $orderItems = Order::pluck('nomor_order','id')->toArray();
-            $view->with('orderItems', $orderItems);
-        });
-        View::composer(['admin.transaction_details.fields'], function ($view) {
-            $transactionItems = Transaction::pluck('nomor_transaksi','id')->toArray();
-            $view->with('transactionItems', $transactionItems);
-        });
-        View::composer(['admin.transactions.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.shipments.fields'], function ($view) {
-            $orderItems = Order::pluck('nomor_order','id')->toArray();
-            $view->with('orderItems', $orderItems);
-        });
-        View::composer(['admin.order_details.fields'], function ($view) {
-            $cartItems = Cart::pluck('judul','id')->toArray();
-            $view->with('cartItems', $cartItems);
-        });
-        View::composer(['admin.order_details.fields'], function ($view) {
-            $orderItems = Order::pluck('nomor_order','id')->toArray();
-            $view->with('orderItems', $orderItems);
-        });
-        View::composer(['admin.orders.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.cart_details.fields'], function ($view) {
-            $productItems = Product::pluck('nama','id')->toArray();
-            $view->with('productItems', $productItems);
-        });
-        View::composer(['admin.cart_details.fields'], function ($view) {
-            $cartItems = Cart::pluck('judul','id')->toArray();
-            $view->with('cartItems', $cartItems);
-        });
-        View::composer(['admin.carts.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.discount_details.fields'], function ($view) {
-            $productItems = Product::pluck('nama','id')->toArray();
-            $view->with('productItems', $productItems);
-        });
-        View::composer(['admin.discount_details.fields'], function ($view) {
-            $discountItems = Discount::pluck('judul','id')->toArray();
-            $view->with('discountItems', $discountItems);
-        });
-        View::composer(['admin.reports.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.news.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.products.fields'], function ($view) {
-            $categoryItems = Category::pluck('nama','id')->toArray();
-            $view->with('categoryItems', $categoryItems);
-        });
-        View::composer(['admin.activities.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.activities.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['admin.orders.fields'], function ($view) {
-            $statusItems = Status::pluck('name','id')->toArray();
-            $view->with('statusItems', $statusItems);
-        });
-        View::composer(['admin.orders.fields'], function ($view) {
-            $productItems = Product::all()->pluck('produk_pelanggan', 'id')->toArray();
-            $view->with('productItems', $productItems);
-        });
-        //
     }
 }

@@ -21,8 +21,17 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $judul = $this->faker->sentence(rand(5, 12));
         return [
-            //
+            'judul' => $judul,
+            'konten' => function () {
+                $desc = '';
+                for ($i = 0; $i < rand(2, 5); $i++) {
+                    $desc += '<p>'.$this->faker->paragraph(rand(3, 12)).'</p>';
+                }
+                return $desc;
+            },
+            'slug' => Str::slug($judul),
         ];
     }
 }
