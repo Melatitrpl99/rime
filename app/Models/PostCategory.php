@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,15 +18,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PostCategory extends Model
 {
-    use SoftDeletes;
-
+    use SoftDeletes, HasFactory;
 
     public $table = 'post_categories';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'name',

@@ -4,6 +4,10 @@ namespace Database\Factories;
 
 use App\Models\Cart;
 use App\Models\CartDetail;
+use App\Models\Color;
+use App\Models\Dimension;
+use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CartDetailFactory extends Factory
@@ -28,14 +32,16 @@ class CartDetailFactory extends Factory
         $product = Product::inRandomOrder()->pluck('id')->toArray();
         $cart = Cart::inRandomOrder()->pluck('id')->toArray();
         $jumlah = $this->faker->numberBetween(0, 100);
+        $id = $this->faker->randomElement($product);
+        $harga = Product::find($id);
         return [
             'cart_id' => $this->faker->randomElement($cart),
-            'product_id' => $this->faker->randomElement($product),
+            'product_id' => $id,
             'color_id' => $this->faker->randomElement($color),
             'size_id' => $this->faker->randomElement($size),
             'dimension_id' => $this->faker->randomElement($dimens),
             'jumlah' => $jumlah,
-            'subtotal' => $this->faker->randomElement([$product->harga_customer, $product->harga_reseller]) * $jumlah,
+            'subtotal' => $this->faker->randomElement([$harga->harga_customer, $harga->harga_reseller]) * $jumlah,
         ];
     }
 }

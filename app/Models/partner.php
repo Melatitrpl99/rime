@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 /**
  * Class Partner
@@ -21,15 +21,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Partner extends Model
 {
-    use SoftDeletes;
-
+    use SoftDeletes, HasFactory;
 
     public $table = 'partners';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'nama',
@@ -71,5 +67,5 @@ class Partner extends Model
         'slug' => 'nullable'
     ];
 
-    
+
 }

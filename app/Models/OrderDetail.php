@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -23,11 +24,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class OrderDetail extends Pivot
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     public $table = 'order_details';
 
     protected $dates = ['deleted_at'];
+
+    public $timestamps = false;
 
     public $fillable = [
         'color_id',

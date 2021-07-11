@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\PostCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class PostCategoryFactory extends Factory
 {
@@ -21,10 +22,8 @@ class PostCategoryFactory extends Factory
      */
     public function definition()
     {
-        $nama = ucfirst($this->faker->word);
         return [
-            'name' => $nama,
-            'slug' => Str::slug($nama)
+            'name' => $this->faker->word,
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Discount extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     public $table = 'discounts';
 
@@ -57,7 +58,7 @@ class Discount extends Model
     public static $rules = [
         'judul' => 'required',
         'deskripsi' => 'nullable',
-        'kode' => 'required|unique',
+        'kode' => 'required|unique:discounts',
         'batas_pemakaian' => 'nullable|numeric',
         'diskon_kategori' => 'required',
         'slug' => 'nullable'

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -15,18 +17,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Order $order
  * @property integer $subtotal
  */
-class TransactionDetail extends Model
+class TransactionDetail extends Pivot
 {
-    use SoftDeletes;
-
+    use SoftDeletes, HasFactory;
 
     public $table = 'transaction_details';
-    
 
     protected $dates = ['deleted_at'];
-
-
-    protected $primaryKey = 'order_id';
 
     public $fillable = [
         'subtotal'

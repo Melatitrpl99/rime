@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -23,9 +24,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CartDetail extends Pivot
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     public $table = 'cart_details';
+
+    public $timestamps = false;
 
     protected $dates = ['deleted_at'];
 

@@ -24,7 +24,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         $user = User::inRandomOrder()->pluck('id')->toArray();
-        $status => Status::inRandomOrder()->pluck('id')-toArray();
+        $status = Status::inRandomOrder()->pluck('id')->toArray();
         return [
             'nomor' => $this->faker->regexify('[A-Za-z]{2}[0-9]{4}'),
             'pesan' => $this->faker->text(rand(50, 150)),

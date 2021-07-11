@@ -18,15 +18,15 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::open(['route' => 'admin.transaction.store']) !!}
+                        {!! Form::open(['route' => 'admin.transactions.store']) !!}
                         <div class="card-body">
                             <div class="row">
-                                @include('admin.transaction.fields')
+                                @include('admin.transactions.fields')
                             </div>
                         </div>
                         <div class="card-footer">
                             {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.transaction.index') }}" class="btn btn-default">Cancel</a>
+                            <a href="{{ route('admin.transactions.index') }}" class="btn btn-default">Cancel</a>
                         </div>
                         {!! Form::close() !!}
                     </div>

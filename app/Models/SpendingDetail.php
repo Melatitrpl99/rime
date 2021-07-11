@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,14 +17,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SpendingDetail extends Model
 {
-    use SoftDeletes;
-
+    use SoftDeletes, HasFactory;
 
     public $table = 'spending_details';
-    
 
     protected $dates = ['deleted_at'];
-
 
     protected $primaryKey = 'spending_id';
 

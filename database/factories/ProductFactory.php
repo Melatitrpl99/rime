@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ProductFactory extends Factory
 {
@@ -23,7 +24,7 @@ class ProductFactory extends Factory
     public function definition()
     {
         $nama = $this->faker->sentence(rand(1,5));
-        $category => Category::inRandomOrder()->pluck('id')->toArray();
+        $category = Category::inRandomOrder()->pluck('id')->toArray();
         return [
             'nama' => $nama,
             'deskripsi' => $this->faker->paragraph(rand(2, 5)),
