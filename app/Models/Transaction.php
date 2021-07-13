@@ -63,8 +63,8 @@ class Transaction extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
-    public function products()
+    public function orders()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'transaction_details');
+        return $this->belongsToMany(Order::class, 'transaction_details');
     }
 }

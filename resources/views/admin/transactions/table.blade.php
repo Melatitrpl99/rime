@@ -17,8 +17,8 @@
         @foreach($transactions as $transaction)
             <tr>
                 <td>{{ $transaction->nomor }}</td>
-            <td>{{ $transaction->total }}</td>
-            <td>{{ $transaction->user_id }}</td>
+                <td>{{ $transaction->total }}</td>
+                <td>{{ $transaction->user_id }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.transactions.destroy', $transaction->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

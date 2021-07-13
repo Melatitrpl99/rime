@@ -29,10 +29,10 @@ class CartsSeeder extends Seeder
                 'size_id' => array_rand($sizes, 1),
                 'dimension_id' => array_rand($dimensions, 1),
                 'jumlah' => $jumlah,
-                'subtotal' => function ($product) use ($jumlah) {
-                    return $product->harga_customer * $jumlah;
-                }
+                'subtotal' => rand(50, 100) * 1000 * $jumlah,
             ])
-            ->create();
+            ->create([
+                'total' => rand(50, 100) * 1000
+            ]);
     }
 }

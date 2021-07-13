@@ -24,10 +24,10 @@ class UsersSeeder extends Seeder
 
         // permission
 
-        $root = User::create(['name' => 'root', 'email' => 'root@email.com', 'password' => 'password']);
-        $admin = User::create(['name' => 'admin', 'email' => 'admin@email.com', 'password' => 'password']);
-        $reseller = User::create(['name' => 'reseller', 'email' => 'reseller@email.com', 'password' => 'password']);
-        $customer = User::create(['name' => 'customer', 'email' => 'customer@email.com', 'password' => 'password']);
+        $root = User::create(['name' => 'root', 'email' => 'root@email.com', 'password' => bcrypt('password')]);
+        $admin = User::create(['name' => 'admin', 'email' => 'admin@email.com', 'password' => bcrypt('password')]);
+        $reseller = User::create(['name' => 'reseller', 'email' => 'reseller@email.com', 'password' => bcrypt('password')]);
+        $customer = User::create(['name' => 'customer', 'email' => 'customer@email.com', 'password' => bcrypt('password')]);
 
         $root->assignRole('root');
         $admin->assignRole('admin');

@@ -19,7 +19,7 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        $products = Product::inRandomOrder()->get();
+        $products = Product::all();
         $colors = Color::inRandomOrder()->pluck('id')->toArray();
         $sizes = Size::inRandomOrder()->pluck('id')->toArray();
         $dimensions = Dimension::inRandomOrder()->pluck('id')->toArray();
@@ -32,8 +32,12 @@ class OrdersSeeder extends Seeder
                 'size_id' => array_rand($sizes, 1),
                 'dimension_id' => array_rand($dimensions, 1),
                 'jumlah' => $jumlah,
-                'subtotal' => rand(50, 10000) * 1000 * $jumlah
+                'subtotal' => rand(5, 100) * 1000 * $jumlah
             ])
-            ->create();
+            ->create([
+                'total' => rand(50, 100) * 1000,
+                'diskon' => rand(5, 50) * 1000,
+                'biaya_pengiriman' => rand(5, 50) * 1000,
+            ]);
     }
 }

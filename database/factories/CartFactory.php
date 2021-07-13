@@ -26,7 +26,7 @@ class CartFactory extends Factory
             'nomor' => $this->faker->regexify('C[0-9]{2}-[A-Z0-9]{6}'),
             'judul' => $this->faker->sentence(3),
             'deskripsi' => $this->faker->text(rand(100, 200)),
-            // 'total' => $this->faker->numberBetween(rand(100, 500)) * 1000,
+            // 'total' => $this->faker->numberBetween(rand(10, 50)) * 1000,
             'user_id' => User::inRandomOrder()->first()->id,
         ];
     }

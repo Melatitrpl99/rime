@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Order;
+use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 
 class TransactionsSeeder extends Seeder
@@ -13,6 +15,13 @@ class TransactionsSeeder extends Seeder
      */
     public function run()
     {
-        $orders
+        $orders = Order::all();
+        Transaction::factory(rand(25, 250))
+            ->hasAttached($orders, [
+                'sub_total' => rand(100, 1500) * 1000
+            ])
+            ->create([
+                'total' => rand(100, 1500) * 1000
+            ]);
     }
 }
