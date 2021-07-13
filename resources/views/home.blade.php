@@ -127,7 +127,7 @@
                                 <div class="description-block border-right">
                                     <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
                                     <h5 class="description-header">Rp. {{ number_format(12078500 - 5675000, 2, ',', '.') }}</h5>
-                                    <span class="description-text">Laba / Rugi</span>
+                                    <span class="description-text">Profit</span>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-6">

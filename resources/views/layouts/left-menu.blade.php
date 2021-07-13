@@ -218,6 +218,16 @@
     </a>
 </li>
 
+
+<li class="nav-item">
+    <a href="{{ route('laba_rugi.index') }}" class="nav-link {{ Request::is('labarugi*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-file-invoice"></i>
+        <p>
+            LabaRugi
+        </p>
+    </a>
+</li>
+
 <li class="nav-item">
     <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-user"></i>

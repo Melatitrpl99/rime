@@ -71,8 +71,6 @@ Route::post('import', [ExcelController::class, 'import'])->name('import');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('bukubesar', BukuBesarController::class)->names('buku_besar');
-
     Route::resource('labarugi', LabaRugiController::class)->names('laba_rugi');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {

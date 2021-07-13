@@ -3,9 +3,14 @@
         <thead>
             <tr>
                 <th>Nomor</th>
-        <th>Total</th>
-        <th>User Id</th>
-                <th colspan="3">Action</th>
+        <th>Tanggal</th>
+        <th>Nama customer</th>
+        <th>Status user</th>
+        <th>Produk</th>
+        <th>Sub total</th>
+        <th>Diskon</th>
+        <th>Total harga</th>
+        <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>

@@ -8,6 +8,8 @@
                     <h1>Activities</h1>
                 </div>
                 <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary float-right ml-3 "id='rime'>Save</button>
+
                     <div class="dropdown float-right">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Ekspor
@@ -64,16 +66,6 @@
                                 <td colspan="2"></td>
                             </tr>
                             <tr>
-                                <td colspan="2"> <b>Biaya lain/tambahan</b> </td>
-                            </tr>
-                            <tr>
-                                <td> Total Biaya Lain </td>
-                                <td>Rp 0</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"></td>
-                            </tr>
-                            <tr>
                                 <td> <b>Pendapatan Bersih</b> </td>
                                 <td>Rp {{ number_format(($pemasukan-$pengeluaran), 2) }}</td>
                             </tr>
@@ -95,3 +87,12 @@
     </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $('#rime').click(()=>{
+        window.print();
+    })
+</script>
+
+@endpush
