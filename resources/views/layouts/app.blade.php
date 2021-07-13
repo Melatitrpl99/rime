@@ -1,5 +1,6 @@
 <!DOCTYPE html lang="en">
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
@@ -23,12 +24,14 @@
 
         <!-- Main Footer -->
         <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b>&nbsp;3.0.5
+            <strong>Copyright © 2014-2021 <a href="http://rimesyari.myskripsi.xyz">Rime Syari</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>AdminLTE Version</b> 3.1.0
             </div>
-            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a></strong> &nbsp;&bull;&nbsp;All rights reserved.
         </footer>
     </div>
     @include('layouts.js')
 </body>
+
 </html>

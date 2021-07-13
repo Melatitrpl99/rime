@@ -65,7 +65,7 @@ class Event extends Model
         'waktu_berakhir' => 'nullable',
         'alamat' => 'required',
         'nomor_hp' => 'required|numeric',
-        'email' => 'required|email',
+        'email' => 'required',
         'slug' => 'nullable'
     ];
 

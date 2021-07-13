@@ -29,6 +29,7 @@ class Cart extends Model
     public $fillable = [
         'nomor',
         'judul',
+        'total',
         'deskripsi',
         'user_id'
     ];
@@ -41,6 +42,7 @@ class Cart extends Model
     protected $casts = [
         'nomor' => 'string',
         'judul' => 'string',
+        'total' => 'integer',
         'deskripsi' => 'string'
     ];
 
@@ -50,8 +52,9 @@ class Cart extends Model
      * @var array
      */
     public static $rules = [
-        'nomor' => 'required|max:16',
+        'nomor' => 'required|max:8',
         'judul' => 'required',
+        'total' => 'nullable|numeric',
         'deskripsi' => 'nullable',
         'user_id' => 'required'
     ];
@@ -61,7 +64,7 @@ class Cart extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -69,6 +72,7 @@ class Cart extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'cart_details');
+        return $this->belongsToMany(Product::class, 'cart_details')
+            ->using(CartDetail::class);
     }
 }

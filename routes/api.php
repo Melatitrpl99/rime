@@ -61,3 +61,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::apiResource('sizes', SizeAPIController::class);
     Route::apiResource('statuses', StatusAPIController::class);
 });
+
+
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('shipments', App\Http\Controllers\API\ShipmentAPIController::class);
+});

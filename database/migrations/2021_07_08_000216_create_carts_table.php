@@ -18,6 +18,7 @@ class CreateCartsTable extends Migration
             $table->id('id');
             $table->string('nomor')->unique();
             $table->string('judul');
+            $table->integer('total')->nullable();
             $table->text('deskripsi')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();

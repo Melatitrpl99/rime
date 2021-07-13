@@ -36,10 +36,34 @@
         "inView": true
     },
     {
-        "name": "kode_diskon",
-        "dbType": "string:nullable",
-        "htmlType": "text",
-        "validations": "nullable",
+        "name": "total",
+        "dbType": "integer:nullable",
+        "htmlType": "number",
+        "validations": "required|numeric",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "diskon",
+        "dbType": "integer:nullable",
+        "htmlType": "number",
+        "validations": "required|numeric",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "biaya_pengiriman",
+        "dbType": "integer:nullable",
+        "htmlType": "number",
+        "validations": "required|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,

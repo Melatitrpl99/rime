@@ -22,7 +22,7 @@ class SpendingFactory extends Factory
     public function definition()
     {
         return [
-            'nomor' => $this->faker->regexify('[A-Za-z]{3}[0-9]{3}'),
+            'nomor' => $this->faker->regexify('[A-Z]{3}[0-9]{3}'),
             'deskripsi' => $this->faker->paragraph(rand(5, 10)),
             'tanggal' => $this->faker->date(),
             'kategori' => $this->faker->word(),

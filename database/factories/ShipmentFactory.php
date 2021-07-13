@@ -23,21 +23,18 @@ class ShipmentFactory extends Factory
      */
     public function definition()
     {
-        $village = Village::inRandomOrder()->first();
-        $order = Order::inRandomOrder()->pluck('id')->toArray();
+        $village = Village::pluck('id')->toArray();
+        $order = Order::pluck('id')->toArray();
         return [
-            'nama_lengkap' => $this->faker->name,
-            'alamat' => $this->faker->address(),
-            'no' => $this->faker->numberBetween(1, 100),
-            'rt' => $this->faker->numberBetween(1, 100),
-            'rw' => $this->faker->numberBetween(1, 100),
-            'desa_kelurahan' => $village->name,
-            'kecamatan' => $village->district->name,
-            'kabupaten_kota' => $village->district->regency->name,
-            'provinsi' => $village->district->regency->province->name,
-            'catatan' => $this->faker->paragraph(rand(3, 8)),
-            'kode_pos' => $this->faker->numberBetween(1000, 99999),
-            'order_id' => $this->faker->randomElement($order);
+            'nama_lengkap' => $this->faker->userName(),
+            'alamat' => $this->faker->address,
+            'no' => $this->faker->numberBetween(1, 199),
+            'rt' => $this->faker->numberBetween(1, 99),
+            'rw' => $this->faker->numberBetween(1, 49),
+            'village_id' => $this->faker->randomElement($village),
+            'kode_pos' => $this->faker->numberBetween(1000, 49000),
+            'catatan' => $this->faker->text(200),
+            'order_id' => $this->faker->randomElement($order),
         ];
     }
 }

@@ -10,15 +10,27 @@
     {!! Form::textarea('pesan', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Kode Diskon Field -->
+<!-- Total Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('kode_diskon', 'Kode Diskon:') !!}
-    {!! Form::text('kode_diskon', null, ['class' => 'form-control']) !!}
+    {!! Form::label('total', 'Total:') !!}
+    {!! Form::number('total', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Diskon Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('diskon', 'Diskon:') !!}
+    {!! Form::number('diskon', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Biaya Pengiriman Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('biaya_pengiriman', 'Biaya Pengiriman:') !!}
+    {!! Form::number('biaya_pengiriman', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Status Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('status_id', 'Status:') !!}
+    {!! Form::label('status_id', 'Status Id:') !!}
     {!! Form::select('status_id', $statusItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 

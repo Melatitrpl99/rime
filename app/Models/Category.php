@@ -53,6 +53,6 @@ class Category extends Model
      **/
     public function products()
     {
-        return $this->hasMany(\App\Models\Product::class);
+        return $this->hasMany(Product::class);
     }
 }

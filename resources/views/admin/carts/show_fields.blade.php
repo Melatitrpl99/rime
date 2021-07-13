@@ -16,6 +16,12 @@
     <p>{{ $cart->deskripsi }}</p>
 </div>
 
+<!-- Total Field -->
+<div class="col-sm-12">
+    {!! Form::label('total', 'Total:') !!}
+    <p>{{ $cart->total }}</p>
+</div>
+
 <!-- User Id Field -->
 <div class="col-sm-12">
     {!! Form::label('user_id', 'User Id:') !!}

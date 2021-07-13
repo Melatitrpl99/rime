@@ -28,40 +28,22 @@
     <p>{{ $shipment->rw }}</p>
 </div>
 
-<!-- Desa Kelurahan Field -->
+<!-- Village Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('desa_kelurahan', 'Desa Kelurahan:') !!}
-    <p>{{ $shipment->desa_kelurahan }}</p>
-</div>
-
-<!-- Kecamatan Field -->
-<div class="col-sm-12">
-    {!! Form::label('kecamatan', 'Kecamatan:') !!}
-    <p>{{ $shipment->kecamatan }}</p>
-</div>
-
-<!-- Kabupaten Kota Field -->
-<div class="col-sm-12">
-    {!! Form::label('kabupaten_kota', 'Kabupaten Kota:') !!}
-    <p>{{ $shipment->kabupaten_kota }}</p>
-</div>
-
-<!-- Provinsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('provinsi', 'Provinsi:') !!}
-    <p>{{ $shipment->provinsi }}</p>
-</div>
-
-<!-- Catatan Field -->
-<div class="col-sm-12">
-    {!! Form::label('catatan', 'Catatan:') !!}
-    <p>{{ $shipment->catatan }}</p>
+    {!! Form::label('village_id', 'Village Id:') !!}
+    <p>{{ $shipment->village_id }}</p>
 </div>
 
 <!-- Kode Pos Field -->
 <div class="col-sm-12">
     {!! Form::label('kode_pos', 'Kode Pos:') !!}
     <p>{{ $shipment->kode_pos }}</p>
+</div>
+
+<!-- Catatan Field -->
+<div class="col-sm-12">
+    {!! Form::label('catatan', 'Catatan:') !!}
+    <p>{{ $shipment->catatan }}</p>
 </div>
 
 <!-- Order Id Field -->

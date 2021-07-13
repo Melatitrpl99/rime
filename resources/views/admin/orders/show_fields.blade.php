@@ -10,10 +10,22 @@
     <p>{{ $order->pesan }}</p>
 </div>
 
-<!-- Kode Diskon Field -->
+<!-- Total Field -->
 <div class="col-sm-12">
-    {!! Form::label('kode_diskon', 'Kode Diskon:') !!}
-    <p>{{ $order->kode_diskon }}</p>
+    {!! Form::label('total', 'Total:') !!}
+    <p>{{ $order->total }}</p>
+</div>
+
+<!-- Diskon Field -->
+<div class="col-sm-12">
+    {!! Form::label('diskon', 'Diskon:') !!}
+    <p>{{ $order->diskon }}</p>
+</div>
+
+<!-- Biaya Pengiriman Field -->
+<div class="col-sm-12">
+    {!! Form::label('biaya_pengiriman', 'Biaya Pengiriman:') !!}
+    <p>{{ $order->biaya_pengiriman }}</p>
 </div>
 
 <!-- Status Id Field -->

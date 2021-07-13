@@ -20,7 +20,8 @@ class CreateDiscountsTable extends Migration
             $table->text('deskripsi')->nullable();
             $table->string('kode')->unique();
             $table->integer('batas_pemakaian')->nullable();
-            $table->enum('diskon_kategori', ['customer','reseller']);
+            $table->timestamp('waktu_mulai')->nullable();
+            $table->timestamp('waktu_berakhir')->nullable();
             $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();

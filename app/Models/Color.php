@@ -48,6 +48,4 @@ class Color extends Model
         'name' => 'required',
         'rgba_color' => 'nullable'
     ];
-
-
 }

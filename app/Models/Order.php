@@ -33,7 +33,9 @@ class Order extends Model
     public $fillable = [
         'nomor',
         'pesan',
-        'kode_diskon',
+        'total',
+        'diskon',
+        'biaya_pengiriman',
         'status_id',
         'user_id'
     ];
@@ -46,7 +48,9 @@ class Order extends Model
     protected $casts = [
         'nomor' => 'string',
         'pesan' => 'string',
-        'kode_diskon' => 'string'
+        'total' => 'integer',
+        'diskon' => 'integer',
+        'biaya_pengiriman' => 'integer'
     ];
 
     /**
@@ -57,7 +61,9 @@ class Order extends Model
     public static $rules = [
         'nomor' => 'required|max:16',
         'pesan' => 'nullable',
-        'kode_diskon' => 'nullable',
+        'total' => 'nullable|numeric',
+        'diskon' => 'nullable|numeric',
+        'biaya_pengiriman' => 'nullable|numeric',
         'status_id' => 'required',
         'user_id' => 'required'
     ];
@@ -92,5 +98,10 @@ class Order extends Model
     public function transactions()
     {
         return $this->belongsToMany(\App\Models\Transaction::class, 'transaction_details');
+    }
+
+    public function getSubTotalAttribute()
+    {
+        return $this->products->sum('harga_customer');
     }
 }

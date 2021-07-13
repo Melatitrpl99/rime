@@ -22,7 +22,7 @@ class PartnerFactory extends Factory
      */
     public function definition()
     {
-        $lokasi = Regency::inRandomOrder()->pluck('id');
+        $lokasi = Regency::pluck('id');
         return [
             'nama' => $this->faker->name,
             'deskripsi' => $this->faker->paragraph(rand(5, 12)),

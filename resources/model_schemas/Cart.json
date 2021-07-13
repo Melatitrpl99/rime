@@ -48,6 +48,18 @@
         "inView": true
     },
     {
+        "name": "total",
+        "dbType": "integer:nullable",
+        "htmlType": "number",
+        "validations": "required|numeric",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "user_id",
         "dbType": "foreignId:constrained",
         "htmlType": "selectTable:users:name,id",

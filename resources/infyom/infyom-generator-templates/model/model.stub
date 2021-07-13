@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE_MODEL$;
 
-use Illuminate\Database\Eloquent\Model;
+use $NAMESPACE_MODEL_EXTEND$ as Model;
 $SOFT_DELETE_IMPORT$
 $HAS_FACTORY_IMPORT$
 

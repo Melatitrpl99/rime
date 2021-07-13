@@ -22,15 +22,34 @@
     {!! Form::number('batas_pemakaian', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Diskon Kategori Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('diskon_kategori', 'Diskon Kategori', ['class' => 'form-check-label']) !!}
-    <label class="form-check">
-        {!! Form::radio('diskon_kategori', "Customer", null, ['class' => 'form-check-input']) !!} customer
-    </label>
-
-    <label class="form-check">
-        {!! Form::radio('diskon_kategori', "Reseller", null, ['class' => 'form-check-input']) !!} reseller
-    </label>
-
+<!-- Waktu Mulai Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('waktu_mulai', 'Waktu Mulai:') !!}
+    {!! Form::text('waktu_mulai', null, ['class' => 'form-control','id'=>'waktu_mulai']) !!}
 </div>
+
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#waktu_mulai').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent: true,
+            sideBySide: true
+        })
+    </script>
+@endpush
+
+<!-- Waktu Berakhir Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('waktu_berakhir', 'Waktu Berakhir:') !!}
+    {!! Form::text('waktu_berakhir', null, ['class' => 'form-control','id'=>'waktu_berakhir']) !!}
+</div>
+
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#waktu_berakhir').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent: true,
+            sideBySide: true
+        })
+    </script>
+@endpush

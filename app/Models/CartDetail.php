@@ -70,7 +70,7 @@ class CartDetail extends Pivot
      **/
     public function cart()
     {
-        return $this->belongsTo(\App\Models\Cart::class);
+        return $this->belongsTo(Cart::class);
     }
 
     /**
@@ -78,15 +78,15 @@ class CartDetail extends Pivot
      **/
     public function product()
     {
-        return $this->belongsTo(\App\Models\Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function colour()
+    public function color()
     {
-        return $this->belongsTo(\App\Models\Colour::class);
+        return $this->belongsTo(Color::class);
     }
 
     /**
@@ -94,14 +94,14 @@ class CartDetail extends Pivot
      **/
     public function size()
     {
-        return $this->belongsTo(\App\Models\Size::class);
+        return $this->belongsTo(Size::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function dimensions()
+    public function dimension()
     {
-        return $this->belongsTo(\App\Models\Dimensions::class);
+        return $this->belongsTo(Dimension::class);
     }
 }

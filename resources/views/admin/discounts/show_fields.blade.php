@@ -22,10 +22,16 @@
     <p>{{ $discount->batas_pemakaian }}</p>
 </div>
 
-<!-- Diskon Kategori Field -->
+<!-- Waktu Mulai Field -->
 <div class="col-sm-12">
-    {!! Form::label('diskon_kategori', 'Diskon Kategori:') !!}
-    <p>{{ $discount->diskon_kategori }}</p>
+    {!! Form::label('waktu_mulai', 'Waktu Mulai:') !!}
+    <p>{{ $discount->waktu_mulai }}</p>
+</div>
+
+<!-- Waktu Berakhir Field -->
+<div class="col-sm-12">
+    {!! Form::label('waktu_berakhir', 'Waktu Berakhir:') !!}
+    <p>{{ $discount->waktu_berakhir }}</p>
 </div>
 
 <!-- Slug Field -->

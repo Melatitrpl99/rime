@@ -84,7 +84,7 @@ class Product extends Model
      **/
     public function carts()
     {
-        return $this->belongsToMany(\App\Models\Cart::class, 'cart_details');
+        return $this->belongsToMany(Cart::class, 'cart_details');
     }
 
     /**
@@ -92,7 +92,7 @@ class Product extends Model
      **/
     public function orders()
     {
-        return $this->belongsToMany(\App\Models\Order::class, 'order_details');
+        return $this->belongsToMany(Order::class, 'order_details');
     }
 
     /**
@@ -100,7 +100,7 @@ class Product extends Model
      **/
     public function discounts()
     {
-        return $this->belongsToMany(\App\Models\Discount::class, 'discount_details');
+        return $this->belongsToMany(Discount::class, 'discount_details');
     }
 
     /**
@@ -108,6 +108,6 @@ class Product extends Model
      **/
     public function productStocks()
     {
-        return $this->hasMany(\App\Models\ProductStock::class);
+        return $this->hasMany(ProductStock::class);
     }
 }

@@ -23,8 +23,11 @@
                     @include('flash::message')
                     <div class="cleafix"></div>
                     <div class="card">
-                        <div class="card-body p-0">
+                        <div class="card-body p-0 table-responsive">
                             @include('admin.products.table')
+                        </div>
+                        <div class="card-footer">
+                            Menampilkan 100 dari 1920 data produk
                         </div>
                     </div>
                 </div>

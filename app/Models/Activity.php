@@ -2,35 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
  * Class Activity
  * @package App\Models
- * @version July 8, 2021, 12:01 am UTC
+ * @version July 11, 2021, 8:23 pm UTC
  *
  * @property morphs $loggable
  * @property string $user_agent
  * @property string $ip_address
+ * @property string $log
  */
 class Activity extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     public $table = 'activities';
 
     protected $dates = ['deleted_at'];
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
     public $fillable = [
-        'loggable_type',
-        'loggable_id',
         'user_agent',
-        'ip_address'
+        'ip_address',
+        'log'
     ];
 
     /**
@@ -40,7 +38,8 @@ class Activity extends Model
      */
     protected $casts = [
         'user_agent' => 'string',
-        'ip_address' => 'string'
+        'ip_address' => 'string',
+        'log' => 'string'
     ];
 
     /**
@@ -51,4 +50,9 @@ class Activity extends Model
     public static $rules = [
 
     ];
+
+    public function loggable()
+    {
+        return $this->morphTo();
+    }
 }

@@ -30,8 +30,6 @@ class DiscountDetail extends Pivot
     public $timestamps = false;
 
     public $fillable = [
-        'discount_id',
-        'product_id',
         'diskon_harga',
         'minimal_produk',
         'maksimal_produk'
@@ -54,9 +52,7 @@ class DiscountDetail extends Pivot
      * @var array
      */
     public static $rules = [
-        'discount_id' => 'required',
-        'product_id' => 'required',
-        'diskon_harga' => 'required|integer',
+        'diskon_harga' => 'required|numeric',
         'minimal_produk' => 'nullable|numeric',
         'maksimal_produk' => 'nullable|numeric'
     ];
@@ -66,7 +62,7 @@ class DiscountDetail extends Pivot
      **/
     public function discount()
     {
-        return $this->belongsTo(\App\Models\Discount::class);
+        return $this->belongsTo(Discount::class);
     }
 
     /**
@@ -74,6 +70,6 @@ class DiscountDetail extends Pivot
      **/
     public function product()
     {
-        return $this->belongsTo(\App\Models\Product::class);
+        return $this->belongsTo(Product::class);
     }
 }

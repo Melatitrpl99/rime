@@ -9,14 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Discount
  * @package App\Models
- * @version May 18, 2021, 2:14 am UTC
+ * @version July 11, 2021, 8:14 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $products
  * @property string $judul
  * @property string $deskripsi
  * @property string $kode
  * @property integer $batas_pemakaian
- * @property string $diskon_kategori
+ * @property string $waktu_mulai
+ * @property string $waktu_berakhir
  * @property string $slug
  */
 class Discount extends Model
@@ -32,7 +33,8 @@ class Discount extends Model
         'deskripsi',
         'kode',
         'batas_pemakaian',
-        'diskon_kategori',
+        'waktu_mulai',
+        'waktu_berakhir',
         'slug'
     ];
 
@@ -46,7 +48,8 @@ class Discount extends Model
         'deskripsi' => 'string',
         'kode' => 'string',
         'batas_pemakaian' => 'integer',
-        'diskon_kategori' => 'string',
+        'waktu_mulai' => 'datetime',
+        'waktu_berakhir' => 'datetime',
         'slug' => 'string'
     ];
 
@@ -58,9 +61,10 @@ class Discount extends Model
     public static $rules = [
         'judul' => 'required',
         'deskripsi' => 'nullable',
-        'kode' => 'required|unique:discounts',
+        'kode' => 'required|unique:discunts',
         'batas_pemakaian' => 'nullable|numeric',
-        'diskon_kategori' => 'required',
+        'waktu_mulai' => 'nullable',
+        'waktu_berakhir' => 'nullable',
         'slug' => 'nullable'
     ];
 
@@ -69,7 +73,7 @@ class Discount extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'discount_details')
-            ->withPivot(['diskon_harga', 'minimal_produk', 'maksimal_produk']);
+        return $this->belongsToMany(Product::class, 'discount_details')
+            ->using(DiscountDetail::class);
     }
 }

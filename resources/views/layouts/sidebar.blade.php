@@ -9,7 +9,7 @@
                 <img src="https://gravatar.com/avatar/f751162407008c2d67b944f90c322a68?s=200&d=mp&r=x" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+                <a href="{{ auth()->check() ? route('admin.users.show', auth()->user()) : '#' }}">{{ auth()->check() ? auth()->user()->name : 'Guest' }}</a>
             </div>
         </div>
         <nav class="mt-2">

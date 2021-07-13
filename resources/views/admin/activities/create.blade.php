@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-12">
                     <h1>Add new Activity</h1>
                 </div>

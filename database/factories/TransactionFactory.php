@@ -22,10 +22,9 @@ class TransactionFactory extends Factory
      */
     public function definition()
     {
-        $user = User::inRandomOrder()->pluck('id')->toArray();
+        $user = User::pluck('id')->toArray();
         return [
-            'nomor' => $this->faker->regexify('[A-Z]{3}[0-9]{3}'),
-            'total' => $this->faker->numberBetween(1000000, 25000000),
+            'nomor' => $this->faker->regexify('T[0-9]{2}-[A-Z0-9]{6}'),
             'user_id' => $this->faker->randomElement($user),
         ];
     }

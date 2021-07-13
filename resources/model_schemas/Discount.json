@@ -60,9 +60,21 @@
         "inView": true
     },
     {
-        "name": "diskon_kategori",
-        "dbType": "enum,customer,reseller",
-        "htmlType": "radio,customer:Customer,reseller:Reseller",
+        "name": "waktu_mulai",
+        "dbType": "timestamp",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "waktu_berakhir",
+        "dbType": "timestamp:nullable",
+        "htmlType": "date",
         "validations": "required",
         "searchable": true,
         "fillable": true,

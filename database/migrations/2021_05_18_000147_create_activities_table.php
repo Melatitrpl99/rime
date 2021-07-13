@@ -19,6 +19,7 @@ class CreateActivitiesTable extends Migration
             $table->morphs('loggable');
             $table->text('user_agent');
             $table->string('ip_address');
+            $table->text('log');
             $table->timestamps();
             $table->softDeletes();
         });

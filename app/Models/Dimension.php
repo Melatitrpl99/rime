@@ -41,8 +41,6 @@ class Dimension extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required'
+        'name' => 'required|unique:dimensions'
     ];
-
-
 }
