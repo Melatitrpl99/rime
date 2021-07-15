@@ -4,34 +4,29 @@ namespace $NAMESPACE_CONTROLLER$;
 
 use $NAMESPACE_REQUEST$\Create$MODEL_NAME$Request;
 use $NAMESPACE_REQUEST$\Update$MODEL_NAME$Request;
-use $NAMESPACE_APP$\Http\Controllers\AppBaseController;
+use $NAMESPACE_APP$\Http\Controllers\Controller;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
-class $MODEL_NAME$Controller extends AppBaseController
+class $MODEL_NAME$Controller extends Controller
 {
     /**
      * Display a listing of the $MODEL_NAME$.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_PLURAL_CAMEL$ */
-        $$MODEL_NAME_PLURAL_CAMEL$ = $MODEL_NAME$::$RENDER_TYPE$;
-
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index')
-            ->with('$MODEL_NAME_PLURAL_CAMEL$', $$MODEL_NAME_PLURAL_CAMEL$);
+            ->with('$MODEL_NAME_PLURAL_SNAKE$', $MODEL_NAME$::$RENDER_TYPE$);
     }
 
     /**
      * Show the form for creating a new $MODEL_NAME$.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function create()
     {
@@ -41,38 +36,32 @@ class $MODEL_NAME$Controller extends AppBaseController
     /**
      * Store a newly created $MODEL_NAME$ in storage.
      *
-     * @param Create$MODEL_NAME$Request $request
+     * @param \$NAMESPACE_REQUEST$\Create$MODEL_NAME$Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(Create$MODEL_NAME$Request $request)
     {
-        $input = $request->all();
+        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::create($request->validated());
 
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::create($input);
+        flash('$MODEL_NAME_HUMAN$ saved successfully.', 'success');
 
-        Flash::success('$MODEL_NAME_HUMAN$ saved successfully.');
-
-        return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+        return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
     }
 
     /**
      * Display the specified $MODEL_NAME$.
      *
-     * @param int $id
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
-    public function show($id)
+    public function show($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
+            flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
-            return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+            return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
         }
 
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show')->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
@@ -81,19 +70,16 @@ class $MODEL_NAME$Controller extends AppBaseController
     /**
      * Show the form for editing the specified $MODEL_NAME$.
      *
-     * @param int $id
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
-    public function edit($id)
+    public function edit($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
+            flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
-            return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+            return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
         }
 
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.edit')->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
@@ -102,54 +88,45 @@ class $MODEL_NAME$Controller extends AppBaseController
     /**
      * Update the specified $MODEL_NAME$ in storage.
      *
-     * @param int $id
-     * @param Update$MODEL_NAME$Request $request
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+     * @param \$NAMESPACE_REQUEST$\Update$MODEL_NAME$Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, Update$MODEL_NAME$Request $request)
+    public function update($MODEL_NAME$ $$MODEL_NAME_CAMEL$, Update$MODEL_NAME$Request $request)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
+            flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
-            return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+            return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
         }
 
-        $$MODEL_NAME_CAMEL$->fill($request->all());
-        $$MODEL_NAME_CAMEL$->save();
+        $$MODEL_NAME_CAMEL$->update($request->validated());
 
-        Flash::success('$MODEL_NAME_HUMAN$ updated successfully.');
+        flash('$MODEL_NAME_HUMAN$ updated successfully.', 'success');
 
-        return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+        return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
     }
 
     /**
      * Remove the specified $MODEL_NAME$ from storage.
      *
-     * @param int $id
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
+            flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
-            return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+            return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
         }
 
         $$MODEL_NAME_CAMEL$->delete();
 
-        Flash::success('$MODEL_NAME_HUMAN$ deleted successfully.');
+        flash('$MODEL_NAME_HUMAN$ deleted successfully.', 'success');
 
-        return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
+        return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
     }
 }

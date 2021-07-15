@@ -22,7 +22,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         /** @var Post $posts */
-        $posts = Post::all();
+        $posts = Post::paginate();
 
         return view('admin.posts.index')
             ->with('posts', $posts);

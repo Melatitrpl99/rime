@@ -20,9 +20,9 @@ class CreateOrdersTable extends Migration
             $table->text('pesan')->nullable();
             $table->foreignId('status_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->integer('total')->nullable();
-            $table->integer('diskon')->nullable();
-            $table->integer('biaya_pengiriman')->nullable();
+            $table->bigInteger('total')->nullable();
+            $table->bigInteger('diskon')->nullable();
+            $table->bigInteger('biaya_pengiriman')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

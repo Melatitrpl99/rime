@@ -24,17 +24,15 @@ class ShipmentFactory extends Factory
     public function definition()
     {
         $village = Village::pluck('id')->toArray();
-        $order = Order::pluck('id')->toArray();
         return [
-            'nama_lengkap' => $this->faker->userName(),
+            'nama_lengkap' => $this->faker->name,
             'alamat' => $this->faker->address,
             'no' => $this->faker->numberBetween(1, 199),
             'rt' => $this->faker->numberBetween(1, 99),
             'rw' => $this->faker->numberBetween(1, 49),
             'village_id' => $this->faker->randomElement($village),
             'kode_pos' => $this->faker->numberBetween(1000, 49000),
-            'catatan' => $this->faker->text(200),
-            'order_id' => $this->faker->randomElement($order),
+            'catatan' => $this->faker->text(200)
         ];
     }
 }

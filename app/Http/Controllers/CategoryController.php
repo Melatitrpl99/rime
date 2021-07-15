@@ -22,7 +22,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         /** @var Category $categories */
-        $categories = Category::all();
+        $categories = Category::paginate();
 
         return view('admin.categories.index')
             ->with('categories', $categories);

@@ -32,7 +32,7 @@ class ProductStockFactory extends Factory
             'color_id' => $this->faker->randomElement($color),
             'size_id' => $this->faker->randomElement($size),
             'dimension_id' => $this->faker->randomElement($dimens),
-            'stok_ready' => $this->faker->numberBetween(0, 100),
+            'stok_ready' => $this->faker->numberBetween(1, 100),
         ];
     }
 }

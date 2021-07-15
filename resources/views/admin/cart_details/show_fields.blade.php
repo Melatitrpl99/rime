@@ -1,30 +1,38 @@
-<!-- Color Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('color_id', 'Color Id:') !!}
-    <p>{{ $cartDetail->color_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Cart</div>
+    <div class="col-12 col-md-9">{{ $cartDetail->cart->judul }}</div>
 </div>
 
-<!-- Size Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('size_id', 'Size Id:') !!}
-    <p>{{ $cartDetail->size_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Product</div>
+    <div class="col-12 col-md-9">{{ $cartDetail->product->nama }}</div>
 </div>
 
-<!-- Dimension Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('dimension_id', 'Dimension Id:') !!}
-    <p>{{ $cartDetail->dimension_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Color</div>
+    <div class="col-12 col-md-9">{{ $cartDetail->color->name }}</div>
 </div>
 
-<!-- Jumlah Field -->
-<div class="col-sm-12">
-    {!! Form::label('jumlah', 'Jumlah:') !!}
-    <p>{{ $cartDetail->jumlah }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Size</div>
+    <div class="col-12 col-md-9">{{ $cartDetail->size->name }}</div>
 </div>
 
-<!-- Subtotal Field -->
-<div class="col-sm-12">
-    {!! Form::label('subtotal', 'Subtotal:') !!}
-    <p>{{ $cartDetail->subtotal }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Dimension</div>
+    <div class="col-12 col-md-9">{{ $cartDetail->dimension->name }}</div>
 </div>
 
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Jumlah</div>
+    <div class="col-12 col-md-9">{{ $cartDetail->jumlah }}</div>
+</div>
+
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Sub Total</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($cartDetail->sub_total, 2, ',', '.') }}</div>
+</div>
+
+<div class="row">
+    <a href="{{ route('admin.cart_details.index') }}" class="btn btn-default">Back</a>
+</div>

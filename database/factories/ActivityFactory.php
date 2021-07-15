@@ -22,6 +22,7 @@ class ActivityFactory extends Factory
     public function definition()
     {
         return [
+            'id' => $this->faker->uuid,
             'user_agent' => $this->faker->userAgent,
             'ip_address' => $this->faker->ipv4,
             'log' => $this->faker->text(200),

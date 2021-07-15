@@ -1,54 +1,43 @@
-<!-- Nama Field -->
-<div class="col-sm-12">
-    {!! Form::label('nama', 'Nama:') !!}
-    <p>{{ $partner->nama }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nama</div>
+    <div class="col-12 col-md-9">{{ $partner->judul }}</div>
 </div>
 
-<!-- Deskripsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    <p>{{ $partner->deskripsi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $partner->deskripsi }}</div>
 </div>
 
-<!-- Alamat Field -->
-<div class="col-sm-12">
-    {!! Form::label('alamat', 'Alamat:') !!}
-    <p>{{ $partner->alamat }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Alamat</div>
+    <div class="col-12 col-md-9">{{ $partner->alamat }}</div>
 </div>
 
-<!-- Lokasi Field -->
-<div class="col-sm-12">
-    {!! Form::label('lokasi', 'Lokasi:') !!}
-    <p>{{ $partner->lokasi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Lokasi</div>
+    <div class="col-12 col-md-9">{{ $partner->lokasi }}</div>
 </div>
 
-<!-- Email Field -->
-<div class="col-sm-12">
-    {!! Form::label('email', 'Email:') !!}
-    <p>{{ $partner->email }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Email</div>
+    <div class="col-12 col-md-9">{{ $partner->email }}</div>
 </div>
 
-<!-- No Hp Field -->
-<div class="col-sm-12">
-    {!! Form::label('no_hp', 'No Hp:') !!}
-    <p>{{ $partner->no_hp }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nomor Handphone</div>
+    <div class="col-12 col-md-9">{{ $partner->no_hp }}</div>
 </div>
 
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $partner->slug }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $partner->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $partner->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $partner->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $partner->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.partners.index') }}">Back</a>
 </div>
-

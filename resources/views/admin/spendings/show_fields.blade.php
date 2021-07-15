@@ -1,48 +1,43 @@
-<!-- Nomor Field -->
-<div class="col-sm-12">
-    {!! Form::label('nomor', 'Nomor:') !!}
-    <p>{{ $spending->nomor }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nomor</div>
+    <div class="col-12 col-md-9">{{ $spending->nomor }}</div>
 </div>
 
-<!-- Deskripsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    <p>{{ $spending->deskripsi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $spending->nomor }}</div>
 </div>
 
-<!-- Tanggal Field -->
-<div class="col-sm-12">
-    {!! Form::label('tanggal', 'Tanggal:') !!}
-    <p>{{ $spending->tanggal }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Tanggal</div>
+    <div class="col-12 col-md-9">{{ $spending->tanggal->format('d F Y H:m:s') }}</div>
 </div>
 
-<!-- Kategori Field -->
-<div class="col-sm-12">
-    {!! Form::label('kategori', 'Kategori:') !!}
-    <p>{{ $spending->kategori }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Kategori</div>
+    <div class="col-12 col-md-9">{{ $spending->kategori }}</div>
 </div>
 
-<!-- Qty Field -->
-<div class="col-sm-12">
-    {!! Form::label('qty', 'Qty:') !!}
-    <p>{{ $spending->qty }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Jumlah</div>
+    <div class="col-12 col-md-9">{{ $spending->qty }}</div>
 </div>
 
-<!-- Sub Total Field -->
-<div class="col-sm-12">
-    {!! Form::label('sub_total', 'Sub Total:') !!}
-    <p>{{ $spending->sub_total }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Total</div>
+    <div class="col-12 col-md-9">{{ $spending->total }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $spending->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $spending->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $spending->updated_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $spending->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.spendings.index') }}">Back</a>
+</div>

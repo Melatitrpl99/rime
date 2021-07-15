@@ -1,24 +1,18 @@
-<!-- Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $dimension->id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Name</div>
+    <div class="col-12 col-md-9">{{ $dimension->name }}</div>
 </div>
 
-<!-- Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $dimension->name }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $dimension->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $dimension->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $dimension->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $dimension->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.dimensions.index') }}">Back</a>
 </div>
-

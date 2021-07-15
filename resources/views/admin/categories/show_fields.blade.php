@@ -1,24 +1,18 @@
-<!-- Nama Field -->
-<div class="col-sm-12">
-    {!! Form::label('nama', 'Nama:') !!}
-    <p>{{ $category->nama }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nama</div>
+    <div class="col-12 col-md-9">{{ $category->nama }}</div>
 </div>
 
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $category->slug }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $category->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $category->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $category->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $category->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.categories.index') }}">Back</a>
 </div>
-

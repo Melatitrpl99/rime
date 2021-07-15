@@ -1,30 +1,23 @@
-<!-- Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $status->id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nama</div>
+    <div class="col-12 col-md-9">{{ $status->name }}</div>
 </div>
 
-<!-- Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $status->name }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $status->desc }}</div>
 </div>
 
-<!-- Desc Field -->
-<div class="col-sm-12">
-    {!! Form::label('desc', 'Desc:') !!}
-    <p>{{ $status->desc }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $status->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $status->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $status->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $status->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.statuses.index') }}">Back</a>
 </div>
-

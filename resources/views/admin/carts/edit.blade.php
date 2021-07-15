@@ -3,35 +3,35 @@
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12">
-                    <h1>Edit Cart</h1>
+            <div class="row">
+                <div class="col-12">
+                    <h1>Update Cart</h1>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="content px-3">
-
-        @include('adminlte-templates::common.errors')
-
-        <div class="card">
-
-            {!! Form::model($cart, ['route' => ['admin.carts.update', $cart->id], 'method' => 'patch']) !!}
-
-            <div class="card-body">
-                <div class="row">
-                    @include('admin.carts.fields')
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    @include('adminlte-templates::common.errors')
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        {!! Form::model([$cart, 'route' => ['admin.carts.update', $cart], 'method' => 'PUT', 'class' => 'm-0']) !!}
+                        <div class="card-body">
+                            <div class="row">
+                                @include('admin.carts.fields')
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                            <a href="{{ route('admin.carts.index') }}" class="btn btn-default">Cancel</a>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
-
-            <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.carts.index') }}" class="btn btn-default">Cancel</a>
-            </div>
-
-           {!! Form::close() !!}
-
         </div>
-    </div>
+    </section>
 @endsection

@@ -22,7 +22,7 @@ class CartController extends Controller
     public function index(Request $request)
     {
         /** @var Cart $carts */
-        $carts = Cart::all();
+        $carts = Cart::paginate();
 
         return view('admin.carts.index')
             ->with('carts', $carts);

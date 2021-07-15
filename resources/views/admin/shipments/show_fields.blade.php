@@ -1,66 +1,38 @@
-<!-- Nama Lengkap Field -->
-<div class="col-sm-12">
-    {!! Form::label('nama_lengkap', 'Nama Lengkap:') !!}
-    <p>{{ $shipment->nama_lengkap }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nama Lengkap</div>
+    <div class="col-12 col-md-9">{{ $shipment->nama_lengkap }}</div>
 </div>
 
-<!-- Alamat Field -->
-<div class="col-sm-12">
-    {!! Form::label('alamat', 'Alamat:') !!}
-    <p>{{ $shipment->alamat }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Alamat Lengkap</div>
+    <div class="col-12 col-md-9">{{ $shipment->alamat . ' No. ' .$shipment->no . ' RT ' . $shipment->rt . ' RW ' . $shipment->rw . ', ' . ucwords(strtolower($shipment->village->name)) . ', ' . ucwords(strtolower($shipment->village->district->name)) . ', ' . ucwords(strtolower($shipment->village->district->regency->name)) . ', ' . ucwords(strtolower($shipment->village->district->regency->province->name)) }}</div>
 </div>
 
-<!-- No Field -->
-<div class="col-sm-12">
-    {!! Form::label('no', 'No:') !!}
-    <p>{{ $shipment->no }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Kode Pos</div>
+    <div class="col-12 col-md-9">{{ $shipment->kode_pos }}</div>
 </div>
 
-<!-- Rt Field -->
-<div class="col-sm-12">
-    {!! Form::label('rt', 'Rt:') !!}
-    <p>{{ $shipment->rt }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Catatan</div>
+    <div class="col-12 col-md-9">{{ $shipment->catatan }}</div>
 </div>
 
-<!-- Rw Field -->
-<div class="col-sm-12">
-    {!! Form::label('rw', 'Rw:') !!}
-    <p>{{ $shipment->rw }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Order</div>
+    <div class="col-12 col-md-9">{{ $shipment->order->nomor }}</div>
 </div>
 
-<!-- Village Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('village_id', 'Village Id:') !!}
-    <p>{{ $shipment->village_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $shipment->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Kode Pos Field -->
-<div class="col-sm-12">
-    {!! Form::label('kode_pos', 'Kode Pos:') !!}
-    <p>{{ $shipment->kode_pos }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $shipment->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Catatan Field -->
-<div class="col-sm-12">
-    {!! Form::label('catatan', 'Catatan:') !!}
-    <p>{{ $shipment->catatan }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.shipments.index') }}">Back</a>
 </div>
-
-<!-- Order Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('order_id', 'Order Id:') !!}
-    <p>{{ $shipment->order_id }}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $shipment->created_at }}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $shipment->updated_at }}</p>
-</div>
-

@@ -22,7 +22,7 @@ class DimensionController extends Controller
     public function index(Request $request)
     {
         /** @var Dimension $dimensions */
-        $dimensions = Dimension::all();
+        $dimensions = Dimension::paginate();
 
         return view('admin.dimensions.index')
             ->with('dimensions', $dimensions);

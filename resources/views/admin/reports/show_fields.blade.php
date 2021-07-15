@@ -1,42 +1,33 @@
-<!-- Judul Field -->
-<div class="col-sm-12">
-    {!! Form::label('judul', 'Judul:') !!}
-    <p>{{ $report->judul }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Judul</div>
+    <div class="col-12 col-md-9">{{ $report->judul }}</div>
 </div>
 
-<!-- Deskripsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    <p>{{ $report->deskripsi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $report->deskripsi }}</div>
 </div>
 
-<!-- Is Import Field -->
-<div class="col-sm-12">
-    {!! Form::label('is_import', 'Is Import:') !!}
-    <p>{{ $report->is_import }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Laporan Eksternal?</div>
+    <div class="col-12 col-md-9">{!! $report->is_import ? 'Ya <i class="fas fa-check text-success"></i>' : 'Tidak <i class="fas fa-times text-danger"></i>' !!}</div>
 </div>
 
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $report->slug }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">User</div>
+    <div class="col-12 col-md-9">{{ $report->user->name }}</div>
 </div>
 
-<!-- User Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $report->user_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $report->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $report->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $report->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $report->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.reports.index') }}">Back</a>
 </div>
-

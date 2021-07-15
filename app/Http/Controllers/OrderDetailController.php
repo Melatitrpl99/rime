@@ -22,7 +22,7 @@ class OrderDetailController extends Controller
     public function index(Request $request)
     {
         /** @var OrderDetail $orderDetails */
-        $orderDetails = OrderDetail::all();
+        $orderDetails = OrderDetail::paginate();
 
         return view('admin.order_details.index')
             ->with('orderDetails', $orderDetails);

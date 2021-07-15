@@ -1,42 +1,38 @@
-<!-- Product Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('product_id', 'Product Id:') !!}
-    <p>{{ $productStock->product_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Product</div>
+    <div class="col-12 col-md-9">{{ $productStock->product->nama }}</div>
 </div>
 
-<!-- Colour Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('colour_id', 'Colour Id:') !!}
-    <p>{{ $productStock->colour_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Color</div>
+    <div class="col-12 col-md-9">{{ $productStock->color->name }}</div>
 </div>
 
-<!-- Size Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('size_id', 'Size Id:') !!}
-    <p>{{ $productStock->size_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Size</div>
+    <div class="col-12 col-md-9">{{ $productStock->size->name }}</div>
 </div>
 
-<!-- Dimension Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('dimension_id', 'Dimension Id:') !!}
-    <p>{{ $productStock->dimension_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Dimension</div>
+    <div class="col-12 col-md-9">{{ $productStock->dimension->name }}</div>
 </div>
 
-<!-- Stok Ready Field -->
-<div class="col-sm-12">
-    {!! Form::label('stok_ready', 'Stok Ready:') !!}
-    <p>{{ $productStock->stok_ready }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Stok Ready</div>
+    <div class="col-12 col-md-9">{{ $productStock->stok_ready }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $productStock->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $productStock->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $productStock->updated_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $productStock->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.product_stocks.index') }}">Back</a>
+</div>

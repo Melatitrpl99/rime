@@ -1,36 +1,38 @@
-<!-- Loggable Field -->
-<div class="col-sm-12">
-    {!! Form::label('loggable', 'Loggable:') !!}
-    <p>{{ $activity->loggable }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Loggable Type</div>
+    <div class="col-12 col-md-9">{{ $activity->loggable_type }}</div>
 </div>
 
-<!-- User Agent Field -->
-<div class="col-sm-12">
-    {!! Form::label('user_agent', 'User Agent:') !!}
-    <p>{{ $activity->user_agent }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Loggable id</div>
+    <div class="col-12 col-md-9">{{ $activity->loggable_id }}</div>
 </div>
 
-<!-- Ip Address Field -->
-<div class="col-sm-12">
-    {!! Form::label('ip_address', 'Ip Address:') !!}
-    <p>{{ $activity->ip_address }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">User agent</div>
+    <div class="col-12 col-md-9">{{ $activity->user_agent }}</div>
 </div>
 
-<!-- Log Field -->
-<div class="col-sm-12">
-    {!! Form::label('log', 'Log:') !!}
-    <p>{{ $activity->log }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">IP Address</div>
+    <div class="col-12 col-md-9">{{ $activity->ip_address }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $activity->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Log message</div>
+    <div class="col-12 col-md-9">{{ $activity->log }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $activity->updated_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $activity->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $activity->updated_at->format('d F Y - H:m:s') }}</div>
+</div>
+
+<div class="row">
+    <a href="{{ route('admin.activities.index') }}" class="btn btn-default">Back</a>
+</div>

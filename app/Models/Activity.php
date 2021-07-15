@@ -23,9 +23,16 @@ class Activity extends Model
 
     public $table = 'activities';
 
+    public $keyType = 'string';
+
+    public $incrementing = 'false';
+
+    protected $primaryKey = 'id';
+
     protected $dates = ['deleted_at'];
 
     public $fillable = [
+        'loggable',
         'user_agent',
         'ip_address',
         'log'

@@ -22,7 +22,7 @@ class ColorController extends Controller
     public function index(Request $request)
     {
         /** @var Color $colors */
-        $colors = Color::all();
+        $colors = Color::paginate();
 
         return view('admin.colors.index')
             ->with('colors', $colors);

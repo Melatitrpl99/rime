@@ -22,7 +22,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         /** @var Product $products */
-        $products = Product::all();
+        $products = Product::paginate();
 
         return view('admin.products.index')
             ->with('products', $products);

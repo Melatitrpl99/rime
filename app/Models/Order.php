@@ -18,7 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Database\Eloquent\Collection $transactions
  * @property string $nomor
  * @property string $pesan
- * @property string $kode_diskon
+ * @property string $total
+ * @property string $diskon
+ * @property string $biaya_pengiriman
  * @property foreignId $status_id
  * @property foreignId $user_id
  */
@@ -73,7 +75,7 @@ class Order extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -81,7 +83,7 @@ class Order extends Model
      **/
     public function shipments()
     {
-        return $this->hasMany(\App\Models\Shipment::class);
+        return $this->hasMany(Shipment::class);
     }
 
     /**
@@ -89,7 +91,9 @@ class Order extends Model
      **/
     public function products()
     {
-        return $this->belongsToMany(\App\Models\Product::class, 'order_details');
+        return $this->belongsToMany(Product::class, 'order_details')
+            ->withPivot(OrderDetail::$pivotColumns)
+            ->using(OrderDetail::class);
     }
 
     /**
@@ -97,11 +101,16 @@ class Order extends Model
      **/
     public function transactions()
     {
-        return $this->belongsToMany(\App\Models\Transaction::class, 'transaction_details');
+        return $this->belongsToMany(Transaction::class, 'transaction_details')
+            ->withPivot(['sub_total'])
+            ->using(TransactionDetail::class);
     }
 
-    public function getSubTotalAttribute()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function status()
     {
-        return $this->products->sum('harga_customer');
+        return $this->belongsTo(Status::class);
     }
 }

@@ -1,24 +1,23 @@
-<!-- Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $postCategory->name }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Name</div>
+    <div class="col-12 col-md-9">{{ $postCategory->name }}</div>
 </div>
 
-<!-- Desc Field -->
-<div class="col-sm-12">
-    {!! Form::label('desc', 'Desc:') !!}
-    <p>{{ $postCategory->desc }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Description</div>
+    <div class="col-12 col-md-9">{{ $postCategory->desc }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $postCategory->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $postCategory->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $postCategory->updated_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $postCategory->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.post_categories.index') }}">Back</a>
+</div>

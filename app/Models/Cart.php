@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @version July 8, 2021, 12:02 am UTC
  *
  * @property \App\Models\User $user
- * @property \Illuminate\Database\Eloquent\Collection $products
+ * @property \App\Models\Product $products
  * @property string $nomor
  * @property string $judul
  * @property string $deskripsi
+ * @property string $total
  * @property foreignId $user_id
  */
 class Cart extends Model
@@ -73,6 +74,7 @@ class Cart extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'cart_details')
+            ->withPivot(CartDetail::$pivotColumns)
             ->using(CartDetail::class);
     }
 }

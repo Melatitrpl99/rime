@@ -34,7 +34,7 @@ class Spending extends Model
         'tanggal',
         'kategori',
         'qty',
-        'sub_total'
+        'total'
     ];
 
     /**
@@ -46,8 +46,9 @@ class Spending extends Model
         'nomor' => 'string',
         'deskripsi' => 'string',
         'kategori' => 'string',
+        'tanggal' => 'datetime',
         'qty' => 'integer',
-        'sub_total' => 'integer'
+        'total' => 'integer'
     ];
 
     /**

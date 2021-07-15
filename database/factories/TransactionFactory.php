@@ -25,7 +25,7 @@ class TransactionFactory extends Factory
         $user = User::pluck('id')->toArray();
         return [
             'nomor' => $this->faker->regexify('T[0-9]{2}-[A-Z0-9]{6}'),
-            // 'total' => $this->faker->numberBetween(50, 55000) * 1000,
+            // 'total' => $this->faker->numberBetween(50, 5500) * 1000,
             'user_id' => $this->faker->randomElement($user),
         ];
     }

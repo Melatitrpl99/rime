@@ -60,4 +60,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function logs()
+    {
+        return $this->morphMany(Activity::class, 'loggable');
+    }
 }

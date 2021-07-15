@@ -25,8 +25,11 @@ class SpendingDetail extends Model
 
     protected $primaryKey = 'spending_id';
 
+    public $timestamps = false;
+
     public $fillable = [
-        'subtotal'
+        'nama',
+        'sub_total'
     ];
 
     /**
@@ -35,7 +38,7 @@ class SpendingDetail extends Model
      * @var array
      */
     protected $casts = [
-        'subtotal' => 'integer'
+        'sub_total' => 'integer'
     ];
 
     /**
@@ -45,7 +48,8 @@ class SpendingDetail extends Model
      */
     public static $rules = [
         'spending_id' => 'required',
-        'subtotal' => 'required|numeric'
+        'nama' => 'nullable|string',
+        'sub_total' => 'nullable|integer'
     ];
 
     /**

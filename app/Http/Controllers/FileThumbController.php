@@ -22,7 +22,7 @@ class FileThumbController extends Controller
     public function index(Request $request)
     {
         /** @var FileThumb $fileThumbs */
-        $fileThumbs = FileThumb::all();
+        $fileThumbs = FileThumb::paginate();
 
         return view('admin.file_thumbs.index')
             ->with('fileThumbs', $fileThumbs);

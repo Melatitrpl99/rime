@@ -1,60 +1,48 @@
-<!-- Judul Field -->
-<div class="col-sm-12">
-    {!! Form::label('judul', 'Judul:') !!}
-    <p>{{ $event->judul }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Judul</div>
+    <div class="col-12 col-md-9">{{ $event->judul }}</div>
 </div>
 
-<!-- Deskripsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    <p>{{ $event->deskripsi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $event->deskripsi }}</div>
 </div>
 
-<!-- Waktu Mulai Field -->
-<div class="col-sm-12">
-    {!! Form::label('waktu_mulai', 'Waktu Mulai:') !!}
-    <p>{{ $event->waktu_mulai }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Waktu Mulai</div>
+    <div class="col-12 col-md-9">{{ $event->waktu_mulai->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Waktu Berakhir Field -->
-<div class="col-sm-12">
-    {!! Form::label('waktu_berakhir', 'Waktu Berakhir:') !!}
-    <p>{{ $event->waktu_berakhir }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Waktu Berakhir</div>
+    <div class="col-12 col-md-9">{{ $event->waktu_berakhir->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Alamat Field -->
-<div class="col-sm-12">
-    {!! Form::label('alamat', 'Alamat:') !!}
-    <p>{{ $event->alamat }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Alamat</div>
+    <div class="col-12 col-md-9">{{ $event->alamat }}</div>
 </div>
 
-<!-- Nomor Hp Field -->
-<div class="col-sm-12">
-    {!! Form::label('nomor_hp', 'Nomor Hp:') !!}
-    <p>{{ $event->nomor_hp }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nomor Handphone</div>
+    <div class="col-12 col-md-9">{{ $event->no_hp }}</div>
 </div>
 
-<!-- Email Field -->
-<div class="col-sm-12">
-    {!! Form::label('email', 'Email:') !!}
-    <p>{{ $event->email }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Email</div>
+    <div class="col-12 col-md-9">{{ $event->email }}</div>
 </div>
 
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $event->slug }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $event->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $event->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $event->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $event->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.events.index') }}">Back</a>
 </div>
-

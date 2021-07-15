@@ -16,12 +16,12 @@ class CreateSpendingsTable extends Migration
     {
         Schema::create('spendings', function (Blueprint $table) {
             $table->id('id');
-            $table->string('nomor');
-            $table->text('deskripsi');
+            $table->string('nomor')->unique();
+            $table->text('deskripsi')->nullable();
             $table->timestamp('tanggal');
             $table->string('kategori');
-            $table->integer('qty');
-            $table->integer('sub_total');
+            $table->integer('qty')->nullable();
+            $table->bigInteger('total')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

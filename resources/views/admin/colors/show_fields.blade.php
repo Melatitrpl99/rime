@@ -1,30 +1,23 @@
-<!-- Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $color->id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Name</div>
+    <div class="col-12 col-md-9">{{ $color->name }}</div>
 </div>
 
-<!-- Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $color->name }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Hex RGB Value</div>
+    <div class="col-12 col-md-9">{{ $color->rgba_color }} <i class="fas fa-square ml-1" style="color: {{ $color->rgba_color }}"></i></div>
 </div>
 
-<!-- Rgba Color Field -->
-<div class="col-sm-12">
-    {!! Form::label('rgba_color', 'Rgba Color:') !!}
-    <p>{{ $color->rgba_color }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $color->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $color->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $color->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $color->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.colors.index') }}">Back</a>
 </div>
-

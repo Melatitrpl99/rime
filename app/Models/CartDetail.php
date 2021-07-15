@@ -37,7 +37,7 @@ class CartDetail extends Pivot
         'size_id',
         'dimension_id',
         'jumlah',
-        'subtotal'
+        'sub_total'
     ];
 
     /**
@@ -47,7 +47,7 @@ class CartDetail extends Pivot
      */
     protected $casts = [
         'jumlah' => 'integer',
-        'subtotal' => 'integer'
+        'sub_total' => 'integer'
     ];
 
     /**
@@ -56,13 +56,21 @@ class CartDetail extends Pivot
      * @var array
      */
     public static $rules = [
-        'cart_id' => 'required',
-        'product_id' => 'required',
+        'cart_id' => 'nullable',
+        'product_id' => 'nullable',
         'color_id' => 'required',
         'size_id' => 'required',
         'dimension_id' => 'required',
-        'jumlah' => 'required|numeric',
-        'subtotal' => 'required|integer'
+        'jumlah' => 'nullable|numeric',
+        'sub_total' => 'nullable|integer'
+    ];
+
+    public static $pivotColumns = [
+        'color_id',
+        'size_id',
+        'dimension_id',
+        'jumlah',
+        'sub_total'
     ];
 
     /**

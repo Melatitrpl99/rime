@@ -1,54 +1,43 @@
-<!-- Nama Field -->
-<div class="col-sm-12">
-    {!! Form::label('nama', 'Nama:') !!}
-    <p>{{ $product->nama }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nama</div>
+    <div class="col-12 col-md-9">{{ $product->nama }}</div>
 </div>
 
-<!-- Deskripsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    <p>{{ $product->deskripsi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $product->deskripsi }}</div>
 </div>
 
-<!-- Harga Customer Field -->
-<div class="col-sm-12">
-    {!! Form::label('harga_customer', 'Harga Customer:') !!}
-    <p>{{ $product->harga_customer }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Harga Customer</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($product->harga_customer, 2, ',', '.') }}</div>
 </div>
 
-<!-- Harga Reseller Field -->
-<div class="col-sm-12">
-    {!! Form::label('harga_reseller', 'Harga Reseller:') !!}
-    <p>{{ $product->harga_reseller }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Harga Reseller</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($product->harga_reseller, 2, ',', '.') }}</div>
 </div>
 
-<!-- Reseller Minimum Field -->
-<div class="col-sm-12">
-    {!! Form::label('reseller_minimum', 'Reseller Minimum:') !!}
-    <p>{{ $product->reseller_minimum }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Reseller Minimum</div>
+    <div class="col-12 col-md-9">{{ $product->reseller_minimum }}</div>
 </div>
 
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $product->slug }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Category</div>
+    <div class="col-12 col-md-9">{{ $product->category->nama }}</div>
 </div>
 
-<!-- Category Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('category_id', 'Category Id:') !!}
-    <p>{{ $product->category_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $product->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $product->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $product->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $product->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.products.index') }}">Back</a>
 </div>
-

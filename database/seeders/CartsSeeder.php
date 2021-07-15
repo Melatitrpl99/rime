@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Cart;
-use App\Models\Color;
-use App\Models\Dimension;
+use App\Models\CartDetail;
 use App\Models\Product;
-use App\Models\Size;
 use Illuminate\Database\Seeder;
 
 class CartsSeeder extends Seeder
@@ -18,21 +16,25 @@ class CartsSeeder extends Seeder
      */
     public function run()
     {
-        $products = Product::inRandomOrder()->get();
-        $colors = Color::inRandomOrder()->pluck('id')->toArray();
-        $sizes = Size::inRandomOrder()->pluck('id')->toArray();
-        $dimensions = Dimension::inRandomOrder()->pluck('id')->toArray();
-        $jumlah = rand(1, 50);
-        Cart::factory(rand(50, 500))
-            ->hasAttached($products, [
-                'color_id' => array_rand($colors, 1),
-                'size_id' => array_rand($sizes, 1),
-                'dimension_id' => array_rand($dimensions, 1),
-                'jumlah' => $jumlah,
-                'subtotal' => rand(50, 100) * 1000 * $jumlah,
-            ])
-            ->create([
-                'total' => rand(50, 100) * 1000
-            ]);
+        Cart::factory()
+            ->count(rand(50, 500))
+            ->create()
+            ->each(function ($cart) {
+                $products = Product::inRandomOrder()
+                    ->limit(rand(1, Product::count()))
+                    ->get();
+
+                foreach($products as $product) {
+                    $jumlah = rand(1, 50);
+                    $cart->products()->attach($product, array_merge(
+                        CartDetail::factory()->make()->toArray(),
+                        ['jumlah' => $jumlah, 'sub_total' => $product->harga_customer * $jumlah]
+                    ));
+                }
+
+                $cart->update([
+                    'total' => $cart->products->sum('pivot.sub_total')
+                ]);
+            });
     }
 }

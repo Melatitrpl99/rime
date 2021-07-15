@@ -37,7 +37,15 @@ class OrderDetail extends Pivot
         'size_id',
         'dimension_id',
         'jumlah',
-        'subtotal'
+        'sub_total'
+    ];
+
+    public static $pivotColumns = [
+        'color_id',
+        'size_id',
+        'dimension_id',
+        'jumlah',
+        'sub_total'
     ];
 
     /**
@@ -70,7 +78,7 @@ class OrderDetail extends Pivot
      **/
     public function order()
     {
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(Order::class);
     }
 
     /**
@@ -78,15 +86,15 @@ class OrderDetail extends Pivot
      **/
     public function product()
     {
-        return $this->belongsTo(\App\Models\Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function colour()
+    public function color()
     {
-        return $this->belongsTo(\App\Models\Colour::class);
+        return $this->belongsTo(Color::class);
     }
 
     /**
@@ -94,14 +102,14 @@ class OrderDetail extends Pivot
      **/
     public function size()
     {
-        return $this->belongsTo(\App\Models\Size::class);
+        return $this->belongsTo(Size::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function dimensions()
+    public function dimension()
     {
-        return $this->belongsTo(\App\Models\Dimensions::class);
+        return $this->belongsTo(Dimension::class);
     }
 }

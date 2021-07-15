@@ -1,54 +1,48 @@
-<!-- Nomor Field -->
-<div class="col-sm-12">
-    {!! Form::label('nomor', 'Nomor:') !!}
-    <p>{{ $order->nomor }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nomor</div>
+    <div class="col-12 col-md-9">{{ $order->nomor }}</div>
 </div>
 
-<!-- Pesan Field -->
-<div class="col-sm-12">
-    {!! Form::label('pesan', 'Pesan:') !!}
-    <p>{{ $order->pesan }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Pesan</div>
+    <div class="col-12 col-md-9">{{ $order->pesan }}</div>
 </div>
 
-<!-- Total Field -->
-<div class="col-sm-12">
-    {!! Form::label('total', 'Total:') !!}
-    <p>{{ $order->total }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Total</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($order->total, 2, ',', '.') }}</div>
 </div>
 
-<!-- Diskon Field -->
-<div class="col-sm-12">
-    {!! Form::label('diskon', 'Diskon:') !!}
-    <p>{{ $order->diskon }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Diskon</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($order->diskon, 2, ',', '.') }}</div>
 </div>
 
-<!-- Biaya Pengiriman Field -->
-<div class="col-sm-12">
-    {!! Form::label('biaya_pengiriman', 'Biaya Pengiriman:') !!}
-    <p>{{ $order->biaya_pengiriman }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Biaya Pengiriman</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($order->biaya_pengiriman, 2, ',', '.') }}</div>
 </div>
 
-<!-- Status Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('status_id', 'Status Id:') !!}
-    <p>{{ $order->status_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Status</div>
+    <div class="col-12 col-md-9">{{ $order->status->name }}</div>
 </div>
 
-<!-- User Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $order->user_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">User</div>
+    <div class="col-12 col-md-9">{{ $order->user->name }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $order->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $order->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $order->updated_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $order->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.orders.index') }}">Back</a>
+</div>

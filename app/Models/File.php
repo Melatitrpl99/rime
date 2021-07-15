@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 /**
  * Class File
@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @version July 8, 2021, 12:04 am UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $fileThumbs
- * @property string $name
  * @property morphs $fileable
+ * @property string $name
  * @property string $mime_type
  * @property string $format
  * @property string $size
@@ -22,15 +22,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class File extends Model
 {
-    use SoftDeletes;
-
+    use SoftDeletes, HasFactory;
 
     public $table = 'files';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'name',
@@ -67,10 +63,18 @@ class File extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     **/
+    public function fileable()
+    {
+        return $this->morphTo();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function fileThumbs()
     {
-        return $this->hasMany(\App\Models\FileThumb::class);
+        return $this->hasMany(FileThumb::class);
     }
 }

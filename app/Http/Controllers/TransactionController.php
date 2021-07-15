@@ -22,7 +22,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         /** @var Transaction $transactions */
-        $transactions = Transaction::all();
+        $transactions = Transaction::paginate();
 
         return view('admin.transactions.index')
             ->with('transactions', $transactions);

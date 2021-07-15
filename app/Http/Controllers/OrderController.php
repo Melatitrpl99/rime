@@ -22,7 +22,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         /** @var Order $orders */
-        $orders = Order::all();
+        $orders = Order::paginate();
 
         return view('admin.orders.index')
             ->with('orders', $orders);

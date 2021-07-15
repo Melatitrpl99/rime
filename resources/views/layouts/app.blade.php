@@ -1,6 +1,5 @@
 <!DOCTYPE html lang="en">
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
@@ -18,7 +17,7 @@
         @include('layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper h-auto">
             @yield('content')
         </div>
 
@@ -27,7 +26,7 @@
             <strong>Copyright © 2014-2021 <a href="http://rimesyari.myskripsi.xyz">Rime Syari</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
-                <b>AdminLTE Version</b> 3.1.0
+                AdminLTE 3
             </div>
         </footer>
     </div>

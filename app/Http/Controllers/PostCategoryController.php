@@ -22,7 +22,7 @@ class PostCategoryController extends Controller
     public function index(Request $request)
     {
         /** @var PostCategory $postCategories */
-        $postCategories = PostCategory::all();
+        $postCategories = PostCategory::paginate();
 
         return view('admin.post_categories.index')
             ->with('postCategories', $postCategories);

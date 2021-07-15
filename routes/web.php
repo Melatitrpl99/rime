@@ -10,7 +10,6 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FileThumbController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Laporan\BukuBesarController;
 use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\Misc\ExcelController;
 use App\Http\Controllers\OrderController;

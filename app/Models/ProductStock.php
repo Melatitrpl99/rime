@@ -65,7 +65,7 @@ class ProductStock extends Model
      **/
     public function product()
     {
-        return $this->belongsTo(\App\Models\Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     /**
@@ -73,7 +73,7 @@ class ProductStock extends Model
      **/
     public function color()
     {
-        return $this->belongsTo(\App\Models\Color::class, 'color_id');
+        return $this->belongsTo(Color::class, 'color_id');
     }
 
     /**

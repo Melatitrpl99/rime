@@ -22,7 +22,7 @@ class SizeController extends Controller
     public function index(Request $request)
     {
         /** @var Size $sizes */
-        $sizes = Size::all();
+        $sizes = Size::paginate();
 
         return view('admin.sizes.index')
             ->with('sizes', $sizes);

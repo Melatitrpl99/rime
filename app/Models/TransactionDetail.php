@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property \App\Models\Transaction $transaction
  * @property \App\Models\Order $order
- * @property integer $subtotal
+ * @property integer $sub_total
  */
 class TransactionDetail extends Pivot
 {
@@ -26,7 +26,7 @@ class TransactionDetail extends Pivot
     protected $dates = ['deleted_at'];
 
     public $fillable = [
-        'subtotal'
+        'sub_total'
     ];
 
     /**
@@ -35,7 +35,7 @@ class TransactionDetail extends Pivot
      * @var array
      */
     protected $casts = [
-        'subtotal' => 'integer'
+        'sub_total' => 'integer'
     ];
 
     /**
@@ -46,7 +46,7 @@ class TransactionDetail extends Pivot
     public static $rules = [
         'transaction_id' => 'required',
         'order_id' => 'required',
-        'subtotal' => 'required|numeric'
+        'sub_total' => 'required|numeric'
     ];
 
     /**

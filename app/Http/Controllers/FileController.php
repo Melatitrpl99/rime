@@ -22,7 +22,7 @@ class FileController extends Controller
     public function index(Request $request)
     {
         /** @var File $files */
-        $files = File::all();
+        $files = File::paginate();
 
         return view('admin.files.index')
             ->with('files', $files);

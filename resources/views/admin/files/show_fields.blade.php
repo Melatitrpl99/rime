@@ -1,54 +1,48 @@
-<!-- Name Field -->
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $file->name }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Name</div>
+    <div class="col-12 col-md-9">{{ $file->name }}</div>
 </div>
 
-<!-- Fileable Field -->
-<div class="col-sm-12">
-    {!! Form::label('fileable', 'Fileable:') !!}
-    <p>{{ $file->fileable }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Fileable type / id</div>
+    <div class="col-12 col-md-9">{{ $file->fileable_type }} / {{ $file->fileable_id }}</div>
 </div>
 
-<!-- Mime Type Field -->
-<div class="col-sm-12">
-    {!! Form::label('mime_type', 'Mime Type:') !!}
-    <p>{{ $file->mime_type }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">MIME type</div>
+    <div class="col-12 col-md-9">{{ $file->mime_type }}</div>
 </div>
 
-<!-- Format Field -->
-<div class="col-sm-12">
-    {!! Form::label('format', 'Format:') !!}
-    <p>{{ $file->format }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Format</div>
+    <div class="col-12 col-md-9">{{ $file->format }}</div>
 </div>
 
-<!-- Size Field -->
-<div class="col-sm-12">
-    {!! Form::label('size', 'Size:') !!}
-    <p>{{ $file->size }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Size</div>
+    <div class="col-12 col-md-9">{{ $file->size }}</div>
 </div>
 
-<!-- Path Field -->
-<div class="col-sm-12">
-    {!! Form::label('path', 'Path:') !!}
-    <p>{{ $file->path }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Path</div>
+    <div class="col-12 col-md-9">{{ $file->path }}</div>
 </div>
 
-<!-- Url Field -->
-<div class="col-sm-12">
-    {!! Form::label('url', 'Url:') !!}
-    <p>{{ $file->url }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">URL</div>
+    <div class="col-12 col-md-9"><a href="{{ $file->url }}">{{ $file->url }}</a></div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $file->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $file->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $file->updated_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $file->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.files.index') }}">Back</a>
+</div>

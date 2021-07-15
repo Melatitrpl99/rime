@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         /** @var User $users */
-        $users = User::all();
+        $users = User::paginate();
 
         return view('users.index')
             ->with('users', $users);

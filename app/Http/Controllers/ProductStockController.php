@@ -22,7 +22,7 @@ class ProductStockController extends Controller
     public function index(Request $request)
     {
         /** @var ProductStock $productStocks */
-        $productStocks = ProductStock::all();
+        $productStocks = ProductStock::with(['product:id,nama', 'size:id,name', 'dimension:id,name', 'color:id,name'])->paginate();
 
         return view('admin.product_stocks.index')
             ->with('productStocks', $productStocks);

@@ -1,54 +1,43 @@
-<!-- Judul Field -->
-<div class="col-sm-12">
-    {!! Form::label('judul', 'Judul:') !!}
-    <p>{{ $discount->judul }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Judul</div>
+    <div class="col-12 col-md-9">{{ $discount->judul }}</div>
 </div>
 
-<!-- Deskripsi Field -->
-<div class="col-sm-12">
-    {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    <p>{{ $discount->deskripsi }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $discount->deskripsi }}</div>
 </div>
 
-<!-- Kode Field -->
-<div class="col-sm-12">
-    {!! Form::label('kode', 'Kode:') !!}
-    <p>{{ $discount->kode }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Kode Diskon</div>
+    <div class="col-12 col-md-9">{{ $discount->kode }}</div>
 </div>
 
-<!-- Batas Pemakaian Field -->
-<div class="col-sm-12">
-    {!! Form::label('batas_pemakaian', 'Batas Pemakaian:') !!}
-    <p>{{ $discount->batas_pemakaian }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Batas Pemakaian</div>
+    <div class="col-12 col-md-9">{{ $discount->batas_pemakaian }}</div>
 </div>
 
-<!-- Waktu Mulai Field -->
-<div class="col-sm-12">
-    {!! Form::label('waktu_mulai', 'Waktu Mulai:') !!}
-    <p>{{ $discount->waktu_mulai }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Waktu Mulai</div>
+    <div class="col-12 col-md-9">{{ $discount->waktu_mulai->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Waktu Berakhir Field -->
-<div class="col-sm-12">
-    {!! Form::label('waktu_berakhir', 'Waktu Berakhir:') !!}
-    <p>{{ $discount->waktu_berakhir }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Waktu Berakhir</div>
+    <div class="col-12 col-md-9">{{ $discount->waktu_berakhir->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Slug Field -->
-<div class="col-sm-12">
-    {!! Form::label('slug', 'Slug:') !!}
-    <p>{{ $discount->slug }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $discount->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $discount->created_at }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $discount->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $discount->updated_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.discounts.index') }}">Back</a>
 </div>
-

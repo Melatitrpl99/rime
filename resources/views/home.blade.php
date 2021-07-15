@@ -206,19 +206,19 @@
                         </div>
                     </div>
                     <div class="card-body" style="max-height: 200px">
-                        <a href="#" class="btn btn-outline-info btn-sm btn-block">
+                        <a href="#" class="btn btn-outline-info btn-sm btn-block text-left">
                             <i class="fas fa-plus mr-1"></i>
                             <span>Buat laporan baru</span>
                         </a>
-                        <a href="#" class="btn btn-outline-info btn-sm btn-block">
+                        <a href="{{ route('laba_rugi.index') }}" class="btn btn-outline-info btn-sm btn-block text-left">
                             <i class="fas fa-file-invoice mr-1"></i>
-                            <span>Laporan Buku Besar</span>
+                            <span>Laporan Laba Rugi</span>
                         </a>
-                        <a href="#" class="btn btn-outline-info btn-sm btn-block">
+                        <a href="{{ route('admin.spendings.index') }}" class="btn btn-outline-info btn-sm btn-block text-left">
                             <i class="fas fa-file-invoice mr-1"></i>
                             <span>Laporan Pengeluaran</span>
                         </a>
-                        <a href="#" class="btn btn-outline-info btn-sm btn-block">
+                        <a href="{{ route('admin.transactions.index') }}" class="btn btn-outline-info btn-sm btn-block text-left">
                             <i class="fas fa-file-invoice mr-1"></i>
                             <span>Laporan Pemasukan</span>
                         </a>

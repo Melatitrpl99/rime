@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Order;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Database\Seeder;
 
 class TransactionsSeeder extends Seeder
@@ -15,13 +16,23 @@ class TransactionsSeeder extends Seeder
      */
     public function run()
     {
-        $orders = Order::all();
-        Transaction::factory(rand(25, 250))
-            ->hasAttached($orders, [
-                'sub_total' => rand(100, 1500) * 1000
-            ])
-            ->create([
-                'total' => rand(100, 1500) * 1000
-            ]);
+        Transaction::factory()
+            ->count(rand(400, 750))
+            ->create()
+            ->each(function ($transaction) {
+                $orders = Order::inRandomOrder()
+                    ->limit(rand(1, Order::count()))
+                    ->get();
+
+                foreach($orders as $order) {
+                    $transaction->orders()->attach($order, [
+                        'sub_total' => $order->total - $order->diskon + $order->biaya_pengiriman
+                    ]);
+                }
+
+                $transaction->update([
+                    'total' => $transaction->orders->sum('pivot.sub_total')
+                ]);
+            });
     }
 }

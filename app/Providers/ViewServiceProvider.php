@@ -48,35 +48,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $categoryItems = Category::pluck('nama','id')->toArray();
-        // $postCategoryItems = PostCategory::pluck('name','id')->toArray();
-        // $statusItems = Status::pluck('name','id')->toArray();
-
-        // $colorItems = Color::pluck('name','id')->toArray();
-        // $dimensionItems = Dimension::pluck('name','id')->toArray();
-        // $sizeItems = Size::pluck('name','id')->toArray();
-
-        // $provinceItems = Province::pluck('name', 'id')->toArray();
-        // $regencyItems = Regency::pluck('name', 'id')->toArray();
-        // $districtItems = District::pluck('name', 'id')->toArray();
-        // $villageItems = Village::pluck('name', 'id')->toArray();
-
-        // $roleItems = Role::pluck('name', 'id')->toArray();
-
-        // $activityItems = Activity::pluck('user_agent', 'id')->toArray();
-        // $cartItems = Cart::pluck('nomor', 'id')->toArray();
-        // $discountItems = Discount::pluck('judul', 'id')->toArray();
-        // $eventItems = Event::pluck('judul', 'id')->toArray();
-        // $fileItems = File::pluck('name', 'id')->toArray();
-        // $orderItems = Order::pluck('nomor', 'id')->toArray();
-        // $partnerItems = Partner::pluck('nama', 'id')->toArray();
-        // $postItems = Post::pluck('judul', 'id')->toArray();
-        // $productItems = Product::pluck('nama','id')->toArray();
-        // $reportItems = Report::pluck('judul', 'id')->toArray();
-        // $spendingItems = Spending::pluck('nomor', 'id')->toArray();
-        // $transactionItems = Transaction::pluck('nomor', 'id')->toArray();
-        // $userItems = User::pluck('name','id')->toArray();
-
         view()->composer('admin.cart_details.fields', function ($view) {
             $cartItems = Cart::pluck('nomor', 'id')->toArray();
             $productItems = Product::pluck('nama','id')->toArray();
@@ -124,13 +95,15 @@ class ViewServiceProvider extends ServiceProvider
             $userItems = User::pluck('name','id')->toArray();
 
             $view->with('statusItems', $statusItems)
-                ->with('userItems', $userItems);
+            ->with('userItems', $userItems);
         });
 
         view()->composer('admin.posts.fields', function ($view) {
             $postCategoryItems = PostCategory::pluck('name','id')->toArray();
+            $userItems = User::pluck('name','id')->toArray();
 
-            $view->with('postCategoryItems', $postCategoryItems);
+            $view->with('postCategoryItems', $postCategoryItems)
+                ->with('userItems', $userItems);
         });
 
         view()->composer('admin.product_stocks.fields', function ($view) {

@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Color;
-use App\Models\Dimension;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Shipment;
-use App\Models\Size;
 use Illuminate\Database\Seeder;
 
 class OrdersSeeder extends Seeder
@@ -19,25 +17,26 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        $products = Product::all();
-        $colors = Color::inRandomOrder()->pluck('id')->toArray();
-        $sizes = Size::inRandomOrder()->pluck('id')->toArray();
-        $dimensions = Dimension::inRandomOrder()->pluck('id')->toArray();
-        $jumlah = rand(1, 50);
+        Order::factory()
+            ->count(rand(50, 250))
+            ->has(Shipment::factory())
+            ->create()
+            ->each(function ($order) {
+                $products = Product::inRandomOrder()
+                    ->limit(rand(1, Product::count()))
+                    ->get();
 
-        Order::factory(rand(100, 250))
-            ->has(Shipment::factory()->count(1))
-            ->hasAttached($products, [
-                'color_id' => array_rand($colors, 1),
-                'size_id' => array_rand($sizes, 1),
-                'dimension_id' => array_rand($dimensions, 1),
-                'jumlah' => $jumlah,
-                'subtotal' => rand(5, 100) * 1000 * $jumlah
-            ])
-            ->create([
-                'total' => rand(50, 100) * 1000,
-                'diskon' => rand(5, 50) * 1000,
-                'biaya_pengiriman' => rand(5, 50) * 1000,
-            ]);
+                foreach($products as $product) {
+                    $jumlah = rand(1, 50);
+                    $order->products()->attach($product, array_merge(
+                        OrderDetail::factory()->make()->toArray(),
+                        ['jumlah' => $jumlah, 'sub_total' => $product->harga_customer * $jumlah]
+                    ));
+                }
+
+                $order->update([
+                    'total' => $order->products->sum('pivot.sub_total')
+                ]);
+            });
     }
 }

@@ -22,7 +22,7 @@ class DiscountController extends Controller
     public function index(Request $request)
     {
         /** @var Discount $discounts */
-        $discounts = Discount::all();
+        $discounts = Discount::paginate();
 
         return view('admin.discounts.index')
             ->with('discounts', $discounts);

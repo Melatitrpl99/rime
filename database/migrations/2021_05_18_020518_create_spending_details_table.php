@@ -17,7 +17,8 @@ class CreateSpendingDetailsTable extends Migration
         Schema::create('spending_details', function (Blueprint $table) {
             $table->id('id');
             $table->foreignId('spending_id')->constrained();
-            $table->integer('subtotal');
+            $table->string('nama')->nullable();
+            $table->bigInteger('sub_total')->nullable();
             $table->softDeletes();
         });
     }

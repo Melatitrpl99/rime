@@ -3,8 +3,8 @@
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12">
+            <div class="row">
+                <div class="col-12">
                     <h1>Add new Status</h1>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::open(['route' => 'admin.statuses.store']) !!}
+                        {!! Form::open(['route' => 'admin.statuses.store', 'class' => 'm-0']) !!}
                         <div class="card-body">
                             <div class="row">
                                 @include('admin.statuses.fields')

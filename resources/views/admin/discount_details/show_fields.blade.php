@@ -1,18 +1,28 @@
-<!-- Diskon Harga Field -->
-<div class="col-sm-12">
-    {!! Form::label('diskon_harga', 'Diskon Harga:') !!}
-    <p>{{ $discountDetail->diskon_harga }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Discount</div>
+    <div class="col-12 col-md-9">{{ $discountDetail->judul }}</div>
 </div>
 
-<!-- Minimal Produk Field -->
-<div class="col-sm-12">
-    {!! Form::label('minimal_produk', 'Minimal Produk:') !!}
-    <p>{{ $discountDetail->minimal_produk }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Product</div>
+    <div class="col-12 col-md-9">{{ $discountDetail->product->nama }}</div>
 </div>
 
-<!-- Maksimal Produk Field -->
-<div class="col-sm-12">
-    {!! Form::label('maksimal_produk', 'Maksimal Produk:') !!}
-    <p>{{ $discountDetail->maksimal_produk }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Diskon Harga</div>
+    <div class="col-12 col-md-9">Rp. {{ number_format($discountDetail->diskon_harga, 2, ',', '.') }}</div>
 </div>
 
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Minimal Produk</div>
+    <div class="col-12 col-md-9">{{ $discountDetail->minimal_produk }}</div>
+</div>
+
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Maksimal Produk</div>
+    <div class="col-12 col-md-9">{{ $discountDetail->maksimal_produk }}</div>
+</div>
+
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.discount_details.index') }}">Back</a>
+</div>

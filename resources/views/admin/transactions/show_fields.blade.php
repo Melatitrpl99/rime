@@ -1,30 +1,26 @@
-<!-- Nomor Field -->
-<div class="col-sm-12">
-    {!! Form::label('nomor', 'Nomor:') !!}
-    <p>{{ $transaction->nomor }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Nomor</div>
+    <div class="col-12 col-md-9">{{ $transaction->nomor }}</div>
+</div>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Total</div>
+    <div class="col-12 col-md-9">{{ $transaction->total }}</div>
+</div>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">User</div>
+    <div class="col-12 col-md-9">{{ $transaction->user->name }}</div>
 </div>
 
-<!-- Total Field -->
-<div class="col-sm-12">
-    {!! Form::label('total', 'Total:') !!}
-    <p>{{ $transaction->total }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Created at</div>
+    <div class="col-12 col-md-9">{{ $transaction->created_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- User Id Field -->
-<div class="col-sm-12">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $transaction->user_id }}</p>
+<div class="form-group row">
+    <div class="col-12 col-md-3 text-bold">Updated at</div>
+    <div class="col-12 col-md-9">{{ $transaction->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $transaction->created_at }}</p>
+<div class="row">
+    <a class="btn btn-default" href="{{ route('admin.transactions.index') }}">Back</a>
 </div>
-
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $transaction->updated_at }}</p>
-</div>
-

@@ -22,7 +22,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         /** @var Event $events */
-        $events = Event::all();
+        $events = Event::paginate();
 
         return view('admin.events.index')
             ->with('events', $events);

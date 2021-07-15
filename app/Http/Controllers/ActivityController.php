@@ -6,26 +6,22 @@ use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
 class ActivityController extends Controller
 {
     /**
      * Display a listing of the Activity.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Response
      */
     public function index(Request $request)
     {
-        /** @var Activity $activities */
-        $activities = Activity::all();
-
         return view('admin.activities.index')
-            ->with('activities', $activities);
+            ->with('activities', Activity::paginate());
     }
 
     /**
@@ -41,38 +37,32 @@ class ActivityController extends Controller
     /**
      * Store a newly created Activity in storage.
      *
-     * @param CreateActivityRequest $request
+     * @param \App\Http\Requests\CreateActivityRequest $request
      *
      * @return Response
      */
     public function store(CreateActivityRequest $request)
     {
-        $input = $request->all();
+        Activity::create($request->validated());
 
-        /** @var Activity $activity */
-        $activity = Activity::create($input);
+        flash('Activity saved successfully.', 'success');
 
-        Flash::success('Activity saved successfully.');
-
-        return redirect(route('admin.activities.index'));
+        return redirect()->route('admin.activities.index');
     }
 
     /**
      * Display the specified Activity.
      *
-     * @param int $id
+     * @param \App\Models\Activity $activity
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
         if (empty($activity)) {
-            Flash::error('Activity not found');
+            flash('Activity not found.', 'error');
 
-            return redirect(route('admin.activities.index'));
+            return redirect()->route('admin.activities.index');
         }
 
         return view('admin.activities.show')->with('activity', $activity);
@@ -81,19 +71,16 @@ class ActivityController extends Controller
     /**
      * Show the form for editing the specified Activity.
      *
-     * @param int $id
+     * @param \App\Models\Activity $activity
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
         if (empty($activity)) {
-            Flash::error('Activity not found');
+            flash('Activity not found.', 'error');
 
-            return redirect(route('admin.activities.index'));
+            return redirect()->route('admin.activities.index');
         }
 
         return view('admin.activities.edit')->with('activity', $activity);
@@ -102,54 +89,45 @@ class ActivityController extends Controller
     /**
      * Update the specified Activity in storage.
      *
-     * @param int $id
-     * @param UpdateActivityRequest $request
+     * @param \App\Models\Activity $activity
+     * @param \App\Http\Requests\UpdateActivityRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateActivityRequest $request)
+    public function update(Activity $activity, UpdateActivityRequest $request)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
         if (empty($activity)) {
-            Flash::error('Activity not found');
+            flash('Activity not found.', 'error');
 
-            return redirect(route('admin.activities.index'));
+            return redirect()->route('admin.activities.index');
         }
 
-        $activity->fill($request->all());
-        $activity->save();
+        $activity->update($request->validated());
 
-        Flash::success('Activity updated successfully.');
+        flash('Activity updated successfully.', 'success');
 
-        return redirect(route('admin.activities.index'));
+        return redirect()->route('admin.activities.index');
     }
 
     /**
      * Remove the specified Activity from storage.
      *
-     * @param int $id
-     *
-     * @throws \Exception
+     * @param \App\Models\Activity $activity
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::find($id);
-
         if (empty($activity)) {
-            Flash::error('Activity not found');
+            flash('Activity not found.', 'error');
 
-            return redirect(route('admin.activities.index'));
+            return redirect()->route('admin.activities.index');
         }
 
         $activity->delete();
 
-        Flash::success('Activity deleted successfully.');
+        flash('Activity deleted successfully.', 'success');
 
-        return redirect(route('admin.activities.index'));
+        return redirect()->route('admin.activities.index');
     }
 }
