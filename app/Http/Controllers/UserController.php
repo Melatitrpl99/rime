@@ -24,7 +24,7 @@ class UserController extends Controller
         /** @var User $users */
         $users = User::paginate();
 
-        return view('users.index')
+        return view('admin.users.index')
             ->with('users', $users);
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('admin.users.create');
     }
 
     /**
@@ -74,7 +74,7 @@ class UserController extends Controller
             return redirect(route('admin.users.index'));
         }
 
-        return view('users.show')->with('user', $user);
+        return view('admin.users.show')->with('user', $user);
     }
 
     /**
@@ -95,7 +95,7 @@ class UserController extends Controller
             return redirect(route('admin.users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        return view('admin.users.edit')->with('user', $user);
     }
 
     /**

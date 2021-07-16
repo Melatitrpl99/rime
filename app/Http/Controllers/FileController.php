@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateFileRequest;
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class FileController
+ * @package App\Http\Controllers
+ */
 class FileController extends Controller
 {
     /**
      * Display a listing of the File.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var File $files */
-        $files = File::paginate();
+        $files = File::all();
 
         return view('admin.files.index')
             ->with('files', $files);
@@ -31,7 +32,7 @@ class FileController extends Controller
     /**
      * Show the form for creating a new File.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class FileController extends Controller
     /**
      * Store a newly created File in storage.
      *
-     * @param CreateFileRequest $request
+     * @param \App\Http\Requests\CreateFileRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateFileRequest $request)
     {
-        $input = $request->all();
+        $file = File::create($request->validated());
 
-        /** @var File $file */
-        $file = File::create($input);
+        flash('File saved successfully.', 'success');
 
-        Flash::success('File saved successfully.');
-
-        return redirect(route('admin.files.index'));
+        return redirect()->route('admin.files.index');
     }
 
     /**
      * Display the specified File.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var File $file */
         $file = File::find($id);
 
         if (empty($file)) {
-            Flash::error('File not found');
+            flash('File not found', 'error');
 
-            return redirect(route('admin.files.index'));
+            return redirect()->route('admin.files.index');
         }
 
-        return view('admin.files.show')->with('file', $file);
+        return view('admin.files.show')
+            ->with('file', $file);
     }
 
     /**
      * Show the form for editing the specified File.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var File $file */
         $file = File::find($id);
-
         if (empty($file)) {
-            Flash::error('File not found');
+            flash('File not found', 'error');
 
-            return redirect(route('admin.files.index'));
+            return redirect()->route('admin.files.index');
         }
 
-        return view('admin.files.edit')->with('file', $file);
+        return view('admin.files.edit')
+            ->with('file', $file);
     }
 
     /**
      * Update the specified File in storage.
      *
-     * @param int $id
-     * @param UpdateFileRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateFileRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateFileRequest $request)
     {
-        /** @var File $file */
         $file = File::find($id);
 
         if (empty($file)) {
-            Flash::error('File not found');
+            flash('File not found', 'error');
 
-            return redirect(route('admin.files.index'));
+            return redirect()->route('admin.files.index');
         }
 
-        $file->fill($request->all());
-        $file->save();
+        $file->update($request->validated());
 
-        Flash::success('File updated successfully.');
+        flash('File updated successfully.', 'success');
 
-        return redirect(route('admin.files.index'));
+        return redirect()->route('admin.files.index');
     }
 
     /**
      * Remove the specified File from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var File $file */
         $file = File::find($id);
 
         if (empty($file)) {
-            Flash::error('File not found');
+            flash('File not found', 'error');
 
-            return redirect(route('admin.files.index'));
+            return redirect()->route('admin.files.index');
         }
 
         $file->delete();
 
-        Flash::success('File deleted successfully.');
+        flash('File deleted successfully.', 'success');
 
-        return redirect(route('admin.files.index'));
+        return redirect()->route('admin.files.index');
     }
 }

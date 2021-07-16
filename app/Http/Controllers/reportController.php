@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateReportRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Report;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class ReportController
+ * @package App\Http\Controllers
+ */
 class ReportController extends Controller
 {
     /**
      * Display a listing of the Report.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Report $reports */
-        $reports = Report::paginate();
+        $reports = Report::all();
 
         return view('admin.reports.index')
             ->with('reports', $reports);
@@ -31,7 +32,7 @@ class ReportController extends Controller
     /**
      * Show the form for creating a new Report.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class ReportController extends Controller
     /**
      * Store a newly created Report in storage.
      *
-     * @param CreateReportRequest $request
+     * @param \App\Http\Requests\CreateReportRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateReportRequest $request)
     {
-        $input = $request->all();
+        $report = Report::create($request->validated());
 
-        /** @var Report $report */
-        $report = Report::create($input);
+        flash('Report saved successfully.', 'success');
 
-        Flash::success('Report saved successfully.');
-
-        return redirect(route('admin.reports.index'));
+        return redirect()->route('admin.reports.index');
     }
 
     /**
      * Display the specified Report.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Report $report */
         $report = Report::find($id);
 
         if (empty($report)) {
-            Flash::error('Report not found');
+            flash('Report not found', 'error');
 
-            return redirect(route('admin.reports.index'));
+            return redirect()->route('admin.reports.index');
         }
 
-        return view('admin.reports.show')->with('report', $report);
+        return view('admin.reports.show')
+            ->with('report', $report);
     }
 
     /**
      * Show the form for editing the specified Report.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Report $report */
         $report = Report::find($id);
-
         if (empty($report)) {
-            Flash::error('Report not found');
+            flash('Report not found', 'error');
 
-            return redirect(route('admin.reports.index'));
+            return redirect()->route('admin.reports.index');
         }
 
-        return view('admin.reports.edit')->with('report', $report);
+        return view('admin.reports.edit')
+            ->with('report', $report);
     }
 
     /**
      * Update the specified Report in storage.
      *
-     * @param int $id
-     * @param UpdateReportRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateReportRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateReportRequest $request)
     {
-        /** @var Report $report */
         $report = Report::find($id);
 
         if (empty($report)) {
-            Flash::error('Report not found');
+            flash('Report not found', 'error');
 
-            return redirect(route('admin.reports.index'));
+            return redirect()->route('admin.reports.index');
         }
 
-        $report->fill($request->all());
-        $report->save();
+        $report->update($request->validated());
 
-        Flash::success('Report updated successfully.');
+        flash('Report updated successfully.', 'success');
 
-        return redirect(route('admin.reports.index'));
+        return redirect()->route('admin.reports.index');
     }
 
     /**
      * Remove the specified Report from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Report $report */
         $report = Report::find($id);
 
         if (empty($report)) {
-            Flash::error('Report not found');
+            flash('Report not found', 'error');
 
-            return redirect(route('admin.reports.index'));
+            return redirect()->route('admin.reports.index');
         }
 
         $report->delete();
 
-        Flash::success('Report deleted successfully.');
+        flash('Report deleted successfully.', 'success');
 
-        return redirect(route('admin.reports.index'));
+        return redirect()->route('admin.reports.index');
     }
 }

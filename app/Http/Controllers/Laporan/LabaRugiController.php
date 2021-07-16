@@ -16,12 +16,12 @@ class LabaRugiController extends Controller
      */
     public function index()
     {
-        $jumlahTransaksi=Transaction::all()->sum('total');
-        // dd($jumlahTransaksi);
+        $jumlahTransaksi = Transaction::sum('total');
+        $pengeluaran = Spending::sum('total');
 
-        $pengeluaran=Spending::all()->sum('sub_total');
-        return view('laporan.labarugi')->with('pemasukan', $jumlahTransaksi)
-            ->with('pengeluaran',$pengeluaran);
+        return view('laporan.labarugi')
+            ->with('pemasukan', $jumlahTransaksi)
+            ->with('pengeluaran', $pengeluaran);
         //
     }
 

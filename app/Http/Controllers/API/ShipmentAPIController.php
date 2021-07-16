@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateShipmentAPIRequest;
 use App\Http\Requests\API\UpdateShipmentAPIRequest;
+use App\Http\Resources\ShipmentResource;
+use App\Http\Controllers\Controller;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ShipmentResource;
-use Response;
 
 /**
- * Class ShipmentController
+ * Class ShipmentAPIController
  * @package App\Http\Controllers\API
  */
-
 class ShipmentAPIController extends Controller
 {
     /**
      * Display a listing of the Shipment.
      * GET|HEAD /shipments
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class ShipmentAPIController extends Controller
 
         $shipments = $query->get();
 
-        return $this->sendResponse(ShipmentResource::collection($shipments), 'Shipments retrieved successfully');
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => ShipmentResource::collection($shipments)
+        ]);
     }
 
     /**
      * Store a newly created Shipment in storage.
      * POST /shipments
      *
-     * @param CreateShipmentAPIRequest $request
+     * @param \App\Http\Requests\CreateShipmentRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateShipmentAPIRequest $request)
     {
-        $input = $request->all();
+        $shipment = Shipment::create($request->validated());
 
-        /** @var Shipment $shipment */
-        $shipment = Shipment::create($input);
-
-        return $this->sendResponse(new ShipmentResource($shipment), 'Shipment saved successfully');
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new ShipmentResource($shipment)
+        ]);
     }
 
     /**
      * Display the specified Shipment.
-     * GET|HEAD /shipments/{id}
+     * GET|HEAD /shipments/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
-            return $this->sendError('Shipment not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return $this->sendResponse(new ShipmentResource($shipment), 'Shipment retrieved successfully');
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new ShipmentResource($shipment)
+        ]);
     }
 
     /**
      * Update the specified Shipment in storage.
-     * PUT/PATCH /shipments/{id}
+     * PUT/PATCH /shipments/{$id}
      *
-     * @param int $id
-     * @param UpdateShipmentAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateShipmentRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateShipmentAPIRequest $request)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
-            return $this->sendError('Shipment not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $shipment->fill($request->all());
-        $shipment->save();
+        $shipment->update($request->validated());
 
-        return $this->sendResponse(new ShipmentResource($shipment), 'Shipment updated successfully');
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new ShipmentResource($shipment)
+        ]);
     }
 
     /**
      * Remove the specified Shipment from storage.
-     * DELETE /shipments/{id}
+     * DELETE /shipments/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
-            return $this->sendError('Shipment not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $shipment->delete();
 
-        return $this->sendSuccess('Shipment deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateTransactionAPIRequest;
 use App\Http\Requests\API\UpdateTransactionAPIRequest;
+use App\Http\Resources\TransactionResource;
+use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\TransactionResource;
-use Response;
 
 /**
- * Class TransactionController
+ * Class TransactionAPIController
  * @package App\Http\Controllers\API
  */
-
 class TransactionAPIController extends Controller
 {
     /**
      * Display a listing of the Transaction.
      * GET|HEAD /transactions
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class TransactionAPIController extends Controller
 
         $transactions = $query->get();
 
-        return response()->json(TransactionResource::collection($transactions));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => TransactionResource::collection($transactions)
+        ]);
     }
 
     /**
      * Store a newly created Transaction in storage.
      * POST /transactions
      *
-     * @param CreateTransactionAPIRequest $request
+     * @param \App\Http\Requests\CreateTransactionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateTransactionAPIRequest $request)
     {
-        $input = $request->all();
+        $transaction = Transaction::create($request->validated());
 
-        /** @var Transaction $transaction */
-        $transaction = Transaction::create($input);
-
-        return response()->json(new TransactionResource($transaction));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new TransactionResource($transaction)
+        ]);
     }
 
     /**
      * Display the specified Transaction.
-     * GET|HEAD /transactions/{id}
+     * GET|HEAD /transactions/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
-            return $this->sendError('Transaction not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response()->json(new TransactionResource($transaction));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new TransactionResource($transaction)
+        ]);
     }
 
     /**
      * Update the specified Transaction in storage.
-     * PUT/PATCH /transactions/{id}
+     * PUT/PATCH /transactions/{$id}
      *
-     * @param int $id
-     * @param UpdateTransactionAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateTransactionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateTransactionAPIRequest $request)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
-            return $this->sendError('Transaction not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $transaction->fill($request->all());
-        $transaction->save();
+        $transaction->update($request->validated());
 
-        return response()->json(new TransactionResource($transaction));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new TransactionResource($transaction)
+        ]);
     }
 
     /**
      * Remove the specified Transaction from storage.
-     * DELETE /transactions/{id}
+     * DELETE /transactions/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
-            return $this->sendError('Transaction not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $transaction->delete();
 
-        return response()->json('Transaction deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

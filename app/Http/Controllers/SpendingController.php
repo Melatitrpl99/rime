@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateSpendingRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Spending;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class SpendingController
+ * @package App\Http\Controllers
+ */
 class SpendingController extends Controller
 {
     /**
      * Display a listing of the Spending.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Spending $spendings */
-        $spendings = Spending::withSum('spendingDetails', 'sub_total')->paginate();
+        $spendings = Spending::all();
 
         return view('admin.spendings.index')
             ->with('spendings', $spendings);
@@ -31,7 +32,7 @@ class SpendingController extends Controller
     /**
      * Show the form for creating a new Spending.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class SpendingController extends Controller
     /**
      * Store a newly created Spending in storage.
      *
-     * @param CreateSpendingRequest $request
+     * @param \App\Http\Requests\CreateSpendingRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateSpendingRequest $request)
     {
-        $input = $request->all();
+        $spending = Spending::create($request->validated());
 
-        /** @var Spending $spending */
-        $spending = Spending::create($input);
+        flash('Spending saved successfully.', 'success');
 
-        Flash::success('Spending saved successfully.');
-
-        return redirect(route('admin.spendings.index'));
+        return redirect()->route('admin.spendings.index');
     }
 
     /**
      * Display the specified Spending.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Spending $spending */
         $spending = Spending::find($id);
 
         if (empty($spending)) {
-            Flash::error('Spending not found');
+            flash('Spending not found', 'error');
 
-            return redirect(route('admin.spendings.index'));
+            return redirect()->route('admin.spendings.index');
         }
 
-        return view('admin.spendings.show')->with('spending', $spending);
+        return view('admin.spendings.show')
+            ->with('spending', $spending);
     }
 
     /**
      * Show the form for editing the specified Spending.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Spending $spending */
         $spending = Spending::find($id);
-
         if (empty($spending)) {
-            Flash::error('Spending not found');
+            flash('Spending not found', 'error');
 
-            return redirect(route('admin.spendings.index'));
+            return redirect()->route('admin.spendings.index');
         }
 
-        return view('admin.spendings.edit')->with('spending', $spending);
+        return view('admin.spendings.edit')
+            ->with('spending', $spending);
     }
 
     /**
      * Update the specified Spending in storage.
      *
-     * @param int $id
-     * @param UpdateSpendingRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateSpendingRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateSpendingRequest $request)
     {
-        /** @var Spending $spending */
         $spending = Spending::find($id);
 
         if (empty($spending)) {
-            Flash::error('Spending not found');
+            flash('Spending not found', 'error');
 
-            return redirect(route('admin.spendings.index'));
+            return redirect()->route('admin.spendings.index');
         }
 
-        $spending->fill($request->all());
-        $spending->save();
+        $spending->update($request->validated());
 
-        Flash::success('Spending updated successfully.');
+        flash('Spending updated successfully.', 'success');
 
-        return redirect(route('admin.spendings.index'));
+        return redirect()->route('admin.spendings.index');
     }
 
     /**
      * Remove the specified Spending from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Spending $spending */
         $spending = Spending::find($id);
 
         if (empty($spending)) {
-            Flash::error('Spending not found');
+            flash('Spending not found', 'error');
 
-            return redirect(route('admin.spendings.index'));
+            return redirect()->route('admin.spendings.index');
         }
 
         $spending->delete();
 
-        Flash::success('Spending deleted successfully.');
+        flash('Spending deleted successfully.', 'success');
 
-        return redirect(route('admin.spendings.index'));
+        return redirect()->route('admin.spendings.index');
     }
 }

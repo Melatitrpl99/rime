@@ -15,7 +15,7 @@ class ActivitiesSeeder extends Seeder
      */
     public function run()
     {
-        Activity::factory(500)
+        Activity::factory(100)
             ->for(User::factory(), 'loggable')
             ->create();
     }

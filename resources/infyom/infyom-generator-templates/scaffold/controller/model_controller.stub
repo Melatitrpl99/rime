@@ -8,6 +8,10 @@ use $NAMESPACE_APP$\Http\Controllers\Controller;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use Illuminate\Http\Request;
 
+/**
+ * Class $MODEL_NAME$Controller
+ * @package $NAMESPACE_CONTROLLER$
+ */
 class $MODEL_NAME$Controller extends Controller
 {
     /**
@@ -15,18 +19,20 @@ class $MODEL_NAME$Controller extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
+        $$MODEL_NAME_PLURAL_CAMEL$ = $MODEL_NAME$::$RENDER_TYPE$;
+
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index')
-            ->with('$MODEL_NAME_PLURAL_SNAKE$', $MODEL_NAME$::$RENDER_TYPE$);
+            ->with('$MODEL_NAME_PLURAL_CAMEL$', $$MODEL_NAME_PLURAL_CAMEL$);
     }
 
     /**
      * Show the form for creating a new $MODEL_NAME$.
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -52,49 +58,56 @@ class $MODEL_NAME$Controller extends Controller
     /**
      * Display the specified $MODEL_NAME$.
      *
-     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+     * @param $id
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+    public function show($id)
     {
+        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
+
         if (empty($$MODEL_NAME_CAMEL$)) {
             flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
             return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
         }
 
-        return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show')->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
+        return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show')
+            ->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
     }
 
     /**
      * Show the form for editing the specified $MODEL_NAME$.
      *
-     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+     * @param $id
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+    public function edit($id)
     {
+        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
         if (empty($$MODEL_NAME_CAMEL$)) {
             flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
             return redirect()->route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index');
         }
 
-        return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.edit')->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
+        return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.edit')
+            ->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
     }
 
     /**
      * Update the specified $MODEL_NAME$ in storage.
      *
-     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+     * @param $id
      * @param \$NAMESPACE_REQUEST$\Update$MODEL_NAME$Request $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($MODEL_NAME$ $$MODEL_NAME_CAMEL$, Update$MODEL_NAME$Request $request)
+    public function update($id, Update$MODEL_NAME$Request $request)
     {
+        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
+
         if (empty($$MODEL_NAME_CAMEL$)) {
             flash('$MODEL_NAME_HUMAN$ not found', 'error');
 
@@ -111,12 +124,14 @@ class $MODEL_NAME$Controller extends Controller
     /**
      * Remove the specified $MODEL_NAME$ from storage.
      *
-     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+     * @param $id
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+    public function destroy($id)
     {
+        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
+
         if (empty($$MODEL_NAME_CAMEL$)) {
             flash('$MODEL_NAME_HUMAN$ not found', 'error');
 

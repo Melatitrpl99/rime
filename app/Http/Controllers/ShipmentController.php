@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateShipmentRequest;
 use App\Http\Requests\UpdateShipmentRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class ShipmentController
+ * @package App\Http\Controllers
+ */
 class ShipmentController extends Controller
 {
     /**
      * Display a listing of the Shipment.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Shipment $shipments */
-        $shipments = Shipment::with('order:id,nomor')->paginate();
+        $shipments = Shipment::all();
 
         return view('admin.shipments.index')
             ->with('shipments', $shipments);
@@ -30,7 +32,7 @@ class ShipmentController extends Controller
     /**
      * Show the form for creating a new Shipment.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -40,115 +42,106 @@ class ShipmentController extends Controller
     /**
      * Store a newly created Shipment in storage.
      *
-     * @param CreateShipmentRequest $request
+     * @param \App\Http\Requests\CreateShipmentRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateShipmentRequest $request)
     {
-        $input = $request->all();
+        $shipment = Shipment::create($request->validated());
 
-        /** @var Shipment $shipment */
-        $shipment = Shipment::create($input);
+        flash('Shipment saved successfully.', 'success');
 
-        Flash::success('Shipment saved successfully.');
-
-        return redirect(route('admin.shipments.index'));
+        return redirect()->route('admin.shipments.index');
     }
 
     /**
      * Display the specified Shipment.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
-            Flash::error('Shipment not found');
+            flash('Shipment not found', 'error');
 
-            return redirect(route('admin.shipments.index'));
+            return redirect()->route('admin.shipments.index');
         }
 
-        return view('admin.shipments.show')->with('shipment', $shipment);
+        return view('admin.shipments.show')
+            ->with('shipment', $shipment);
     }
 
     /**
      * Show the form for editing the specified Shipment.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
-
         if (empty($shipment)) {
-            Flash::error('Shipment not found');
+            flash('Shipment not found', 'error');
 
-            return redirect(route('admin.shipments.index'));
+            return redirect()->route('admin.shipments.index');
         }
 
-        return view('admin.shipments.edit')->with('shipment', $shipment);
+        return view('admin.shipments.edit')
+            ->with('shipment', $shipment);
     }
 
     /**
      * Update the specified Shipment in storage.
      *
-     * @param int $id
-     * @param UpdateShipmentRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateShipmentRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateShipmentRequest $request)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
-            Flash::error('Shipment not found');
+            flash('Shipment not found', 'error');
 
-            return redirect(route('admin.shipments.index'));
+            return redirect()->route('admin.shipments.index');
         }
 
-        $shipment->fill($request->all());
-        $shipment->save();
+        $shipment->update($request->validated());
 
-        Flash::success('Shipment updated successfully.');
+        flash('Shipment updated successfully.', 'success');
 
-        return redirect(route('admin.shipments.index'));
+        return redirect()->route('admin.shipments.index');
     }
 
     /**
      * Remove the specified Shipment from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Shipment $shipment */
         $shipment = Shipment::find($id);
 
         if (empty($shipment)) {
-            Flash::error('Shipment not found');
+            flash('Shipment not found', 'error');
 
-            return redirect(route('admin.shipments.index'));
+            return redirect()->route('admin.shipments.index');
         }
 
         $shipment->delete();
 
-        Flash::success('Shipment deleted successfully.');
+        flash('Shipment deleted successfully.', 'success');
 
-        return redirect(route('admin.shipments.index'));
+        return redirect()->route('admin.shipments.index');
     }
 }

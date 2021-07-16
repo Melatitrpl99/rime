@@ -1,8 +1,9 @@
 <!-- $FIELD_NAME_TITLE$ Field -->
-<div class="form-group col-sm-6">
-    <div class="form-check">
-        {!! Form::hidden('$FIELD_NAME$', 0, ['class' => 'form-check-input']) !!}
-        {!! Form::checkbox('$FIELD_NAME$', '$CHECKBOX_VALUE$', null, ['class' => 'form-check-input']) !!}
-        {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$', ['class' => 'form-check-label']) !!}
+<div class="form-group col-12 col-sm-6">
+    <label>$FIELD_NAME_TITLE$</label>
+    <div class="custom-control custom-checkbox">
+        {!! Form::hidden('$FIELD_NAME$', 0) !!}
+        {!! Form::checkbox('$FIELD_NAME$', '$CHECKBOX_VALUE$', null, ['class' => 'custom-control-input custom-control-input-primary', 'id' => '$FIELD_NAME$']) !!}
+        {!! Form::label('$FIELD_NAME$', '$CHECKBOX_VALUE$', ['class' => 'custom-control-label']) !!}
     </div>
 </div>

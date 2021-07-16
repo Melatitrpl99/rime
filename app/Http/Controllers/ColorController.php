@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateColorRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Color;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class ColorController
+ * @package App\Http\Controllers
+ */
 class ColorController extends Controller
 {
     /**
      * Display a listing of the Color.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Color $colors */
-        $colors = Color::paginate();
+        $colors = Color::all();
 
         return view('admin.colors.index')
             ->with('colors', $colors);
@@ -31,7 +32,7 @@ class ColorController extends Controller
     /**
      * Show the form for creating a new Color.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class ColorController extends Controller
     /**
      * Store a newly created Color in storage.
      *
-     * @param CreateColorRequest $request
+     * @param \App\Http\Requests\CreateColorRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateColorRequest $request)
     {
-        $input = $request->all();
+        $color = Color::create($request->validated());
 
-        /** @var Color $color */
-        $color = Color::create($input);
+        flash('Color saved successfully.', 'success');
 
-        Flash::success('Product Color saved successfully.');
-
-        return redirect(route('admin.colors.index'));
+        return redirect()->route('admin.colors.index');
     }
 
     /**
      * Display the specified Color.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Color $color */
         $color = Color::find($id);
 
         if (empty($color)) {
-            Flash::error('Product Color not found');
+            flash('Color not found', 'error');
 
-            return redirect(route('admin.colors.index'));
+            return redirect()->route('admin.colors.index');
         }
 
-        return view('admin.colors.show')->with('color', $color);
+        return view('admin.colors.show')
+            ->with('color', $color);
     }
 
     /**
      * Show the form for editing the specified Color.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Color $color */
         $color = Color::find($id);
-
         if (empty($color)) {
-            Flash::error('Product Color not found');
+            flash('Color not found', 'error');
 
-            return redirect(route('admin.colors.index'));
+            return redirect()->route('admin.colors.index');
         }
 
-        return view('admin.colors.edit')->with('color', $color);
+        return view('admin.colors.edit')
+            ->with('color', $color);
     }
 
     /**
      * Update the specified Color in storage.
      *
-     * @param int $id
-     * @param UpdateColorRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateColorRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateColorRequest $request)
     {
-        /** @var Color $color */
         $color = Color::find($id);
 
         if (empty($color)) {
-            Flash::error('Product Color not found');
+            flash('Color not found', 'error');
 
-            return redirect(route('admin.colors.index'));
+            return redirect()->route('admin.colors.index');
         }
 
-        $color->fill($request->all());
-        $color->save();
+        $color->update($request->validated());
 
-        Flash::success('Product Color updated successfully.');
+        flash('Color updated successfully.', 'success');
 
-        return redirect(route('admin.colors.index'));
+        return redirect()->route('admin.colors.index');
     }
 
     /**
      * Remove the specified Color from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Color $color */
         $color = Color::find($id);
 
         if (empty($color)) {
-            Flash::error('Product Color not found');
+            flash('Color not found', 'error');
 
-            return redirect(route('admin.colors.index'));
+            return redirect()->route('admin.colors.index');
         }
 
         $color->delete();
 
-        Flash::success('Product Color deleted successfully.');
+        flash('Color deleted successfully.', 'success');
 
-        return redirect(route('admin.colors.index'));
+        return redirect()->route('admin.colors.index');
     }
 }

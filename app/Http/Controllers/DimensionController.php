@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateDimensionRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Dimension;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class DimensionController
+ * @package App\Http\Controllers
+ */
 class DimensionController extends Controller
 {
     /**
      * Display a listing of the Dimension.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Dimension $dimensions */
-        $dimensions = Dimension::paginate();
+        $dimensions = Dimension::all();
 
         return view('admin.dimensions.index')
             ->with('dimensions', $dimensions);
@@ -31,7 +32,7 @@ class DimensionController extends Controller
     /**
      * Show the form for creating a new Dimension.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class DimensionController extends Controller
     /**
      * Store a newly created Dimension in storage.
      *
-     * @param CreateDimensionRequest $request
+     * @param \App\Http\Requests\CreateDimensionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateDimensionRequest $request)
     {
-        $input = $request->all();
+        $dimension = Dimension::create($request->validated());
 
-        /** @var Dimension $dimension */
-        $dimension = Dimension::create($input);
+        flash('Dimension saved successfully.', 'success');
 
-        Flash::success('Product Dimension saved successfully.');
-
-        return redirect(route('admin.dimensions.index'));
+        return redirect()->route('admin.dimensions.index');
     }
 
     /**
      * Display the specified Dimension.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
 
         if (empty($dimension)) {
-            Flash::error('Product Dimension not found');
+            flash('Dimension not found', 'error');
 
-            return redirect(route('admin.dimensions.index'));
+            return redirect()->route('admin.dimensions.index');
         }
 
-        return view('admin.dimensions.show')->with('dimension', $dimension);
+        return view('admin.dimensions.show')
+            ->with('dimension', $dimension);
     }
 
     /**
      * Show the form for editing the specified Dimension.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
-
         if (empty($dimension)) {
-            Flash::error('Product Dimension not found');
+            flash('Dimension not found', 'error');
 
-            return redirect(route('admin.dimensions.index'));
+            return redirect()->route('admin.dimensions.index');
         }
 
-        return view('admin.dimensions.edit')->with('dimension', $dimension);
+        return view('admin.dimensions.edit')
+            ->with('dimension', $dimension);
     }
 
     /**
      * Update the specified Dimension in storage.
      *
-     * @param int $id
-     * @param UpdateDimensionRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateDimensionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateDimensionRequest $request)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
 
         if (empty($dimension)) {
-            Flash::error('Product Dimension not found');
+            flash('Dimension not found', 'error');
 
-            return redirect(route('admin.dimensions.index'));
+            return redirect()->route('admin.dimensions.index');
         }
 
-        $dimension->fill($request->all());
-        $dimension->save();
+        $dimension->update($request->validated());
 
-        Flash::success('Product Dimension updated successfully.');
+        flash('Dimension updated successfully.', 'success');
 
-        return redirect(route('admin.dimensions.index'));
+        return redirect()->route('admin.dimensions.index');
     }
 
     /**
      * Remove the specified Dimension from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
 
         if (empty($dimension)) {
-            Flash::error('Product Dimension not found');
+            flash('Dimension not found', 'error');
 
-            return redirect(route('admin.dimensions.index'));
+            return redirect()->route('admin.dimensions.index');
         }
 
         $dimension->delete();
 
-        Flash::success('Product Dimension deleted successfully.');
+        flash('Dimension deleted successfully.', 'success');
 
-        return redirect(route('admin.dimensions.index'));
+        return redirect()->route('admin.dimensions.index');
     }
 }

@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateColorAPIRequest;
 use App\Http\Requests\API\UpdateColorAPIRequest;
+use App\Http\Resources\ColorResource;
+use App\Http\Controllers\Controller;
 use App\Models\Color;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ColorResource;
-use Response;
 
 /**
- * Class ColorController
+ * Class ColorAPIController
  * @package App\Http\Controllers\API
  */
-
 class ColorAPIController extends Controller
 {
     /**
      * Display a listing of the Color.
      * GET|HEAD /colors
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class ColorAPIController extends Controller
 
         $colors = $query->get();
 
-        return response()->json(ColorResource::collection($colors));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => ColorResource::collection($colors)
+        ]);
     }
 
     /**
      * Store a newly created Color in storage.
      * POST /colors
      *
-     * @param CreateColorAPIRequest $request
+     * @param \App\Http\Requests\CreateColorRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateColorAPIRequest $request)
     {
-        $input = $request->all();
+        $color = Color::create($request->validated());
 
-        /** @var Color $color */
-        $color = Color::create($input);
-
-        return response()->json(new ColorResource($color));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new ColorResource($color)
+        ]);
     }
 
     /**
      * Display the specified Color.
-     * GET|HEAD /colors/{id}
+     * GET|HEAD /colors/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Color $color */
         $color = Color::find($id);
 
         if (empty($color)) {
-            return $this->sendError('Product Color not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response()->json(new ColorResource($color));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new ColorResource($color)
+        ]);
     }
 
     /**
      * Update the specified Color in storage.
-     * PUT/PATCH /colors/{id}
+     * PUT/PATCH /colors/{$id}
      *
-     * @param int $id
-     * @param UpdateColorAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateColorRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateColorAPIRequest $request)
     {
-        /** @var Color $color */
         $color = Color::find($id);
 
         if (empty($color)) {
-            return $this->sendError('Product Color not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $color->fill($request->all());
-        $color->save();
+        $color->update($request->validated());
 
-        return response()->json(new ColorResource($color));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new ColorResource($color)
+        ]);
     }
 
     /**
      * Remove the specified Color from storage.
-     * DELETE /colors/{id}
+     * DELETE /colors/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Color $color */
         $color = Color::find($id);
 
         if (empty($color)) {
-            return $this->sendError('Product Color not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $color->delete();
 
-        return response()->json('Product Color deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

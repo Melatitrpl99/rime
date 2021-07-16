@@ -7,22 +7,23 @@ use App\Http\Requests\UpdatePartnerRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class PartnerController
+ * @package App\Http\Controllers
+ */
 class PartnerController extends Controller
 {
     /**
      * Display a listing of the Partner.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Partner $partners */
-        $partners = Partner::paginate();
+        $partners = Partner::all();
 
         return view('admin.partners.index')
             ->with('partners', $partners);
@@ -31,7 +32,7 @@ class PartnerController extends Controller
     /**
      * Show the form for creating a new Partner.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class PartnerController extends Controller
     /**
      * Store a newly created Partner in storage.
      *
-     * @param CreatePartnerRequest $request
+     * @param \App\Http\Requests\CreatePartnerRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreatePartnerRequest $request)
     {
-        $input = $request->all();
+        $partner = Partner::create($request->validated());
 
-        /** @var Partner $partner */
-        $partner = Partner::create($input);
+        flash('Partner saved successfully.', 'success');
 
-        Flash::success('Partner saved successfully.');
-
-        return redirect(route('admin.partners.index'));
+        return redirect()->route('admin.partners.index');
     }
 
     /**
      * Display the specified Partner.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Partner $partner */
         $partner = Partner::find($id);
 
         if (empty($partner)) {
-            Flash::error('Partner not found');
+            flash('Partner not found', 'error');
 
-            return redirect(route('admin.partners.index'));
+            return redirect()->route('admin.partners.index');
         }
 
-        return view('admin.partners.show')->with('partner', $partner);
+        return view('admin.partners.show')
+            ->with('partner', $partner);
     }
 
     /**
      * Show the form for editing the specified Partner.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Partner $partner */
         $partner = Partner::find($id);
-
         if (empty($partner)) {
-            Flash::error('Partner not found');
+            flash('Partner not found', 'error');
 
-            return redirect(route('admin.partners.index'));
+            return redirect()->route('admin.partners.index');
         }
 
-        return view('admin.partners.edit')->with('partner', $partner);
+        return view('admin.partners.edit')
+            ->with('partner', $partner);
     }
 
     /**
      * Update the specified Partner in storage.
      *
-     * @param int $id
-     * @param UpdatePartnerRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdatePartnerRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdatePartnerRequest $request)
     {
-        /** @var Partner $partner */
         $partner = Partner::find($id);
 
         if (empty($partner)) {
-            Flash::error('Partner not found');
+            flash('Partner not found', 'error');
 
-            return redirect(route('admin.partners.index'));
+            return redirect()->route('admin.partners.index');
         }
 
-        $partner->fill($request->all());
-        $partner->save();
+        $partner->update($request->validated());
 
-        Flash::success('Partner updated successfully.');
+        flash('Partner updated successfully.', 'success');
 
-        return redirect(route('admin.partners.index'));
+        return redirect()->route('admin.partners.index');
     }
 
     /**
      * Remove the specified Partner from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Partner $partner */
         $partner = Partner::find($id);
 
         if (empty($partner)) {
-            Flash::error('Partner not found');
+            flash('Partner not found', 'error');
 
-            return redirect(route('admin.partners.index'));
+            return redirect()->route('admin.partners.index');
         }
 
         $partner->delete();
 
-        Flash::success('Partner deleted successfully.');
+        flash('Partner deleted successfully.', 'success');
 
-        return redirect(route('admin.partners.index'));
+        return redirect()->route('admin.partners.index');
     }
 }

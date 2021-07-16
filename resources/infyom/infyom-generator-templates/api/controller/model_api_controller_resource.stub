@@ -9,10 +9,20 @@ use $NAMESPACE_APP$\Http\Controllers\Controller;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use Illuminate\Http\Request;
 
-$DOC_CONTROLLER$
+/**
+ * Class $MODEL_NAME$APIController
+ * @package $NAMESPACE_API_CONTROLLER$
+ */
 class $MODEL_NAME$APIController extends Controller
 {
-    $DOC_INDEX$
+    /**
+     * Display a listing of the $MODEL_NAME$.
+     * GET|HEAD /$MODEL_NAME_PLURAL_SNAKE$
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
     public function index(Request $request)
     {
         $query = $MODEL_NAME$::query();
@@ -26,61 +36,111 @@ class $MODEL_NAME$APIController extends Controller
 
         $$MODEL_NAME_PLURAL_CAMEL$ = $query->get();
 
-        return $this->sendResponse($MODEL_NAME$Resource::collection($$MODEL_NAME_PLURAL_CAMEL$), '$MODEL_NAME_PLURAL_HUMAN$ retrieved successfully');
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => $MODEL_NAME$Resource::collection($$MODEL_NAME_PLURAL_CAMEL$)
+        ]);
     }
 
-    $DOC_STORE$
+    /**
+     * Store a newly created $MODEL_NAME$ in storage.
+     * POST /$MODEL_NAME_PLURAL_SNAKE$
+     *
+     * @param \$NAMESPACE_REQUEST$\Create$MODEL_NAME$Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
     public function store(Create$MODEL_NAME$APIRequest $request)
     {
-        $input = $request->all();
+        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::create($request->validated());
 
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::create($input);
-
-        return $this->sendResponse(new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$), '$MODEL_NAME_HUMAN$ saved successfully');
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
+        ]);
     }
 
-    $DOC_SHOW$
+    /**
+     * Display the specified $MODEL_NAME$.
+     * GET|HEAD /$MODEL_NAME_PLURAL_SNAKE$/{$id}
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
     public function show($id)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
         $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError('$MODEL_NAME_HUMAN$ not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return $this->sendResponse(new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$), '$MODEL_NAME_HUMAN$ retrieved successfully');
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
+        ]);
     }
 
-    $DOC_UPDATE$
+    /**
+     * Update the specified $MODEL_NAME$ in storage.
+     * PUT/PATCH /$MODEL_NAME_PLURAL_SNAKE$/{$id}
+     *
+     * @param $id
+     * @param \$NAMESPACE_REQUEST$\Update$MODEL_NAME$Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
     public function update($id, Update$MODEL_NAME$APIRequest $request)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
         $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError('$MODEL_NAME_HUMAN$ not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $$MODEL_NAME_CAMEL$->fill($request->all());
-        $$MODEL_NAME_CAMEL$->save();
+        $$MODEL_NAME_CAMEL$->update($request->validated());
 
-        return $this->sendResponse(new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$), '$MODEL_NAME$ updated successfully');
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
+        ]);
     }
 
-    $DOC_DESTROY$
+    /**
+     * Remove the specified $MODEL_NAME$ from storage.
+     * DELETE /$MODEL_NAME_PLURAL_SNAKE$/{$id}
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
     public function destroy($id)
     {
-        /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
         $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError('$MODEL_NAME_HUMAN$ not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $$MODEL_NAME_CAMEL$->delete();
 
-        return $this->sendSuccess('$MODEL_NAME_HUMAN$ deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

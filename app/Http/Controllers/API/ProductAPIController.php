@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateProductAPIRequest;
 use App\Http\Requests\API\UpdateProductAPIRequest;
+use App\Http\Resources\ProductResource;
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
-use Response;
 
 /**
- * Class ProductController
+ * Class ProductAPIController
  * @package App\Http\Controllers\API
  */
-
 class ProductAPIController extends Controller
 {
     /**
      * Display a listing of the Product.
      * GET|HEAD /products
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class ProductAPIController extends Controller
 
         $products = $query->get();
 
-        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully');
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => ProductResource::collection($products)
+        ]);
     }
 
     /**
      * Store a newly created Product in storage.
      * POST /products
      *
-     * @param CreateProductAPIRequest $request
+     * @param \App\Http\Requests\CreateProductRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateProductAPIRequest $request)
     {
-        $input = $request->all();
+        $product = Product::create($request->validated());
 
-        /** @var Product $product */
-        $product = Product::create($input);
-
-        return $this->sendResponse(new ProductResource($product), 'Product saved successfully');
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new ProductResource($product)
+        ]);
     }
 
     /**
      * Display the specified Product.
-     * GET|HEAD /products/{id}
+     * GET|HEAD /products/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Product $product */
         $product = Product::find($id);
 
         if (empty($product)) {
-            return $this->sendError('Product not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully');
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new ProductResource($product)
+        ]);
     }
 
     /**
      * Update the specified Product in storage.
-     * PUT/PATCH /products/{id}
+     * PUT/PATCH /products/{$id}
      *
-     * @param int $id
-     * @param UpdateProductAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateProductRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateProductAPIRequest $request)
     {
-        /** @var Product $product */
         $product = Product::find($id);
 
         if (empty($product)) {
-            return $this->sendError('Product not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $product->fill($request->all());
-        $product->save();
+        $product->update($request->validated());
 
-        return $this->sendResponse(new ProductResource($product), 'Product updated successfully');
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new ProductResource($product)
+        ]);
     }
 
     /**
      * Remove the specified Product from storage.
-     * DELETE /products/{id}
+     * DELETE /products/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Product $product */
         $product = Product::find($id);
 
         if (empty($product)) {
-            return $this->sendError('Product not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $product->delete();
 
-        return $this->sendSuccess('Product deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

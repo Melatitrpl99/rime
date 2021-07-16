@@ -6,9 +6,12 @@ use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
+/**
+ * Class ActivityController
+ * @package App\Http\Controllers
+ */
 class ActivityController extends Controller
 {
     /**
@@ -16,18 +19,20 @@ class ActivityController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
+        $activities = Activity::all();
+
         return view('admin.activities.index')
-            ->with('activities', Activity::paginate());
+            ->with('activities', $activities);
     }
 
     /**
      * Show the form for creating a new Activity.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -39,11 +44,11 @@ class ActivityController extends Controller
      *
      * @param \App\Http\Requests\CreateActivityRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateActivityRequest $request)
     {
-        Activity::create($request->validated());
+        $activity = Activity::create($request->validated());
 
         flash('Activity saved successfully.', 'success');
 
@@ -53,51 +58,58 @@ class ActivityController extends Controller
     /**
      * Display the specified Activity.
      *
-     * @param \App\Models\Activity $activity
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show(Activity $activity)
+    public function show($id)
     {
+        $activity = Activity::find($id);
+
         if (empty($activity)) {
-            flash('Activity not found.', 'error');
+            flash('Activity not found', 'error');
 
             return redirect()->route('admin.activities.index');
         }
 
-        return view('admin.activities.show')->with('activity', $activity);
+        return view('admin.activities.show')
+            ->with('activity', $activity);
     }
 
     /**
      * Show the form for editing the specified Activity.
      *
-     * @param \App\Models\Activity $activity
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit(Activity $activity)
+    public function edit($id)
     {
+        $activity = Activity::find($id);
         if (empty($activity)) {
-            flash('Activity not found.', 'error');
+            flash('Activity not found', 'error');
 
             return redirect()->route('admin.activities.index');
         }
 
-        return view('admin.activities.edit')->with('activity', $activity);
+        return view('admin.activities.edit')
+            ->with('activity', $activity);
     }
 
     /**
      * Update the specified Activity in storage.
      *
-     * @param \App\Models\Activity $activity
+     * @param $id
      * @param \App\Http\Requests\UpdateActivityRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
-    public function update(Activity $activity, UpdateActivityRequest $request)
+    public function update($id, UpdateActivityRequest $request)
     {
+        $activity = Activity::find($id);
+
         if (empty($activity)) {
-            flash('Activity not found.', 'error');
+            flash('Activity not found', 'error');
 
             return redirect()->route('admin.activities.index');
         }
@@ -112,14 +124,16 @@ class ActivityController extends Controller
     /**
      * Remove the specified Activity from storage.
      *
-     * @param \App\Models\Activity $activity
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy(Activity $activity)
+    public function destroy($id)
     {
+        $activity = Activity::find($id);
+
         if (empty($activity)) {
-            flash('Activity not found.', 'error');
+            flash('Activity not found', 'error');
 
             return redirect()->route('admin.activities.index');
         }

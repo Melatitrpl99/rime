@@ -64,8 +64,8 @@ class AuthAPIController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
-            'acces_token' => $token,
+            'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() *60]);
+            'expires_in' => auth('api')->factory()->getTTL() * 60]);
     }
 }

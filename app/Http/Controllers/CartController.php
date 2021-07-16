@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateCartRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class CartController
+ * @package App\Http\Controllers
+ */
 class CartController extends Controller
 {
     /**
      * Display a listing of the Cart.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Cart $carts */
-        $carts = Cart::paginate();
+        $carts = Cart::all();
 
         return view('admin.carts.index')
             ->with('carts', $carts);
@@ -31,7 +32,7 @@ class CartController extends Controller
     /**
      * Show the form for creating a new Cart.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class CartController extends Controller
     /**
      * Store a newly created Cart in storage.
      *
-     * @param CreateCartRequest $request
+     * @param \App\Http\Requests\CreateCartRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateCartRequest $request)
     {
-        $input = $request->all();
+        $cart = Cart::create($request->validated());
 
-        /** @var Cart $cart */
-        $cart = Cart::create($input);
+        flash('Cart saved successfully.', 'success');
 
-        Flash::success('Cart saved successfully.');
-
-        return redirect(route('admin.carts.index'));
+        return redirect()->route('admin.carts.index');
     }
 
     /**
      * Display the specified Cart.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Cart $cart */
         $cart = Cart::find($id);
 
         if (empty($cart)) {
-            Flash::error('Cart not found');
+            flash('Cart not found', 'error');
 
-            return redirect(route('admin.carts.index'));
+            return redirect()->route('admin.carts.index');
         }
 
-        return view('admin.carts.show')->with('cart', $cart);
+        return view('admin.carts.show')
+            ->with('cart', $cart);
     }
 
     /**
      * Show the form for editing the specified Cart.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Cart $cart */
         $cart = Cart::find($id);
-
         if (empty($cart)) {
-            Flash::error('Cart not found');
+            flash('Cart not found', 'error');
 
-            return redirect(route('admin.carts.index'));
+            return redirect()->route('admin.carts.index');
         }
 
-        return view('admin.carts.edit')->with('cart', $cart);
+        return view('admin.carts.edit')
+            ->with('cart', $cart);
     }
 
     /**
      * Update the specified Cart in storage.
      *
-     * @param int $id
-     * @param UpdateCartRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateCartRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateCartRequest $request)
     {
-        /** @var Cart $cart */
         $cart = Cart::find($id);
 
         if (empty($cart)) {
-            Flash::error('Cart not found');
+            flash('Cart not found', 'error');
 
-            return redirect(route('admin.carts.index'));
+            return redirect()->route('admin.carts.index');
         }
 
-        $cart->fill($request->all());
-        $cart->save();
+        $cart->update($request->validated());
 
-        Flash::success('Cart updated successfully.');
+        flash('Cart updated successfully.', 'success');
 
-        return redirect(route('admin.carts.index'));
+        return redirect()->route('admin.carts.index');
     }
 
     /**
      * Remove the specified Cart from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Cart $cart */
         $cart = Cart::find($id);
 
         if (empty($cart)) {
-            Flash::error('Cart not found');
+            flash('Cart not found', 'error');
 
-            return redirect(route('admin.carts.index'));
+            return redirect()->route('admin.carts.index');
         }
 
         $cart->delete();
 
-        Flash::success('Cart deleted successfully.');
+        flash('Cart deleted successfully.', 'success');
 
-        return redirect(route('admin.carts.index'));
+        return redirect()->route('admin.carts.index');
     }
 }

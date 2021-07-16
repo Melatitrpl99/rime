@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreatePostAPIRequest;
 use App\Http\Requests\API\UpdatePostAPIRequest;
+use App\Http\Resources\PostResource;
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PostResource;
-use Response;
 
 /**
- * Class PostController
+ * Class PostAPIController
  * @package App\Http\Controllers\API
  */
-
 class PostAPIController extends Controller
 {
     /**
      * Display a listing of the Post.
      * GET|HEAD /posts
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class PostAPIController extends Controller
 
         $posts = $query->get();
 
-        return response()->json(PostResource::collection($posts));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => PostResource::collection($posts)
+        ]);
     }
 
     /**
      * Store a newly created Post in storage.
      * POST /posts
      *
-     * @param CreatePostAPIRequest $request
+     * @param \App\Http\Requests\CreatePostRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreatePostAPIRequest $request)
     {
-        $input = $request->all();
+        $post = Post::create($request->validated());
 
-        /** @var Post $post */
-        $post = Post::create($input);
-
-        return response()->json(new PostResource($post));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new PostResource($post)
+        ]);
     }
 
     /**
      * Display the specified Post.
-     * GET|HEAD /posts/{id}
+     * GET|HEAD /posts/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Post $post */
         $post = Post::find($id);
 
         if (empty($post)) {
-            return $this->sendError('Post not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response()->json($post);
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new PostResource($post)
+        ]);
     }
 
     /**
      * Update the specified Post in storage.
-     * PUT/PATCH /posts/{id}
+     * PUT/PATCH /posts/{$id}
      *
-     * @param int $id
-     * @param UpdatePostAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdatePostRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdatePostAPIRequest $request)
     {
-        /** @var Post $post */
         $post = Post::find($id);
 
         if (empty($post)) {
-            return $this->sendError('Post not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $post->fill($request->all());
-        $post->save();
+        $post->update($request->validated());
 
-        return response()->json(new PostResource($post));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new PostResource($post)
+        ]);
     }
 
     /**
      * Remove the specified Post from storage.
-     * DELETE /posts/{id}
+     * DELETE /posts/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Post $post */
         $post = Post::find($id);
 
         if (empty($post)) {
-            return $this->sendError('Post not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $post->delete();
 
-        return response()->json('Post deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

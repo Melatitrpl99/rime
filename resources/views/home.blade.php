@@ -19,7 +19,7 @@
                     <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Total User</span>
-                        <span class="info-box-number">{{ number_format(250, 0, ',', ' ') }}</span>
+                        <span class="info-box-number">{{ number_format(250, 0, ',', '.') }}</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-user-check"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Total Reseller</span>
-                        <span class="info-box-number">{{ number_format(25, 0, ',', ' ') }}</span>
+                        <span class="info-box-number">{{ number_format(25, 0, ',', '.') }}</span>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <span class="info-box-icon bg-gradient-success elevation-1"><i class="fas fa-shopping-bag"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Produk terjual</span>
-                        <span class="info-box-number">{{ number_format(39250, 0, ',', ' ') }}</span>
+                        <span class="info-box-number">{{ number_format(39250, 0, ',', '.') }}</span>
                     </div>
                 </div>
             </div>
@@ -177,15 +177,15 @@
                         </table>
                     </div>
                     <div class="card-footer">
-                        <div class="clearfix">
-                            <a href="{{ route('admin.orders.index') }}" class="btn btn-primary btn-sm shadow-sm float-right">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="d-block my-auto text-secondary">
+                                Menampilkan 8 dari 155 order
+                            </span>
+                            <a href="{{ route('admin.orders.index') }}" class="btn btn-primary btn-sm my-auto">
                                 <i class="fas fa-envelope mr-1"></i>
                                 <span>Lihat semua</span>
                                 <span class="badge badge-light ml-1">65</span>
                             </a>
-                            <p class="float-left">
-                                Menampilkan 8 dari 155 order
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -206,24 +206,23 @@
                         </div>
                     </div>
                     <div class="card-body" style="max-height: 200px">
-                        <a href="#" class="btn btn-outline-info btn-sm btn-block text-left">
+                        <a href="#" class="btn btn-primary btn-sm btn-block text-left">
                             <i class="fas fa-plus mr-1"></i>
                             <span>Buat laporan baru</span>
                         </a>
-                        <a href="{{ route('laba_rugi.index') }}" class="btn btn-outline-info btn-sm btn-block text-left">
+                        <a href="{{ route('laba_rugi.index') }}" class="btn btn-primary btn-sm btn-block text-left">
                             <i class="fas fa-file-invoice mr-1"></i>
                             <span>Laporan Laba Rugi</span>
                         </a>
-                        <a href="{{ route('admin.spendings.index') }}" class="btn btn-outline-info btn-sm btn-block text-left">
+                        <a href="{{ route('admin.spendings.index') }}" class="btn btn-primary btn-sm btn-block text-left">
                             <i class="fas fa-file-invoice mr-1"></i>
                             <span>Laporan Pengeluaran</span>
                         </a>
-                        <a href="{{ route('admin.transactions.index') }}" class="btn btn-outline-info btn-sm btn-block text-left">
+                        <a href="{{ route('admin.transactions.index') }}" class="btn btn-primary btn-sm btn-block text-left">
                             <i class="fas fa-file-invoice mr-1"></i>
                             <span>Laporan Pemasukan</span>
                         </a>
                     </div>
-                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>

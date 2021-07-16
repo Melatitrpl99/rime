@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class ProductController
+ * @package App\Http\Controllers
+ */
 class ProductController extends Controller
 {
     /**
      * Display a listing of the Product.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Product $products */
-        $products = Product::paginate();
+        $products = Product::all();
 
         return view('admin.products.index')
             ->with('products', $products);
@@ -31,7 +32,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new Product.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class ProductController extends Controller
     /**
      * Store a newly created Product in storage.
      *
-     * @param CreateProductRequest $request
+     * @param \App\Http\Requests\CreateProductRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateProductRequest $request)
     {
-        $input = $request->all();
+        $product = Product::create($request->validated());
 
-        /** @var Product $product */
-        $product = Product::create($input);
+        flash('Product saved successfully.', 'success');
 
-        Flash::success('Product saved successfully.');
-
-        return redirect(route('admin.products.index'));
+        return redirect()->route('admin.products.index');
     }
 
     /**
      * Display the specified Product.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Product $product */
         $product = Product::find($id);
 
         if (empty($product)) {
-            Flash::error('Product not found');
+            flash('Product not found', 'error');
 
-            return redirect(route('admin.products.index'));
+            return redirect()->route('admin.products.index');
         }
 
-        return view('admin.products.show')->with('product', $product);
+        return view('admin.products.show')
+            ->with('product', $product);
     }
 
     /**
      * Show the form for editing the specified Product.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Product $product */
         $product = Product::find($id);
-
         if (empty($product)) {
-            Flash::error('Product not found');
+            flash('Product not found', 'error');
 
-            return redirect(route('admin.products.index'));
+            return redirect()->route('admin.products.index');
         }
 
-        return view('admin.products.edit')->with('product', $product);
+        return view('admin.products.edit')
+            ->with('product', $product);
     }
 
     /**
      * Update the specified Product in storage.
      *
-     * @param int $id
-     * @param UpdateProductRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateProductRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateProductRequest $request)
     {
-        /** @var Product $product */
         $product = Product::find($id);
 
         if (empty($product)) {
-            Flash::error('Product not found');
+            flash('Product not found', 'error');
 
-            return redirect(route('admin.products.index'));
+            return redirect()->route('admin.products.index');
         }
 
-        $product->fill($request->all());
-        $product->save();
+        $product->update($request->validated());
 
-        Flash::success('Product updated successfully.');
+        flash('Product updated successfully.', 'success');
 
-        return redirect(route('admin.products.index'));
+        return redirect()->route('admin.products.index');
     }
 
     /**
      * Remove the specified Product from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Product $product */
         $product = Product::find($id);
 
         if (empty($product)) {
-            Flash::error('Product not found');
+            flash('Product not found', 'error');
 
-            return redirect(route('admin.products.index'));
+            return redirect()->route('admin.products.index');
         }
 
         $product->delete();
 
-        Flash::success('Product deleted successfully.');
+        flash('Product deleted successfully.', 'success');
 
-        return redirect(route('admin.products.index'));
+        return redirect()->route('admin.products.index');
     }
 }

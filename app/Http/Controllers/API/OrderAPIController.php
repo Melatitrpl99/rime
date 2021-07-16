@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
+use App\Http\Resources\OrderResource;
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\OrderResource;
-use Response;
 
 /**
- * Class OrderController
+ * Class OrderAPIController
  * @package App\Http\Controllers\API
  */
-
 class OrderAPIController extends Controller
 {
     /**
      * Display a listing of the Order.
      * GET|HEAD /orders
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class OrderAPIController extends Controller
 
         $orders = $query->get();
 
-        return response()->json(OrderResource::collection($orders));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => OrderResource::collection($orders)
+        ]);
     }
 
     /**
      * Store a newly created Order in storage.
      * POST /orders
      *
-     * @param CreateOrderAPIRequest $request
+     * @param \App\Http\Requests\CreateOrderRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateOrderAPIRequest $request)
     {
-        $input = $request->all();
+        $order = Order::create($request->validated());
 
-        /** @var Order $order */
-        $order = Order::create($input);
-
-        return response()->json(new OrderResource($order));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new OrderResource($order)
+        ]);
     }
 
     /**
      * Display the specified Order.
-     * GET|HEAD /orders/{id}
+     * GET|HEAD /orders/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Order $order */
         $order = Order::find($id);
 
         if (empty($order)) {
-            return $this->sendError('Order not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response()->json(new OrderResource($order));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new OrderResource($order)
+        ]);
     }
 
     /**
      * Update the specified Order in storage.
-     * PUT/PATCH /orders/{id}
+     * PUT/PATCH /orders/{$id}
      *
-     * @param int $id
-     * @param UpdateOrderAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateOrderRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateOrderAPIRequest $request)
     {
-        /** @var Order $order */
         $order = Order::find($id);
 
         if (empty($order)) {
-            return $this->sendError('Order not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $order->fill($request->all());
-        $order->save();
+        $order->update($request->validated());
 
-        return response()->json(new OrderResource($order));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new OrderResource($order)
+        ]);
     }
 
     /**
      * Remove the specified Order from storage.
-     * DELETE /orders/{id}
+     * DELETE /orders/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Order $order */
         $order = Order::find($id);
 
         if (empty($order)) {
-            return $this->sendError('Order not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $order->delete();
 
-        return response()->json('Order deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

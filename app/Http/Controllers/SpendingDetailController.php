@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateSpendingDetailRequest;
 use App\Http\Controllers\Controller;
 use App\Models\SpendingDetail;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class SpendingDetailController
+ * @package App\Http\Controllers
+ */
 class SpendingDetailController extends Controller
 {
     /**
      * Display a listing of the SpendingDetail.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var SpendingDetail $spendingDetails */
-        $spendingDetails = SpendingDetail::paginate();
+        $spendingDetails = SpendingDetail::all();
 
         return view('admin.spending_details.index')
             ->with('spendingDetails', $spendingDetails);
@@ -31,7 +32,7 @@ class SpendingDetailController extends Controller
     /**
      * Show the form for creating a new SpendingDetail.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class SpendingDetailController extends Controller
     /**
      * Store a newly created SpendingDetail in storage.
      *
-     * @param CreateSpendingDetailRequest $request
+     * @param \App\Http\Requests\CreateSpendingDetailRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateSpendingDetailRequest $request)
     {
-        $input = $request->all();
+        $spendingDetail = SpendingDetail::create($request->validated());
 
-        /** @var SpendingDetail $spendingDetail */
-        $spendingDetail = SpendingDetail::create($input);
+        flash('Spending Detail saved successfully.', 'success');
 
-        Flash::success('Spending Detail saved successfully.');
-
-        return redirect(route('admin.spending_details.index'));
+        return redirect()->route('admin.spending_details.index');
     }
 
     /**
      * Display the specified SpendingDetail.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var SpendingDetail $spendingDetail */
         $spendingDetail = SpendingDetail::find($id);
 
         if (empty($spendingDetail)) {
-            Flash::error('Spending Detail not found');
+            flash('Spending Detail not found', 'error');
 
-            return redirect(route('admin.spending_details.index'));
+            return redirect()->route('admin.spending_details.index');
         }
 
-        return view('admin.spending_details.show')->with('spendingDetail', $spendingDetail);
+        return view('admin.spending_details.show')
+            ->with('spendingDetail', $spendingDetail);
     }
 
     /**
      * Show the form for editing the specified SpendingDetail.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var SpendingDetail $spendingDetail */
         $spendingDetail = SpendingDetail::find($id);
-
         if (empty($spendingDetail)) {
-            Flash::error('Spending Detail not found');
+            flash('Spending Detail not found', 'error');
 
-            return redirect(route('admin.spending_details.index'));
+            return redirect()->route('admin.spending_details.index');
         }
 
-        return view('admin.spending_details.edit')->with('spendingDetail', $spendingDetail);
+        return view('admin.spending_details.edit')
+            ->with('spendingDetail', $spendingDetail);
     }
 
     /**
      * Update the specified SpendingDetail in storage.
      *
-     * @param int $id
-     * @param UpdateSpendingDetailRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateSpendingDetailRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateSpendingDetailRequest $request)
     {
-        /** @var SpendingDetail $spendingDetail */
         $spendingDetail = SpendingDetail::find($id);
 
         if (empty($spendingDetail)) {
-            Flash::error('Spending Detail not found');
+            flash('Spending Detail not found', 'error');
 
-            return redirect(route('admin.spending_details.index'));
+            return redirect()->route('admin.spending_details.index');
         }
 
-        $spendingDetail->fill($request->all());
-        $spendingDetail->save();
+        $spendingDetail->update($request->validated());
 
-        Flash::success('Spending Detail updated successfully.');
+        flash('Spending Detail updated successfully.', 'success');
 
-        return redirect(route('admin.spending_details.index'));
+        return redirect()->route('admin.spending_details.index');
     }
 
     /**
      * Remove the specified SpendingDetail from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var SpendingDetail $spendingDetail */
         $spendingDetail = SpendingDetail::find($id);
 
         if (empty($spendingDetail)) {
-            Flash::error('Spending Detail not found');
+            flash('Spending Detail not found', 'error');
 
-            return redirect(route('admin.spending_details.index'));
+            return redirect()->route('admin.spending_details.index');
         }
 
         $spendingDetail->delete();
 
-        Flash::success('Spending Detail deleted successfully.');
+        flash('Spending Detail deleted successfully.', 'success');
 
-        return redirect(route('admin.spending_details.index'));
+        return redirect()->route('admin.spending_details.index');
     }
 }

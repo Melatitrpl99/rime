@@ -16,7 +16,7 @@
                 <td>{{ $spending->tanggal->format('d F Y') }}</td>
                 <td>{{ $spending->kategori }}</td>
                 <td>{{ $spending->qty }}</td>
-                <td>{{ $spending->total }}</td>
+                <td>Rp. {{ number_format($spending->total, 2, ',', '.') }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.spendings.destroy', $spending], 'method' => 'delete', 'class' => 'm-0']) !!}
                     <div class="btn-group">
