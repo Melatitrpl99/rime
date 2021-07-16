@@ -58,12 +58,14 @@ class PostController extends Controller
     /**
      * Display the specified Post.
      *
-     * @param \App\Models\Post $post
+     * @param $id
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show(Post $post)
+    public function show($id)
     {
+        $post = Post::find($id);
+
         if (empty($post)) {
             flash('Post not found', 'error');
 
@@ -77,12 +79,13 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified Post.
      *
-     * @param \App\Models\Post $post
+     * @param $id
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
+        $post = Post::find($id);
         if (empty($post)) {
             flash('Post not found', 'error');
 
@@ -96,13 +99,15 @@ class PostController extends Controller
     /**
      * Update the specified Post in storage.
      *
-     * @param \App\Models\Post $post
+     * @param $id
      * @param \App\Http\Requests\UpdatePostRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update(Post $post, UpdatePostRequest $request)
+    public function update($id, UpdatePostRequest $request)
     {
+        $post = Post::find($id);
+
         if (empty($post)) {
             flash('Post not found', 'error');
 
@@ -119,12 +124,14 @@ class PostController extends Controller
     /**
      * Remove the specified Post from storage.
      *
-     * @param \App\Models\Post $post
+     * @param $id
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
+        $post = Post::find($id);
+
         if (empty($post)) {
             flash('Post not found', 'error');
 

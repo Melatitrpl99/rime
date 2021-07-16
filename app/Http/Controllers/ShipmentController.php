@@ -23,7 +23,7 @@ class ShipmentController extends Controller
      */
     public function index(Request $request)
     {
-        $shipments = Shipment::all();
+        $shipments = Shipment::paginate(15);
 
         return view('admin.shipments.index')
             ->with('shipments', $shipments);

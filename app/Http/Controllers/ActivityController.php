@@ -23,7 +23,7 @@ class ActivityController extends Controller
      */
     public function index(Request $request)
     {
-        $activities = Activity::all();
+        $activities = Activity::paginate(15);
 
         return view('admin.activities.index')
             ->with('activities', $activities);

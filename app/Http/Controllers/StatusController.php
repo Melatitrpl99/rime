@@ -23,7 +23,7 @@ class StatusController extends Controller
      */
     public function index(Request $request)
     {
-        $statuses = Status::all();
+        $statuses = Status::paginate(15);
 
         return view('admin.statuses.index')
             ->with('statuses', $statuses);

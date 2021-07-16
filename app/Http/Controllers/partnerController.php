@@ -23,7 +23,7 @@ class PartnerController extends Controller
      */
     public function index(Request $request)
     {
-        $partners = Partner::all();
+        $partners = Partner::paginate(15);
 
         return view('admin.partners.index')
             ->with('partners', $partners);

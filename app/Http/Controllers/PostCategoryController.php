@@ -23,7 +23,7 @@ class PostCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $postCategories = PostCategory::all();
+        $postCategories = PostCategory::paginate(15);
 
         return view('admin.post_categories.index')
             ->with('postCategories', $postCategories);

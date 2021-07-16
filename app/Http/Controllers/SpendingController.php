@@ -23,7 +23,7 @@ class SpendingController extends Controller
      */
     public function index(Request $request)
     {
-        $spendings = Spending::all();
+        $spendings = Spending::paginate(15);
 
         return view('admin.spendings.index')
             ->with('spendings', $spendings);

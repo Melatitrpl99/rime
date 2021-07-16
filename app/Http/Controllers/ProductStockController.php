@@ -23,7 +23,7 @@ class ProductStockController extends Controller
      */
     public function index(Request $request)
     {
-        $productStocks = ProductStock::all();
+        $productStocks = ProductStock::paginate(15);
 
         return view('admin.product_stocks.index')
             ->with('productStocks', $productStocks);
