@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * Class Product
@@ -68,7 +68,8 @@ class Product extends Model
         'harga_reseller' => 'required|numeric',
         'reseller_minimum' => 'required|numeric',
         'slug' => 'nullable',
-        'category_id' => 'required'
+        'category_id' => 'required',
+        'path' =>'required'
     ];
 
     /**

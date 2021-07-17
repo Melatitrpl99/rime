@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Flash;
@@ -48,9 +49,27 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $input = $request->all();
+        $product = Product::create($input);
+        if($request->has('path')){
+            // dd($request);
+            $files=$request->file('path');
+        foreach($files as $file){
+            $nama=new File();
+            $nama->fill([
+        'name'=> $request->nama,
+        'mime_type' =>$file->getMimeType(),
+        'format' => $file->getClientOriginalExtension(),
+        'size' =>$file->getSize(),
+        'path' =>$file->getClientOriginalName().'.'.$file->getClientOriginalExtension(),
+
+            ]);
+            $file->store($request->nama);
+            $nama->fileable()->associate($product);
+            $nama->save();
+        }
+        }
 
         /** @var Product $product */
-        $product = Product::create($input);
 
         Flash::success('Product saved successfully.');
 

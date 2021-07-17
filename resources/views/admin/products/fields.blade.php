@@ -33,3 +33,11 @@
     {!! Form::label('category_id', 'Category:') !!}
     {!! Form::select('category_id', $categoryItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
+<!-- Path Field -->
+<div class="form-group col-12 col-sm-6">
+    {!! Form::label('path[]', 'Upload File:') !!}
+    <div class="custom-file">
+        {!! Form::file('path[]', null, ['class' => 'form-control custom-file-input']) !!}
+        {!! Form::label('path[]', 'Select files...', ['class' => 'custom-file-label']) !!}
+    </div>
+</div>

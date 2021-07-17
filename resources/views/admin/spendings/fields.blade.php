@@ -1,7 +1,7 @@
 <!-- Nomor Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('nomor', 'Nomor:') !!}
-    {!! Form::number('nomor', null, ['class' => 'form-control','max' => 16]) !!}
+    {!! Form::number('nomor', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Deskripsi Field -->
