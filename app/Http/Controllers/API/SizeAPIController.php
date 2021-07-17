@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateSizeAPIRequest;
 use App\Http\Requests\API\UpdateSizeAPIRequest;
+use App\Http\Resources\SizeResource;
+use App\Http\Controllers\Controller;
 use App\Models\Size;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\SizeResource;
-use Response;
 
 /**
- * Class SizeController
+ * Class SizeAPIController
  * @package App\Http\Controllers\API
  */
-
 class SizeAPIController extends Controller
 {
     /**
      * Display a listing of the Size.
      * GET|HEAD /sizes
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class SizeAPIController extends Controller
 
         $sizes = $query->get();
 
-        return response()->json(SizeResource::collection($sizes));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => SizeResource::collection($sizes)
+        ]);
     }
 
     /**
      * Store a newly created Size in storage.
      * POST /sizes
      *
-     * @param CreateSizeAPIRequest $request
+     * @param \App\Http\Requests\CreateSizeRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateSizeAPIRequest $request)
     {
-        $input = $request->all();
+        $size = Size::create($request->validated());
 
-        /** @var Size $size */
-        $size = Size::create($input);
-
-        return response()->json(new SizeResource($size));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new SizeResource($size)
+        ]);
     }
 
     /**
      * Display the specified Size.
-     * GET|HEAD /sizes/{id}
+     * GET|HEAD /sizes/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Size $size */
         $size = Size::find($id);
 
         if (empty($size)) {
-            return $this->sendError('Product Size not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response()->json(new SizeResource($size));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new SizeResource($size)
+        ]);
     }
 
     /**
      * Update the specified Size in storage.
-     * PUT/PATCH /sizes/{id}
+     * PUT/PATCH /sizes/{$id}
      *
-     * @param int $id
-     * @param UpdateSizeAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateSizeRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateSizeAPIRequest $request)
     {
-        /** @var Size $size */
         $size = Size::find($id);
 
         if (empty($size)) {
-            return $this->sendError('Product Size not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $size->fill($request->all());
-        $size->save();
+        $size->update($request->validated());
 
-        return response()->json(new SizeResource($size));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new SizeResource($size)
+        ]);
     }
 
     /**
      * Remove the specified Size from storage.
-     * DELETE /sizes/{id}
+     * DELETE /sizes/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Size $size */
         $size = Size::find($id);
 
         if (empty($size)) {
-            return $this->sendError('Product Size not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $size->delete();
 
-        return response()->json('Product Size deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

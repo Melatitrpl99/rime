@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateDiscountAPIRequest;
 use App\Http\Requests\API\UpdateDiscountAPIRequest;
+use App\Http\Resources\DiscountResource;
+use App\Http\Controllers\Controller;
 use App\Models\Discount;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\DiscountResource;
-use Response;
 
 /**
- * Class DiscountController
+ * Class DiscountAPIController
  * @package App\Http\Controllers\API
  */
-
 class DiscountAPIController extends Controller
 {
     /**
      * Display a listing of the Discount.
      * GET|HEAD /discounts
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class DiscountAPIController extends Controller
 
         $discounts = $query->get();
 
-        return response()->json(DiscountResource::collection($discounts));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => DiscountResource::collection($discounts)
+        ]);
     }
 
     /**
      * Store a newly created Discount in storage.
      * POST /discounts
      *
-     * @param CreateDiscountAPIRequest $request
+     * @param \App\Http\Requests\CreateDiscountRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateDiscountAPIRequest $request)
     {
-        $input = $request->all();
+        $discount = Discount::create($request->validated());
 
-        /** @var Discount $discount */
-        $discount = Discount::create($input);
-
-        return response()->json(new DiscountResource($discount));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new DiscountResource($discount)
+        ]);
     }
 
     /**
      * Display the specified Discount.
-     * GET|HEAD /discounts/{id}
+     * GET|HEAD /discounts/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Discount $discount */
         $discount = Discount::find($id);
 
         if (empty($discount)) {
-            return $this->sendError('Discount not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response()->json($discount);
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new DiscountResource($discount)
+        ]);
     }
 
     /**
      * Update the specified Discount in storage.
-     * PUT/PATCH /discounts/{id}
+     * PUT/PATCH /discounts/{$id}
      *
-     * @param int $id
-     * @param UpdateDiscountAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateDiscountRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateDiscountAPIRequest $request)
     {
-        /** @var Discount $discount */
         $discount = Discount::find($id);
 
         if (empty($discount)) {
-            return $this->sendError('Discount not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $discount->fill($request->all());
-        $discount->save();
+        $discount->update($request->validated());
 
-        return response()->json(new DiscountResource($discount));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new DiscountResource($discount)
+        ]);
     }
 
     /**
      * Remove the specified Discount from storage.
-     * DELETE /discounts/{id}
+     * DELETE /discounts/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Discount $discount */
         $discount = Discount::find($id);
 
         if (empty($discount)) {
-            return $this->sendError('Discount not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $discount->delete();
 
-        return response()->json('Discount deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

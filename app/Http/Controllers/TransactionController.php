@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateTransactionRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class TransactionController
+ * @package App\Http\Controllers
+ */
 class TransactionController extends Controller
 {
     /**
      * Display a listing of the Transaction.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Transaction $transactions */
-        $transactions = Transaction::paginate();
+        $transactions = Transaction::paginate(15);
 
         return view('admin.transactions.index')
             ->with('transactions', $transactions);
@@ -31,7 +32,7 @@ class TransactionController extends Controller
     /**
      * Show the form for creating a new Transaction.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class TransactionController extends Controller
     /**
      * Store a newly created Transaction in storage.
      *
-     * @param CreateTransactionRequest $request
+     * @param \App\Http\Requests\CreateTransactionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateTransactionRequest $request)
     {
-        $input = $request->all();
+        $transaction = Transaction::create($request->validated());
 
-        /** @var Transaction $transaction */
-        $transaction = Transaction::create($input);
+        flash('Transaction saved successfully.', 'success');
 
-        Flash::success('Transaction saved successfully.');
-
-        return redirect(route('admin.transactions.index'));
+        return redirect()->route('admin.transactions.index');
     }
 
     /**
      * Display the specified Transaction.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
-            Flash::error('Transaction not found');
+            flash('Transaction not found', 'error');
 
-            return redirect(route('admin.transactions.index'));
+            return redirect()->route('admin.transactions.index');
         }
 
-        return view('admin.transactions.show')->with('transaction', $transaction);
+        return view('admin.transactions.show')
+            ->with('transaction', $transaction);
     }
 
     /**
      * Show the form for editing the specified Transaction.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
-
         if (empty($transaction)) {
-            Flash::error('Transaction not found');
+            flash('Transaction not found', 'error');
 
-            return redirect(route('admin.transactions.index'));
+            return redirect()->route('admin.transactions.index');
         }
 
-        return view('admin.transactions.edit')->with('transaction', $transaction);
+        return view('admin.transactions.edit')
+            ->with('transaction', $transaction);
     }
 
     /**
      * Update the specified Transaction in storage.
      *
-     * @param int $id
-     * @param UpdateTransactionRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateTransactionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateTransactionRequest $request)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
-            Flash::error('Transaction not found');
+            flash('Transaction not found', 'error');
 
-            return redirect(route('admin.transactions.index'));
+            return redirect()->route('admin.transactions.index');
         }
 
-        $transaction->fill($request->all());
-        $transaction->save();
+        $transaction->update($request->validated());
 
-        Flash::success('Transaction updated successfully.');
+        flash('Transaction updated successfully.', 'success');
 
-        return redirect(route('admin.transactions.index'));
+        return redirect()->route('admin.transactions.index');
     }
 
     /**
      * Remove the specified Transaction from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Transaction $transaction */
         $transaction = Transaction::find($id);
 
         if (empty($transaction)) {
-            Flash::error('Transaction not found');
+            flash('Transaction not found', 'error');
 
-            return redirect(route('admin.transactions.index'));
+            return redirect()->route('admin.transactions.index');
         }
 
         $transaction->delete();
 
-        Flash::success('Transaction deleted successfully.');
+        flash('Transaction deleted successfully.', 'success');
 
-        return redirect(route('admin.transactions.index'));
+        return redirect()->route('admin.transactions.index');
     }
 }

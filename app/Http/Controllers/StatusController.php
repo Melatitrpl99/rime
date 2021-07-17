@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateStatusRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Status;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class StatusController
+ * @package App\Http\Controllers
+ */
 class StatusController extends Controller
 {
     /**
      * Display a listing of the Status.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Status $statuses */
-        $statuses = Status::paginate();
+        $statuses = Status::paginate(15);
 
         return view('admin.statuses.index')
             ->with('statuses', $statuses);
@@ -31,7 +32,7 @@ class StatusController extends Controller
     /**
      * Show the form for creating a new Status.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class StatusController extends Controller
     /**
      * Store a newly created Status in storage.
      *
-     * @param CreateStatusRequest $request
+     * @param \App\Http\Requests\CreateStatusRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateStatusRequest $request)
     {
-        $input = $request->all();
+        $status = Status::create($request->validated());
 
-        /** @var Status $status */
-        $status = Status::create($input);
+        flash('Status saved successfully.', 'success');
 
-        Flash::success('Status saved successfully.');
-
-        return redirect(route('admin.statuses.index'));
+        return redirect()->route('admin.statuses.index');
     }
 
     /**
      * Display the specified Status.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Status $status */
         $status = Status::find($id);
 
         if (empty($status)) {
-            Flash::error('Status not found');
+            flash('Status not found', 'error');
 
-            return redirect(route('admin.statuses.index'));
+            return redirect()->route('admin.statuses.index');
         }
 
-        return view('admin.statuses.show')->with('status', $status);
+        return view('admin.statuses.show')
+            ->with('status', $status);
     }
 
     /**
      * Show the form for editing the specified Status.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Status $status */
         $status = Status::find($id);
-
         if (empty($status)) {
-            Flash::error('Status not found');
+            flash('Status not found', 'error');
 
-            return redirect(route('admin.statuses.index'));
+            return redirect()->route('admin.statuses.index');
         }
 
-        return view('admin.statuses.edit')->with('status', $status);
+        return view('admin.statuses.edit')
+            ->with('status', $status);
     }
 
     /**
      * Update the specified Status in storage.
      *
-     * @param int $id
-     * @param UpdateStatusRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateStatusRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateStatusRequest $request)
     {
-        /** @var Status $status */
         $status = Status::find($id);
 
         if (empty($status)) {
-            Flash::error('Status not found');
+            flash('Status not found', 'error');
 
-            return redirect(route('admin.statuses.index'));
+            return redirect()->route('admin.statuses.index');
         }
 
-        $status->fill($request->all());
-        $status->save();
+        $status->update($request->validated());
 
-        Flash::success('Status updated successfully.');
+        flash('Status updated successfully.', 'success');
 
-        return redirect(route('admin.statuses.index'));
+        return redirect()->route('admin.statuses.index');
     }
 
     /**
      * Remove the specified Status from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Status $status */
         $status = Status::find($id);
 
         if (empty($status)) {
-            Flash::error('Status not found');
+            flash('Status not found', 'error');
 
-            return redirect(route('admin.statuses.index'));
+            return redirect()->route('admin.statuses.index');
         }
 
         $status->delete();
 
-        Flash::success('Status deleted successfully.');
+        flash('Status deleted successfully.', 'success');
 
-        return redirect(route('admin.statuses.index'));
+        return redirect()->route('admin.statuses.index');
     }
 }

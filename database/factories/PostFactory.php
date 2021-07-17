@@ -27,7 +27,7 @@ class PostFactory extends Factory
             'judul' => $judul,
             'konten' => function () {
                 $desc = '';
-                for ($i = 0; $i < rand(2, 5); $i++) {
+                for ($i = 0; $i < rand(2, 7); $i++) {
                     $desc += '<p>'.$this->faker->paragraph(rand(3, 12)).'</p>';
                 }
                 return $desc;

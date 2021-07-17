@@ -16,8 +16,8 @@ class LabaRugiController extends Controller
      */
     public function index()
     {
-        $jumlahTransaksi=Transaction::all()->sum('total');
-        // dd($jumlahTransaksi);
+        $jumlahTransaksi = Transaction::sum('total');
+        $pengeluaran = Spending::sum('total');
 
         $pengeluaran=Spending::all()->sum('total');
         return view('laporan.labarugi')->with('pemasukan', $jumlahTransaksi)

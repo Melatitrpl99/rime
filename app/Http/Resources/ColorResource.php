@@ -17,9 +17,7 @@ class ColorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'rgba_color' => $this->rgba_color,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'rgba_color' => $this->rgba_color
         ];
     }
 }

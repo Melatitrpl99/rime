@@ -29,8 +29,8 @@ class OrderFactory extends Factory
             'nomor' => $this->faker->regexify('O[0-9]{2}-[A-Z0-9]{6}'),
             'pesan' => $this->faker->text(rand(50, 150)),
             // 'total' => $this->faker->numberBetween(50, 10000) * 1000,
-            'diskon' => $this->faker->numberBetween(5, 100) * 1000,
-            'biaya_pengiriman' => $this->faker->numberBetween(5, 50) * 1000,
+            'diskon' => $this->faker->numberBetween(5, 200) * 1000,
+            'biaya_pengiriman' => $this->faker->numberBetween(5, 250) * 1000,
             'status_id' => $this->faker->randomElement($status),
             'user_id' => $this->faker->randomElement($user),
         ];

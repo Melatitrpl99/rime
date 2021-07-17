@@ -7,22 +7,23 @@ use App\Http\Requests\UpdateProductStockRequest;
 use App\Http\Controllers\Controller;
 use App\Models\ProductStock;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class ProductStockController
+ * @package App\Http\Controllers
+ */
 class ProductStockController extends Controller
 {
     /**
      * Display a listing of the ProductStock.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var ProductStock $productStocks */
-        $productStocks = ProductStock::with(['product:id,nama', 'size:id,name', 'dimension:id,name', 'color:id,name'])->paginate();
+        $productStocks = ProductStock::paginate(15);
 
         return view('admin.product_stocks.index')
             ->with('productStocks', $productStocks);
@@ -31,7 +32,7 @@ class ProductStockController extends Controller
     /**
      * Show the form for creating a new ProductStock.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class ProductStockController extends Controller
     /**
      * Store a newly created ProductStock in storage.
      *
-     * @param CreateProductStockRequest $request
+     * @param \App\Http\Requests\CreateProductStockRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateProductStockRequest $request)
     {
-        $input = $request->all();
+        $productStock = ProductStock::create($request->validated());
 
-        /** @var ProductStock $productStock */
-        $productStock = ProductStock::create($input);
+        flash('Product Stock saved successfully.', 'success');
 
-        Flash::success('Product Stock saved successfully.');
-
-        return redirect(route('admin.product_stocks.index'));
+        return redirect()->route('admin.product_stocks.index');
     }
 
     /**
      * Display the specified ProductStock.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var ProductStock $productStock */
         $productStock = ProductStock::find($id);
 
         if (empty($productStock)) {
-            Flash::error('Product Stock not found');
+            flash('Product Stock not found', 'error');
 
-            return redirect(route('admin.product_stocks.index'));
+            return redirect()->route('admin.product_stocks.index');
         }
 
-        return view('admin.product_stocks.show')->with('productStock', $productStock);
+        return view('admin.product_stocks.show')
+            ->with('productStock', $productStock);
     }
 
     /**
      * Show the form for editing the specified ProductStock.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var ProductStock $productStock */
         $productStock = ProductStock::find($id);
-
         if (empty($productStock)) {
-            Flash::error('Product Stock not found');
+            flash('Product Stock not found', 'error');
 
-            return redirect(route('admin.product_stocks.index'));
+            return redirect()->route('admin.product_stocks.index');
         }
 
-        return view('admin.product_stocks.edit')->with('productStock', $productStock);
+        return view('admin.product_stocks.edit')
+            ->with('productStock', $productStock);
     }
 
     /**
      * Update the specified ProductStock in storage.
      *
-     * @param int $id
-     * @param UpdateProductStockRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateProductStockRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateProductStockRequest $request)
     {
-        /** @var ProductStock $productStock */
         $productStock = ProductStock::find($id);
 
         if (empty($productStock)) {
-            Flash::error('Product Stock not found');
+            flash('Product Stock not found', 'error');
 
-            return redirect(route('admin.product_stocks.index'));
+            return redirect()->route('admin.product_stocks.index');
         }
 
-        $productStock->fill($request->all());
-        $productStock->save();
+        $productStock->update($request->validated());
 
-        Flash::success('Product Stock updated successfully.');
+        flash('Product Stock updated successfully.', 'success');
 
-        return redirect(route('admin.product_stocks.index'));
+        return redirect()->route('admin.product_stocks.index');
     }
 
     /**
      * Remove the specified ProductStock from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var ProductStock $productStock */
         $productStock = ProductStock::find($id);
 
         if (empty($productStock)) {
-            Flash::error('Product Stock not found');
+            flash('Product Stock not found', 'error');
 
-            return redirect(route('admin.product_stocks.index'));
+            return redirect()->route('admin.product_stocks.index');
         }
 
         $productStock->delete();
 
-        Flash::success('Product Stock deleted successfully.');
+        flash('Product Stock deleted successfully.', 'success');
 
-        return redirect(route('admin.product_stocks.index'));
+        return redirect()->route('admin.product_stocks.index');
     }
 }

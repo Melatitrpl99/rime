@@ -27,7 +27,7 @@ class SpendingFactory extends Factory
             'tanggal' => $this->faker->dateTime(),
             'kategori' => $this->faker->word(),
             'qty' => $this->faker->numberBetween(1, 99),
-            // 'total' => $this->faker->numberBetween(10000, 10000000),
+            'total' => $this->faker->numberBetween(100, 50000) * 1000,
         ];
     }
 

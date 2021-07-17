@@ -35,6 +35,7 @@
 </div>
 
 @include('layouts.plugins.datetimepicker')
+
 @push('scripts')
 <script>
     $('#waktu_mulai').datetimepicker({

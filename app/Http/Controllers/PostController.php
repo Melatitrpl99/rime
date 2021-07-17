@@ -7,22 +7,23 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class PostController
+ * @package App\Http\Controllers
+ */
 class PostController extends Controller
 {
     /**
      * Display a listing of the Post.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var Post $posts */
-        $posts = Post::paginate();
+        $posts = Post::paginate(15);
 
         return view('admin.posts.index')
             ->with('posts', $posts);
@@ -31,7 +32,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new Post.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class PostController extends Controller
     /**
      * Store a newly created Post in storage.
      *
-     * @param CreatePostRequest $request
+     * @param \App\Http\Requests\CreatePostRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreatePostRequest $request)
     {
-        $input = $request->all();
+        $post = Post::create($request->validated());
 
-        /** @var Post $post */
-        $post = Post::create($input);
+        flash('Post saved successfully.', 'success');
 
-        Flash::success('Post saved successfully.');
-
-        return redirect(route('admin.posts.index'));
+        return redirect()->route('admin.posts.index');
     }
 
     /**
      * Display the specified Post.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var Post $post */
         $post = Post::find($id);
 
         if (empty($post)) {
-            Flash::error('Post not found');
+            flash('Post not found', 'error');
 
-            return redirect(route('admin.posts.index'));
+            return redirect()->route('admin.posts.index');
         }
 
-        return view('admin.posts.show')->with('post', $post);
+        return view('admin.posts.show')
+            ->with('post', $post);
     }
 
     /**
      * Show the form for editing the specified Post.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var Post $post */
         $post = Post::find($id);
-
         if (empty($post)) {
-            Flash::error('Post not found');
+            flash('Post not found', 'error');
 
-            return redirect(route('admin.posts.index'));
+            return redirect()->route('admin.posts.index');
         }
 
-        return view('admin.posts.edit')->with('post', $post);
+        return view('admin.posts.edit')
+            ->with('post', $post);
     }
 
     /**
      * Update the specified Post in storage.
      *
-     * @param int $id
-     * @param UpdatePostRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdatePostRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdatePostRequest $request)
     {
-        /** @var Post $post */
         $post = Post::find($id);
 
         if (empty($post)) {
-            Flash::error('Post not found');
+            flash('Post not found', 'error');
 
-            return redirect(route('admin.posts.index'));
+            return redirect()->route('admin.posts.index');
         }
 
-        $post->fill($request->all());
-        $post->save();
+        $post->update($request->validated());
 
-        Flash::success('Post updated successfully.');
+        flash('Post updated successfully.', 'success');
 
-        return redirect(route('admin.posts.index'));
+        return redirect()->route('admin.posts.index');
     }
 
     /**
      * Remove the specified Post from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Post $post */
         $post = Post::find($id);
 
         if (empty($post)) {
-            Flash::error('Post not found');
+            flash('Post not found', 'error');
 
-            return redirect(route('admin.posts.index'));
+            return redirect()->route('admin.posts.index');
         }
 
         $post->delete();
 
-        Flash::success('Post deleted successfully.');
+        flash('Post deleted successfully.', 'success');
 
-        return redirect(route('admin.posts.index'));
+        return redirect()->route('admin.posts.index');
     }
 }

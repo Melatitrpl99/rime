@@ -7,22 +7,23 @@ use App\Http\Requests\UpdatePostCategoryRequest;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
+/**
+ * Class PostCategoryController
+ * @package App\Http\Controllers
+ */
 class PostCategoryController extends Controller
 {
     /**
      * Display a listing of the PostCategory.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var PostCategory $postCategories */
-        $postCategories = PostCategory::paginate();
+        $postCategories = PostCategory::paginate(15);
 
         return view('admin.post_categories.index')
             ->with('postCategories', $postCategories);
@@ -31,7 +32,7 @@ class PostCategoryController extends Controller
     /**
      * Show the form for creating a new PostCategory.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,115 +42,106 @@ class PostCategoryController extends Controller
     /**
      * Store a newly created PostCategory in storage.
      *
-     * @param CreatePostCategoryRequest $request
+     * @param \App\Http\Requests\CreatePostCategoryRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreatePostCategoryRequest $request)
     {
-        $input = $request->all();
+        $postCategory = PostCategory::create($request->validated());
 
-        /** @var PostCategory $postCategory */
-        $postCategory = PostCategory::create($input);
+        flash('Post Category saved successfully.', 'success');
 
-        Flash::success('Post Category saved successfully.');
-
-        return redirect(route('admin.post_categories.index'));
+        return redirect()->route('admin.post_categories.index');
     }
 
     /**
      * Display the specified PostCategory.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var PostCategory $postCategory */
         $postCategory = PostCategory::find($id);
 
         if (empty($postCategory)) {
-            Flash::error('Post Category not found');
+            flash('Post Category not found', 'error');
 
-            return redirect(route('admin.post_categories.index'));
+            return redirect()->route('admin.post_categories.index');
         }
 
-        return view('admin.post_categories.show')->with('postCategory', $postCategory);
+        return view('admin.post_categories.show')
+            ->with('postCategory', $postCategory);
     }
 
     /**
      * Show the form for editing the specified PostCategory.
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var PostCategory $postCategory */
         $postCategory = PostCategory::find($id);
-
         if (empty($postCategory)) {
-            Flash::error('Post Category not found');
+            flash('Post Category not found', 'error');
 
-            return redirect(route('admin.post_categories.index'));
+            return redirect()->route('admin.post_categories.index');
         }
 
-        return view('admin.post_categories.edit')->with('postCategory', $postCategory);
+        return view('admin.post_categories.edit')
+            ->with('postCategory', $postCategory);
     }
 
     /**
      * Update the specified PostCategory in storage.
      *
-     * @param int $id
-     * @param UpdatePostCategoryRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdatePostCategoryRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdatePostCategoryRequest $request)
     {
-        /** @var PostCategory $postCategory */
         $postCategory = PostCategory::find($id);
 
         if (empty($postCategory)) {
-            Flash::error('Post Category not found');
+            flash('Post Category not found', 'error');
 
-            return redirect(route('admin.post_categories.index'));
+            return redirect()->route('admin.post_categories.index');
         }
 
-        $postCategory->fill($request->all());
-        $postCategory->save();
+        $postCategory->update($request->validated());
 
-        Flash::success('Post Category updated successfully.');
+        flash('Post Category updated successfully.', 'success');
 
-        return redirect(route('admin.post_categories.index'));
+        return redirect()->route('admin.post_categories.index');
     }
 
     /**
      * Remove the specified PostCategory from storage.
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var PostCategory $postCategory */
         $postCategory = PostCategory::find($id);
 
         if (empty($postCategory)) {
-            Flash::error('Post Category not found');
+            flash('Post Category not found', 'error');
 
-            return redirect(route('admin.post_categories.index'));
+            return redirect()->route('admin.post_categories.index');
         }
 
         $postCategory->delete();
 
-        Flash::success('Post Category deleted successfully.');
+        flash('Post Category deleted successfully.', 'success');
 
-        return redirect(route('admin.post_categories.index'));
+        return redirect()->route('admin.post_categories.index');
     }
 }

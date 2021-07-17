@@ -4,25 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateDimensionAPIRequest;
 use App\Http\Requests\API\UpdateDimensionAPIRequest;
+use App\Http\Resources\DimensionResource;
+use App\Http\Controllers\Controller;
 use App\Models\Dimension;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\DimensionResource;
-use Response;
 
 /**
- * Class DimensionController
+ * Class DimensionAPIController
  * @package App\Http\Controllers\API
  */
-
 class DimensionAPIController extends Controller
 {
     /**
      * Display a listing of the Dimension.
      * GET|HEAD /dimensions
      *
-     * @param Request $request
-     * @return Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index(Request $request)
     {
@@ -37,92 +36,111 @@ class DimensionAPIController extends Controller
 
         $dimensions = $query->get();
 
-        return response()->json(DimensionResource::collection($dimensions));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => DimensionResource::collection($dimensions)
+        ]);
     }
 
     /**
      * Store a newly created Dimension in storage.
      * POST /dimensions
      *
-     * @param CreateDimensionAPIRequest $request
+     * @param \App\Http\Requests\CreateDimensionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store(CreateDimensionAPIRequest $request)
     {
-        $input = $request->all();
+        $dimension = Dimension::create($request->validated());
 
-        /** @var Dimension $dimension */
-        $dimension = Dimension::create($input);
-
-        return response()->json(new DimensionResource($dimension));
+        return response()->json([
+            'message' => 'Successfully added',
+            'status' => 'success',
+            'data' => new DimensionResource($dimension)
+        ]);
     }
 
     /**
      * Display the specified Dimension.
-     * GET|HEAD /dimensions/{id}
+     * GET|HEAD /dimensions/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($id)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
 
         if (empty($dimension)) {
-            return $this->sendError('Product Dimension not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        return response(new DimensionResource($dimension));
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new DimensionResource($dimension)
+        ]);
     }
 
     /**
      * Update the specified Dimension in storage.
-     * PUT/PATCH /dimensions/{id}
+     * PUT/PATCH /dimensions/{$id}
      *
-     * @param int $id
-     * @param UpdateDimensionAPIRequest $request
+     * @param $id
+     * @param \App\Http\Requests\UpdateDimensionRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($id, UpdateDimensionAPIRequest $request)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
 
         if (empty($dimension)) {
-            return $this->sendError('Product Dimension not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
-        $dimension->fill($request->all());
-        $dimension->save();
+        $dimension->update($request->validated());
 
-        return response()->json(new DimensionResource($dimension));
+        return response()->json([
+            'message' => 'Successfully updated',
+            'status' => 'success',
+            'data' => new DimensionResource($dimension)
+        ]);
     }
 
     /**
      * Remove the specified Dimension from storage.
-     * DELETE /dimensions/{id}
+     * DELETE /dimensions/{$id}
      *
-     * @param int $id
+     * @param $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($id)
     {
-        /** @var Dimension $dimension */
         $dimension = Dimension::find($id);
 
         if (empty($dimension)) {
-            return $this->sendError('Product Dimension not found');
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
         }
 
         $dimension->delete();
 
-        return response()->json('Product Dimension deleted successfully');
+        return response()->json([
+            'message' => 'Successfully deleted',
+            'status' => 'success'
+        ]);
     }
 }

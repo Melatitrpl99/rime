@@ -32,6 +32,7 @@ class Product extends Model
     public $table = 'products';
 
     protected $dates = ['deleted_at'];
+    protected $with = ['category'];
 
     public $fillable = [
         'nama',
