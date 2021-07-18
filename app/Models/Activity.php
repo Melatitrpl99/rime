@@ -58,6 +58,9 @@ class Activity extends Model
 
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function loggable()
     {
         return $this->morphTo();

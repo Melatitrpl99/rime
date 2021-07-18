@@ -212,7 +212,7 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('laba_rugi.index') }}" class="nav-link {{ Request::is('labarugi*') ? 'active' : '' }}">
+    <a href="{{ route('admin.laba_rugi.index') }}" class="nav-link {{ Request::is('laba_rugi*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file-invoice"></i>
         <p>
             Laba Rugi

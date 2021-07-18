@@ -14,7 +14,9 @@
             <tr>
                 <td>{{ $productStock->product->nama }}</td>
                 <td>{{ $productStock->color->name }}</td>
-                <td>{{ optional($productStock->size)->name ?? optional($productStock->dimension)->name ?? '' }}</td>
+                <td>{{ optional($productStock->size)->name }} /
+                    {{ optional($productStock->dimension)->name }}
+                </td>
                 <td>{{ $productStock->stok_ready }}</td>
                 <td>{{ $productStock->updated_at->format('d F Y H:m:s') }}</td>
                 <td width="120">

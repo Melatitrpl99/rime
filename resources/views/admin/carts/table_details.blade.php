@@ -11,24 +11,24 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($cartDetails as $cartDetail)
+        @foreach($cart->products as $detail)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $cartDetail->product->nama }}</td>
-                <td>{{ $cartDetail->color->name }}</td>
-                <td>{{ optional($cartDetail->size)->name }} / {{ optional($cartDetail->dimension)->name }}</td>
+                <td>{{ $detail->nama }}</td>
+                <td>{{ $detail->pivot->color->name }}</td>
+                <td>{{ optional($detail->pivot->size)->name }} / {{ optional($detail->pivot->dimension)->name }}</td>
                 <td class="d-flex justify-content-between align-items-baseline">
                     <span>Rp.</span>
                     <span>
                     {{ $cart->user->hasRole('reseller')
-                        ? number_format($cartDetail->product->harga_reseller, 2, ',', '.')
-                        : number_format($cartDetail->product->harga_customer, 2, ',', '.') }}
+                        ? number_format($detail->harga_reseller, 2, ',', '.')
+                        : number_format($detail->harga_customer, 2, ',', '.') }}
                     </span>
                 </td>
-                <td class="text-center">x{{ $cartDetail->jumlah }}</td>
+                <td class="text-center">x{{ $detail->pivot->jumlah }}</td>
                 <td class="d-flex justify-content-between align-items-baseline">
                     <span>Rp.</span>
-                    <span>{{ number_format($cartDetail->sub_total, 2, ',', '.') }}</span>
+                    <span>{{ number_format($detail->pivot->sub_total, 2, ',', '.') }}</span>
                 </td>
             </tr>
         @endforeach

@@ -58,8 +58,13 @@ class File extends Model
      * @var array
      */
     public static $rules = [
-        'path' => 'nullable',
-        'url' => 'nullable'
+        'name' => 'string',
+        'fileable' => 'nullable',
+        'mime_type' => 'nullable|string',
+        'format' => 'string',
+        'size' => 'string',
+        'path' => 'string',
+        'url' => 'string'
     ];
 
     /**

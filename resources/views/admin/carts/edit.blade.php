@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::model([$cart, 'route' => ['admin.carts.update', $cart], 'method' => 'PUT', 'class' => 'm-0']) !!}
+                        {!! Form::model($cart, ['route' => ['admin.carts.update', $cart], 'method' => 'PUT', 'class' => 'm-0']) !!}
                         <div class="card-body">
                             <div class="row">
                                 @include('admin.carts.fields')

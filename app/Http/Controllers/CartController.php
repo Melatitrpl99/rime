@@ -6,6 +6,8 @@ use App\Http\Requests\CreateCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\CartDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 /**
@@ -23,7 +25,7 @@ class CartController extends Controller
      */
     public function index(Request $request)
     {
-        $carts = Cart::paginate(15);
+        $carts = Cart::with('user')->paginate(15);
 
         return view('admin.carts.index')
             ->with('carts', $carts);
@@ -48,7 +50,25 @@ class CartController extends Controller
      */
     public function store(CreateCartRequest $request)
     {
-        $cart = Cart::create($request->validated());
+        $faker = \Faker\Factory::create();
+        $input = collect($request->validated());
+        $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
+        $input->put('nomor', $nomor);
+
+        // dd($request->all());
+        $cart = Cart::create($input->toArray());
+
+        if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
+            foreach($request->product_id as $key => $product) {
+                $cart->products()->attach($product, [
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah' => $request->jumlah[$key],
+                    'sub_total' => $request->sub_total[$key]
+                ]);
+            }
+        }
 
         flash('Cart saved successfully.', 'success');
 
@@ -64,7 +84,7 @@ class CartController extends Controller
      */
     public function show($id)
     {
-        $cart = Cart::find($id);
+        $cart = Cart::with(['user', 'products.pivot.color', 'products.pivot.dimension', 'products.pivot.size'])->find($id);
 
         if (empty($cart)) {
             flash('Cart not found', 'error');
@@ -85,7 +105,7 @@ class CartController extends Controller
      */
     public function edit($id)
     {
-        $cart = Cart::find($id);
+        $cart = Cart::with(['user', 'products.pivot.color', 'products.pivot.dimension', 'products.pivot.size'])->find($id);
         if (empty($cart)) {
             flash('Cart not found', 'error');
 
@@ -114,7 +134,20 @@ class CartController extends Controller
             return redirect()->route('admin.carts.index');
         }
 
+        $cart->products()->detach();
         $cart->update($request->validated());
+
+        if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
+            foreach($request->product_id as $key => $product) {
+                $cart->products()->attach($product, [
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah' => $request->jumlah[$key],
+                    'sub_total' => $request->sub_total[$key]
+                ]);
+            }
+        }
 
         flash('Cart updated successfully.', 'success');
 
@@ -138,6 +171,7 @@ class CartController extends Controller
             return redirect()->route('admin.carts.index');
         }
 
+        $cart->products()->detach();
         $cart->delete();
 
         flash('Cart deleted successfully.', 'success');

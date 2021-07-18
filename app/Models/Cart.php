@@ -53,7 +53,6 @@ class Cart extends Model
      * @var array
      */
     public static $rules = [
-        'nomor' => 'required|max:8',
         'judul' => 'required',
         'total' => 'nullable|numeric',
         'deskripsi' => 'nullable',

@@ -15,7 +15,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DimensionController;
-use App\Http\Controllers\Misc\UploadController;
+use App\Http\Controllers\Misc\FilepondController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\ReportController;
@@ -56,7 +56,8 @@ Route::post('import', [ExcelController::class, 'import'])->name('import');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('labarugi', LabaRugiController::class)->names('laba_rugi');
+    Route::post('upload', [FilepondController::class, 'store'])->name('file.store');
+    Route::delete('revert', [FilepondController::class, 'destroy'])->name('file.destroy');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('activities', ActivityController::class);
@@ -81,6 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('transactions', TransactionController::class);
         Route::resource('users', UserController::class);
 
-        Route::post('upload', UploadController::class);
+        Route::resource('laba_rugi', LabaRugiController::class)
+            ->parameters(['laba_rugi' => 'laba_rugis'])
+            ->names('laba_rugi');
     });
 });

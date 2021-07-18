@@ -35,6 +35,12 @@ class DiscountDetail extends Pivot
         'maksimal_produk'
     ];
 
+    public static $pivotColumns = [
+        'diskon_harga',
+        'minimal_produk',
+        'maksimal_produk'
+    ];
+
     /**
      * The attributes that should be casted to native types.
      *

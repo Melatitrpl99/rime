@@ -14,6 +14,13 @@ use Illuminate\Http\Request;
  */
 class ProductStockController extends Controller
 {
+    private $with = [
+        'product:id,nama',
+        'color:id,name',
+        'dimension:id,name',
+        'size:id,name'
+    ];
+
     /**
      * Display a listing of the ProductStock.
      *
@@ -23,7 +30,7 @@ class ProductStockController extends Controller
      */
     public function index(Request $request)
     {
-        $productStocks = ProductStock::paginate(15);
+        $productStocks = ProductStock::with($this->with)->paginate(15);
 
         return view('admin.product_stocks.index')
             ->with('productStocks', $productStocks);
@@ -64,7 +71,7 @@ class ProductStockController extends Controller
      */
     public function show($id)
     {
-        $productStock = ProductStock::find($id);
+        $productStock = ProductStock::with($this->with)->find($id);
 
         if (empty($productStock)) {
             flash('Product Stock not found', 'error');

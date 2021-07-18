@@ -25,6 +25,14 @@ class CreateCartRequest extends FormRequest
      */
     public function rules()
     {
+        $cartDetail = [
+            'product_id' => 'required|array:product_id',
+            'color_id' => 'required|array:color_id',
+            'size_id' => 'exclude_unless:dimension_id,null|array',
+            'dimension_id' => 'exlucde_unless:size_id,null|array',
+            'jumlah' => 'required|array|numeric',
+            'sub_total' => 'nullable|integer'
+        ];
         return Cart::$rules;
     }
 }

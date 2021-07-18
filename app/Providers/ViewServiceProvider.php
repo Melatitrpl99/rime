@@ -60,12 +60,24 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('colorItems', $colorItems)
                 ->with('dimensionItems', $dimensionItems)
                 ->with('sizeItems', $sizeItems);
-        });
+            });
 
         view()->composer('admin.carts.fields', function ($view) {
             $userItems = User::pluck('name','id')->toArray();
+            $productItems = Product::pluck('nama','id')->toArray();
+            $priceCustomer = Product::pluck('harga_customer', 'id')->toJson();
+            $priceReseller = Product::pluck('harga_reseller', 'id')->toJson();
+            $colorItems = Color::pluck('name','id')->toArray();
+            $dimensionItems = Dimension::pluck('name','id')->toArray();
+            $sizeItems = Size::pluck('name','id')->toArray();
 
-            $view->with('userItems', $userItems);
+            $view->with('userItems', $userItems)
+                ->with('priceCustomer', $priceCustomer)
+                ->with('priceReseller', $priceReseller)
+                ->with('productItems', $productItems)
+                ->with('colorItems', $colorItems)
+                ->with('dimensionItems', $dimensionItems)
+                ->with('sizeItems', $sizeItems);
         });
 
         view()->composer('admin.discount_details.fields', function ($view) {

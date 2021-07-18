@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use AjCastro\EagerLoadPivotRelations\EagerLoadPivotTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,7 +28,7 @@ use Symfony\Contracts\Service\Attribute\Required;
  */
 class Product extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, EagerLoadPivotTrait;
 
     public $table = 'products';
 
@@ -86,7 +87,9 @@ class Product extends Model
      **/
     public function carts()
     {
-        return $this->belongsToMany(Cart::class, 'cart_details');
+        return $this->belongsToMany(Cart::class, 'cart_details')
+            ->withPivot(CartDetail::$pivotColumns)
+            ->using(CartDetail::class);
     }
 
     /**
@@ -94,7 +97,9 @@ class Product extends Model
      **/
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'order_details');
+        return $this->belongsToMany(Order::class, 'order_details')
+            ->withPivot(OrderDetail::$pivotColumns)
+            ->using(OrderDetail::class);
     }
 
     /**
@@ -102,7 +107,9 @@ class Product extends Model
      **/
     public function discounts()
     {
-        return $this->belongsToMany(Discount::class, 'discount_details');
+        return $this->belongsToMany(Discount::class, 'discount_details')
+            ->withPivot(DiscountDetail::$pivotColumns)
+            ->using(DiscountDetail::class);
     }
 
     /**

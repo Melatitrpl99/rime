@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
-use App\Models\File;
 use App\Models\Product;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
+
 
 /**
  * Class ProductController
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
  */
 class ProductController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the Product.
      *
@@ -49,28 +51,12 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $input = $request->all();
-        $product = Product::create($input);
-        if($request->has('path')){
-            // dd($request);
-            $files=$request->file('path');
-        foreach($files as $file){
-            $nama=new File();
-            $nama->fill([
-        'name'=> $request->nama,
-        'mime_type' =>$file->getMimeType(),
-        'format' => $file->getClientOriginalExtension(),
-        'size' =>$file->getSize(),
-        'path' =>$file->getClientOriginalName().'.'.$file->getClientOriginalExtension(),
-
-            ]);
-            $file->store($request->nama);
-            $nama->fileable()->associate($product);
-            $nama->save();
-        }
+        $product = Product::create($request->validated());
+        if ($request->has('path')) {
+            $this->upload($request->input('path'), $request->nama, 'product', $product);
         }
 
-        /** @var Product $product */
+        flash('Product saved successfully', 'success');
 
         return redirect()->route('admin.products.index');
     }
