@@ -25,7 +25,7 @@
 
     $('input.fileupload').filepond({
         server: {
-            url: '{{ route('file.store') }}',
+            url: '{{ route("file.store") }}',
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
         },
         allowMultiple: true,
