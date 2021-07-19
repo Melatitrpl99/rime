@@ -18,7 +18,7 @@ class OrdersSeeder extends Seeder
     public function run()
     {
         Order::factory()
-            ->count(rand(50, 250))
+            ->count(rand(50, 500))
             ->has(Shipment::factory())
             ->create()
             ->each(function ($order) {
@@ -27,7 +27,7 @@ class OrdersSeeder extends Seeder
                     ->get();
 
                 foreach($products as $product) {
-                    $jumlah = rand(1, 50);
+                    $jumlah = rand(1, 10);
                     $order->products()->attach($product, array_merge(
                         OrderDetail::factory()->make()->toArray(),
                         ['jumlah' => $jumlah, 'sub_total' => $product->harga_customer * $jumlah]

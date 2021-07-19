@@ -109,30 +109,30 @@
                     </div>
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-3 col-6">
+                            <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="description-block border-right">
-                                    <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                                    <span class="d-none d-sm-inline description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
                                     <h5 class="description-header">Rp. 12.078.500,00</h5>
                                     <span class="description-text">Pemasukan</span>
                                 </div>
                             </div>
-                            <div class="col-sm-3 col-6">
+                            <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="description-block border-right">
-                                    <span class="description-percentage text-warning"><i class="fas fa-caret-up"></i> 1%</span>
+                                    <span class="d-none d-sm-inline description-percentage text-warning"><i class="fas fa-caret-up"></i> 1%</span>
                                     <h5 class="description-header">Rp. 5.675.000,00</h5>
                                     <span class="description-text">Pengeluaran</span>
                                 </div>
                             </div>
-                            <div class="col-sm-3 col-6">
+                            <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="description-block border-right">
-                                    <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                                    <span class="d-none d-sm-inline description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
                                     <h5 class="description-header">Rp. {{ number_format(12078500 - 5675000, 2, ',', '.') }}</h5>
                                     <span class="description-text">Profit</span>
                                 </div>
                             </div>
-                            <div class="col-sm-3 col-6">
+                            <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="description-block">
-                                    <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                                    <span class="d-none d-sm-inline description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
                                     <h5 class="description-header">1200</h5>
                                     <span class="description-text">GOAL COMPLETIONS</span>
                                 </div>
@@ -177,8 +177,8 @@
                         </table>
                     </div>
                     <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="d-block my-auto text-secondary">
+                        <div class="d-flex justify-content-center justify-content-md-between align-items-center">
+                            <span class="d-none d-md-block my-auto text-secondary">
                                 Menampilkan 8 dari 155 order
                             </span>
                             <a href="{{ route('admin.orders.index') }}" class="btn btn-primary btn-sm my-auto">

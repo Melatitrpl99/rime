@@ -21,7 +21,7 @@ class DimensionFactory extends Factory
      */
     public function definition()
     {
-        $dimension = $this->faker->randomNumber(3, true);
+        $dimension = $this->faker->randomNumber(3, false);
         return [
             'name' => $dimension . ' cm x ' . $dimension . ' cm',
         ];

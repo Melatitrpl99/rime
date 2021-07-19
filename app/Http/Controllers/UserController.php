@@ -6,9 +6,6 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
-use Hash;
 use App\Models\User;
 class UserController extends Controller
 {
@@ -17,21 +14,19 @@ class UserController extends Controller
      *
      * @param Request $request
      *
-     * @return Response
+     * @return \Illuminate\Http\Response|\Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        /** @var User $users */
         $users = User::paginate();
 
-        return view('admin.users.index')
-            ->with('users', $users);
+        return view('admin.users.index')->with('users', $users);
     }
 
     /**
      * Show the form for creating a new User.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\View
      */
     public function create()
     {
@@ -41,19 +36,19 @@ class UserController extends Controller
     /**
      * Store a newly created User in storage.
      *
-     * @param CreateUserRequest $request
+     * @param \App\Http\Requests\CreateUserRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function store(CreateUserRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        Flash::success('User saved successfully.');
+        flash('User saved successfully', 'success');
 
-        return redirect(route('admin.users.index'));
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -61,17 +56,16 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return \Illuminate\Http\Response|\Illuminate\Support\Facades\View
      */
     public function show($id)
     {
-        /** @var User $user */
         $user = User::find($id);
 
         if (empty($user)) {
-            Flash::error('User not found');
+            flash('User not found', 'error');
 
-            return redirect(route('admin.users.index'));
+            return redirect()->route('admin.users.index');
         }
 
         return view('admin.users.show')->with('user', $user);
@@ -82,17 +76,16 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return \Illuminate\Http\Response|\Illuminate\Support\Facades\View
      */
     public function edit($id)
     {
-        /** @var User $user */
         $user = User::find($id);
 
         if (empty($user)) {
-            Flash::error('User not found');
+            flash('User not found', 'error');
 
-            return redirect(route('admin.users.index'));
+            return redirect()->route('admin.users.index');
         }
 
         return view('admin.users.edit')->with('user', $user);
@@ -102,32 +95,30 @@ class UserController extends Controller
      * Update the specified User in storage.
      *
      * @param int $id
-     * @param UpdateUserRequest $request
+     * @param \App\Http\Requests\UpdateUserRequest $request
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update($id, UpdateUserRequest $request)
     {
-        /** @var User $user */
         $user = User::find($id);
 
         if (empty($user)) {
-            Flash::error('User not found');
+            flash('User not found', 'error');
 
-            return redirect(route('admin.users.index'));
+            return redirect()->route('admin.users.index');
         }
-        $input =  $request->all();
-        if (!empty($input['password'])) {
-            $input['password'] = Hash::make($input['password']);
-        } else {
-            unset($input['password']);
-        }
-        $user->fill($input);
-        $user->save();
 
-        Flash::success('User updated successfully.');
+        $input = $request->validated();
+        $input['password'] = (!empty($input['password'])
+            ? bcrypt($input['password'])
+            : unset($input['password']);
 
-        return redirect(route('admin.users.index'));
+        $user->update($input);
+
+        flash('User updated successfully', 'success');
+
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -135,25 +126,22 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @throws \Exception
-     *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        /** @var User $user */
         $user = User::find($id);
 
         if (empty($user)) {
-            Flash::error('User not found');
+            flash('User not found', 'error');
 
-            return redirect(route('admin.users.index'));
+            return redirect()->route('admin.users.index');
         }
 
         $user->delete();
 
-        Flash::success('User deleted successfully.');
+        flash('User deleted successfully', 'success');
 
-        return redirect(route('admin.users.index'));
+        return redirect()->route('admin.users.index');
     }
 }

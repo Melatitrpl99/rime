@@ -12,8 +12,8 @@
     @foreach($carts as $cart)
         <tr>
             <td>{{ $cart->nomor }}</td>
-            <td>{{ $cart->judul }}</td>
-            <td>Rp. {{ number_format($cart->total, 2, ',', '.') }}</td>
+            <td><span class="d-inline-block text-truncate">{{ $cart->judul }}</span></td>
+            <td><span class="d-inline block text-truncate">Rp. {{ number_format($cart->total, 2, ',', '.') }}</span></td>
             <td>{{ $cart->user->name }}</td>
             <td width="120">
                 {!! Form::open(['route' => ['admin.carts.destroy', $cart], 'method' => 'delete', 'class' => 'm-0']) !!}
