@@ -61,7 +61,7 @@ class Order extends Model
      * @var array
      */
     public static $rules = [
-        'nomor' => 'required|max:16',
+        'nomor' => 'nullable|max:16',
         'pesan' => 'nullable',
         'total' => 'nullable|numeric',
         'diskon' => 'nullable|numeric',
