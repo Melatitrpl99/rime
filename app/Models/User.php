@@ -54,16 +54,16 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     public static $rules = [
-        'name'          => 'required|string',
-        'email'         => 'required|email|unique:users',
-        'password'      => ['required', Password::min(8)->mixedCase()->numbers()],
-        'nama_lengkap'  => 'nullable',
-        'jenis_kelamin' => 'nullable',
-        'tempat_lahir'  => 'nullable',
-        'tgl_lahir'     => 'nullable|date',
-        'alamat'        => 'nullable',
-        'no_hp'         => 'nullable|starts_with:+62',
-        'no_wa'         => 'nullable|starts_with:+62'
+        'name'          => ['required', 'string'],
+        'email'         => ['required', 'email', 'unique:users'],
+        // 'password'      => ['required', Password::min(8)->mixedCase()->numbers()],
+        // 'nama_lengkap'  => ['nullable'],
+        // 'jenis_kelamin' => ['nullable'],
+        // 'tempat_lahir'  => ['nullable'],
+        // 'tgl_lahir'     => ['nullable', 'date'],
+        // 'alamat'        => ['nullable'],
+        // 'no_hp'         => ['nullable', 'starts_with:0'],
+        // 'no_wa'         => ['nullable', 'starts_with:0']
     ];
 
     /**
@@ -128,7 +128,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Cart::class);
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -60,14 +61,15 @@ class CartController extends Controller
 
         if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
             $products = Product::whereIn('id', $request->product_id)->get();
-            $role = auth()->user()->hasRole('reseller');
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+            // dd($role ? 'asdf' : 'zonkers');
             foreach($request->product_id as $key => $productId) {
                 $cart->products()->attach($productId, [
                     'color_id' => $request->color_id[$key],
                     'size_id' => $request->size_id[$key],
                     'dimension_id' => $request->dimension_id[$key],
                     'jumlah' => $request->jumlah[$key],
-                    'sub_total' => $role ? $products[$key]->harga_reseller : $products[$key]->harga_customer
+                    'sub_total' => $role ? $products[$key]->harga_reseller * $request->jumlah[$key] : $products[$key]->harga_customer * $request->jumlah[$key]
                 ]);
             }
         }
@@ -140,13 +142,15 @@ class CartController extends Controller
         $cart->update($request->validated());
 
         if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
-            foreach($request->product_id as $key => $product) {
-                $cart->products()->attach($product, [
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+            foreach($request->product_id as $key => $productId) {
+                $cart->products()->attach($productId, [
                     'color_id' => $request->color_id[$key],
                     'size_id' => $request->size_id[$key],
                     'dimension_id' => $request->dimension_id[$key],
                     'jumlah' => $request->jumlah[$key],
-                    'sub_total' => $request->sub_total[$key]
+                    'sub_total' => $role ? $products[$key]->harga_reseller * $request->jumlah[$key] : $products[$key]->harga_customer * $request->jumlah[$key]
                 ]);
             }
         }

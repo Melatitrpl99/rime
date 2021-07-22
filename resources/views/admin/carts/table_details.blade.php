@@ -11,6 +11,7 @@
         </tr>
     </thead>
     <tbody>
+        {{-- {{ dd($cart->user->hasRole('reseller')) }} --}}
         @foreach($cart->products as $detail)
             <tr>
                 <td>{{ $loop->iteration }}</td>

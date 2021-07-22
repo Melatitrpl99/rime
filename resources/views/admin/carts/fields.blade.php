@@ -41,14 +41,14 @@
         <tbody id="form-body-recursive">
             @if (Route::currentRouteName() == 'admin.carts.edit')
                 @foreach ($cart->products as $product)
-                    <tr id="{{ $loop->iteration }}">
+                    <tr>
                         <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
                         </td>
-                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateSubTotalProduct(this)']) !!}</td>
+                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
                         <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select']) !!}</td>
                         <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->size_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'oninput' => 'updateSubTotalJumlah(this)']) !!}</td>
+                        <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select']) !!}</td>
+                        <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'oninput' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
                         <td>
                             {!! Form::hidden('sub_total[]', $product->pivot->sub_total) !!}
                             {!! Form::text('subtotal[]', 'Rp '.number_format($product->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
@@ -90,8 +90,7 @@
     }
 
     function addRow() {
-        data++;
-        return `<tr id="row-${data}">
+        return `<tr>
                 <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
                 </td>
                 <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
@@ -114,6 +113,19 @@
         var checkbox = $('input:checked[name=row_product]');
         var parent = checkbox.parent().parent();
         parent.remove();
+    });
+
+    $('select#user_id').on('change', function () {
+        var forms = document.querySelector('#form-body-recursive');
+        var rows = forms.getElementsByTagName('tr');
+
+        var subs = 0;
+        for (let element of rows) {
+            updateJumlah(element.children[5].children[0]);
+            updateProduct(element.children[1].children[0]);
+        }
+
+        updateTotal();
     });
 
     function updateJumlah(el) {
