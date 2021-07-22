@@ -59,13 +59,15 @@ class CartController extends Controller
         $cart = Cart::create($input->toArray());
 
         if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
-            foreach($request->product_id as $key => $product) {
-                $cart->products()->attach($product, [
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = auth()->user()->hasRole('reseller');
+            foreach($request->product_id as $key => $productId) {
+                $cart->products()->attach($productId, [
                     'color_id' => $request->color_id[$key],
                     'size_id' => $request->size_id[$key],
                     'dimension_id' => $request->dimension_id[$key],
                     'jumlah' => $request->jumlah[$key],
-                    'sub_total' => $request->sub_total[$key]
+                    'sub_total' => $role ? $products[$key]->harga_reseller : $products[$key]->harga_customer
                 ]);
             }
         }

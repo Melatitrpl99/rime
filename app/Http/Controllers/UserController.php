@@ -110,9 +110,9 @@ class UserController extends Controller
         }
 
         $input = $request->validated();
-        $input['password'] = (!empty($input['password'])
+        $input['password'] = (!empty($input['password']))
             ? bcrypt($input['password'])
-            : unset($input['password']);
+            : null;
 
         $user->update($input);
 

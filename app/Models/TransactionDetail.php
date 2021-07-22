@@ -23,8 +23,6 @@ class TransactionDetail extends Pivot
 
     public $table = 'transaction_details';
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'sub_total'
     ];

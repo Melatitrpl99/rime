@@ -48,54 +48,36 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('admin.cart_details.fields', function ($view) {
-            $cartItems = Cart::pluck('nomor', 'id')->toArray();
-            $productItems = Product::pluck('nama','id')->toArray();
-            $colorItems = Color::pluck('name','id')->toArray();
-            $dimensionItems = Dimension::pluck('name','id')->toArray();
-            $sizeItems = Size::pluck('name','id')->toArray();
-
-            $view->with('cartItems', $cartItems)
-                ->with('productItems', $productItems)
-                ->with('colorItems', $colorItems)
-                ->with('dimensionItems', $dimensionItems)
-                ->with('sizeItems', $sizeItems);
-            });
-
         view()->composer('admin.carts.fields', function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $productItems = Product::pluck('nama','id')->toArray();
-            $priceCustomer = Product::pluck('harga_customer', 'id')->toJson();
-            $priceReseller = Product::pluck('harga_reseller', 'id')->toJson();
+            $users = User::with('roles')->get();
+            $products = Product::all();
+
+            $maps = $users->map(function ($item, $key) {
+                return [$item->id, (string) optional($item->roles->first())->name];
+            })->flatten()->toArray();
+
+            $ids = array_values(array_filter($maps, function ($v, $k) {
+                return $k % 2 == 0;
+            }, ARRAY_FILTER_USE_BOTH));
+
+            $roles = array_values(array_filter($maps, function ($v, $k) {
+                return $k % 2 != 0;
+            }, ARRAY_FILTER_USE_BOTH));
+
+            $userRoles = collect(array_combine($ids, $roles))->toJson();
+
+            $userItems = $users->pluck('name','id')->toArray();
+            $priceCustomer = $products->pluck('harga_customer', 'id')->toJson();
+            $priceReseller = $products->pluck('harga_reseller', 'id')->toJson();
+            $productItems = $products->pluck('nama','id')->toArray();
             $colorItems = Color::pluck('name','id')->toArray();
             $dimensionItems = Dimension::pluck('name','id')->toArray();
             $sizeItems = Size::pluck('name','id')->toArray();
 
             $view->with('userItems', $userItems)
+                ->with('userRoles', $userRoles)
                 ->with('priceCustomer', $priceCustomer)
                 ->with('priceReseller', $priceReseller)
-                ->with('productItems', $productItems)
-                ->with('colorItems', $colorItems)
-                ->with('dimensionItems', $dimensionItems)
-                ->with('sizeItems', $sizeItems);
-        });
-
-        view()->composer('admin.discount_details.fields', function ($view) {
-            $discountItems = Discount::pluck('judul', 'id')->toArray();
-            $productItems = Product::pluck('nama','id')->toArray();
-
-            $view->with('discountItems', $discountItems)
-                ->with('productItems', $productItems);
-        });
-
-        view()->composer('admin.order_details.fields', function ($view) {
-            $orderItems = Order::pluck('nomor', 'id')->toArray();
-            $productItems = Product::pluck('nama','id')->toArray();
-            $colorItems = Color::pluck('name','id')->toArray();
-            $dimensionItems = Dimension::pluck('name','id')->toArray();
-            $sizeItems = Size::pluck('name','id')->toArray();
-
-            $view->with('orderItems', $orderItems)
                 ->with('productItems', $productItems)
                 ->with('colorItems', $colorItems)
                 ->with('dimensionItems', $dimensionItems)
@@ -154,14 +136,6 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('regencyItems', $regencyItems)
                 ->with('districtItems', $districtItems)
                 ->with('villageItems', $villageItems);
-        });
-
-        view()->composer('admin.transaction_details.fields', function ($view) {
-            $orderItems = Order::pluck('nomor', 'id')->toArray();
-            $transactionItems = Transaction::pluck('nomor', 'id')->toArray();
-
-            $view->with('orderItems', $orderItems)
-                ->with('transactionItems', $transactionItems);
         });
 
         view()->composer('admin.transactions.fields', function ($view) {

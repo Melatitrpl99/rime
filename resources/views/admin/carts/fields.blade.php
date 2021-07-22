@@ -7,7 +7,7 @@
 <!-- User Id Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('user_id', 'User:') !!}
-    {!! Form::select('user_id', $userItems, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::select('user_id', $userItems, null, ['class' => 'form-control custom-select', 'onchange' => 'userRoles(this.value)']) !!}
 </div>
 
 <!-- Deskripsi Field -->
@@ -72,10 +72,10 @@
 
 @push('scripts')
 <script>
-    // var doc = document.getElementById('form-body-recursive');
-    //
 
     var data = 0;
+
+    var role = "";
 
     function priceCustomer(productId) {
         return {!! $priceCustomer !!}[productId];
@@ -85,16 +85,20 @@
         return {!! $priceReseller !!}[productId];
     }
 
+    function userRoles(userId) {
+        role = {!! $userRoles !!}[userId];
+    }
+
     function addRow() {
         data++;
         return `<tr id="row-${data}">
                 <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
                 </td>
-                <td>{!! Form::select('product_id[]', $productItems, null, ['class' => 'form-control custom-select', 'onchange' => 'updateSubTotalProduct(this)']) !!}</td>
+                <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
                 <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
                 <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
                 <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::number('jumlah[]', null, ['class' => 'form-control', 'oninput' => 'updateSubTotalJumlah(this)']) !!}</td>
+                <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'oninput' => 'updateJumlah(this)']) !!}</td>
                 <td>
                     {!! Form::hidden('sub_total[]', null) !!}
                     {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
@@ -112,28 +116,36 @@
         parent.remove();
     });
 
-    function updateSubTotalJumlah(el) {
+    function updateJumlah(el) {
+        if (el.value < 1) {
+            el.value = 1;
+        }
+
         let td = el.parentElement;
         let tr = td.parentElement;
 
         let product = tr.children[1].children[0];
 
         let subTotal = tr.lastElementChild.children;
-        subTotal[0].value = el.value * priceCustomer(product.value);
+
+        subTotal[0].value = role == "reseller" ? el.value * priceReseller(product.value) : el.value * priceCustomer(product.value);
         subTotal[1].value = convertNumber(subTotal[0].value);
 
         updateTotal();
     }
 
-    function updateSubTotalProduct(el) {
+    function updateProduct(el) {
         let td = el.parentElement;
         let tr = td.parentElement;
 
-        let product = tr.children[1].children[0];
+        let jumlah = tr.children[5].children[0];
 
         let subTotal = tr.lastElementChild.children;
-        subTotal[0].value = el.value * priceCustomer(product.value);
+
+        subTotal[0].value = role == "reseller" ? jumlah.value * priceReseller(el.value) : jumlah.value * priceCustomer(el.value);
         subTotal[1].value = convertNumber(subTotal[0].value);
+
+        updateTotal();
     }
 
     function updateTotal() {
