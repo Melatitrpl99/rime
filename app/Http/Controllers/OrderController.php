@@ -6,6 +6,8 @@ use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -48,7 +50,27 @@ class OrderController extends Controller
      */
     public function store(CreateOrderRequest $request)
     {
-        $order = Order::create($request->validated());
+        $faker = \Faker\Factory::create();
+        $input = collect($request->validated());
+        $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
+        $input->put('nomor',$nomor);
+
+        $order = Order::create($input->toArray());
+        if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+            // dd($role ? 'asdf' : 'zonkers');
+            foreach($request->product_id as $key => $productId) {
+                $order->products()->attach($productId, [
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah' => $request->jumlah[$key],
+                    'sub_total' => $role ? $products[$key]->harga_reseller * $request->jumlah[$key] : $products[$key]->harga_customer * $request->jumlah[$key]
+                ]);
+            }
+        }
+
 
         flash('Order saved successfully.', 'success');
 
@@ -64,7 +86,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::find($id);
+        $order = Order::with(['user', 'products.pivot.color', 'products.pivot.dimension', 'products.pivot.size'])->find($id);
 
         if (empty($order)) {
             flash('Order not found', 'error');
@@ -114,8 +136,21 @@ class OrderController extends Controller
             return redirect()->route('admin.orders.index');
         }
 
+        $order->products()->detach();
         $order->update($request->validated());
-
+        if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+            foreach($request->product_id as $key => $productId) {
+                $order->products()->attach($productId, [
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah' => $request->jumlah[$key],
+                    'sub_total' => $role ? $products[$key]->harga_reseller * $request->jumlah[$key] : $products[$key]->harga_customer * $request->jumlah[$key]
+                ]);
+            }
+        }
         flash('Order updated successfully.', 'success');
 
         return redirect()->route('admin.orders.index');
@@ -137,7 +172,7 @@ class OrderController extends Controller
 
             return redirect()->route('admin.orders.index');
         }
-
+        $order->products()->detach();
         $order->delete();
 
         flash('Order deleted successfully.', 'success');

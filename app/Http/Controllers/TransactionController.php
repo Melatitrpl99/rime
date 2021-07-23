@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -48,8 +49,21 @@ class TransactionController extends Controller
      */
     public function store(CreateTransactionRequest $request)
     {
-        $transaction = Transaction::create($request->validated());
+        $faker = \Faker\Factory::create();
+        $input = collect($request->validated());
+        $nomor = $faker->regexify('T[0-9]{2}-[A-Z0-9]{6}');
+        $input->put('nomor',$nomor);
 
+        $transaction = Transaction::create($request->validated());
+        if ($request->hasAny(['sub_total'])) {
+            $products = Product::whereIn('id', $request->product_id)->get();
+            // dd($role ? 'asdf' : 'zonkers');
+            foreach($request->product_id as $key => $productId) {
+                $transaction->products()->attach($productId, [
+                'sub_total' => $request->sub_total[$key],
+                ]);
+            }
+        }
         flash('Transaction saved successfully.', 'success');
 
         return redirect()->route('admin.transactions.index');
@@ -113,8 +127,17 @@ class TransactionController extends Controller
 
             return redirect()->route('admin.transactions.index');
         }
-
+        $transaction->products()->detach();
         $transaction->update($request->validated());
+        if ($request->hasAny(['sub_total'])) {
+            $products = Product::whereIn('id', $request->product_id)->get();
+            // dd($role ? 'asdf' : 'zonkers');
+            foreach($request->product_id as $key => $productId) {
+                $transaction->products()->attach($productId, [
+                'sub_total' => $request->sub_total[$key],
+                ]);
+            }
+        }
 
         flash('Transaction updated successfully.', 'success');
 
@@ -137,7 +160,7 @@ class TransactionController extends Controller
 
             return redirect()->route('admin.transactions.index');
         }
-
+        $transaction->products()->detach();
         $transaction->delete();
 
         flash('Transaction deleted successfully.', 'success');

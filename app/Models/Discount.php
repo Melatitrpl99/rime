@@ -61,7 +61,7 @@ class Discount extends Model
     public static $rules = [
         'judul' => 'required',
         'deskripsi' => 'nullable',
-        'kode' => 'required|unique:discunts',
+        'kode' => 'required|unique:discounts',
         'batas_pemakaian' => 'nullable|numeric',
         'waktu_mulai' => 'nullable',
         'waktu_berakhir' => 'nullable',
