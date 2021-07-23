@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -54,16 +55,17 @@ class TransactionController extends Controller
         $nomor = $faker->regexify('T[0-9]{2}-[A-Z0-9]{6}');
         $input->put('nomor',$nomor);
 
-        $transaction = Transaction::create($request->validated());
+        $transaction = Transaction::create($input->toArray());
         if ($request->hasAny(['sub_total'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
+            $orders = Order::whereIn('id', $request->order_id)->get();
             // dd($role ? 'asdf' : 'zonkers');
-            foreach($request->product_id as $key => $productId) {
-                $transaction->products()->attach($productId, [
-                'sub_total' => $request->sub_total[$key],
+            foreach($request->order_id as $key => $orderId) {
+                $transaction->orders()->attach($orderId, [
+                    'sub_total' => $request->sub_total[$key],
                 ]);
             }
         }
+
         flash('Transaction saved successfully.', 'success');
 
         return redirect()->route('admin.transactions.index');

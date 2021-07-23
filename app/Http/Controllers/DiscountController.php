@@ -58,12 +58,11 @@ class DiscountController extends Controller
         $discount = Discount::create($input->toArray());
         if ($request->hasAny(['diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
             $products = Product::whereIn('id', $request->product_id)->get();
-            // dd($role ? 'asdf' : 'zonkers');
             foreach($request->product_id as $key => $productId) {
                 $discount->products()->attach($productId, [
-                'diskon_harga' => $request->diskon_harga[$key],
-                'minimal_produk'=> $request->minimal_produk[$key],
-                'maksimal_produk' => $request->maksimal_produk[$key],
+                    'diskon_harga' => $request->diskon_harga[$key],
+                    'minimal_produk'=> $request->minimal_produk[$key],
+                    'maksimal_produk' => $request->maksimal_produk[$key],
                 ]);
             }
         }
@@ -82,7 +81,7 @@ class DiscountController extends Controller
      */
     public function show($id)
     {
-        $discount = Discount::find($id);
+        $discount = Discount::with('product.pivot')->find($id);
 
         if (empty($discount)) {
             flash('Discount not found', 'error');
@@ -103,7 +102,7 @@ class DiscountController extends Controller
      */
     public function edit($id)
     {
-        $discount = Discount::find($id);
+        $discount = Discount::with('products.pivot')->find($id);
         if (empty($discount)) {
             flash('Discount not found', 'error');
 
@@ -131,8 +130,10 @@ class DiscountController extends Controller
 
             return redirect()->route('admin.discounts.index');
         }
+
         $discount->products()->detach();
         $discount->update($request->validated());
+
         if ($request->hasAny(['diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
             $products = Product::whereIn('id', $request->product_id)->get();
             $role = User::where('id', $request->user_id)->first()->hasRole('reseller');

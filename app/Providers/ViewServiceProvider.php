@@ -175,12 +175,21 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.transactions.fields', function ($view) {
+
+            $orders = Order::all();
+
+            $orderItems = $orders->pluck('nomor', 'id')->toArray();
+            $totalOrderItems = $orders->pluck('total', 'id')->toJson();
+            $biayaPengirimanItems = $orders->pluck('biaya_pengiriman', 'id')->toJson();
+            $diskonItems = $orders->pluck('diskon', 'id')->toJson();
+
             $userItems = User::pluck('name','id')->toArray();
-            $orderItems = Order::pluck('nomor','id')->toArray();
 
             $view->with('userItems', $userItems);
             $view->with('orderItems', $orderItems);
-
+            $view->with('totalOrderItems', $totalOrderItems);
+            $view->with('biayaPengirimanItems', $biayaPengirimanItems);
+            $view->with('diskonItems', $diskonItems);
         });
     }
 }

@@ -56,10 +56,10 @@ class OrderController extends Controller
         $input->put('nomor',$nomor);
 
         $order = Order::create($input->toArray());
+
         if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
             $products = Product::whereIn('id', $request->product_id)->get();
             $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
-            // dd($role ? 'asdf' : 'zonkers');
             foreach($request->product_id as $key => $productId) {
                 $order->products()->attach($productId, [
                     'color_id' => $request->color_id[$key],
@@ -70,7 +70,6 @@ class OrderController extends Controller
                 ]);
             }
         }
-
 
         flash('Order saved successfully.', 'success');
 
@@ -107,7 +106,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        $order = Order::find($id);
+        $order = Order::with(['user', 'products.pivot.color', 'products.pivot.dimension', 'products.pivot.size'])->find($id);
         if (empty($order)) {
             flash('Order not found', 'error');
 
@@ -138,6 +137,7 @@ class OrderController extends Controller
 
         $order->products()->detach();
         $order->update($request->validated());
+
         if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
             $products = Product::whereIn('id', $request->product_id)->get();
             $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
@@ -151,6 +151,7 @@ class OrderController extends Controller
                 ]);
             }
         }
+
         flash('Order updated successfully.', 'success');
 
         return redirect()->route('admin.orders.index');

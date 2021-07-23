@@ -47,7 +47,7 @@ class Transaction extends Model
      * @var array
      */
     public static $rules = [
-        'nomor' => 'required|max:16',
+        'nomor' => 'nullable|max:16',
         'total' => 'required|integer',
         'user_id' => 'required'
     ];

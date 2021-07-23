@@ -1,15 +1,4 @@
 <!-- Nomor Field -->
-<div class="form-group col-12 col-sm-6">
-    {!! Form::label('nomor', 'Nomor:') !!}
-    {!! Form::text('nomor', null, ['class' => 'form-control','maxlength' => 16]) !!}
-</div>
-
-<!-- Total Field -->
-<div class="form-group col-12 col-sm-6">
-    {!! Form::label('total', 'Total:') !!}
-    {!! Form::number('total', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- User Id Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('user_id', 'User:') !!}
@@ -30,16 +19,31 @@
             <tr class="border-bottom">
                 <th>#</th>
                 <th>order</th>
-                <th>Sub Total</th>
+                <th>total order</th>
+                <th>biaya pengiriman</th>
+                <th>diskon</th>
+                <th>sub total</th>
             </tr>
         </thead>
         <tbody id="form-body-recursive">
             @if (Route::currentRouteName() == 'admin.carts.edit')
                 @foreach ($transactions->orders as $orders)
                     <tr>
-                        <td>{!! Form::checkbox('row_orders', '1', null, ['class' => 'form-control']) !!}
+                        <td>{!! Form::checkbox('row_orders', '1', null, ['class' => 'form-control']) !!}</td>
+                        <td>{!! Form::select('order_id[]', $orderItems, $order->id, ['class' => 'form-control custom-select', 'onchange' => 'updateOrder(this)']) !!}</td>
+                        <td>
+                            {!! Form::hidden('total_order[]', $orders->pivot->sub_total) !!}
+                            {!! Form::text('totalorder[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                         </td>
-                        <td>{!! Form::select('order_id[]', $orderItems, $order->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                        <td>
+                            {!! Form::hidden('biaya_pengiriman[]', $orders->pivot->sub_total) !!}
+                            {!! Form::text('biayapengiriman[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                        </td>
+                        <td>
+                            {!! Form::hidden('diskon[]', $orders->pivot->sub_total) !!}
+                            {!! Form::text('diskon[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                        </td>
+                        <td>
                             {!! Form::hidden('sub_total[]', $orders->pivot->sub_total) !!}
                             {!! Form::text('subtotal[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                         </td>
@@ -63,12 +67,23 @@
 @push('scripts')
 <script>
 
-
     function addRow() {
         return `<tr>
-                <td>{!! Form::checkbox('row_orders', '1', null, ['class' => 'form-control']) !!}
+                <td>{!! Form::checkbox('row_orders', '1', null, ['class' => 'form-control']) !!}</td>
+                <td>{!! Form::select('order_id[]', $orderItems, null, ['class' => 'form-control custom-select', 'onchange' => 'updateOrder(this)']) !!}</td>
+                <td>
+                    {!! Form::hidden('total_order[]', null) !!}
+                    {!! Form::text('totalorder[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                 </td>
-                <td>{!! Form::select('order_id[]', $orderItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                <td>
+                    {!! Form::hidden('biaya_pengiriman[]', null) !!}
+                    {!! Form::text('biayapengiriman[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                </td>
+                <td>
+                    {!! Form::hidden('diskon[]', null) !!}
+                    {!! Form::text('diskon[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                </td>
+                <td>
                     {!! Form::hidden('sub_total[]', null) !!}
                     {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                 </td>
@@ -92,40 +107,41 @@
         var subs = 0;
         for (let element of rows) {
             updateJumlah(element.children[5].children[0]);
-            updateOrders(element.children[1].children[0]);
+            updateOrder(element.children[1].children[0]);
         }
 
         updateTotal();
     });
 
-    function updateJumlah(el) {
-        if (el.value < 1) {
-            el.value = 1;
-        }
-
-        let td = el.parentElement;
-        let tr = td.parentElement;
-
-        let orders = tr.children[1].children[0];
-
-        let subTotal = tr.lastElementChild.children;
-
-        subTotal[0].value = role == "reseller" ? el.value * priceReseller(orders.value) : el.value * priceCustomer(product.value);
-        subTotal[1].value = convertNumber(subTotal[0].value);
-
-        updateTotal();
+    function totalOrder(orderId) {
+        return {!! $totalOrderItems !!}[orderId];
+    }
+    function biayaPengiriman(orderId) {
+        return {!! $biayaPengirimanItems !!}[orderId];
+    }
+    function Diskon(orderId) {
+        return {!! $diskonItems !!}[orderId];
     }
 
-    function updateOrders(el) {
+
+    function updateOrder(el) {
         let td = el.parentElement;
         let tr = td.parentElement;
+        let total_order = tr.children[2].children;
+        let biaya_pengiriman = tr.children[3].children;
+        let diskon = tr.children[4].children;
+        let sub_total = tr.children[5].children;
 
-        let jumlah = tr.children[5].children[0];
+        console.log(sub_total);
+        total_order[0].value = totalOrder(el.value);
+        total_order[1].value = convertNumber(total_order[0].value);
+        biaya_pengiriman[0].value = biayaPengiriman(el.value);
+        biaya_pengiriman[1].value = convertNumber(biaya_pengiriman[0].value);
+        diskon[0].value = Diskon(el.value);
+        diskon[1].value = convertNumber(diskon[0].value);
 
-        let subTotal = tr.lastElementChild.children;
-
-        subTotal[0].value = role == "reseller" ? jumlah.value * priceReseller(el.value) : jumlah.value * priceCustomer(el.value);
-        subTotal[1].value = convertNumber(subTotal[0].value);
+        sub_total[0].value = parseInt(total_order[0].value) + parseInt(biaya_pengiriman[0].value) - parseInt(diskon[0].value) ;
+        sub_total[1].value = convertNumber(sub_total[0].value);
 
         updateTotal();
     }
