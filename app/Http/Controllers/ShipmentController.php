@@ -23,7 +23,7 @@ class ShipmentController extends Controller
      */
     public function index(Request $request)
     {
-        $shipments = Shipment::paginate(15);
+        $shipments = Shipment::with('order:id,nomor')->paginate(15);
 
         return view('admin.shipments.index')
             ->with('shipments', $shipments);
@@ -48,7 +48,7 @@ class ShipmentController extends Controller
      */
     public function store(CreateShipmentRequest $request)
     {
-        $shipment = Shipment::create($request->validated());
+        Shipment::create($request->validated());
 
         flash('Shipment saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class ShipmentController extends Controller
     /**
      * Display the specified Shipment.
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Shipment $shipment)
     {
-        $shipment = Shipment::find($id);
-
-        if (empty($shipment)) {
-            flash('Shipment not found', 'error');
-
-            return redirect()->route('admin.shipments.index');
-        }
-
         return view('admin.shipments.show')
             ->with('shipment', $shipment);
     }
@@ -79,19 +71,12 @@ class ShipmentController extends Controller
     /**
      * Show the form for editing the specified Shipment.
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Shipment $shipment)
     {
-        $shipment = Shipment::find($id);
-        if (empty($shipment)) {
-            flash('Shipment not found', 'error');
-
-            return redirect()->route('admin.shipments.index');
-        }
-
         return view('admin.shipments.edit')
             ->with('shipment', $shipment);
     }
@@ -99,21 +84,13 @@ class ShipmentController extends Controller
     /**
      * Update the specified Shipment in storage.
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      * @param \App\Http\Requests\UpdateShipmentRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateShipmentRequest $request)
+    public function update(Shipment $shipment, UpdateShipmentRequest $request)
     {
-        $shipment = Shipment::find($id);
-
-        if (empty($shipment)) {
-            flash('Shipment not found', 'error');
-
-            return redirect()->route('admin.shipments.index');
-        }
-
         $shipment->update($request->validated());
 
         flash('Shipment updated successfully.', 'success');
@@ -124,20 +101,12 @@ class ShipmentController extends Controller
     /**
      * Remove the specified Shipment from storage.
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Shipment $shipment)
     {
-        $shipment = Shipment::find($id);
-
-        if (empty($shipment)) {
-            flash('Shipment not found', 'error');
-
-            return redirect()->route('admin.shipments.index');
-        }
-
         $shipment->delete();
 
         flash('Shipment deleted successfully.', 'success');

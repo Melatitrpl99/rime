@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->bigInteger('harga_customer');
             $table->bigInteger('harga_reseller');
             $table->integer('reseller_minimum');
+            $table->integer('suka')->nullable()->default(0);
             $table->string('slug')->nullable();
             $table->foreignId('category_id')->constrained();
             $table->timestamps();

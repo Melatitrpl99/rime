@@ -39,9 +39,22 @@ class CategoriesSeeder extends Seeder
             ['name' => 'XS', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        Dimension::factory(10)->create();
-        Color::factory(50)->create();
-        Category::factory(15)->create();
-        PostCategory::factory(15)->create();
+        Dimension::insert([
+            ['name' => '140cm x 140cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '135cm x 135cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '125cm x 125cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '120cm x 120cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '110cm x 110cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '100cm x 100cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '95cm x 95cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '90cm x 90cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '80cm x 80cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '75cm x 75cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => '70cm x 70cm', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        Color::factory(10)->create();
+        Category::factory(5)->create();
+        PostCategory::factory(5)->create();
     }
 }

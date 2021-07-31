@@ -6,8 +6,6 @@ use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -25,7 +23,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = Order::paginate(15);
+        $orders = Order::with(['user:id,name', 'status:id,name'])->paginate(15);
 
         return view('admin.orders.index')
             ->with('orders', $orders);
@@ -50,26 +48,7 @@ class OrderController extends Controller
      */
     public function store(CreateOrderRequest $request)
     {
-        $faker = \Faker\Factory::create();
-        $input = collect($request->validated());
-        $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
-        $input->put('nomor',$nomor);
-
-        $order = Order::create($input->toArray());
-
-        if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
-            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
-            foreach($request->product_id as $key => $productId) {
-                $order->products()->attach($productId, [
-                    'color_id' => $request->color_id[$key],
-                    'size_id' => $request->size_id[$key],
-                    'dimension_id' => $request->dimension_id[$key],
-                    'jumlah' => $request->jumlah[$key],
-                    'sub_total' => $role ? $products[$key]->harga_reseller * $request->jumlah[$key] : $products[$key]->harga_customer * $request->jumlah[$key]
-                ]);
-            }
-        }
+        Order::create($request->validated());
 
         flash('Order saved successfully.', 'success');
 
@@ -79,20 +58,18 @@ class OrderController extends Controller
     /**
      * Display the specified Order.
      *
-     * @param $id
+     * @param \App\Models\Order $order
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        $order = Order::with(['user', 'products.pivot.color', 'products.pivot.dimension', 'products.pivot.size'])->find($id);
-
-        if (empty($order)) {
-            flash('Order not found', 'error');
-
-            return redirect()->route('admin.orders.index');
-        }
-
+        $order->load([
+            'products:id,nama,harga_customer,harga_reseller',
+            'products.pivot.color:id,name',
+            'products.pivot.dimension:id,name',
+            'products.pivot.size:id,name'
+        ]);
         return view('admin.orders.show')
             ->with('order', $order);
     }
@@ -100,19 +77,13 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified Order.
      *
-     * @param $id
+     * @param \App\Models\Order $order
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Order $order)
     {
-        $order = Order::with(['user', 'products.pivot.color', 'products.pivot.dimension', 'products.pivot.size'])->find($id);
-        if (empty($order)) {
-            flash('Order not found', 'error');
-
-            return redirect()->route('admin.orders.index');
-        }
-
+        // dd($order);
         return view('admin.orders.edit')
             ->with('order', $order);
     }
@@ -120,37 +91,14 @@ class OrderController extends Controller
     /**
      * Update the specified Order in storage.
      *
-     * @param $id
+     * @param \App\Models\Order $order
      * @param \App\Http\Requests\UpdateOrderRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateOrderRequest $request)
+    public function update(Order $order, UpdateOrderRequest $request)
     {
-        $order = Order::find($id);
-
-        if (empty($order)) {
-            flash('Order not found', 'error');
-
-            return redirect()->route('admin.orders.index');
-        }
-
-        $order->products()->detach();
         $order->update($request->validated());
-
-        if ($request->hasAny(['product_id', 'color_id', 'dimension_id', 'size_id', 'jumlah', 'sub_total'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
-            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
-            foreach($request->product_id as $key => $productId) {
-                $order->products()->attach($productId, [
-                    'color_id' => $request->color_id[$key],
-                    'size_id' => $request->size_id[$key],
-                    'dimension_id' => $request->dimension_id[$key],
-                    'jumlah' => $request->jumlah[$key],
-                    'sub_total' => $role ? $products[$key]->harga_reseller * $request->jumlah[$key] : $products[$key]->harga_customer * $request->jumlah[$key]
-                ]);
-            }
-        }
 
         flash('Order updated successfully.', 'success');
 
@@ -160,20 +108,12 @@ class OrderController extends Controller
     /**
      * Remove the specified Order from storage.
      *
-     * @param $id
+     * @param \App\Models\Order $order
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        $order = Order::find($id);
-
-        if (empty($order)) {
-            flash('Order not found', 'error');
-
-            return redirect()->route('admin.orders.index');
-        }
-        $order->products()->detach();
         $order->delete();
 
         flash('Order deleted successfully.', 'success');

@@ -3,9 +3,11 @@
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-12">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-items-center">
                 <h1>Product Stock Details</h1>
+                <a class="btn btn-danger ml-auto" href="{{ route('admin.product_stocks.edit', $productStock->id) }}"><i class="far fa-edit mr-1"></i> Update</a>
+                <a class="btn btn-info ml-2" href="{{ route('admin.product_stocks.index') }}"><i class="fas fa-angle-double-left mr-1"></i> Back</a>
             </div>
         </div>
     </div>

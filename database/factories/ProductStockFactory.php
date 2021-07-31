@@ -25,13 +25,17 @@ class ProductStockFactory extends Factory
      */
     public function definition()
     {
-        $color = Color::pluck('id')->toArray();
-        $size = Size::pluck('id')->toArray();
+        $colors = Color::pluck('id')->toArray();
+        $sizes = Size::pluck('id')->toArray();
         $dimens = Dimension::pluck('id')->toArray();
         return [
-            'color_id' => $this->faker->randomElement($color),
-            'size_id' => $this->faker->randomElement($size),
-            'dimension_id' => $this->faker->randomElement($dimens),
+            'color_id' => $this->faker->randomElement($colors),
+            'size_id' => $this->faker->optional(0.45)->randomElement($sizes),
+            'dimension_id' => function (array $attributes) use ($dimens) {
+                return $attributes['size_id'] == null
+                    ? $this->faker->randomElement($dimens)
+                    : null;
+            },
             'stok_ready' => $this->faker->numberBetween(1, 100),
         ];
     }

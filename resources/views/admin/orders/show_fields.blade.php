@@ -15,7 +15,7 @@
 
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Diskon</div>
-    <div class="col-12 col-md-9">Rp. {{ number_format($order->diskon, 2, ',', '.') }}</div>
+    <div class="col-12 col-md-9">{{ $order->kode_diskon }}</div>
 </div>
 
 <div class="form-group row">
@@ -41,8 +41,4 @@
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Updated at</div>
     <div class="col-12 col-md-9">{{ $order->updated_at->format('d F Y - H:m:s') }}</div>
-</div>
-
-<div class="row">
-    <a class="btn btn-default" href="{{ route('admin.orders.index') }}">Back</a>
 </div>

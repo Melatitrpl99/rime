@@ -4,13 +4,8 @@
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12">
                 <h1>Statuses</h1>
-            </div>
-            <div class="col-6">
-                <a class="btn btn-primary float-right" href="{{ route('admin.statuses.create') }}">
-                    Add New
-                </a>
             </div>
         </div>
     </div>

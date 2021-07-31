@@ -27,7 +27,7 @@ class DiscountFactory extends Factory
             'judul' => $judul,
             'deskripsi' => $this->faker->text(rand(100, 200)),
             'kode' => $this->faker->regexify('[A-Za-z0-9]{8}'),
-            'batas_pemakaian' => $this->faker->randomDigit(),
+            'batas_pemakaian' => $this->faker->optional(0.65)->randomDigitNotNull(),
             'waktu_mulai' => $this->faker->dateTime(),
             'waktu_berakhir' => $this->faker->dateTime(),
             'slug' => Str::slug($judul),

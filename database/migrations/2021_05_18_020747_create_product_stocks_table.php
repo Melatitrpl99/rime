@@ -18,8 +18,8 @@ class CreateProductStocksTable extends Migration
             $table->id('id');
             $table->foreignId('product_id')->constrained();
             $table->foreignId('color_id')->constrained();
-            $table->foreignId('size_id')->constrained();
-            $table->foreignId('dimension_id')->constrained();
+            $table->foreignId('size_id')->nullable()->constrained();
+            $table->foreignId('dimension_id')->nullable()->constrained();
             $table->integer('stok_ready');
             $table->timestamps();
             $table->softDeletes();

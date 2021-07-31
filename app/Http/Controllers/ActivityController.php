@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateActivityRequest;
-use App\Http\Requests\UpdateActivityRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use Illuminate\Http\Request;
@@ -42,13 +40,13 @@ class ActivityController extends Controller
     /**
      * Store a newly created Activity in storage.
      *
-     * @param \App\Http\Requests\CreateActivityRequest $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateActivityRequest $request)
+    public function store(Request $request)
     {
-        $activity = Activity::create($request->validated());
+        Activity::create($request->all());
 
         flash('Activity saved successfully.', 'success');
 
@@ -58,20 +56,12 @@ class ActivityController extends Controller
     /**
      * Display the specified Activity.
      *
-     * @param $id
+     * @param \App\Models\Activity $activity
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Activity $activity)
     {
-        $activity = Activity::find($id);
-
-        if (empty($activity)) {
-            flash('Activity not found', 'error');
-
-            return redirect()->route('admin.activities.index');
-        }
-
         return view('admin.activities.show')
             ->with('activity', $activity);
     }
@@ -79,19 +69,12 @@ class ActivityController extends Controller
     /**
      * Show the form for editing the specified Activity.
      *
-     * @param $id
+     * @param \App\Models\Activity $activity
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Activity $activity)
     {
-        $activity = Activity::find($id);
-        if (empty($activity)) {
-            flash('Activity not found', 'error');
-
-            return redirect()->route('admin.activities.index');
-        }
-
         return view('admin.activities.edit')
             ->with('activity', $activity);
     }
@@ -99,22 +82,14 @@ class ActivityController extends Controller
     /**
      * Update the specified Activity in storage.
      *
-     * @param $id
-     * @param \App\Http\Requests\UpdateActivityRequest $request
+     * @param \App\Models\Activity $activity
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateActivityRequest $request)
+    public function update(Activity $activity, Request $request)
     {
-        $activity = Activity::find($id);
-
-        if (empty($activity)) {
-            flash('Activity not found', 'error');
-
-            return redirect()->route('admin.activities.index');
-        }
-
-        $activity->update($request->validated());
+        $activity->update($request->all());
 
         flash('Activity updated successfully.', 'success');
 
@@ -124,20 +99,12 @@ class ActivityController extends Controller
     /**
      * Remove the specified Activity from storage.
      *
-     * @param $id
+     * @param \App\Models\Activity $activity
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Activity $activity)
     {
-        $activity = Activity::find($id);
-
-        if (empty($activity)) {
-            flash('Activity not found', 'error');
-
-            return redirect()->route('admin.activities.index');
-        }
-
         $activity->delete();
 
         flash('Activity deleted successfully.', 'success');

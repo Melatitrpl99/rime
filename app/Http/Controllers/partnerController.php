@@ -48,7 +48,7 @@ class PartnerController extends Controller
      */
     public function store(CreatePartnerRequest $request)
     {
-        $partner = Partner::create($request->validated());
+        Partner::create($request->validated());
 
         flash('Partner saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class PartnerController extends Controller
     /**
      * Display the specified Partner.
      *
-     * @param $id
+     * @param \App\Models\Partner $partner
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Partner $partner)
     {
-        $partner = Partner::find($id);
-
-        if (empty($partner)) {
-            flash('Partner not found', 'error');
-
-            return redirect()->route('admin.partners.index');
-        }
-
         return view('admin.partners.show')
             ->with('partner', $partner);
     }
@@ -79,19 +71,12 @@ class PartnerController extends Controller
     /**
      * Show the form for editing the specified Partner.
      *
-     * @param $id
+     * @param \App\Models\Partner $partner
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Partner $partner)
     {
-        $partner = Partner::find($id);
-        if (empty($partner)) {
-            flash('Partner not found', 'error');
-
-            return redirect()->route('admin.partners.index');
-        }
-
         return view('admin.partners.edit')
             ->with('partner', $partner);
     }
@@ -99,21 +84,13 @@ class PartnerController extends Controller
     /**
      * Update the specified Partner in storage.
      *
-     * @param $id
+     * @param \App\Models\Partner $partner
      * @param \App\Http\Requests\UpdatePartnerRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdatePartnerRequest $request)
+    public function update(Partner $partner, UpdatePartnerRequest $request)
     {
-        $partner = Partner::find($id);
-
-        if (empty($partner)) {
-            flash('Partner not found', 'error');
-
-            return redirect()->route('admin.partners.index');
-        }
-
         $partner->update($request->validated());
 
         flash('Partner updated successfully.', 'success');
@@ -124,20 +101,12 @@ class PartnerController extends Controller
     /**
      * Remove the specified Partner from storage.
      *
-     * @param $id
+     * @param \App\Models\Partner $partner
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Partner $partner)
     {
-        $partner = Partner::find($id);
-
-        if (empty($partner)) {
-            flash('Partner not found', 'error');
-
-            return redirect()->route('admin.partners.index');
-        }
-
         $partner->delete();
 
         flash('Partner deleted successfully.', 'success');

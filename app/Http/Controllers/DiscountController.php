@@ -6,8 +6,6 @@ use App\Http\Requests\CreateDiscountRequest;
 use App\Http\Requests\UpdateDiscountRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Discount;
-use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -50,22 +48,7 @@ class DiscountController extends Controller
      */
     public function store(CreateDiscountRequest $request)
     {
-        $faker = \Faker\Factory::create();
-        $input = collect($request->validated());
-        $nomor = $faker->regexify('D[0-9]{2}-[A-Z0-9]{6}');
-        $input->put('nomor',$nomor);
-
-        $discount = Discount::create($input->toArray());
-        if ($request->hasAny(['diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
-            foreach($request->product_id as $key => $productId) {
-                $discount->products()->attach($productId, [
-                    'diskon_harga' => $request->diskon_harga[$key],
-                    'minimal_produk'=> $request->minimal_produk[$key],
-                    'maksimal_produk' => $request->maksimal_produk[$key],
-                ]);
-            }
-        }
+        Discount::create($request->validated());
 
         flash('Discount saved successfully.', 'success');
 
@@ -75,20 +58,12 @@ class DiscountController extends Controller
     /**
      * Display the specified Discount.
      *
-     * @param $id
+     * @param \App\Models\Discount $discount
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Discount $discount)
     {
-        $discount = Discount::with('product.pivot')->find($id);
-
-        if (empty($discount)) {
-            flash('Discount not found', 'error');
-
-            return redirect()->route('admin.discounts.index');
-        }
-
         return view('admin.discounts.show')
             ->with('discount', $discount);
     }
@@ -96,19 +71,12 @@ class DiscountController extends Controller
     /**
      * Show the form for editing the specified Discount.
      *
-     * @param $id
+     * @param \App\Models\Discount $discount
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Discount $discount)
     {
-        $discount = Discount::with('products.pivot')->find($id);
-        if (empty($discount)) {
-            flash('Discount not found', 'error');
-
-            return redirect()->route('admin.discounts.index');
-        }
-
         return view('admin.discounts.edit')
             ->with('discount', $discount);
     }
@@ -116,35 +84,14 @@ class DiscountController extends Controller
     /**
      * Update the specified Discount in storage.
      *
-     * @param $id
+     * @param \App\Models\Discount $discount
      * @param \App\Http\Requests\UpdateDiscountRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateDiscountRequest $request)
+    public function update(Discount $discount, UpdateDiscountRequest $request)
     {
-        $discount = Discount::find($id);
-
-        if (empty($discount)) {
-            flash('Discount not found', 'error');
-
-            return redirect()->route('admin.discounts.index');
-        }
-
-        $discount->products()->detach();
         $discount->update($request->validated());
-
-        if ($request->hasAny(['diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
-            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
-            foreach($request->product_id as $key => $productId) {
-                $discount->products()->attach($productId, [
-                    'diskon_harga' => $request->diskon_harga[$key],
-                    'minimal_produk'=> $request->minimal_produk[$key],
-                    'maksimal_produk' => $request->maksimal_produk[$key],
-                ]);
-            }
-        }
 
         flash('Discount updated successfully.', 'success');
 
@@ -154,20 +101,12 @@ class DiscountController extends Controller
     /**
      * Remove the specified Discount from storage.
      *
-     * @param $id
+     * @param \App\Models\Discount $discount
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Discount $discount)
     {
-        $discount = Discount::find($id);
-
-        if (empty($discount)) {
-            flash('Discount not found', 'error');
-
-            return redirect()->route('admin.discounts.index');
-        }
-        $discount->products()->detach();
         $discount->delete();
 
         flash('Discount deleted successfully.', 'success');

@@ -48,7 +48,7 @@ class SizeController extends Controller
      */
     public function store(CreateSizeRequest $request)
     {
-        $size = Size::create($request->validated());
+        Size::create($request->validated());
 
         flash('Size saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class SizeController extends Controller
     /**
      * Display the specified Size.
      *
-     * @param $id
+     * @param \App\Models\Size $size
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Size $size)
     {
-        $size = Size::find($id);
-
-        if (empty($size)) {
-            flash('Size not found', 'error');
-
-            return redirect()->route('admin.sizes.index');
-        }
-
         return view('admin.sizes.show')
             ->with('size', $size);
     }
@@ -79,19 +71,12 @@ class SizeController extends Controller
     /**
      * Show the form for editing the specified Size.
      *
-     * @param $id
+     * @param \App\Models\Size $size
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Size $size)
     {
-        $size = Size::find($id);
-        if (empty($size)) {
-            flash('Size not found', 'error');
-
-            return redirect()->route('admin.sizes.index');
-        }
-
         return view('admin.sizes.edit')
             ->with('size', $size);
     }
@@ -99,21 +84,13 @@ class SizeController extends Controller
     /**
      * Update the specified Size in storage.
      *
-     * @param $id
+     * @param \App\Models\Size $size
      * @param \App\Http\Requests\UpdateSizeRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateSizeRequest $request)
+    public function update(Size $size, UpdateSizeRequest $request)
     {
-        $size = Size::find($id);
-
-        if (empty($size)) {
-            flash('Size not found', 'error');
-
-            return redirect()->route('admin.sizes.index');
-        }
-
         $size->update($request->validated());
 
         flash('Size updated successfully.', 'success');
@@ -124,20 +101,12 @@ class SizeController extends Controller
     /**
      * Remove the specified Size from storage.
      *
-     * @param $id
+     * @param \App\Models\Size $size
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Size $size)
     {
-        $size = Size::find($id);
-
-        if (empty($size)) {
-            flash('Size not found', 'error');
-
-            return redirect()->route('admin.sizes.index');
-        }
-
         $size->delete();
 
         flash('Size deleted successfully.', 'success');

@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('status_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->bigInteger('total')->nullable();
-            $table->bigInteger('diskon')->nullable();
+            $table->string('kode_diskon')->nullable();
             $table->bigInteger('biaya_pengiriman')->nullable();
             $table->timestamps();
             $table->softDeletes();

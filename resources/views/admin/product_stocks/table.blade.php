@@ -14,11 +14,10 @@
             <tr>
                 <td>{{ $productStock->product->nama }}</td>
                 <td>{{ $productStock->color->name }}</td>
-                <td>{{ optional($productStock->size)->name }} /
-                    {{ optional($productStock->dimension)->name }}
+                <td>{{ optional($productStock->size)->name ?? optional($productStock->dimension)->name }}
                 </td>
                 <td>{{ $productStock->stok_ready }}</td>
-                <td>{{ $productStock->updated_at->format('d F Y H:m:s') }}</td>
+                <td>{{ $productStock->updated_at->format('Y-m-d H:m') }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.product_stocks.destroy', $productStock], 'method' => 'delete']) !!}
                     <div class="btn-group">

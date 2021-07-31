@@ -30,7 +30,7 @@
 --}}
 
 <li class="nav-item">
-    <a href="{{ route('home') }}" class="nav-link {{ Request::is('home*') ? 'active' : '' }}">
+    <a href="{{ route('page.home') }}" class="nav-link {{ Request::is('home*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p>
             Dashboard
@@ -39,7 +39,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.categories.index') }}" class="nav-link {{ Request::is('categories*') ? 'active' : '' }}">
+    <a href="{{ route('admin.categories.index') }}" class="nav-link {{ Request::is('admin/categories*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-bars"></i>
         <p>
             Kategori Produk
@@ -48,7 +48,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.products.index') }}" class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
+    <a href="{{ route('admin.products.index') }}" class="nav-link {{ Request::is('admin/products*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-tshirt"></i>
         <p>
             Produk
@@ -57,7 +57,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.colors.index') }}" class="nav-link {{ Request::is('colors*') ? 'active' : '' }}">
+    <a href="{{ route('admin.colors.index') }}" class="nav-link {{ Request::is('admin/colors*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-palette"></i>
         <p>
             Warna Produk
@@ -66,7 +66,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.sizes.index') }}" class="nav-link {{ Request::is('sizes*') ? 'active' : '' }}">
+    <a href="{{ route('admin.sizes.index') }}" class="nav-link {{ Request::is('admin/sizes*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-arrows-alt-h"></i>
         <p>
             Ukuran Produk
@@ -75,7 +75,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.dimensions.index') }}" class="nav-link {{ Request::is('dimensions*') ? 'active' : '' }}">
+    <a href="{{ route('admin.dimensions.index') }}" class="nav-link {{ Request::is('admin/dimensions*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-ruler-combined"></i>
         <p>
             Dimensi Produk
@@ -84,7 +84,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.product_stocks.index') }}" class="nav-link {{ Request::is('product_stocks*') ? 'active' : '' }}">
+    <a href="{{ route('admin.product_stocks.index') }}" class="nav-link {{ Request::is('admin/product_stocks*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-cubes"></i>
         <p>
             Stok Produk
@@ -93,7 +93,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.discounts.index') }}" class="nav-link {{ Request::is('discounts*') ? 'active' : '' }}">
+    <a href="{{ route('admin.discounts.index') }}" class="nav-link {{ Request::is('admin/discounts*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-percent"></i>
         <p>
             Diskon
@@ -102,7 +102,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.carts.index') }}" class="nav-link {{ Request::is('carts*') ? 'active' : '' }}">
+    <a href="{{ route('admin.carts.index') }}" class="nav-link {{ Request::is('admin/carts*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-shopping-cart"></i>
         <p>
             Keranjang
@@ -111,7 +111,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.statuses.index') }}" class="nav-link {{ Request::is('statuses*') ? 'active' : '' }}">
+    <a href="{{ route('admin.statuses.index') }}" class="nav-link {{ Request::is('admin/statuses*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-check"></i>
         <p>
             Status
@@ -120,7 +120,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.orders.index') }}" class="nav-link {{ Request::is('orders*') ? 'active' : '' }}">
+    <a href="{{ route('admin.orders.index') }}" class="nav-link {{ Request::is('admin/orders*') ? 'active' : '' }}">
         <i class="nav-icon far fa-sticky-note"></i>
         <p>
             Order
@@ -129,7 +129,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.shipments.index') }}" class="nav-link {{ Request::is('shipments*') ? 'active' : '' }}">
+    <a href="{{ route('admin.shipments.index') }}" class="nav-link {{ Request::is('admin/shipments*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-truck"></i>
         <p>
             Pengiriman
@@ -138,7 +138,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.transactions.index') }}" class="nav-link {{ Request::is('transactions*') ? 'active' : '' }}">
+    <a href="{{ route('admin.transactions.index') }}" class="nav-link {{ Request::is('admin/transactions*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-cash-register"></i>
         <p>
             Transaksi
@@ -147,7 +147,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.activities.index') }}" class="nav-link {{ Request::is('activities*') ? 'active' : '' }}">
+    <a href="{{ route('admin.activities.index') }}" class="nav-link {{ Request::is('admin/activities*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-list-ul"></i>
         <p>
             Aktivitas
@@ -156,7 +156,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.files.index') }}" class="nav-link {{ Request::is('files*') ? 'active' : '' }}">
+    <a href="{{ route('admin.files.index') }}" class="nav-link {{ Request::is('admin/files*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file-alt"></i>
         <p>
             File
@@ -165,7 +165,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.partners.index') }}" class="nav-link {{ Request::is('partners*') ? 'active' : '' }}">
+    <a href="{{ route('admin.partners.index') }}" class="nav-link {{ Request::is('admin/partners*') ? 'active' : '' }}">
         <i class="nav-icon far fa-handshake"></i>
         <p>
             Partner
@@ -174,7 +174,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.post_categories.index') }}" class="nav-link {{ Request::is('post_categories*') ? 'active' : '' }}">
+    <a href="{{ route('admin.post_categories.index') }}" class="nav-link {{ Request::is('admin/post_categories*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-bars"></i>
         <p>
             Kategori Postingan
@@ -183,7 +183,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.posts.index') }}" class="nav-link {{ Request::is('posts*') ? 'active' : '' }}">
+    <a href="{{ route('admin.posts.index') }}" class="nav-link {{ Request::is('admin/posts*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-newspaper"></i>
         <p>
             Postingan
@@ -193,7 +193,7 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('admin.reports.index') }}" class="nav-link {{ Request::is('reports*') ? 'active' : '' }}">
+    <a href="{{ route('admin.reports.index') }}" class="nav-link {{ Request::is('admin/reports*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file-invoice"></i>
         <p>
             Laporan
@@ -202,7 +202,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.spendings.index') }}" class="nav-link {{ Request::is('spendings*') ? 'active' : '' }}">
+    <a href="{{ route('admin.spendings.index') }}" class="nav-link {{ Request::is('admin/spendings*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-money-bill"></i>
         <p>
             Pengeluaran
@@ -212,7 +212,7 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('admin.laba_rugi.index') }}" class="nav-link {{ Request::is('laba_rugi*') ? 'active' : '' }}">
+    <a href="{{ route('admin.laba_rugi.index') }}" class="nav-link {{ Request::is('admin/laba_rugi*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file-invoice"></i>
         <p>
             Laba Rugi
@@ -221,7 +221,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
+    <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-user"></i>
         <p>
             User

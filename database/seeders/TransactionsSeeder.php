@@ -17,7 +17,7 @@ class TransactionsSeeder extends Seeder
     public function run()
     {
         Transaction::factory()
-            ->count(rand(100, 250))
+            ->count(rand(10, 25))
             ->create()
             ->each(function ($transaction) {
                 $orders = Order::inRandomOrder()

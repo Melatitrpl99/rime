@@ -17,7 +17,7 @@ class CartsSeeder extends Seeder
     public function run()
     {
         Cart::factory()
-            ->count(rand(150, 1000))
+            ->count(rand(15, 50))
             ->create()
             ->each(function ($cart) {
                 $products = Product::inRandomOrder()
@@ -25,7 +25,7 @@ class CartsSeeder extends Seeder
                     ->get();
 
                 foreach($products as $product) {
-                    $jumlah = rand(1, 20);
+                    $jumlah = rand(1, 5);
                     $cart->products()->attach($product, array_merge(
                         CartDetail::factory()->make()->toArray(),
                         ['jumlah' => $jumlah, 'sub_total' => $product->harga_customer * $jumlah]

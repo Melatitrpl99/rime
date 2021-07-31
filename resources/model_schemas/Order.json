@@ -48,10 +48,10 @@
         "inView": true
     },
     {
-        "name": "diskon",
-        "dbType": "integer:nullable",
+        "name": "kode_diskon",
+        "dbType": "string:nullable",
         "htmlType": "number",
-        "validations": "required|numeric",
+        "validations": "required|string",
         "searchable": true,
         "fillable": true,
         "primary": false,

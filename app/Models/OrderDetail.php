@@ -37,7 +37,8 @@ class OrderDetail extends Pivot
         'size_id',
         'dimension_id',
         'jumlah',
-        'sub_total'
+        'sub_total',
+        'diskon'
     ];
 
     public static $pivotColumns = [
@@ -45,7 +46,8 @@ class OrderDetail extends Pivot
         'size_id',
         'dimension_id',
         'jumlah',
-        'sub_total'
+        'sub_total',
+        'diskon'
     ];
 
     /**

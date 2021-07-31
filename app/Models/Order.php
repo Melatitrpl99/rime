@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $nomor
  * @property string $pesan
  * @property string $total
- * @property string $diskon
+ * @property string $kode_diskon
  * @property string $biaya_pengiriman
  * @property foreignId $status_id
  * @property foreignId $user_id
@@ -36,7 +36,7 @@ class Order extends Model
         'nomor',
         'pesan',
         'total',
-        'diskon',
+        'kode_diskon',
         'biaya_pengiriman',
         'status_id',
         'user_id'
@@ -51,7 +51,7 @@ class Order extends Model
         'nomor' => 'string',
         'pesan' => 'string',
         'total' => 'integer',
-        'diskon' => 'integer',
+        'kode_diskon' => 'string',
         'biaya_pengiriman' => 'integer'
     ];
 
@@ -64,7 +64,7 @@ class Order extends Model
         'nomor' => 'nullable|max:16',
         'pesan' => 'nullable',
         'total' => 'nullable|numeric',
-        'diskon' => 'nullable|numeric',
+        'kode_diskon' => 'nullable|string',
         'biaya_pengiriman' => 'nullable|numeric',
         'status_id' => 'required',
         'user_id' => 'required'

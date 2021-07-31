@@ -14,7 +14,7 @@
                 <td>{{ $discount->judul }}</td>
                 <td>{{ $discount->kode }}</td>
                 <td>{{ $discount->batas_pemakaian }}x</td>
-                <td>{{ $discount->waktu_mulai->format('d F Y H:m:s') }} / {{ $discount->waktu_berakhir->format('d F Y H:m:s') }}</td>
+                <td>{{ $discount->waktu_mulai->format('Y-m-d H:m') }} / {{ $discount->waktu_berakhir->format('Y-m-d H:m') }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.discounts.destroy', $discount], 'method' => 'delete', 'class' => 'm-0']) !!}
                     <div class="btn-group">

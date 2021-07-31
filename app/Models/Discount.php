@@ -74,6 +74,7 @@ class Discount extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'discount_details')
+            ->withPivot(DiscountDetail::$pivotColumns)
             ->using(DiscountDetail::class);
     }
 }

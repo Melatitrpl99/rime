@@ -14,7 +14,6 @@
                 <td>{{ $shipment->nama_lengkap }}</td>
                 <td>{{ Str::limit($shipment->alamat, 50, '...') }}</td>
                 <td>{{ $shipment->kode_pos }}</td>
-                <td>{{ Str::limit($shipment->catatan, 50, '...') }}</td>
                 <td>{{ $shipment->order->nomor }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.shipments.destroy', $shipment], 'method' => 'delete', 'class' => 'm-0']) !!}

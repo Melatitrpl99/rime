@@ -55,9 +55,9 @@ class ProductStock extends Model
     public static $rules = [
         'product_id' => 'required',
         'color_id' => 'required',
-        'size_id' => 'required',
-        'dimension_id' => 'required',
-        'stok_ready' => 'required'
+        'size_id' => 'nullable',
+        'dimension_id' => 'nullable',
+        'stok_ready' => 'nullable'
     ];
 
     /**

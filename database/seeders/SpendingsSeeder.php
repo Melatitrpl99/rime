@@ -17,7 +17,7 @@ class SpendingsSeeder extends Seeder
     public function run()
     {
         Spending::factory()
-            ->count(rand(15, 500))
+            ->count(rand(15, 100))
             ->has(SpendingDetail::factory()->count(rand(3, 10)))
             ->create();
     }

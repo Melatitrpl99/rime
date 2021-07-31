@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -18,19 +19,32 @@ class OrdersSeeder extends Seeder
     public function run()
     {
         Order::factory()
-            ->count(rand(50, 500))
+            ->count(rand(10, 50))
             ->has(Shipment::factory())
             ->create()
             ->each(function ($order) {
+                $diskon = Discount::where('kode', $order->kode_diskon)
+                    ->with('products')
+                    ->first();
+
+                $upperLimit = rand(1, 7);
                 $products = Product::inRandomOrder()
-                    ->limit(rand(1, Product::count()))
+                    ->limit(rand(1, Product::count() - $upperLimit))
                     ->get();
 
                 foreach($products as $product) {
-                    $jumlah = rand(1, 10);
+                    $jumlah = rand(1, 8);
+                    $d = (!empty($diskon) || !is_null($diskon)) ? optional($diskon->products->find($product))->pivot : null;
+
                     $order->products()->attach($product, array_merge(
                         OrderDetail::factory()->make()->toArray(),
-                        ['jumlah' => $jumlah, 'sub_total' => $product->harga_customer * $jumlah]
+                        [
+                            'jumlah' => $jumlah,
+                            'diskon' => ($jumlah > optional($d)->minimal_produk && $jumlah < optional($d)->maksimal_produk) ? optional($d)->diskon_harga : null,
+                            'sub_total' => $order->user->hasRole('reseller')
+                                ? $product->harga_reseller * $jumlah
+                                : $product->harga_customer * $jumlah
+                        ]
                     ));
                 }
 

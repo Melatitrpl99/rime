@@ -43,10 +43,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::apiResource('dimensions', DimensionAPIController::class);
     Route::apiResource('discounts', DiscountAPIController::class);
     Route::apiResource('orders', OrderAPIController::class);
-    Route::apiResource('products', ProductAPIController::class);
-    Route::apiResource('posts', PostAPIController::class);
-    Route::apiResource('post_categories', PostCategoryAPIController::class);
-    Route::apiResource('shipments', ShipmentAPIController::class);
+    Route::apiResource('products', ProductAPIController::class)
+        ->except(['store', 'destroy']);
+    Route::apiResource('posts', PostAPIController::class)
+        ->only(['index', 'show']);
+    Route::apiResource('shipments', ShipmentAPIController::class)
+        ->except(['index']);
     Route::apiResource('sizes', SizeAPIController::class);
     Route::apiResource('transactions', TransactionAPIController::class);
 });

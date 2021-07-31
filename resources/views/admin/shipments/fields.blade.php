@@ -4,10 +4,10 @@
     {!! Form::text('nama_lengkap', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Alamat Field -->
-<div class="form-group col-12">
-    {!! Form::label('alamat', 'Alamat:') !!}
-    {!! Form::textarea('alamat', null, ['class' => 'form-control']) !!}
+<!-- Order Id Field -->
+<div class="form-group col-12 col-sm-6">
+    {!! Form::label('order_id', 'Order:') !!}
+    {!! Form::select('order_id', $orderItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- No Field -->
@@ -36,6 +36,12 @@
 
 @include('layouts.plugins.select2')
 
+<!-- Alamat Field -->
+<div class="form-group col-12">
+    {!! Form::label('alamat', 'Alamat:') !!}
+    {!! Form::textarea('alamat', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Kode Pos Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('kode_pos', 'Kode Pos:') !!}
@@ -46,10 +52,4 @@
 <div class="form-group col-12">
     {!! Form::label('catatan', 'Catatan:') !!}
     {!! Form::textarea('catatan', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Order Id Field -->
-<div class="form-group col-12 col-sm-6">
-    {!! Form::label('order_id', 'Order:') !!}
-    {!! Form::select('order_id', $orderItems, null, ['class' => 'form-control custom-select']) !!}
 </div>

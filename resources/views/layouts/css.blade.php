@@ -10,6 +10,5 @@
     body {
         font-family: 'Roboto';
     }
-    </style>
-
+</style>
 @stack('css')

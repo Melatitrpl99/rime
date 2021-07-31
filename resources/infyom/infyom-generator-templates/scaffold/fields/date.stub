@@ -6,12 +6,14 @@
 
 @include('layouts.plugins.datetimepicker')
 
-@push('scripts')
-    <script type="text/javascript">
-        $('#$FIELD_NAME$').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: false
-        })
-    </script>
-@endpush
+@once
+    @push('scripts')
+        <script type="text/javascript">
+            $('#$FIELD_NAME$').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss',
+                useCurrent: true,
+                sideBySide: false
+            });
+        </script>
+    @endpush
+@endonce

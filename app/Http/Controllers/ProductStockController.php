@@ -14,13 +14,6 @@ use Illuminate\Http\Request;
  */
 class ProductStockController extends Controller
 {
-    private $with = [
-        'product:id,nama',
-        'color:id,name',
-        'dimension:id,name',
-        'size:id,name'
-    ];
-
     /**
      * Display a listing of the ProductStock.
      *
@@ -30,7 +23,12 @@ class ProductStockController extends Controller
      */
     public function index(Request $request)
     {
-        $productStocks = ProductStock::with($this->with)->paginate(15);
+        $productStocks = ProductStock::with([
+            'product:id,nama',
+            'color:id,name',
+            'size:id,name',
+            'dimension:id,name'
+        ])->paginate(15);
 
         return view('admin.product_stocks.index')
             ->with('productStocks', $productStocks);
@@ -55,7 +53,7 @@ class ProductStockController extends Controller
      */
     public function store(CreateProductStockRequest $request)
     {
-        $productStock = ProductStock::create($request->validated());
+        ProductStock::create($request->validated());
 
         flash('Product Stock saved successfully.', 'success');
 
@@ -65,20 +63,12 @@ class ProductStockController extends Controller
     /**
      * Display the specified ProductStock.
      *
-     * @param $id
+     * @param \App\Models\ProductStock $productStock
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(ProductStock $productStock)
     {
-        $productStock = ProductStock::with($this->with)->find($id);
-
-        if (empty($productStock)) {
-            flash('Product Stock not found', 'error');
-
-            return redirect()->route('admin.product_stocks.index');
-        }
-
         return view('admin.product_stocks.show')
             ->with('productStock', $productStock);
     }
@@ -86,19 +76,12 @@ class ProductStockController extends Controller
     /**
      * Show the form for editing the specified ProductStock.
      *
-     * @param $id
+     * @param \App\Models\ProductStock $productStock
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(ProductStock $productStock)
     {
-        $productStock = ProductStock::find($id);
-        if (empty($productStock)) {
-            flash('Product Stock not found', 'error');
-
-            return redirect()->route('admin.product_stocks.index');
-        }
-
         return view('admin.product_stocks.edit')
             ->with('productStock', $productStock);
     }
@@ -106,21 +89,13 @@ class ProductStockController extends Controller
     /**
      * Update the specified ProductStock in storage.
      *
-     * @param $id
+     * @param \App\Models\ProductStock $productStock
      * @param \App\Http\Requests\UpdateProductStockRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateProductStockRequest $request)
+    public function update(ProductStock $productStock, UpdateProductStockRequest $request)
     {
-        $productStock = ProductStock::find($id);
-
-        if (empty($productStock)) {
-            flash('Product Stock not found', 'error');
-
-            return redirect()->route('admin.product_stocks.index');
-        }
-
         $productStock->update($request->validated());
 
         flash('Product Stock updated successfully.', 'success');
@@ -131,20 +106,12 @@ class ProductStockController extends Controller
     /**
      * Remove the specified ProductStock from storage.
      *
-     * @param $id
+     * @param \App\Models\ProductStock $productStock
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(ProductStock $productStock)
     {
-        $productStock = ProductStock::find($id);
-
-        if (empty($productStock)) {
-            flash('Product Stock not found', 'error');
-
-            return redirect()->route('admin.product_stocks.index');
-        }
-
         $productStock->delete();
 
         flash('Product Stock deleted successfully.', 'success');

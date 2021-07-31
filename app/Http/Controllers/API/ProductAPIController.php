@@ -8,6 +8,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProductAPIController
@@ -34,31 +35,14 @@ class ProductAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        $products = $query->get();
+        $products = $query->with(['category'])
+            ->withSum('productStocks', 'stok_ready')
+            ->get();
 
         return response()->json([
             'message' => 'Successfully retrieved',
             'status' => 'success',
             'data' => ProductResource::collection($products)
-        ]);
-    }
-
-    /**
-     * Store a newly created Product in storage.
-     * POST /products
-     *
-     * @param \App\Http\Requests\CreateProductRequest $request
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function store(CreateProductAPIRequest $request)
-    {
-        $product = Product::create($request->validated());
-
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new ProductResource($product)
         ]);
     }
 
@@ -72,7 +56,8 @@ class ProductAPIController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with(['category', 'productStocks'])
+            ->find($id);
 
         if (empty($product)) {
             return response()->json([

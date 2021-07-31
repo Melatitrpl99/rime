@@ -4,12 +4,10 @@
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 d-flex justify-content-between align-items-center">
                 <h1>Shipments</h1>
-            </div>
-            <div class="col-6">
-                <a class="btn btn-primary float-right" href="{{ route('admin.shipments.create') }}">
-                    Add New
+                <a href="{{ route('admin.shipments.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus mr-1"></i> Add New
                 </a>
             </div>
         </div>

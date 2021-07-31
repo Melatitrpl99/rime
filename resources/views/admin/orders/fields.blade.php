@@ -6,8 +6,13 @@
 
 <!-- Diskon Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('diskon', 'Diskon:') !!}
-    {!! Form::number('diskon', null, ['class' => 'form-control']) !!}
+    {!! Form::label('kode_diskon', 'Diskon:') !!}
+    <div class="input-group">
+        {!! Form::text('kode_diskon', null, ['class' => 'form-control']) !!}
+        <div class="input-group-append">
+            <button class="btn btn-info" type="button" id="cek_diskon">Cek diskon</button>
+        </div>
+    </div>
 </div>
 
 <!-- Biaya Pengiriman Field -->
@@ -19,26 +24,31 @@
 <!-- Status Id Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('status_id', 'Status:') !!}
-    {!! Form::select('status_id', $statusItems, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::select('status_id', $statusItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih status order...']) !!}
 </div>
 
 <!-- User Id Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('user_id', 'User:') !!}
-    {!! Form::select('user_id', $userItems, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::select('user_id', $userItems, null, ['class' => 'form-control custom-select', 'onchange' => 'userRoles(this.value)', 'placeholder' => 'Pilih user...']) !!}
 </div>
 
-<div class="col-md-12">
+<div class="col-12 mt-4 mb-2">
     <div class="d-flex justify-content-between align-items center">
-        <h4>Detail Keranjang</h4>
+        <h4>Detail Order</h4>
         <div class="d-flex justify-content right align-items-center">
-            <button type="button" id="add_row" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</button>
-            <button type="button" id="remove_row" class="btn btn-danger ml-2"><i class="fas fa-minus"></i> Hapus Data</button>
+            <button type="button" id="add_row" class="btn btn-primary"><i class="fas fa-plus mr-sm-1"></i>
+                <span class="d-none d-sm-inline">Tambah Data</span>
+            </button>
+            <button type="button" id="remove_row" class="btn btn-danger ml-2"><i class="fas fa-trash-alt mr-sm-1"></i>
+                <span class="d-none d-sm-inline">Hapus Data</span>
+            </button>
         </div>
     </div>
 </div>
-<div class="table-responsive">
-    <table class="table table-borderless">
+
+<div class="col-12 table-responsive">
+    <table class="table table-borderless" style="min-width: 1024px">
         <thead>
             <tr class="border-bottom">
                 <th>#</th>
@@ -51,14 +61,14 @@
             </tr>
         </thead>
         <tbody id="form-body-recursive">
-            @if (Route::currentRouteName() == 'admin.carts.edit')
-                @foreach ($cart->products as $product)
+            @if (Route::currentRouteName() == 'admin.orders.edit')
+                @foreach ($order->products as $product)
                     <tr>
                         <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
                         </td>
-                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                        <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select']) !!}</td>
+                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)', 'placeholder' => 'Pilih produk...']) !!}</td>
+                        <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih warna...']) !!}</td>
+                        <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih ukuran...']) !!}</td>
                         <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select']) !!}</td>
                         <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'oninput' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
                         <td>
@@ -75,7 +85,7 @@
                 <th>Total</th>
                 <th>
                     {!! Form::hidden('total', null, ['id' => 'total']) !!}
-                    {!! Form::text('calc', Route::currentRouteName() == 'admin.carts.edit' ? 'Rp '.number_format($cart->total, '2', ',', '.') : '', ['class' => 'form-control-plaintext', 'readonly' => true, 'id' => 'calc']) !!}
+                    {!! Form::text('calc', Route::currentRouteName() == 'admin.orders.edit' ? 'Rp '.number_format($order->total, '2', ',', '.') : '', ['class' => 'form-control-plaintext', 'readonly' => true, 'id' => 'calc']) !!}
                 </th>
             </tr>
         </tfoot>
@@ -84,9 +94,6 @@
 
 @push('scripts')
 <script>
-
-    var data = 0;
-
     var role = "";
 
     function priceCustomer(productId) {
@@ -103,18 +110,17 @@
 
     function addRow() {
         return `<tr>
-                <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
-                </td>
-                <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'oninput' => 'updateJumlah(this)']) !!}</td>
-                <td>
-                    {!! Form::hidden('sub_total[]', null) !!}
-                    {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
-                </td>
-            </tr>`;
+                    <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                    <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'oninput' => 'updateJumlah(this)']) !!}</td>
+                    <td>
+                        {!! Form::hidden('sub_total[]', null) !!}
+                        {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                    </td>
+                </tr>`;
     }
 
     $('#add_row').on('click', function () {
@@ -125,6 +131,8 @@
         var checkbox = $('input:checked[name=row_product]');
         var parent = checkbox.parent().parent();
         parent.remove();
+
+        updateTotal();
     });
 
     $('select#user_id').on('change', function () {
@@ -139,6 +147,31 @@
 
         updateTotal();
     });
+
+    $('button#cek_diskon').on('click', function () {
+        // $(this).attr('class', 'btn btn-info overlay dark')
+        // $(this).prepend(`<i class="fas fa-spinner fa-spin mr-1"></i>`);
+        showLoading($(this));
+    });
+
+    var loading = false;
+    var checked = false;
+    function showLoading() {
+        loading = !loading;
+        if (loading) {
+            $('button#cek_diskon').attr('class', 'btn btn-secondary');
+            $('button#cek_diskon').prepend(`<i class="fas fa-spinner fa-spin mr-1"></i>`);
+            checkDiscount();
+        } else {
+            $('button#cek_diskon').attr('class', 'btn btn-info');
+            $('button#cek_diskon i').remove();
+        }
+    }
+
+    function checkDiscount() {
+        let diskon = document.querySelector('#kode_diskon');
+        console.log(diskon.value);
+    }
 
     function updateJumlah(el) {
         if (el.value < 1) {

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Discount;
+use App\Models\DiscountDetail;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
 
@@ -15,14 +16,20 @@ class DiscountsSeeder extends Seeder
      */
     public function run()
     {
-        $min = rand(0, 9);
-        $products = Product::inRandomOrder()->get();
-        Discount::factory($products->count() * 5)
-            ->hasAttached($products, [
-                'diskon_harga' => rand(5, 100) * 10000,
-                'minimal_produk' => $min,
-                'maksimal_produk' => rand(0, 9) > $min ? $min + rand(1, 9) : $min,
-            ])
-            ->create();
+        Discount::factory()
+            ->count(rand(1, 30))
+            ->create()
+            ->each(function ($discount) {
+                $products = Product::inRandomOrder()
+                    ->limit(rand(1, Product::count()))
+                    ->get();
+
+                foreach($products as $product) {
+                    $discount->products()->attach($product,
+                        DiscountDetail::factory()
+                            ->make()
+                            ->toArray());
+                }
+            });
     }
 }

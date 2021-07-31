@@ -2,30 +2,19 @@
 
 namespace App\Providers;
 
-use App\Models\Activity;
-use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Dimension;
-use App\Models\Discount;
 use App\Models\District;
-use App\Models\Event;
-use App\Models\File;
 use App\Models\Order;
-use App\Models\Partner;
-use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\Product;
 use App\Models\Province;
 use App\Models\Regency;
-use App\Models\Report;
 use App\Models\Size;
-use App\Models\Spending;
 use App\Models\Status;
-use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Village;
-use Spatie\Permission\Models\Role;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -119,7 +108,7 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('colorItems', $colorItems)
                 ->with('dimensionItems', $dimensionItems)
                 ->with('sizeItems', $sizeItems)
-                ->with('statusItems',$statusItems);
+                ->with('statusItems', $statusItems);
         });
 
         view()->composer('admin.posts.fields', function ($view) {
@@ -175,7 +164,6 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.transactions.fields', function ($view) {
-
             $orders = Order::all();
 
             $orderItems = $orders->pluck('nomor', 'id')->toArray();
@@ -185,11 +173,11 @@ class ViewServiceProvider extends ServiceProvider
 
             $userItems = User::pluck('name','id')->toArray();
 
-            $view->with('userItems', $userItems);
-            $view->with('orderItems', $orderItems);
-            $view->with('totalOrderItems', $totalOrderItems);
-            $view->with('biayaPengirimanItems', $biayaPengirimanItems);
-            $view->with('diskonItems', $diskonItems);
+            $view->with('userItems', $userItems)
+                ->with('orderItems', $orderItems)
+                ->with('totalOrderItems', $totalOrderItems)
+                ->with('biayaPengirimanItems', $biayaPengirimanItems)
+                ->with('diskonItems', $diskonItems);
         });
     }
 }

@@ -56,14 +56,14 @@ class User extends Authenticatable implements JWTSubject
     public static $rules = [
         'name'          => ['required', 'string'],
         'email'         => ['required', 'email', 'unique:users'],
-        // 'password'      => ['required', Password::min(8)->mixedCase()->numbers()],
-        // 'nama_lengkap'  => ['nullable'],
-        // 'jenis_kelamin' => ['nullable'],
-        // 'tempat_lahir'  => ['nullable'],
-        // 'tgl_lahir'     => ['nullable', 'date'],
-        // 'alamat'        => ['nullable'],
-        // 'no_hp'         => ['nullable', 'starts_with:0'],
-        // 'no_wa'         => ['nullable', 'starts_with:0']
+        'password'      => ['required'],
+        'nama_lengkap'  => ['nullable'],
+        'jenis_kelamin' => ['nullable'],
+        'tempat_lahir'  => ['nullable'],
+        'tgl_lahir'     => ['nullable', 'date'],
+        'alamat'        => ['nullable'],
+        'no_hp'         => ['nullable', 'regex:/^(\+62|0)\w+/g'],
+        'no_wa'         => ['nullable', 'regex:/^(\+62|0)\w+/g']
     ];
 
     /**

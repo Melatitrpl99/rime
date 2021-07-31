@@ -6,9 +6,7 @@ use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Traits\FileUpload;
 use Illuminate\Http\Request;
-
 
 /**
  * Class ProductController
@@ -16,7 +14,6 @@ use Illuminate\Http\Request;
  */
 class ProductController extends Controller
 {
-    use FileUpload;
     /**
      * Display a listing of the Product.
      *
@@ -26,7 +23,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::paginate(15);
+        $products = Product::with('category:id,nama')->paginate(15);
 
         return view('admin.products.index')
             ->with('products', $products);
@@ -51,12 +48,9 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $product = Product::create($request->validated());
-        if ($request->has('path')) {
-            $this->upload($request->input('path'), $request->nama, 'product', $product);
-        }
+        Product::create($request->validated());
 
-        flash('Product saved successfully', 'success');
+        flash('Product saved successfully.', 'success');
 
         return redirect()->route('admin.products.index');
     }
@@ -64,20 +58,12 @@ class ProductController extends Controller
     /**
      * Display the specified Product.
      *
-     * @param $id
+     * @param \App\Models\Product $product
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::find($id);
-
-        if (empty($product)) {
-            flash('Product not found', 'error');
-
-            return redirect()->route('admin.products.index');
-        }
-
         return view('admin.products.show')
             ->with('product', $product);
     }
@@ -85,19 +71,12 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified Product.
      *
-     * @param $id
+     * @param \App\Models\Product $product
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::find($id);
-        if (empty($product)) {
-            flash('Product not found', 'error');
-
-            return redirect()->route('admin.products.index');
-        }
-
         return view('admin.products.edit')
             ->with('product', $product);
     }
@@ -105,21 +84,13 @@ class ProductController extends Controller
     /**
      * Update the specified Product in storage.
      *
-     * @param $id
+     * @param \App\Models\Product $product
      * @param \App\Http\Requests\UpdateProductRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateProductRequest $request)
+    public function update(Product $product, UpdateProductRequest $request)
     {
-        $product = Product::find($id);
-
-        if (empty($product)) {
-            flash('Product not found', 'error');
-
-            return redirect()->route('admin.products.index');
-        }
-
         $product->update($request->validated());
 
         flash('Product updated successfully.', 'success');
@@ -130,20 +101,12 @@ class ProductController extends Controller
     /**
      * Remove the specified Product from storage.
      *
-     * @param $id
+     * @param \App\Models\Product $product
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
-
-        if (empty($product)) {
-            flash('Product not found', 'error');
-
-            return redirect()->route('admin.products.index');
-        }
-
         $product->delete();
 
         flash('Product deleted successfully.', 'success');

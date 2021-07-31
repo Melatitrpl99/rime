@@ -68,6 +68,7 @@ class Product extends Model
         'harga_customer' => 'required|numeric',
         'harga_reseller' => 'required|numeric',
         'reseller_minimum' => 'required|numeric',
+        'suka' => 'required|numeric',
         'slug' => 'nullable',
         'category_id' => 'required',
         'path' =>'required'

@@ -48,7 +48,7 @@ class ReportController extends Controller
      */
     public function store(CreateReportRequest $request)
     {
-        $report = Report::create($request->validated());
+        Report::create($request->validated());
 
         flash('Report saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class ReportController extends Controller
     /**
      * Display the specified Report.
      *
-     * @param $id
+     * @param \App\Models\Report $report
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Report $report)
     {
-        $report = Report::find($id);
-
-        if (empty($report)) {
-            flash('Report not found', 'error');
-
-            return redirect()->route('admin.reports.index');
-        }
-
         return view('admin.reports.show')
             ->with('report', $report);
     }
@@ -79,19 +71,12 @@ class ReportController extends Controller
     /**
      * Show the form for editing the specified Report.
      *
-     * @param $id
+     * @param \App\Models\Report $report
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Report $report)
     {
-        $report = Report::find($id);
-        if (empty($report)) {
-            flash('Report not found', 'error');
-
-            return redirect()->route('admin.reports.index');
-        }
-
         return view('admin.reports.edit')
             ->with('report', $report);
     }
@@ -99,21 +84,13 @@ class ReportController extends Controller
     /**
      * Update the specified Report in storage.
      *
-     * @param $id
+     * @param \App\Models\Report $report
      * @param \App\Http\Requests\UpdateReportRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateReportRequest $request)
+    public function update(Report $report, UpdateReportRequest $request)
     {
-        $report = Report::find($id);
-
-        if (empty($report)) {
-            flash('Report not found', 'error');
-
-            return redirect()->route('admin.reports.index');
-        }
-
         $report->update($request->validated());
 
         flash('Report updated successfully.', 'success');
@@ -124,20 +101,12 @@ class ReportController extends Controller
     /**
      * Remove the specified Report from storage.
      *
-     * @param $id
+     * @param \App\Models\Report $report
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Report $report)
     {
-        $report = Report::find($id);
-
-        if (empty($report)) {
-            flash('Report not found', 'error');
-
-            return redirect()->route('admin.reports.index');
-        }
-
         $report->delete();
 
         flash('Report deleted successfully.', 'success');

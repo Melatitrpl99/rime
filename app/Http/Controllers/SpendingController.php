@@ -48,7 +48,7 @@ class SpendingController extends Controller
      */
     public function store(CreateSpendingRequest $request)
     {
-        $spending = Spending::create($request->validated());
+        Spending::create($request->validated());
 
         flash('Spending saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class SpendingController extends Controller
     /**
      * Display the specified Spending.
      *
-     * @param $id
+     * @param \App\Models\Spending $spending
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Spending $spending)
     {
-        $spending = Spending::find($id);
-
-        if (empty($spending)) {
-            flash('Spending not found', 'error');
-
-            return redirect()->route('admin.spendings.index');
-        }
-
         return view('admin.spendings.show')
             ->with('spending', $spending);
     }
@@ -79,19 +71,12 @@ class SpendingController extends Controller
     /**
      * Show the form for editing the specified Spending.
      *
-     * @param $id
+     * @param \App\Models\Spending $spending
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Spending $spending)
     {
-        $spending = Spending::find($id);
-        if (empty($spending)) {
-            flash('Spending not found', 'error');
-
-            return redirect()->route('admin.spendings.index');
-        }
-
         return view('admin.spendings.edit')
             ->with('spending', $spending);
     }
@@ -99,21 +84,13 @@ class SpendingController extends Controller
     /**
      * Update the specified Spending in storage.
      *
-     * @param $id
+     * @param \App\Models\Spending $spending
      * @param \App\Http\Requests\UpdateSpendingRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateSpendingRequest $request)
+    public function update(Spending $spending, UpdateSpendingRequest $request)
     {
-        $spending = Spending::find($id);
-
-        if (empty($spending)) {
-            flash('Spending not found', 'error');
-
-            return redirect()->route('admin.spendings.index');
-        }
-
         $spending->update($request->validated());
 
         flash('Spending updated successfully.', 'success');
@@ -124,20 +101,12 @@ class SpendingController extends Controller
     /**
      * Remove the specified Spending from storage.
      *
-     * @param $id
+     * @param \App\Models\Spending $spending
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Spending $spending)
     {
-        $spending = Spending::find($id);
-
-        if (empty($spending)) {
-            flash('Spending not found', 'error');
-
-            return redirect()->route('admin.spendings.index');
-        }
-
         $spending->delete();
 
         flash('Spending deleted successfully.', 'success');

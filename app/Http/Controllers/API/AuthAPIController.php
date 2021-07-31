@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthAPIController extends Controller
@@ -13,6 +14,7 @@ class AuthAPIController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
     public function login()
     {
        $credentials = request(['email', 'password']);
@@ -28,7 +30,7 @@ class AuthAPIController extends Controller
         $register = $request->only(['name', 'email', 'password']);
         $login = $request->only(['email', 'password']);
 
-        $register['password'] = bcrypt($register['password']);
+        $register['password'] = Hash::make($register['password']);
 
         $input = Validator::make($register, [
             'name' => ['required', 'string', 'max:255'],
@@ -37,6 +39,7 @@ class AuthAPIController extends Controller
         ]);
 
         $user = User::create($register);
+        $user->assignRole('customer');
 
         if (! $token = auth('api')->attempt($login)) {
             return response()->json(['error' => 'Unauthorized'], 401);

@@ -1,1 +1,4 @@
-@include('adminlte-templates::common.paginate', ['records' => $$MODEL_NAME_PLURAL_CAMEL$])
+<div class="d-flex justify-content-between align-items center">
+    <span class="d-block my-auto text-secondary">Displaying {{ $$MODEL_NAME_PLURAL_CAMEL$->count() }} of {{ $$MODEL_NAME_PLURAL_CAMEL$->total() }} records</span>
+    {{ $$MODEL_NAME_PLURAL_CAMEL$->links() }}
+</div>

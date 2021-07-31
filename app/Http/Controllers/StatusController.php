@@ -48,7 +48,7 @@ class StatusController extends Controller
      */
     public function store(CreateStatusRequest $request)
     {
-        $status = Status::create($request->validated());
+        Status::create($request->validated());
 
         flash('Status saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class StatusController extends Controller
     /**
      * Display the specified Status.
      *
-     * @param $id
+     * @param \App\Models\Status $status
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Status $status)
     {
-        $status = Status::find($id);
-
-        if (empty($status)) {
-            flash('Status not found', 'error');
-
-            return redirect()->route('admin.statuses.index');
-        }
-
         return view('admin.statuses.show')
             ->with('status', $status);
     }
@@ -79,19 +71,12 @@ class StatusController extends Controller
     /**
      * Show the form for editing the specified Status.
      *
-     * @param $id
+     * @param \App\Models\Status $status
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Status $status)
     {
-        $status = Status::find($id);
-        if (empty($status)) {
-            flash('Status not found', 'error');
-
-            return redirect()->route('admin.statuses.index');
-        }
-
         return view('admin.statuses.edit')
             ->with('status', $status);
     }
@@ -99,21 +84,13 @@ class StatusController extends Controller
     /**
      * Update the specified Status in storage.
      *
-     * @param $id
+     * @param \App\Models\Status $status
      * @param \App\Http\Requests\UpdateStatusRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateStatusRequest $request)
+    public function update(Status $status, UpdateStatusRequest $request)
     {
-        $status = Status::find($id);
-
-        if (empty($status)) {
-            flash('Status not found', 'error');
-
-            return redirect()->route('admin.statuses.index');
-        }
-
         $status->update($request->validated());
 
         flash('Status updated successfully.', 'success');
@@ -124,20 +101,12 @@ class StatusController extends Controller
     /**
      * Remove the specified Status from storage.
      *
-     * @param $id
+     * @param \App\Models\Status $status
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Status $status)
     {
-        $status = Status::find($id);
-
-        if (empty($status)) {
-            flash('Status not found', 'error');
-
-            return redirect()->route('admin.statuses.index');
-        }
-
         $status->delete();
 
         flash('Status deleted successfully.', 'success');

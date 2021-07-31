@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::open(['route' => 'admin.colors.store', 'class' => 'm-0']) !!}
+                        {!! Form::open(['route' => 'admin.colors.store', 'class' => 'm-0', 'autocomplete' => 'off']) !!}
                         <div class="card-body">
                             <div class="row">
                                 @include('admin.colors.fields')

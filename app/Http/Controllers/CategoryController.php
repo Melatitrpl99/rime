@@ -48,7 +48,7 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
+        Category::create($request->validated());
 
         flash('Category saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class CategoryController extends Controller
     /**
      * Display the specified Category.
      *
-     * @param $id
+     * @param \App\Models\Category $category
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::find($id);
-
-        if (empty($category)) {
-            flash('Category not found', 'error');
-
-            return redirect()->route('admin.categories.index');
-        }
-
         return view('admin.categories.show')
             ->with('category', $category);
     }
@@ -79,19 +71,12 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified Category.
      *
-     * @param $id
+     * @param \App\Models\Category $category
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::find($id);
-        if (empty($category)) {
-            flash('Category not found', 'error');
-
-            return redirect()->route('admin.categories.index');
-        }
-
         return view('admin.categories.edit')
             ->with('category', $category);
     }
@@ -99,21 +84,13 @@ class CategoryController extends Controller
     /**
      * Update the specified Category in storage.
      *
-     * @param $id
+     * @param \App\Models\Category $category
      * @param \App\Http\Requests\UpdateCategoryRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateCategoryRequest $request)
+    public function update(Category $category, UpdateCategoryRequest $request)
     {
-        $category = Category::find($id);
-
-        if (empty($category)) {
-            flash('Category not found', 'error');
-
-            return redirect()->route('admin.categories.index');
-        }
-
         $category->update($request->validated());
 
         flash('Category updated successfully.', 'success');
@@ -124,20 +101,12 @@ class CategoryController extends Controller
     /**
      * Remove the specified Category from storage.
      *
-     * @param $id
+     * @param \App\Models\Category $category
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::find($id);
-
-        if (empty($category)) {
-            flash('Category not found', 'error');
-
-            return redirect()->route('admin.categories.index');
-        }
-
         $category->delete();
 
         flash('Category deleted successfully.', 'success');

@@ -27,7 +27,3 @@
     <div class="col-12 col-md-3 text-bold">Updated at</div>
     <div class="col-12 col-md-9">{{ $report->updated_at->format('d F Y - H:m:s') }}</div>
 </div>
-
-<div class="row">
-    <a class="btn btn-default" href="{{ route('admin.reports.index') }}">Back</a>
-</div>

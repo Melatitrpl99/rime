@@ -40,7 +40,7 @@ class $MODEL_NAME$APIController extends Controller
             'message' => 'Successfully retrieved',
             'status' => 'success',
             'data' => $MODEL_NAME$Resource::collection($$MODEL_NAME_PLURAL_CAMEL$)
-        ]);
+        ], 200);
     }
 
     /**
@@ -59,88 +59,61 @@ class $MODEL_NAME$APIController extends Controller
             'message' => 'Successfully added',
             'status' => 'success',
             'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
-        ]);
+        ], 201);
     }
 
     /**
      * Display the specified $MODEL_NAME$.
-     * GET|HEAD /$MODEL_NAME_PLURAL_SNAKE$/{$id}
+     * GET|HEAD /$MODEL_NAME_PLURAL_SNAKE$/{$MODEL_NAME_CAMEL$}
      *
-     * @param $id
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show($id)
+    public function show($$MODEL_NAME_CAMEL$)
     {
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
-        if (empty($$MODEL_NAME_CAMEL$)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
         return response()->json([
             'message' => 'Successfully retrieved',
             'status' => 'success',
             'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
-        ]);
+        ], 200);
     }
 
     /**
      * Update the specified $MODEL_NAME$ in storage.
-     * PUT/PATCH /$MODEL_NAME_PLURAL_SNAKE$/{$id}
+     * PUT/PATCH /$MODEL_NAME_PLURAL_SNAKE$/{$MODEL_NAME_CAMEL$}
      *
-     * @param $id
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
      * @param \$NAMESPACE_REQUEST$\Update$MODEL_NAME$Request $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, Update$MODEL_NAME$APIRequest $request)
+    public function update($$MODEL_NAME_CAMEL$, Update$MODEL_NAME$APIRequest $request)
     {
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
-        if (empty($$MODEL_NAME_CAMEL$)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
         $$MODEL_NAME_CAMEL$->update($request->validated());
 
         return response()->json([
             'message' => 'Successfully updated',
             'status' => 'success',
             'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
-        ]);
+        ], 200);
     }
 
     /**
      * Remove the specified $MODEL_NAME$ from storage.
-     * DELETE /$MODEL_NAME_PLURAL_SNAKE$/{$id}
+     * DELETE /$MODEL_NAME_PLURAL_SNAKE$/{$MODEL_NAME_CAMEL$}
      *
-     * @param $id
+     * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy($$MODEL_NAME_CAMEL$)
     {
-        $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::find($id);
-
-        if (empty($$MODEL_NAME_CAMEL$)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
         $$MODEL_NAME_CAMEL$->delete();
 
         return response()->json([
             'message' => 'Successfully deleted',
             'status' => 'success'
-        ]);
+        ], 200);
     }
 }

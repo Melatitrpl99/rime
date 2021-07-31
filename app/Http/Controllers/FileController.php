@@ -48,7 +48,7 @@ class FileController extends Controller
      */
     public function store(CreateFileRequest $request)
     {
-        $file = File::create($request->validated());
+        File::create($request->validated());
 
         flash('File saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class FileController extends Controller
     /**
      * Display the specified File.
      *
-     * @param $id
+     * @param \App\Models\File $file
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(File $file)
     {
-        $file = File::find($id);
-
-        if (empty($file)) {
-            flash('File not found', 'error');
-
-            return redirect()->route('admin.files.index');
-        }
-
         return view('admin.files.show')
             ->with('file', $file);
     }
@@ -79,19 +71,12 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified File.
      *
-     * @param $id
+     * @param \App\Models\File $file
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(File $file)
     {
-        $file = File::find($id);
-        if (empty($file)) {
-            flash('File not found', 'error');
-
-            return redirect()->route('admin.files.index');
-        }
-
         return view('admin.files.edit')
             ->with('file', $file);
     }
@@ -99,21 +84,13 @@ class FileController extends Controller
     /**
      * Update the specified File in storage.
      *
-     * @param $id
+     * @param \App\Models\File $file
      * @param \App\Http\Requests\UpdateFileRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateFileRequest $request)
+    public function update(File $file, UpdateFileRequest $request)
     {
-        $file = File::find($id);
-
-        if (empty($file)) {
-            flash('File not found', 'error');
-
-            return redirect()->route('admin.files.index');
-        }
-
         $file->update($request->validated());
 
         flash('File updated successfully.', 'success');
@@ -124,20 +101,12 @@ class FileController extends Controller
     /**
      * Remove the specified File from storage.
      *
-     * @param $id
+     * @param \App\Models\File $file
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(File $file)
     {
-        $file = File::find($id);
-
-        if (empty($file)) {
-            flash('File not found', 'error');
-
-            return redirect()->route('admin.files.index');
-        }
-
         $file->delete();
 
         flash('File deleted successfully.', 'success');

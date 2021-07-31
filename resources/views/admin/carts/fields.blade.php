@@ -16,17 +16,22 @@
     {!! Form::textarea('deskripsi', null, ['class' => 'form-control']) !!}
 </div>
 
-<div class="col-md-12">
+<div class="col-12 mt-4 mb-2">
     <div class="d-flex justify-content-between align-items center">
         <h4>Detail Keranjang</h4>
         <div class="d-flex justify-content right align-items-center">
-            <button type="button" id="add_row" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</button>
-            <button type="button" id="remove_row" class="btn btn-danger ml-2"><i class="fas fa-minus"></i> Hapus Data</button>
+            <button type="button" id="add_row" class="btn btn-primary"><i class="fas fa-plus mr-sm-1"></i>
+                <span class="d-none d-sm-inline">Tambah Data</span>
+            </button>
+            <button type="button" id="remove_row" class="btn btn-danger ml-2"><i class="fas fa-trash-alt mr-sm-1"></i>
+                <span class="d-none d-sm-inline">Hapus Data</span>
+            </button>
         </div>
     </div>
 </div>
-<div class="table-responsive">
-    <table class="table table-borderless">
+
+<div class="col-12 table-responsive">
+    <table class="table table-borderless" style="min-width: 1024px">
         <thead>
             <tr class="border-bottom">
                 <th>#</th>
@@ -42,13 +47,12 @@
             @if (Route::currentRouteName() == 'admin.carts.edit')
                 @foreach ($cart->products as $product)
                     <tr>
-                        <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
-                        </td>
+                        <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
                         <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
                         <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select']) !!}</td>
                         <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select']) !!}</td>
                         <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'oninput' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
+                        <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'onchange' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
                         <td>
                             {!! Form::hidden('sub_total[]', $product->pivot->sub_total) !!}
                             {!! Form::text('subtotal[]', 'Rp '.number_format($product->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
@@ -72,7 +76,6 @@
 
 @push('scripts')
 <script>
-
     var data = 0;
 
     var role = "";
@@ -91,18 +94,17 @@
 
     function addRow() {
         return `<tr>
-                <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
-                </td>
-                <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'oninput' => 'updateJumlah(this)']) !!}</td>
-                <td>
-                    {!! Form::hidden('sub_total[]', null) !!}
-                    {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
-                </td>
-            </tr>`;
+                    <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                    <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'onchange' => 'updateJumlah(this)']) !!}</td>
+                    <td>
+                        {!! Form::hidden('sub_total[]', null) !!}
+                        {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                    </td>
+                </tr>`;
     }
 
     $('#add_row').on('click', function () {
@@ -113,6 +115,8 @@
         var checkbox = $('input:checked[name=row_product]');
         var parent = checkbox.parent().parent();
         parent.remove();
+
+        updateTotal();
     });
 
     $('select#user_id').on('change', function () {

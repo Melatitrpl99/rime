@@ -35,7 +35,7 @@
 </div>
 
 <!-- Path Field -->
-<div class="col-12 h-100">
+<div class="form-group col-12 h-100">
     {!! Form::label('path[]', 'Upload foto produk :') !!}
     {!! Form::file('path[]', ['class' => 'fileupload', 'multiple' => true]) !!}
 </div>

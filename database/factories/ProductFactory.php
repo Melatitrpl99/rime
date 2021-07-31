@@ -27,11 +27,11 @@ class ProductFactory extends Factory
         return [
             'nama' => $this->faker->sentence(rand(1, 5)),
             'deskripsi' => $this->faker->paragraph(rand(2, 5)),
-            'harga_customer' => $this->faker->numberBetween(50, 200) * 1000,
+            'harga_customer' => $this->faker->numberBetween(55, 150) * 1000,
             'harga_reseller' => function (array $attributes) {
-                return $attributes['harga_customer'] - rand(1, 30) * 1000;
+                return $attributes['harga_customer'] - rand(1, 20) * 1000;
             },
-            'reseller_minimum' => $this->faker->randomDigit(),
+            'reseller_minimum' => $this->faker->randomDigitNotNull(),
             'category_id' => $this->faker->randomElement($category),
         ];
     }

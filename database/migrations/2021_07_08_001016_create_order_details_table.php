@@ -22,6 +22,7 @@ class CreateOrderDetailsTable extends Migration
             $table->foreignId('dimension_id')->nullable()->constrained();
             $table->integer('jumlah');
             $table->bigInteger('sub_total');
+            $table->bigInteger('diskon')->nullable();
             $table->softDeletes();
 
             $table->primary(['order_id', 'product_id']);

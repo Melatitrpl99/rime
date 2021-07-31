@@ -15,7 +15,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @auth
-                    <a href="#" class="dropdown-item">
+                    <a href="{{ route('page.profile') }}" class="dropdown-item">
                         <i class="fas fa-user mr-1 text-success"></i>
                         <span class="dropdown-item-title">Profil</span>
                     </a>

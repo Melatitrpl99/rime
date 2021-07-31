@@ -48,7 +48,7 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $post = Post::create($request->validated());
+        Post::create($request->validated());
 
         flash('Post saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class PostController extends Controller
     /**
      * Display the specified Post.
      *
-     * @param $id
+     * @param \App\Models\Post $post
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
-
-        if (empty($post)) {
-            flash('Post not found', 'error');
-
-            return redirect()->route('admin.posts.index');
-        }
-
         return view('admin.posts.show')
             ->with('post', $post);
     }
@@ -79,19 +71,12 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified Post.
      *
-     * @param $id
+     * @param \App\Models\Post $post
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
-        if (empty($post)) {
-            flash('Post not found', 'error');
-
-            return redirect()->route('admin.posts.index');
-        }
-
         return view('admin.posts.edit')
             ->with('post', $post);
     }
@@ -99,21 +84,13 @@ class PostController extends Controller
     /**
      * Update the specified Post in storage.
      *
-     * @param $id
+     * @param \App\Models\Post $post
      * @param \App\Http\Requests\UpdatePostRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdatePostRequest $request)
+    public function update(Post $post, UpdatePostRequest $request)
     {
-        $post = Post::find($id);
-
-        if (empty($post)) {
-            flash('Post not found', 'error');
-
-            return redirect()->route('admin.posts.index');
-        }
-
         $post->update($request->validated());
 
         flash('Post updated successfully.', 'success');
@@ -124,20 +101,12 @@ class PostController extends Controller
     /**
      * Remove the specified Post from storage.
      *
-     * @param $id
+     * @param \App\Models\Post $post
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::find($id);
-
-        if (empty($post)) {
-            flash('Post not found', 'error');
-
-            return redirect()->route('admin.posts.index');
-        }
-
         $post->delete();
 
         flash('Post deleted successfully.', 'success');

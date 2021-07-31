@@ -48,7 +48,7 @@ class ColorController extends Controller
      */
     public function store(CreateColorRequest $request)
     {
-        $color = Color::create($request->validated());
+        Color::create($request->validated());
 
         flash('Color saved successfully.', 'success');
 
@@ -58,20 +58,12 @@ class ColorController extends Controller
     /**
      * Display the specified Color.
      *
-     * @param $id
+     * @param \App\Models\Color $color
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(Color $color)
     {
-        $color = Color::find($id);
-
-        if (empty($color)) {
-            flash('Color not found', 'error');
-
-            return redirect()->route('admin.colors.index');
-        }
-
         return view('admin.colors.show')
             ->with('color', $color);
     }
@@ -79,19 +71,12 @@ class ColorController extends Controller
     /**
      * Show the form for editing the specified Color.
      *
-     * @param $id
+     * @param \App\Models\Color $color
      *
      * @return \Illuminate\Support\Facades\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(Color $color)
     {
-        $color = Color::find($id);
-        if (empty($color)) {
-            flash('Color not found', 'error');
-
-            return redirect()->route('admin.colors.index');
-        }
-
         return view('admin.colors.edit')
             ->with('color', $color);
     }
@@ -99,21 +84,13 @@ class ColorController extends Controller
     /**
      * Update the specified Color in storage.
      *
-     * @param $id
+     * @param \App\Models\Color $color
      * @param \App\Http\Requests\UpdateColorRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateColorRequest $request)
+    public function update(Color $color, UpdateColorRequest $request)
     {
-        $color = Color::find($id);
-
-        if (empty($color)) {
-            flash('Color not found', 'error');
-
-            return redirect()->route('admin.colors.index');
-        }
-
         $color->update($request->validated());
 
         flash('Color updated successfully.', 'success');
@@ -124,20 +101,12 @@ class ColorController extends Controller
     /**
      * Remove the specified Color from storage.
      *
-     * @param $id
+     * @param \App\Models\Color $color
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Color $color)
     {
-        $color = Color::find($id);
-
-        if (empty($color)) {
-            flash('Color not found', 'error');
-
-            return redirect()->route('admin.colors.index');
-        }
-
         $color->delete();
 
         flash('Color deleted successfully.', 'success');

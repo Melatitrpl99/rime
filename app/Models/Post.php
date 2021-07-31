@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\User $user
  * @property string $judul
  * @property string $konten
- * @property foreignId $post_category_id
  * @property string $slug
+ * @property foreignId $post_category_id
  * @property foreignId $user_id
  */
 class Post extends Model
@@ -25,13 +25,11 @@ class Post extends Model
 
     public $table = 'posts';
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'judul',
         'konten',
-        'post_category_id',
         'slug',
+        'post_category_id',
         'user_id'
     ];
 
@@ -54,7 +52,8 @@ class Post extends Model
         'judul' => 'required',
         'konten' => 'required',
         'slug' => 'nullable',
-        'user_id' => 'required'
+        'user_id' => 'required',
+        'post_category_id' => 'required'
     ];
 
     /**
@@ -62,7 +61,7 @@ class Post extends Model
      **/
     public function postCategory()
     {
-        return $this->belongsTo(\App\Models\PostCategory::class);
+        return $this->belongsTo(PostCategory::class);
     }
 
     /**
@@ -70,6 +69,6 @@ class Post extends Model
      **/
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 }

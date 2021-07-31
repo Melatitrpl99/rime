@@ -85,17 +85,16 @@
 
 @push('scripts')
 <script>
-
     var data = 0;
 
     function addRow() {
         return `<tr>
-                <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
-                <td>{!! Form::select('product_id[]', $productItems, null , ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                <td>{!! Form::number('diskon_harga[]', null, ['class' => 'form-control']) !!}</td>
-                <td>{!! Form::number('minimal_produk[]', null, ['class' => 'form-control']) !!}</td>
-                <td>{!! Form::number('maksimal_produk[]', null, ['class' => 'form-control']) !!}</td>
-            </tr>`;
+                    <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::select('product_id[]', $productItems, null , ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                    <td>{!! Form::number('diskon_harga[]', null, ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::number('minimal_produk[]', null, ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::number('maksimal_produk[]', null, ['class' => 'form-control']) !!}</td>
+                </tr>`;
     }
 
     $('#add_row').on('click', function () {
@@ -115,23 +114,24 @@
         }).format(value);
     }
 </script>
-
 @endpush
 
 @include('layouts.plugins.datetimepicker')
 
-@push('scripts')
-<script>
-    $('#waktu_mulai').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm:ss',
-        useCurrent: true,
-        sideBySide: false
-    });
+@once
+    @push('scripts')
+    <script>
+        $('#waktu_mulai').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent: true,
+            sideBySide: false
+        });
 
-    $('#waktu_berakhir').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm:ss',
-        useCurrent: true,
-        sideBySide: false
-    });
-</script>
-@endpush
+        $('#waktu_berakhir').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent: true,
+            sideBySide: false
+        });
+    </script>
+    @endpush
+@endonce

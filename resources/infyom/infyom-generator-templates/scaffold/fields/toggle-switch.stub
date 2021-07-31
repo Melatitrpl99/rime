@@ -1,6 +1,9 @@
-<!-- 'bootstrap / Toggle Switch $FIELD_NAME_TITLE$ Field' -->
-<div class="form-group col-sm-6">
-    {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!}
-    {!! Form::hidden('$FIELD_NAME$', 0) !!}
-    {!! Form::checkbox('$FIELD_NAME$', 1, null,  ['data-bootstrap-switch']) !!}
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div class="form-group col-12 col-sm-6">
+    <label>$FIELD_NAME_TITLE$</label>
+    <div class="custom-control custom-switch custom-switch-on-success">
+        {!! Form::hidden('$FIELD_NAME$', 0) !!}
+        {!! Form::checkbox('$FIELD_NAME$', '$CHECKBOX_VALUE$', null, ['class' => 'custom-control-input custom-control-input-primary', 'id' => '$FIELD_NAME$']) !!}
+        {!! Form::label('$FIELD_NAME$', '$CHECKBOX_VALUE$', ['class' => 'custom-control-label']) !!}
+    </div>
 </div>
