@@ -50,11 +50,11 @@ class Product extends Model
      * @var array
      */
     protected $casts = [
-        'nama' => 'string',
-        'harga_customer' => 'integer',
-        'harga_reseller' => 'integer',
+        'nama'             => 'string',
+        'harga_customer'   => 'integer',
+        'harga_reseller'   => 'integer',
         'reseller_minimum' => 'integer',
-        'slug' => 'string'
+        'slug'             => 'string'
     ];
 
     /**
@@ -63,15 +63,15 @@ class Product extends Model
      * @var array
      */
     public static $rules = [
-        'nama' => 'required|string',
-        'deskripsi' => 'required|string',
-        'harga_customer' => 'required|numeric',
-        'harga_reseller' => 'required|numeric',
+        'nama'             => 'required|string',
+        'deskripsi'        => 'required|string',
+        'harga_customer'   => 'required|numeric',
+        'harga_reseller'   => 'required|numeric',
         'reseller_minimum' => 'required|numeric',
-        'suka' => 'required|numeric',
-        'slug' => 'nullable',
-        'category_id' => 'required',
-        'path' =>'required'
+        'suka'             => 'required|numeric',
+        'slug'             => 'nullable',
+        'category_id'      => 'required',
+        'path'             => 'required'
     ];
 
     /**

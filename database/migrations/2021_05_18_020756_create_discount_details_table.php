@@ -20,7 +20,6 @@ class CreateDiscountDetailsTable extends Migration
             $table->bigInteger('diskon_harga');
             $table->integer('minimal_produk')->nullable();
             $table->integer('maksimal_produk')->nullable();
-            $table->softDeletes();
 
             $table->primary(['discount_id', 'product_id']);
         });

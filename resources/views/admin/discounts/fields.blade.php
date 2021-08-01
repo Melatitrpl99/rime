@@ -13,7 +13,14 @@
 <!-- Kode Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('kode', 'Kode:') !!}
-    {!! Form::text('kode', null, ['class' => 'form-control']) !!}
+    <div class="input-group">
+        {!! Form::text('kode', null, ['class' => 'form-control']) !!}
+        <div class="input-group-append">
+            <button class="btn btn-info" type="button" id="random_discount_code">
+                Buat Kode Random
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Batas Pemakaian Field -->
@@ -49,18 +56,17 @@
             <tr class="border-bottom">
                 <th>#</th>
                 <th>Produk</th>
-                <th>diskon_harga</th>
-                <th>minimal_produk</th>
-                <th>maksimal_produk</th>
+                <th>Diskon harga</th>
+                <th>Minimal pembelian</th>
+                <th>Maksimal pembelian</th>
             </tr>
         </thead>
         <tbody id="form-body-recursive">
             @if (Route::currentRouteName() == 'admin.discounts.edit')
                 @foreach ($discount->products as $product)
                     <tr>
-                        <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
-                        </td>
-                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                        <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select']) !!}</td>
                         <td>{!! Form::number('diskon_harga[]', $product->pivot->diskon_harga, ['class' => 'form-control']) !!}</td>
                         <td>{!! Form::number('minimal_produk[]', $product->pivot->minimal_produk, ['class' => 'form-control']) !!}</td>
                         <td>{!! Form::number('maksimal_produk[]', $product->pivot->maksimal_produk, ['class' => 'form-control']) !!}</td>
@@ -70,16 +76,6 @@
                 @endforeach
             @endif
         </tbody>
-        <tfoot>
-            <tr class="border-top">
-                <th colspan="5"></th>
-                <th>Total</th>
-                <th>
-                    {!! Form::hidden('total', null, ['id' => 'total']) !!}
-                    {!! Form::text('calc', Route::currentRouteName() == 'admin.discount.edit' ? 'Rp '.number_format($discount->total, '2', ',', '.') : '', ['class' => 'form-control-plaintext', 'readonly' => true, 'id' => 'calc']) !!}
-                </th>
-            </tr>
-        </tfoot>
     </table>
 </div>
 
@@ -90,7 +86,7 @@
     function addRow() {
         return `<tr>
                     <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
-                    <td>{!! Form::select('product_id[]', $productItems, null , ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
+                    <td>{!! Form::select('product_id[]', $productItems, null , ['class' => 'form-control custom-select']) !!}</td>
                     <td>{!! Form::number('diskon_harga[]', null, ['class' => 'form-control']) !!}</td>
                     <td>{!! Form::number('minimal_produk[]', null, ['class' => 'form-control']) !!}</td>
                     <td>{!! Form::number('maksimal_produk[]', null, ['class' => 'form-control']) !!}</td>

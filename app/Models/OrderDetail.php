@@ -24,13 +24,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class OrderDetail extends Pivot
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
 
     public $table = 'order_details';
 
     protected $dates = ['deleted_at'];
 
     public $timestamps = false;
+
+    public $incrementing = true;
 
     public $fillable = [
         'color_id',

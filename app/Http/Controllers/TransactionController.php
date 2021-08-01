@@ -23,7 +23,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::with(['user.roles'])->paginate(15);
+        $transactions = Transaction::with('user.roles')->paginate(15);
 
         return view('admin.transactions.index')
             ->with('transactions', $transactions);
@@ -48,7 +48,19 @@ class TransactionController extends Controller
      */
     public function store(CreateTransactionRequest $request)
     {
-        Transaction::create($request->validated());
+        $faker = \Faker\Factory::create();
+        $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
+        $input = collect($request->validated())
+            ->put('nomor', $nomor)
+            ->toArray();
+
+        $transaction = Transaction::create($input);
+
+        if ($request->has(['order_id'])) {
+            foreach ($request->order_id as $orderId) {
+                $transaction->orders()->attach($orderId, ['sub_total' => $request->sub_total]);
+            }
+        }
 
         flash('Transaction saved successfully.', 'success');
 
@@ -64,6 +76,16 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
+        $transaction->load([
+            'orders.products:id,nama,harga_reseller,harga_customer',
+            'orders.status:id,name',
+            'orders.user:id,name',
+            'orders.user.roles:id,name',
+            'orders.products.pivot.color:id,name',
+            'orders.products.pivot.size:id,name',
+            'orders.products.pivot.dimension:id,name',
+        ]);
+
         return view('admin.transactions.show')
             ->with('transaction', $transaction);
     }
@@ -92,6 +114,13 @@ class TransactionController extends Controller
     public function update(Transaction $transaction, UpdateTransactionRequest $request)
     {
         $transaction->update($request->validated());
+
+        if ($request->has(['order_id'])) {
+            $transaction->orders()->detach();
+            foreach ($request->order_id as $orderId) {
+                $transaction->orders()->attach($orderId, ['sub_total' => $request->sub_total]);
+            }
+        }
 
         flash('Transaction updated successfully.', 'success');
 

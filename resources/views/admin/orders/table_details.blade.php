@@ -5,48 +5,56 @@
             <th class="py-2 border-bottom">Varian produk</th>
             <th class="py-2 border-bottom">Harga</th>
             <th class="py-2 border-bottom">Jumlah</th>
-            <th class="py-2 border-bottom">Diskon</th>
             <th class="py-2 border-bottom">Subtotal</th>
+            <th class="py-2 border-bottom">Diskon</th>
         </tr>
     </thead>
     <tbody>
-        {{-- {{ dd($order->user->hasRole('reseller')) }} --}}
-        @foreach($order->products as $detail)
+        @foreach($order->products as $product)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $detail->nama }} + warna {{ $detail->pivot->color->name }} + size {{ optional($detail->pivot->size)->name ?? $detail->pivot->dimension->name }}</td>
+                <td>{{ $product->nama }} + warna {{ $product->pivot->color->name }} + size {{ optional($product->pivot->size)->name ?? $product->pivot->dimension->name }}</td>
                 <td>
                     <div class="d-flex justify-content-between align-items-baseline">
                         <span>Rp.</span>
                         <span>
                         {{ $order->user->hasRole('reseller')
-                            ? number_format($detail->harga_reseller, 2, ',', '.')
-                            : number_format($detail->harga_customer, 2, ',', '.') }}
+                            ? number_format($product->harga_reseller, 2, ',', '.')
+                            : number_format($product->harga_customer, 2, ',', '.') }}
                         </span>
                     </div>
                 </td>
-                <td class="text-center">x{{ $detail->pivot->jumlah }}</td>
+                <td class="text-center">x{{ $product->pivot->jumlah }}</td>
                 <td>
                     <div class="d-flex justify-content-between align-items-baseline">
                         <span>Rp.</span>
-                        <span>{{ number_format($detail->pivot->diskon, 2, ',', '.') }}</span>
+                        <span>{{ number_format($product->pivot->sub_total, 2, ',', '.') }}</span>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex justify-content-between align-items-baseline">
                         <span>Rp.</span>
-                        <span>{{ number_format($detail->pivot->sub_total, 2, ',', '.') }}</span>
+                        <span>{{ number_format($product->pivot->diskon, 2, ',', '.') }}</span>
                     </div>
                 </td>
             </tr>
         @endforeach
     </tbody>
     <tfoot>
-        <th class="py-2 border-top" colspan="4"></th>
-        <th class="py-2 border-top">Total</th>
-        <th class="py-2 border-top d-flex justify-content-between align-items-baseline">
-            <span>Rp.</span>
-            <span>{{ number_format($order->total, 2, ',', '.') }}</span>
+        <th class="py-2 border-top" colspan="2"></th>
+        <th class="py-2 border-top text-right">Total</th>
+        <th class="py-2 border-top text-center">{{ $order->products->sum('pivot.jumlah') }}</th>
+        <th class="py-2 border-top">
+            <div class="d-flex justify-content-between align-items-baseline">
+                <span>Rp.</span>
+                <span>{{ number_format($order->total, 2, ',', '.') }}</span>
+            </div>
+        </th>
+        <th class="py-2 border-top">
+            <div class="d-flex justify-content-between align-items-baseline">
+                <span>Rp.</span>
+                <span>{{ number_format($order->products->sum('pivot.diskon'), 2, ',', '.') }}</span>
+            </div>
         </th>
     </tfoot>
 </table>

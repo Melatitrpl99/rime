@@ -4,7 +4,7 @@
             <th class="py-2 border-bottom">#</th>
             <th class="py-2 border-bottom">Varian produk</th>
             <th class="py-2 border-bottom">Harga</th>
-            <th class="py-2 border-bottom">Jumlah</th>
+            <th class="py-2 border-bottom text-center">Jumlah</th>
             <th class="py-2 border-bottom">Subtotal</th>
         </tr>
     </thead>
@@ -13,7 +13,7 @@
         @foreach($cart->products as $product)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $product->nama }} + warna {{ $product->pivot->color->name }} ukuran {{ optional($product->pivot->size)->name ?? $product->pivot->dimension->name }}</td>
+                <td>{{ $product->nama }} + warna {{ optional($product->pivot->color)->name }} ukuran {{ optional($product->pivot->size)->name ?? optional($product->pivot->dimension)->name }}</td>
                 <td class="d-flex justify-content-between align-items-baseline">
                     <span>Rp.</span>
                     <span>

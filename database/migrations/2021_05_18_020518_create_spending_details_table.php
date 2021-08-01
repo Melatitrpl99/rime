@@ -19,7 +19,6 @@ class CreateSpendingDetailsTable extends Migration
             $table->foreignId('spending_id')->constrained();
             $table->string('nama')->nullable();
             $table->bigInteger('sub_total')->nullable();
-            $table->softDeletes();
         });
     }
 

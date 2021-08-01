@@ -58,6 +58,7 @@ class ViewServiceProvider extends ServiceProvider
             $userItems = $users->pluck('name','id')->toArray();
             $priceCustomer = $products->pluck('harga_customer', 'id')->toJson();
             $priceReseller = $products->pluck('harga_reseller', 'id')->toJson();
+            $minimumReseller = $products->pluck('reseller_minimum', 'id')->toJson();
             $productItems = $products->pluck('nama','id')->toArray();
             $colorItems = Color::pluck('name','id')->toArray();
             $dimensionItems = Dimension::pluck('name','id')->toArray();
@@ -66,6 +67,7 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('userItems', $userItems)
                 ->with('userRoles', $userRoles)
                 ->with('priceCustomer', $priceCustomer)
+                ->with('minimumReseller', $minimumReseller)
                 ->with('priceReseller', $priceReseller)
                 ->with('productItems', $productItems)
                 ->with('colorItems', $colorItems)
@@ -95,6 +97,7 @@ class ViewServiceProvider extends ServiceProvider
             $userItems = $users->pluck('name','id')->toArray();
             $priceCustomer = $products->pluck('harga_customer', 'id')->toJson();
             $priceReseller = $products->pluck('harga_reseller', 'id')->toJson();
+            $minimumReseller = $products->pluck('reseller_minimum', 'id')->toJson();
             $productItems = $products->pluck('nama','id')->toArray();
             $colorItems = Color::pluck('name','id')->toArray();
             $dimensionItems = Dimension::pluck('name','id')->toArray();
@@ -104,6 +107,7 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('userRoles', $userRoles)
                 ->with('priceCustomer', $priceCustomer)
                 ->with('priceReseller', $priceReseller)
+                ->with('minimumReseller', $minimumReseller)
                 ->with('productItems', $productItems)
                 ->with('colorItems', $colorItems)
                 ->with('dimensionItems', $dimensionItems)

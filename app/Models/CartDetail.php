@@ -24,11 +24,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CartDetail extends Pivot
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
 
     public $table = 'cart_details';
 
     public $timestamps = false;
+
+    public $incrementing = true;
 
     protected $dates = ['deleted_at'];
 

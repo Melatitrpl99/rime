@@ -7,7 +7,7 @@
 <!-- Order Id Field -->
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('order_id', 'Order:') !!}
-    {!! Form::select('order_id', $orderItems, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::select('order_id', $orderItems, null, ['class' => 'form-control select2-dropdown']) !!}
 </div>
 
 <!-- No Field -->

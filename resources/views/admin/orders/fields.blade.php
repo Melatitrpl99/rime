@@ -57,23 +57,23 @@
                 <th>Ukuran</th>
                 <th>Dimensi</th>
                 <th>Jumlah</th>
-                <th>Sub Total</th>
+                <th>Subtotal</th>
             </tr>
         </thead>
         <tbody id="form-body-recursive">
             @if (Route::currentRouteName() == 'admin.orders.edit')
                 @foreach ($order->products as $product)
                     <tr>
-                        <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
-                        </td>
+                        <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
                         <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)', 'placeholder' => 'Pilih produk...']) !!}</td>
                         <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih warna...']) !!}</td>
                         <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih ukuran...']) !!}</td>
-                        <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'oninput' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
+                        <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih dimensi...']) !!}</td>
+                        <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'onchange' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
                         <td>
                             {!! Form::hidden('sub_total[]', $product->pivot->sub_total) !!}
                             {!! Form::text('subtotal[]', 'Rp '.number_format($product->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                            {!! Form::hidden('diskon[]', $product->pivot->diskon) !!}
                         </td>
                     </tr>
                 @endforeach
@@ -104,6 +104,10 @@
         return {!! $priceReseller !!}[productId];
     }
 
+    function minimumReseller(productId) {
+        return {!! $minimumReseller !!}[productId];
+    }
+
     function userRoles(userId) {
         role = {!! $userRoles !!}[userId];
     }
@@ -111,14 +115,15 @@
     function addRow() {
         return `<tr>
                     <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
-                    <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                    <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                    <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                    <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                    <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'oninput' => 'updateJumlah(this)']) !!}</td>
+                    <td>{!! Form::select('product_id[]', $productItems, null, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)', 'placeholder' => 'Pilih produk...']) !!}</td>
+                    <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih warna...']) !!}</td>
+                    <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih ukuran...']) !!}</td>
+                    <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih dimensi...']) !!}</td>
+                    <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'onchange' => 'updateJumlah(this)']) !!}</td>
                     <td>
-                        {!! Form::hidden('sub_total[]', null) !!}
+                        {!! Form::hidden('sub_total[]', 0) !!}
                         {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                        {!! Form::hidden('diskon[]', 0) !!}
                     </td>
                 </tr>`;
     }
@@ -139,7 +144,6 @@
         var forms = document.querySelector('#form-body-recursive');
         var rows = forms.getElementsByTagName('tr');
 
-        var subs = 0;
         for (let element of rows) {
             updateJumlah(element.children[5].children[0]);
             updateProduct(element.children[1].children[0]);
@@ -151,26 +155,34 @@
     $('button#cek_diskon').on('click', function () {
         // $(this).attr('class', 'btn btn-info overlay dark')
         // $(this).prepend(`<i class="fas fa-spinner fa-spin mr-1"></i>`);
-        showLoading($(this));
+
+        if ($('#kode_diskon').val().length != 0) {
+            showLoading($(this));
+
+            $.ajax({
+                url: "{{ route('cek_diskon') }}",
+                type: 'get',
+                data: {
+                    diskon: $('#kode_diskon').val()
+                },
+                success: function (response) {
+                    if (response.exists) {
+                        $('button#cek_diskon').attr('class', 'btn btn-success');
+                        $('button#cek_diskon').html('<i class="fas fa-check mr-1"></i> Diskon ditemukan');
+                    } else {
+                        $('button#cek_diskon').attr('class', 'btn btn-danger');
+                        $('button#cek_diskon').html('<i class="fas fa-times mr-1"></i> Diskon tidak ditemukan');
+                    }
+                },
+                error: function (xhr) {
+                }
+            })
+        }
     });
 
-    var loading = false;
-    var checked = false;
     function showLoading() {
-        loading = !loading;
-        if (loading) {
-            $('button#cek_diskon').attr('class', 'btn btn-secondary');
-            $('button#cek_diskon').prepend(`<i class="fas fa-spinner fa-spin mr-1"></i>`);
-            checkDiscount();
-        } else {
-            $('button#cek_diskon').attr('class', 'btn btn-info');
-            $('button#cek_diskon i').remove();
-        }
-    }
-
-    function checkDiscount() {
-        let diskon = document.querySelector('#kode_diskon');
-        console.log(diskon.value);
+        $('button#cek_diskon').attr('class', 'btn btn-secondary');
+        $('button#cek_diskon').html('<i class="fas fa-spinner fa-spin mr-1"></i> Tunggu sebentar...');
     }
 
     function updateJumlah(el) {
@@ -185,8 +197,13 @@
 
         let subTotal = tr.lastElementChild.children;
 
-        subTotal[0].value = role == "reseller" ? el.value * priceReseller(product.value) : el.value * priceCustomer(product.value);
-        subTotal[1].value = convertNumber(subTotal[0].value);
+        if (product.value != "") {
+            subTotal[0].value = role == "reseller" ? el.value * priceReseller(product.value) : el.value * priceCustomer(product.value);
+            subTotal[1].value = convertNumber(subTotal[0].value);
+        } else {
+            subTotal[0].value = null;
+            subTotal[1].value = "";
+        }
 
         updateTotal();
     }
@@ -199,8 +216,13 @@
 
         let subTotal = tr.lastElementChild.children;
 
-        subTotal[0].value = role == "reseller" ? jumlah.value * priceReseller(el.value) : jumlah.value * priceCustomer(el.value);
-        subTotal[1].value = convertNumber(subTotal[0].value);
+        if (el.value != "") {
+            subTotal[0].value = role == "reseller" ? jumlah.value * priceReseller(el.value) : jumlah.value * priceCustomer(el.value);
+            subTotal[1].value = convertNumber(subTotal[0].value);
+        } else {
+            subTotal[0].value = null;
+            subTotal[1].value = "";
+        }
 
         updateTotal();
     }
@@ -222,7 +244,6 @@
 
         let calc = document.getElementById('calc');
         calc.value = convertNumber(total.value);
-        // total.value = totalHarga;
     }
 
     function convertNumber(value) {

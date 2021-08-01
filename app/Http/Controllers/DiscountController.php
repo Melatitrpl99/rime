@@ -48,7 +48,17 @@ class DiscountController extends Controller
      */
     public function store(CreateDiscountRequest $request)
     {
-        Discount::create($request->validated());
+        $discount = Discount::create($request->validated());
+
+        if ($request->has(['product_id', 'diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
+            foreach($request->product_id as $key => $productId) {
+                $discount->products()->attach($productId, [
+                    'diskon_harga'    => $request->diskon_harga[$key],
+                    'minimal_produk'  => $request->minimal_produk[$key],
+                    'maksimal_produk' => $request->maksimal_produk[$key]
+                ]);
+            }
+        }
 
         flash('Discount saved successfully.', 'success');
 
@@ -64,6 +74,7 @@ class DiscountController extends Controller
      */
     public function show(Discount $discount)
     {
+        $discount->load('products');
         return view('admin.discounts.show')
             ->with('discount', $discount);
     }
@@ -93,6 +104,17 @@ class DiscountController extends Controller
     {
         $discount->update($request->validated());
 
+        if ($request->has(['product_id', 'diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
+            $discount->products()->detach(null, false);
+            foreach($request->product_id as $key => $productId) {
+                $discount->products()->attach($productId, [
+                    'diskon_harga'    => $request->diskon_harga[$key],
+                    'minimal_produk'  => $request->minimal_produk[$key],
+                    'maksimal_produk' => $request->maksimal_produk[$key]
+                ]);
+            }
+        }
+
         flash('Discount updated successfully.', 'success');
 
         return redirect()->route('admin.discounts.index');
@@ -107,6 +129,7 @@ class DiscountController extends Controller
      */
     public function destroy(Discount $discount)
     {
+        $discount->products()->detach();
         $discount->delete();
 
         flash('Discount deleted successfully.', 'success');

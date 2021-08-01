@@ -26,20 +26,9 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\Discount;
-use App\Models\Regency;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::redirect('/', 'login');
 
@@ -62,9 +51,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('upload', [FilepondController::class, 'store'])->name('file.store');
     Route::delete('revert', [FilepondController::class, 'destroy'])->name('file.destroy');
 
-    Route::get('/cek_diskon/{diskon}', function ($diskon) {
-        return Discount::where('kode', $diskon)->exists();
-    });
+    Route::get('/cek', function (Request $request) {
+        $diskon = $request->get('diskon');
+        return response(['exists' => Discount::where('kode', $diskon)->exists()]);
+    })->name('cek_diskon');
 
     Route::group(['' => 'region', 'as' => 'region.'], function () {
         Route::get('/kota/{provinsiId}', [RegionController::class, 'getKota'])

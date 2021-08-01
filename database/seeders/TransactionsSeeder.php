@@ -22,11 +22,12 @@ class TransactionsSeeder extends Seeder
             ->each(function ($transaction) {
                 $orders = Order::inRandomOrder()
                     ->limit(rand(1, Order::count()))
+                    ->with('products')
                     ->get();
 
                 foreach($orders as $order) {
                     $transaction->orders()->attach($order, [
-                        'sub_total' => $order->total - $order->diskon + $order->biaya_pengiriman
+                        'sub_total' => $order->total - $order->products->sum('pivot.diskon') + $order->biaya_pengiriman
                     ]);
                 }
 

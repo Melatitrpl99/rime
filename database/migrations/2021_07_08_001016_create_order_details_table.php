@@ -15,17 +15,15 @@ class CreateOrderDetailsTable extends Migration
     public function up()
     {
         Schema::create('order_details', function (Blueprint $table) {
+            $table->id('id');
             $table->foreignId('order_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->foreignId('color_id')->nullable()->constrained();
+            $table->foreignId('color_id')->constrained();
             $table->foreignId('size_id')->nullable()->constrained();
             $table->foreignId('dimension_id')->nullable()->constrained();
             $table->integer('jumlah');
             $table->bigInteger('sub_total');
             $table->bigInteger('diskon')->nullable();
-            $table->softDeletes();
-
-            $table->primary(['order_id', 'product_id']);
         });
     }
 

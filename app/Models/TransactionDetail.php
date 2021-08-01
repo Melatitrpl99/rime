@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class TransactionDetail extends Pivot
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
 
     public $table = 'transaction_details';
 

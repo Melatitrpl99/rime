@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class DiscountDetail extends Pivot
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
 
     public $table = 'discount_details';
 

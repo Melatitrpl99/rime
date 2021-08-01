@@ -6,7 +6,10 @@ use App\Http\Requests\CreateCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class CartController
@@ -54,7 +57,37 @@ class CartController extends Controller
             ->put('nomor', $nomor)
             ->toArray();
 
-        Cart::create($input);
+        $cart = Cart::create($input);
+
+        if ($request->has(['product_id', 'color_id', 'size_id', 'dimension_id', 'jumlah', 'sub_total'])) {
+
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+
+            foreach($request->product_id as $key => $productId) {
+                $jumlah = $request->jumlah[$key];
+                $product = $products->find($productId);
+
+                if ($role && $jumlah < $product->reseller_minimum) {
+                    $cart->products()->detach();
+                    $cart->forceDelete();
+
+                    flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
+
+                    return redirect()->route('admin.carts.index');
+                }
+
+                $cart->products()->attach($productId, [
+                    'color_id'     => $request->color_id[$key],
+                    'size_id'      => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah'       => $request->jumlah[$key],
+                    'sub_total'    => $role
+                            ? $product->harga_reseller * $request->jumlah[$key]
+                            : $product->harga_customer * $request->jumlah[$key]
+                ]);
+            }
+        }
 
         flash('Cart saved successfully.', 'success');
 
@@ -105,6 +138,37 @@ class CartController extends Controller
     {
         $cart->update($request->validated());
 
+        if ($request->has(['product_id', 'color_id', 'size_id', 'dimension_id', 'jumlah', 'sub_total'])) {
+
+            $cart->products()->detach(null, false);
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+
+            foreach($request->product_id as $key => $productId) {
+                $jumlah = $request->jumlah[$key];
+                $product = $products->find($productId);
+
+                if ($role && $jumlah < $product->reseller_minimum) {
+                    $cart->products()->detach();
+                    $cart->forceDelete();
+
+                    flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
+
+                    return redirect()->route('admin.carts.index');
+                }
+
+                $cart->products()->attach($productId, [
+                    'color_id'     => $request->color_id[$key],
+                    'size_id'      => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah'       => $request->jumlah[$key],
+                    'sub_total'    => $role
+                            ? $products[$key]->harga_reseller * $request->jumlah[$key]
+                            : $products[$key]->harga_customer * $request->jumlah[$key]
+                ]);
+            }
+        }
+
         flash('Cart updated successfully.', 'success');
 
         return redirect()->route('admin.carts.index');
@@ -119,6 +183,7 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
+        $cart->products()->detach();
         $cart->delete();
 
         flash('Cart deleted successfully.', 'success');

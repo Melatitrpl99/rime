@@ -40,7 +40,7 @@
                 <th>Ukuran</th>
                 <th>Dimensi</th>
                 <th>Jumlah</th>
-                <th>Sub Total</th>
+                <th>Subtotal</th>
             </tr>
         </thead>
         <tbody id="form-body-recursive">
@@ -48,10 +48,10 @@
                 @foreach ($cart->products as $product)
                     <tr>
                         <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
-                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                        <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select']) !!}</td>
-                        <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select']) !!}</td>
+                        <td>{!! Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)', 'placeholder' => 'Pilih produk...']) !!}</td>
+                        <td>{!! Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih warna...']) !!}</td>
+                        <td>{!! Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih ukuran...']) !!}</td>
+                        <td>{!! Form::select('dimension_id[]', $dimensionItems, $product->pivot->dimension_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih dimensi...']) !!}</td>
                         <td>{!! Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'onchange' => 'updateJumlah(this)', 'min' => 1]) !!}</td>
                         <td>
                             {!! Form::hidden('sub_total[]', $product->pivot->sub_total) !!}
@@ -76,8 +76,6 @@
 
 @push('scripts')
 <script>
-    var data = 0;
-
     var role = "";
 
     function priceCustomer(productId) {
@@ -88,6 +86,10 @@
         return {!! $priceReseller !!}[productId];
     }
 
+    function minimumReseller(productId) {
+        return {!! $minimumReseller !!}[productId];
+    }
+
     function userRoles(userId) {
         role = {!! $userRoles !!}[userId];
     }
@@ -95,13 +97,13 @@
     function addRow() {
         return `<tr>
                     <td>{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
-                    <td>{!! Form::select('product_id[]', $productItems, 1, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)']) !!}</td>
-                    <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                    <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select']) !!}</td>
-                    <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select']) !!}</td>
+                    <td>{!! Form::select('product_id[]', $productItems, null, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)', 'placeholder' => 'Pilih produk...']) !!}</td>
+                    <td>{!! Form::select('color_id[]', $colorItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih warna...']) !!}</td>
+                    <td>{!! Form::select('size_id[]', $sizeItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih ukuran...']) !!}</td>
+                    <td>{!! Form::select('dimension_id[]', $dimensionItems, null, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih dimensi...']) !!}</td>
                     <td>{!! Form::number('jumlah[]', 1, ['class' => 'form-control', 'min' => 1, 'onchange' => 'updateJumlah(this)']) !!}</td>
                     <td>
-                        {!! Form::hidden('sub_total[]', null) !!}
+                        {!! Form::hidden('sub_total[]', 0) !!}
                         {!! Form::text('subtotal[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                     </td>
                 </tr>`;
@@ -123,7 +125,6 @@
         var forms = document.querySelector('#form-body-recursive');
         var rows = forms.getElementsByTagName('tr');
 
-        var subs = 0;
         for (let element of rows) {
             updateJumlah(element.children[5].children[0]);
             updateProduct(element.children[1].children[0]);
@@ -144,8 +145,17 @@
 
         let subTotal = tr.lastElementChild.children;
 
-        subTotal[0].value = role == "reseller" ? el.value * priceReseller(product.value) : el.value * priceCustomer(product.value);
-        subTotal[1].value = convertNumber(subTotal[0].value);
+        if (role == "reseller" && parseInt(el.value) < minimumReseller(product.value)) {
+            el.value = minimumReseller(product.value);
+        }
+
+        if (product.value != "") {
+            subTotal[0].value = role == "reseller" ? el.value * priceReseller(product.value) : el.value * priceCustomer(product.value);
+            subTotal[1].value = convertNumber(subTotal[0].value);
+        } else {
+            subTotal[0].value = null;
+            subTotal[1].value = "";
+        }
 
         updateTotal();
     }
@@ -158,8 +168,17 @@
 
         let subTotal = tr.lastElementChild.children;
 
-        subTotal[0].value = role == "reseller" ? jumlah.value * priceReseller(el.value) : jumlah.value * priceCustomer(el.value);
-        subTotal[1].value = convertNumber(subTotal[0].value);
+        if (role == "reseller" && parseInt(jumlah.value) < minimumReseller(el.value)) {
+            jumlah.value = minimumReseller(el.value);
+        }
+
+        if (el.value != "") {
+            subTotal[0].value = role == "reseller" ? jumlah.value * priceReseller(el.value) : jumlah.value * priceCustomer(el.value);
+            subTotal[1].value = convertNumber(subTotal[0].value);
+        } else {
+            subTotal[0].value = null;
+            subTotal[1].value = "";
+        }
 
         updateTotal();
     }
@@ -181,7 +200,6 @@
 
         let calc = document.getElementById('calc');
         calc.value = convertNumber(total.value);
-        // total.value = totalHarga;
     }
 
     function convertNumber(value) {

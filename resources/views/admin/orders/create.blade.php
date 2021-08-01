@@ -24,9 +24,9 @@
                                 @include('admin.orders.fields')
                             </div>
                         </div>
-                        <div class="card-footer">
-                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.orders.index') }}" class="btn btn-default">Cancel</a>
+                        <div class="card-footer d-flex justify-content-right align-items-center">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Simpan</button>
+                            <a href="{{ route('admin.orders.index') }}" class="btn btn-default ml-1">Batal</a>
                         </div>
                         {!! Form::close() !!}
                     </div>

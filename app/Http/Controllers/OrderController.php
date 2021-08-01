@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Discount;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -48,7 +51,49 @@ class OrderController extends Controller
      */
     public function store(CreateOrderRequest $request)
     {
-        Order::create($request->validated());
+        $faker = \Faker\Factory::create();
+        $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
+        $input = collect($request->validated())
+            ->put('nomor', $nomor)
+            ->toArray();
+
+        $order = Order::create($input);
+
+        if ($request->has(['product_id', 'color_id', 'size_id', 'dimension_id', 'jumlah', 'sub_total'])) {
+
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+            $discount = Discount::where('kode', $request->kode_diskon)->with('products')->first();
+
+            foreach($request->product_id as $key => $productId) {
+                $product = $products->find($productId);
+                $jumlah = $request->jumlah[$key];
+                $pivot = $discount->products->find($productId)->pivot;
+                $isDiscountable = ($request->exists('kode_diskon')
+                        && $pivot->minimal_produk > $jumlah
+                        && $pivot->maksimal_produk < $jumlah);
+
+                if ($role && $jumlah < $product->reseller_minimum) {
+                    $order->products()->detach();
+                    $order->forceDelete();
+
+                    flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
+
+                    return redirect()->route('admin.carts.index');
+                }
+
+                $order->products()->attach($productId, [
+                    'color_id'     => $request->color_id[$key],
+                    'size_id'      => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah'       => $jumlah,
+                    'diskon'       => $isDiscountable ? $pivot->diskon_harga : null,
+                    'sub_total'    => $role
+                            ? $product->harga_reseller * $jumlah
+                            : $product->harga_customer * $jumlah
+                ]);
+            }
+        }
 
         flash('Order saved successfully.', 'success');
 
@@ -83,7 +128,6 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        // dd($order);
         return view('admin.orders.edit')
             ->with('order', $order);
     }
@@ -100,6 +144,43 @@ class OrderController extends Controller
     {
         $order->update($request->validated());
 
+        if ($request->has(['product_id', 'color_id', 'size_id', 'dimension_id', 'jumlah', 'sub_total'])) {
+
+            $order->products()->detach(null, false);
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
+            $discount = Discount::where('kode', $request->kode_diskon)->with('products')->first();
+
+            foreach($request->product_id as $key => $productId) {
+                $product = $products->find($productId);
+                $jumlah = $request->jumlah[$key];
+                $pivot = $discount->products->find($productId)->pivot;
+                $isDiscountable = ($request->exists('kode_diskon')
+                        && $pivot->minimal_produk > $jumlah
+                        && $pivot->maksimal_produk < $jumlah);
+
+                if ($role && $jumlah < $product->reseller_minimum) {
+                    $order->products()->detach();
+                    $order->forceDelete();
+
+                    flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
+
+                    return redirect()->route('admin.carts.index');
+                }
+
+                $order->products()->attach($productId, [
+                    'color_id'     => $request->color_id[$key],
+                    'size_id'      => $request->size_id[$key],
+                    'dimension_id' => $request->dimension_id[$key],
+                    'jumlah'       => $jumlah,
+                    'diskon'       => $isDiscountable ? $pivot->diskon_harga : null,
+                    'sub_total'    => $role
+                            ? $product->harga_reseller * $jumlah
+                            : $product->harga_customer * $jumlah
+                ]);
+            }
+        }
+
         flash('Order updated successfully.', 'success');
 
         return redirect()->route('admin.orders.index');
@@ -114,6 +195,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $order->products()->detach();
         $order->delete();
 
         flash('Order deleted successfully.', 'success');

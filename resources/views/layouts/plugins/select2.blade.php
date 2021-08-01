@@ -4,10 +4,10 @@
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.min.js') }}"></script>
     <script>
         $(document).ready(() => {
-            $('.select2').select2({
+            $('.select2-dropdown').select2({
                 theme: 'bootstrap4'
             });
         });
