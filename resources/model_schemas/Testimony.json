@@ -12,6 +12,32 @@
         "inView": false
     },
     {
+        "name": "product_id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:products:nama,id",
+        "validations": "required|integer",
+        "searchable": false,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": false,
+        "inView": true,
+        "relation": "mt1,Product"
+    },
+    {
+        "name": "user_id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:users:name,id",
+        "validations": "required|integer",
+        "searchable": false,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": false,
+        "inView": false,
+        "relation": "mt1,User"
+    },
+    {
         "name": "judul",
         "dbType": "string",
         "htmlType": "text",
@@ -37,8 +63,8 @@
     },
     {
         "name": "review",
-        "dbType": "mediumInteger",
-        "htmlType": "text",
+        "dbType": "integer",
+        "htmlType": "radio,1:satu,2:dua,3:tiga,4:empat,5:lima",
         "validations": "required",
         "searchable": true,
         "fillable": true,
@@ -46,19 +72,6 @@
         "inForm": true,
         "inIndex": true,
         "inView": true
-    },
-    {
-        "name": "user_id",
-        "dbType": "foreignId:constrained",
-        "htmlType": "selectTable:users:name,id",
-        "validations": "required",
-        "searchable": false,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true,
-        "relation": "mt1,User"
     },
     {
         "name": "created_at",

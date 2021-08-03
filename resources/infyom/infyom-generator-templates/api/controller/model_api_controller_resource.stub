@@ -36,11 +36,7 @@ class $MODEL_NAME$APIController extends Controller
 
         $$MODEL_NAME_PLURAL_CAMEL$ = $query->get();
 
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => $MODEL_NAME$Resource::collection($$MODEL_NAME_PLURAL_CAMEL$)
-        ], 200);
+        return response()->json($MODEL_NAME$Resource::collection($$MODEL_NAME_PLURAL_CAMEL$), 200);
     }
 
     /**
@@ -55,11 +51,7 @@ class $MODEL_NAME$APIController extends Controller
     {
         $$MODEL_NAME_CAMEL$ = $MODEL_NAME$::create($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
-        ], 201);
+        return response()->json(new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$), 201);
     }
 
     /**
@@ -70,13 +62,9 @@ class $MODEL_NAME$APIController extends Controller
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show($$MODEL_NAME_CAMEL$)
+    public function show($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
     {
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
-        ], 200);
+        return response()->json(new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$), 200);
     }
 
     /**
@@ -88,15 +76,11 @@ class $MODEL_NAME$APIController extends Controller
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($$MODEL_NAME_CAMEL$, Update$MODEL_NAME$APIRequest $request)
+    public function update($MODEL_NAME$ $$MODEL_NAME_CAMEL$, Update$MODEL_NAME$APIRequest $request)
     {
         $$MODEL_NAME_CAMEL$->update($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully updated',
-            'status' => 'success',
-            'data' => new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$)
-        ], 200);
+        return response()->json(new $MODEL_NAME$Resource($$MODEL_NAME_CAMEL$), 200);
     }
 
     /**
@@ -107,13 +91,10 @@ class $MODEL_NAME$APIController extends Controller
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($$MODEL_NAME_CAMEL$)
+    public function destroy($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
     {
         $$MODEL_NAME_CAMEL$->delete();
 
-        return response()->json([
-            'message' => 'Successfully deleted',
-            'status' => 'success'
-        ], 200);
+        return response()->json(null, 204);
     }
 }

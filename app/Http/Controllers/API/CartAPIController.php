@@ -17,30 +17,27 @@ class CartAPIController extends Controller
 {
     /**
      * Display a listing of the Cart.
-     * GET|HEAD /carts
+     * GET|HEAD /carts/{userId}
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function index(Request $request)
+    public function index($userId, Request $request)
     {
         $query = Cart::query();
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
         }
+
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
 
-        $carts = $query->get();
+        $carts = $query->where('user_id', $userId)->get();
 
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => CartResource::collection($carts)
-        ]);
+        return response()->json(CartResource::collection($carts));
     }
 
     /**
@@ -55,87 +52,51 @@ class CartAPIController extends Controller
     {
         $cart = Cart::create($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new CartResource($cart)
-        ]);
+        return response()->json(new CartResource($cart));
     }
 
     /**
      * Display the specified Cart.
-     * GET|HEAD /carts/{$id}
+     * GET|HEAD /carts/{$cart}
      *
-     * @param $id
+     * @param \App\Models\Cart $cart
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show($id)
+    public function show(Cart $cart)
     {
-        $cart = Cart::with('products')->find($id);
+        $cart->load('products');
 
-        if (empty($cart)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => new CartResource($cart)
-        ]);
+        return response()->json(new CartResource($cart));
     }
 
     /**
      * Update the specified Cart in storage.
-     * PUT/PATCH /carts/{$id}
+     * PUT/PATCH /carts/{$cart}
      *
-     * @param $id
+     * @param \App\Models\Cart $cart
      * @param \App\Http\Requests\UpdateCartRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateCartAPIRequest $request)
+    public function update(Cart $cart, UpdateCartAPIRequest $request)
     {
-        $cart = Cart::find($id);
-
-        if (empty($cart)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
         $cart->update($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully updated',
-            'status' => 'success',
-            'data' => new CartResource($cart)
-        ]);
+        return response()->json(new CartResource($cart));
     }
 
     /**
      * Remove the specified Cart from storage.
      * DELETE /carts/{$id}
      *
-     * @param $id
+     * @param \App\Models\Cart $cart
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Cart $cart)
     {
-        $cart = Cart::find($id);
-
-        if (empty($cart)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
+        $cart->products()->detach();
         $cart->delete();
 
         return response()->json([

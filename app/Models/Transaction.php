@@ -65,8 +65,6 @@ class Transaction extends Model
      **/
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'transaction_details')
-            ->withPivot(['sub_total'])
-            ->using(TransactionDetail::class);
+        return $this->belongsToMany(Order::class, 'transaction_details');
     }
 }

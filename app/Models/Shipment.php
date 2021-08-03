@@ -49,7 +49,6 @@ class Shipment extends Model
      * @var array
      */
     protected $casts = [
-        'nama_lengkap' => 'string',
         'alamat' => 'string',
         'no' => 'string',
         'rt' => 'string',
@@ -63,7 +62,6 @@ class Shipment extends Model
      * @var array
      */
     public static $rules = [
-        'nama_lengkap' => 'required|string',
         'alamat' => 'required|string',
         'no' => 'nullable|string',
         'rt' => 'nullable|string',
@@ -79,7 +77,7 @@ class Shipment extends Model
      **/
     public function village()
     {
-        return $this->belongsTo(\App\Models\Village::class);
+        return $this->belongsTo(Village::class);
     }
 
     /**
@@ -87,6 +85,6 @@ class Shipment extends Model
      **/
     public function order()
     {
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(Order::class);
     }
 }

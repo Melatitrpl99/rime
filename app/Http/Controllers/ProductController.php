@@ -6,6 +6,7 @@ use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 /**
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class ProductController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the Product.
      *
@@ -48,7 +50,11 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        Product::create($request->validated());
+        $product = Product::create($request->validated());
+
+        if ($request->has('path')) {
+            $this->upload($request->file('path'), $request->nama, 'produk', $product);
+        }
 
         flash('Product saved successfully.', 'success');
 
@@ -92,6 +98,10 @@ class ProductController extends Controller
     public function update(Product $product, UpdateProductRequest $request)
     {
         $product->update($request->validated());
+
+        if ($request->has('path')) {
+            $this->upload($request->file('path'), $request->nama, 'produk', $product);
+        }
 
         flash('Product updated successfully.', 'success');
 

@@ -52,6 +52,12 @@ class File extends Model
         'url' => 'string'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     /**
      * Validation rules
      *

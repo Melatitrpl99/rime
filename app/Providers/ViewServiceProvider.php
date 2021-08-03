@@ -37,6 +37,14 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer('admin.testimonies.fields', function ($view) {
+            $productItems = Product::pluck('nama','id')->toArray();
+            $userItems = User::pluck('name','id')->toArray();
+
+            $view->with('userItems', $userItems)
+                ->with('productItems', $productItems);
+        });
+
         view()->composer('admin.carts.fields', function ($view) {
             $users = User::with('roles')->get();
             $products = Product::all();
@@ -168,13 +176,12 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.transactions.fields', function ($view) {
-            $orders = Order::all();
+            $orders = Order::with('products')->get();
 
             $orderItems = $orders->pluck('nomor', 'id')->toArray();
             $totalOrderItems = $orders->pluck('total', 'id')->toJson();
             $biayaPengirimanItems = $orders->pluck('biaya_pengiriman', 'id')->toJson();
             $diskonItems = $orders->pluck('diskon', 'id')->toJson();
-
             $userItems = User::pluck('name','id')->toArray();
 
             $view->with('userItems', $userItems)

@@ -1,3 +1,6 @@
 Route::group(['prefix' => '$RAW_ROUTE_PREFIX$'], function () {
-    Route::apiResource('$MODEL_NAME_PLURAL_SNAKE$', $NAMESPACE_API_CONTROLLER$\$MODEL_NAME$APIController::class);
+    Route::apiResource('$MODEL_NAME_PLURAL_SNAKE$', $NAMESPACE_API_CONTROLLER$\$MODEL_NAME$APIController::class)
+        ->missing(function () {
+            return response()->json(['message' => 'Not found'], 404);
+        });
 });

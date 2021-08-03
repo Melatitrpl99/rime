@@ -16,7 +16,6 @@ class CreateShipmentsTable extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id('id');
-            $table->string('nama_lengkap');
             $table->text('alamat');
             $table->string('no')->nullable();
             $table->string('rt')->nullable();

@@ -18,34 +18,34 @@
         <thead>
             <tr class="border-bottom">
                 <th>#</th>
-                <th>order</th>
-                <th>total order</th>
-                <th>biaya pengiriman</th>
-                <th>diskon</th>
-                <th>sub total</th>
+                <th>Order</th>
+                <th>Total order</th>
+                <th>Biaya pengiriman</th>
+                <th>Diskon</th>
+                <th>Subtotal</th>
             </tr>
         </thead>
         <tbody id="form-body-recursive">
-            @if (Route::currentRouteName() == 'admin.carts.edit')
+            @if (Route::currentRouteName() == 'admin.transactions.edit')
                 @foreach ($transactions->orders as $orders)
                     <tr>
                         <td>{!! Form::checkbox('row_orders', '1', null, ['class' => 'form-control']) !!}</td>
-                        <td>{!! Form::select('order_id[]', $orderItems, $order->id, ['class' => 'form-control custom-select', 'onchange' => 'updateOrder(this)']) !!}</td>
+                        <td>{!! Form::select('order_id[]', $orderItems, $order->id, ['class' => 'form-control custom-select', 'onchange' => 'updateOrder(this)', 'placeholder' => 'Pilih nomor order...']) !!}</td>
                         <td>
-                            {!! Form::hidden('total_order[]', $orders->pivot->sub_total) !!}
-                            {!! Form::text('totalorder[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                            {!! Form::hidden('total_order[]', $order->total) !!}
+                            {!! Form::text('totalorder[]', 'Rp '.number_format($order->total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                         </td>
                         <td>
-                            {!! Form::hidden('biaya_pengiriman[]', $orders->pivot->sub_total) !!}
-                            {!! Form::text('biayapengiriman[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                            {!! Form::hidden('biaya_pengiriman[]', $order->biaya_pengiriman) !!}
+                            {!! Form::text('biayapengiriman[]', 'Rp '.number_format($order->biaya_pengiriman, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                         </td>
                         <td>
-                            {!! Form::hidden('diskon[]', $orders->pivot->sub_total) !!}
-                            {!! Form::text('diskon[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                            {!! Form::hidden('total_diskon[]', $order->products_sum_diskon) !!}
+                            {!! Form::text('totaldiskon[]', 'Rp '.number_format($order->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                         </td>
                         <td>
-                            {!! Form::hidden('sub_total[]', $orders->pivot->sub_total) !!}
-                            {!! Form::text('subtotal[]', 'Rp '.number_format($orders->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                            {!! Form::hidden('sub_total[]', $order->pivot->sub_total) !!}
+                            {!! Form::text('subtotal[]', 'Rp '.number_format($order->pivot->sub_total, '2', ',', '.'), ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                         </td>
                     </tr>
                 @endforeach
@@ -57,7 +57,7 @@
                 <th>Total</th>
                 <th>
                     {!! Form::hidden('total', null, ['id' => 'total']) !!}
-                    {!! Form::text('calc', Route::currentRouteName() == 'admin.carts.edit' ? 'Rp '.number_format($cart->total, '2', ',', '.') : '', ['class' => 'form-control-plaintext', 'readonly' => true, 'id' => 'calc']) !!}
+                    {!! Form::text('calc', Route::currentRouteName() == 'admin.transactions.edit' ? 'Rp '.number_format($cart->total, '2', ',', '.') : '', ['class' => 'form-control-plaintext', 'readonly' => true, 'id' => 'calc']) !!}
                 </th>
             </tr>
         </tfoot>
@@ -66,11 +66,10 @@
 
 @push('scripts')
 <script>
-
     function addRow() {
         return `<tr>
                 <td>{!! Form::checkbox('row_orders', '1', null, ['class' => 'form-control']) !!}</td>
-                <td>{!! Form::select('order_id[]', $orderItems, null, ['class' => 'form-control custom-select', 'onchange' => 'updateOrder(this)']) !!}</td>
+                <td>{!! Form::select('order_id[]', $orderItems, null, ['class' => 'form-control custom-select', 'onchange' => 'updateOrder(this)', 'placeholder' => 'Pilih nomor order...']) !!}</td>
                 <td>
                     {!! Form::hidden('total_order[]', null) !!}
                     {!! Form::text('totalorder[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
@@ -80,8 +79,8 @@
                     {!! Form::text('biayapengiriman[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                 </td>
                 <td>
-                    {!! Form::hidden('diskon[]', null) !!}
-                    {!! Form::text('diskon[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
+                    {!! Form::hidden('total_diskon[]', null) !!}
+                    {!! Form::text('totaldiskon[]', null, ['class' => 'form-control-plaintext', 'readonly' => true]) !!}
                 </td>
                 <td>
                     {!! Form::hidden('sub_total[]', null) !!}
@@ -116,13 +115,14 @@
     function totalOrder(orderId) {
         return {!! $totalOrderItems !!}[orderId];
     }
+
     function biayaPengiriman(orderId) {
         return {!! $biayaPengirimanItems !!}[orderId];
     }
-    function Diskon(orderId) {
+
+    function diskon(orderId) {
         return {!! $diskonItems !!}[orderId];
     }
-
 
     function updateOrder(el) {
         let td = el.parentElement;

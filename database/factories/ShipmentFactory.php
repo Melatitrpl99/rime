@@ -25,7 +25,6 @@ class ShipmentFactory extends Factory
     {
         $village = Village::pluck('id')->toArray();
         return [
-            'nama_lengkap' => $this->faker->name,
             'alamat' => $this->faker->address,
             'no' => $this->faker->numberBetween(1, 199),
             'rt' => $this->faker->numberBetween(1, 99),

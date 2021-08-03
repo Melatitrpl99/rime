@@ -25,14 +25,17 @@ class TransactionsSeeder extends Seeder
                     ->with('products')
                     ->get();
 
+                $total = 0;
+
                 foreach($orders as $order) {
-                    $transaction->orders()->attach($order, [
-                        'sub_total' => $order->total - $order->products->sum('pivot.diskon') + $order->biaya_pengiriman
-                    ]);
+                    $transaction->orders()->attach($order);
+                    $total += $order->products->sum('pivot.diskon');
                 }
 
+                $totalTrans = $transaction->orders->sum('total') + $transaction->orders->sum('biaya_pengiriman');
+
                 $transaction->update([
-                    'total' => $transaction->orders->sum('pivot.sub_total')
+                    'total' => $totalTrans - $total
                 ]);
             });
     }

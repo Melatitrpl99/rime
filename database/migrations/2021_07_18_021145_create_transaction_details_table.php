@@ -17,7 +17,6 @@ class CreateTransactionDetailsTable extends Migration
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->foreignId('transaction_id')->constrained();
             $table->foreignId('order_id')->constrained();
-            $table->bigInteger('sub_total');
 
             $table->primary(['transaction_id', 'order_id']);
         });

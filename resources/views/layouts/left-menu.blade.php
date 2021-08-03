@@ -228,3 +228,12 @@
         </p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.testimonies.index') }}" class="nav-link {{ Request::is('admin/testimonies*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-user"></i>
+        <p>
+            Testimoni
+        </p>
+    </a>
+</li>

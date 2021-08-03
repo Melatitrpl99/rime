@@ -23,6 +23,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\SpendingController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\Discount;
@@ -184,6 +185,12 @@ Route::group(['middleware' => 'auth'], function () {
             ->missing(function () {
                 flash('User not found', 'danger');
                 return redirect()->route('admin.users.index');
+            });
+
+        Route::resource('testimonies', TestimonyController::class)
+            ->missing(function () {
+                flash('Testimony not found', 'danger');
+                return redirect()->route('admin.testimonies.index');
             });
 
         Route::resource('laba_rugi', LabaRugiController::class)

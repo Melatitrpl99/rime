@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+
 class HomeController extends Controller
 {
     /**
@@ -21,7 +24,8 @@ class HomeController extends Controller
      */
     public function home()
     {
-        return view('admin.home');
+        $totalUser = User::count();
+        return view('admin.home', compact('totalUser'));
     }
 
     public function profile()

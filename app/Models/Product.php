@@ -40,6 +40,7 @@ class Product extends Model
         'harga_customer',
         'harga_reseller',
         'reseller_minimum',
+        'suka',
         'slug',
         'category_id'
     ];
@@ -54,7 +55,14 @@ class Product extends Model
         'harga_customer'   => 'integer',
         'harga_reseller'   => 'integer',
         'reseller_minimum' => 'integer',
+        'suka'             => 'integer',
         'slug'             => 'string'
+    ];
+
+    protected $hidden = [
+        'slug',
+        'created_at',
+        'deleted_at'
     ];
 
     /**
@@ -68,10 +76,9 @@ class Product extends Model
         'harga_customer'   => 'required|numeric',
         'harga_reseller'   => 'required|numeric',
         'reseller_minimum' => 'required|numeric',
-        'suka'             => 'required|numeric',
+        'suka'             => 'nullable|numeric',
         'slug'             => 'nullable',
-        'category_id'      => 'required',
-        'path'             => 'required'
+        'category_id'      => 'required'
     ];
 
     /**
@@ -118,5 +125,10 @@ class Product extends Model
     public function productStocks()
     {
         return $this->hasMany(ProductStock::class);
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 }

@@ -47,6 +47,10 @@ class Cart extends Model
         'deskripsi' => 'string'
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     /**
      * Validation rules
      *
