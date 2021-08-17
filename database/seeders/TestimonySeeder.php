@@ -14,5 +14,8 @@ class TestimonySeeder extends Seeder
      */
     public function run()
     {
+        Testimony::factory()
+            ->count(rand(10, 250))
+            ->create();
     }
 }

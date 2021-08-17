@@ -12,12 +12,12 @@
             <td>{{ ($$MODEL_NAME_PLURAL_CAMEL$->currentPage() - 1) * $$MODEL_NAME_PLURAL_CAMEL$->count() + $loop->iteration }}</td>
             $FIELD_BODY$
             <td width="120">
-                {!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.destroy', $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'DELETE', 'class' => 'm-0']) !!}
+                {!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.destroy', $$MODEL_NAME_CAMEL$], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                 <div class="btn-group">
-                    <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) }}" class="btn btn-default btn-sm">
+                    <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show', [$$MODEL_NAME_CAMEL$]) }}" class="btn btn-default btn-sm">
                         <i class="far fa-eye"></i>
                     </a>
-                    <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.edit', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) }}" class='btn btn-default btn-sm'>
+                    <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.edit', [$$MODEL_NAME_CAMEL$]) }}" class='btn btn-default btn-sm'>
                         <i class="far fa-edit"></i>
                     </a>
                     {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}

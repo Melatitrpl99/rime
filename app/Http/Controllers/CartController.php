@@ -59,12 +59,11 @@ class CartController extends Controller
 
         $cart = Cart::create($input);
 
-        if ($request->has(['product_id', 'color_id', 'size_id', 'dimension_id', 'jumlah', 'sub_total'])) {
-
+        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah', 'sub_total'])) {
             $products = Product::whereIn('id', $request->product_id)->get();
             $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
 
-            foreach($request->product_id as $key => $productId) {
+            foreach ($request->product_id as $key => $productId) {
                 $jumlah = $request->jumlah[$key];
                 $product = $products->find($productId);
 
@@ -80,11 +79,10 @@ class CartController extends Controller
                 $cart->products()->attach($productId, [
                     'color_id'     => $request->color_id[$key],
                     'size_id'      => $request->size_id[$key],
-                    'dimension_id' => $request->dimension_id[$key],
-                    'jumlah'       => $request->jumlah[$key],
+                    'jumlah'       => $jumlah,
                     'sub_total'    => $role
-                            ? $product->harga_reseller * $request->jumlah[$key]
-                            : $product->harga_customer * $request->jumlah[$key]
+                        ? $product->harga_reseller * $jumlah
+                        : $product->harga_customer * $jumlah
                 ]);
             }
         }
@@ -106,7 +104,6 @@ class CartController extends Controller
         $cart->load([
             'products:id,nama,harga_customer,harga_reseller',
             'products.pivot.color:id,name',
-            'products.pivot.dimension:id,name',
             'products.pivot.size:id,name'
         ]);
         return view('admin.carts.show')
@@ -136,21 +133,30 @@ class CartController extends Controller
      */
     public function update(Cart $cart, UpdateCartRequest $request)
     {
+        $old = $cart->load([
+            'products:id,nama,harga_customer,harga_reseller',
+        ])->replicate();
+
+        $sync = $old->products->mapWithKeys(function ($item, $key) {
+            return [$item->id => $item->pivot];
+        })->toArray();
+
         $cart->update($request->validated());
 
-        if ($request->has(['product_id', 'color_id', 'size_id', 'dimension_id', 'jumlah', 'sub_total'])) {
+        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah', 'sub_total'])) {
+            $cart->products()->detach();
 
-            $cart->products()->detach(null, false);
             $products = Product::whereIn('id', $request->product_id)->get();
             $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
 
-            foreach($request->product_id as $key => $productId) {
+            foreach ($request->product_id as $key => $productId) {
                 $jumlah = $request->jumlah[$key];
                 $product = $products->find($productId);
 
                 if ($role && $jumlah < $product->reseller_minimum) {
                     $cart->products()->detach();
-                    $cart->forceDelete();
+                    $cart->update($old->toArray());
+                    $cart->products()->attach($sync);
 
                     flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
 
@@ -160,11 +166,10 @@ class CartController extends Controller
                 $cart->products()->attach($productId, [
                     'color_id'     => $request->color_id[$key],
                     'size_id'      => $request->size_id[$key],
-                    'dimension_id' => $request->dimension_id[$key],
-                    'jumlah'       => $request->jumlah[$key],
+                    'jumlah'       => $jumlah,
                     'sub_total'    => $role
-                            ? $products[$key]->harga_reseller * $request->jumlah[$key]
-                            : $products[$key]->harga_customer * $request->jumlah[$key]
+                        ? $product->harga_reseller * $jumlah
+                        : $product->harga_customer * $jumlah
                 ]);
             }
         }

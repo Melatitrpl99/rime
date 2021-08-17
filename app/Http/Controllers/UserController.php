@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::paginate(15);
+        $users = User::with('role:id,name')->paginate(15);
 
         return view('admin.users.index')->with('users', $users);
     }
@@ -54,61 +54,39 @@ class UserController extends Controller
     /**
      * Display the specified User.
      *
-     * @param int $id
+     * @param \App\Models\User $user
      *
      * @return \Illuminate\Http\Response|\Illuminate\Support\Facades\View
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
-
-        if (empty($user)) {
-            flash('User not found', 'error');
-
-            return redirect()->route('admin.users.index');
-        }
-
-        return view('admin.users.show')->with('user', $user);
+        return view('admin.users.show')
+            ->with('user', $user);
     }
 
     /**
      * Show the form for editing the specified User.
      *
-     * @param int $id
+     * @param \App\Models\User $user
      *
      * @return \Illuminate\Http\Response|\Illuminate\Support\Facades\View
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
-
-        if (empty($user)) {
-            flash('User not found', 'error');
-
-            return redirect()->route('admin.users.index');
-        }
-
-        return view('admin.users.edit')->with('user', $user);
+        return view('admin.users.edit')
+            ->with('user', $user);
     }
 
     /**
      * Update the specified User in storage.
      *
-     * @param int $id
+     * @param \App\Models\User $user
      * @param \App\Http\Requests\UpdateUserRequest $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateUserRequest $request)
+    public function update(User $user, UpdateUserRequest $request)
     {
-        $user = User::find($id);
-
-        if (empty($user)) {
-            flash('User not found', 'error');
-
-            return redirect()->route('admin.users.index');
-        }
-
         $input = $request->validated();
         $input['password'] = (!empty($input['password']))
             ? bcrypt($input['password'])
@@ -124,20 +102,12 @@ class UserController extends Controller
     /**
      * Remove the specified User from storage.
      *
-     * @param int $id
+     * @param \App\Models\User $user
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
-
-        if (empty($user)) {
-            flash('User not found', 'error');
-
-            return redirect()->route('admin.users.index');
-        }
-
         $user->delete();
 
         flash('User deleted successfully', 'success');

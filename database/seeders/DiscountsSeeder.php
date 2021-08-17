@@ -6,7 +6,6 @@ use App\Models\Discount;
 use App\Models\DiscountDetail;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
-
 class DiscountsSeeder extends Seeder
 {
     /**

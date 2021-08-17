@@ -5,7 +5,7 @@
             <th>MIME Type</th>
             <th>Format</th>
             <th>Size</th>
-            <th colspan="3">Action</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>

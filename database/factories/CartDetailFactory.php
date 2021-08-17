@@ -27,15 +27,9 @@ class CartDetailFactory extends Factory
     {
         $colors = Color::inRandomOrder()->pluck('id')->toArray();
         $sizes = Size::inRandomOrder()->pluck('id')->toArray();
-        $dimens = Dimension::inRandomOrder()->pluck('id')->toArray();
         return [
             'color_id' => $this->faker->randomElement($colors),
-            'size_id' => $this->faker->optional(0.45)->randomElement($sizes),
-            'dimension_id' => function (array $attributes) use ($dimens) {
-                return $attributes['size_id'] == null
-                    ? $this->faker->randomElement($dimens)
-                    : null;
-            },
+            'size_id'  => $this->faker->randomElement($sizes),
         ];
     }
 }

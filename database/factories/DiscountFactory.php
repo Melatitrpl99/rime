@@ -24,13 +24,13 @@ class DiscountFactory extends Factory
     {
         $judul = $this->faker->sentence(rand(1, 3));
         return [
-            'judul' => $judul,
-            'deskripsi' => $this->faker->text(rand(100, 200)),
-            'kode' => $this->faker->regexify('[A-Za-z0-9]{8}'),
+            'judul'           => $judul,
+            'deskripsi'       => $this->faker->text(rand(100, 200)),
+            'kode'            => $this->faker->regexify('[A-Za-z0-9]{8}'),
             'batas_pemakaian' => $this->faker->optional(0.65)->randomDigitNotNull(),
-            'waktu_mulai' => $this->faker->dateTime(),
-            'waktu_berakhir' => $this->faker->dateTime(),
-            'slug' => Str::slug($judul),
+            'waktu_mulai'     => $this->faker->dateTime(),
+            'waktu_berakhir'  => $this->faker->dateTime(),
+            'slug'            => Str::slug($judul),
         ];
     }
 }

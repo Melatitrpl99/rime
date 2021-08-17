@@ -18,6 +18,8 @@ class CreateSpendingDetailsTable extends Migration
             $table->id('id');
             $table->foreignId('spending_id')->constrained();
             $table->string('nama')->nullable();
+            $table->text('keterangan')->nullable();
+            $table->integer('qty')->nullable();
             $table->bigInteger('sub_total')->nullable();
         });
     }

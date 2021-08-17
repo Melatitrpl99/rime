@@ -24,6 +24,16 @@ class CreateOrderAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Order::$rules;
+        return [
+            'pesan'            => 'nullable',
+            'total'            => 'nullable|numeric',
+            'kode_diskon'      => 'nullable|string',
+            'biaya_pengiriman' => 'nullable|numeric',
+            'berat'            => 'nullable|numeric',
+            'kode_resi'        => 'nullable|string',
+            // 'status_id'        => 'required',
+            'shipment_id'      => 'required',
+            // 'user_id'          => 'required'
+        ];
     }
 }

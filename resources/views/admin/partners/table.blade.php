@@ -5,7 +5,7 @@
             <th>Lokasi</th>
             <th>Email</th>
             <th>No Hp</th>
-            <th colspan="3">Action</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
                 <td>{{ $partner->no_hp }}</td>
                 <td>{{ $partner->slug }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.partners.destroy', $partner], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.partners.destroy', $partner], 'method' => 'DELETE']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.partners.show', $partner) }}" class="btn btn-default btn-sm">
                             <i class="far fa-eye"></i>

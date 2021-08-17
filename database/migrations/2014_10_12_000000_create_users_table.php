@@ -17,17 +17,18 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('nama_lengkap')->nullable();
+            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('role_id')->constrained();
             $table->enum('jenis_kelamin', ['l', 'p'])->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tgl_lahir')->nullable();
             $table->text('alamat')->nullable();
             $table->string('no_hp')->nullable();
             $table->string('no_wa')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

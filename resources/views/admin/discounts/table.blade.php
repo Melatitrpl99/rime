@@ -3,9 +3,10 @@
         <tr>
             <th>Judul</th>
             <th>Kode</th>
-            <th>Batas Pemakaian</th>
-            <th>Waktu Mulai / Berakhir</th>
-            <th colspan="3">Action</th>
+            <th class="text-center">Min. Pemakaian</th>
+            <th>Waktu Mulai</th>
+            <th>Waktu Berakhir</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -13,10 +14,11 @@
             <tr>
                 <td>{{ $discount->judul }}</td>
                 <td>{{ $discount->kode }}</td>
-                <td>{{ $discount->batas_pemakaian }}x</td>
-                <td>{{ $discount->waktu_mulai->format('Y-m-d H:m') }} / {{ $discount->waktu_berakhir->format('Y-m-d H:m') }}</td>
+                <td class="text-center">{{ $discount->batas_pemakaian }}x</td>
+                <td>{{ $discount->waktu_mulai->addHour(8)->format('d F Y H:m') }}</td>
+                <td>{{ $discount->waktu_berakhir->addHour(8)->format('d F Y H:m') }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.discounts.destroy', $discount], 'method' => 'delete', 'class' => 'm-0']) !!}
+                    {!! Form::open(['route' => ['admin.discounts.destroy', $discount], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.discounts.show', $discount) }}" class="btn btn-default btn-sm">
                             <i class="far fa-eye"></i>

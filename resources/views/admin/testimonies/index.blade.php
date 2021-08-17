@@ -1,16 +1,14 @@
 @extends('layouts.app')
-<title>{{ env('APP_NAME') }} | Testimonies</title>
+<title>{{ env('APP_NAME') }} | Testimoni</title>
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
-                    <h1>Testimonies</h1>
-                </div>
-                <div class="col-6">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <h1>Testimoni</h1>
                     <a href="{{ route('admin.testimonies.create') }}" class="btn btn-primary float-right">
-                        Add New
+                        <i class="fas fa-plus mr-1"></i> Tambah baru
                     </a>
                 </div>
             </div>

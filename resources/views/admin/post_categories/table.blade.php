@@ -1,9 +1,9 @@
 <table class="table table-hover table-borderless table-striped" id="categories-table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th colspan="3">Action</th>
+            <th>Nama</th>
+            <th>Deskripsi</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -12,7 +12,7 @@
                 <td>{{ $postCategory->name }}</td>
                 <td>{{ Str::limit($postCategory->desc, 50, '...') }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.post_categories.destroy', $postCategory], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.post_categories.destroy', $postCategory], 'method' => 'DELETE']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.post_categories.show', $postCategory) }}" class="btn btn-default btn-sm">
                             <i class="far fa-eye"></i>

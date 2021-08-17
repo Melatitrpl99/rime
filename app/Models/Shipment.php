@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
  * Class Shipment
- * @package App\Models
- * @version July 12, 2021, 8:47 pm UTC
  *
+ * @package App\Models
+ * @version August 7, 2021, 9:51 am UTC
  * @property \App\Models\Village $village
- * @property \App\Models\Order $order
- * @property string $nama_lengkap
+ * @property \App\Models\User $user
  * @property string $alamat
  * @property string $no
  * @property string $rt
@@ -21,7 +21,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property foreignId $village_id
  * @property string $kode_pos
  * @property string $catatan
- * @property foreignId $order_id
+ * @property foreignId $user_id
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\ShipmentFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Shipment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereAlamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereKodePos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Shipment whereVillageId($value)
+ * @method static \Illuminate\Database\Query\Builder|Shipment withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Shipment withoutTrashed()
+ * @mixin \Eloquent
  */
 class Shipment extends Model
 {
@@ -32,15 +53,11 @@ class Shipment extends Model
     protected $dates = ['deleted_at'];
 
     public $fillable = [
-        'nama_lengkap',
         'alamat',
-        'no',
-        'rt',
-        'rw',
         'village_id',
         'kode_pos',
         'catatan',
-        'order_id'
+        'user_id'
     ];
 
     /**
@@ -50,9 +67,6 @@ class Shipment extends Model
      */
     protected $casts = [
         'alamat' => 'string',
-        'no' => 'string',
-        'rt' => 'string',
-        'rw' => 'string',
         'kode_pos' => 'string'
     ];
 
@@ -62,19 +76,16 @@ class Shipment extends Model
      * @var array
      */
     public static $rules = [
-        'alamat' => 'required|string',
-        'no' => 'nullable|string',
-        'rt' => 'nullable|string',
-        'rw' => 'nullable|string',
-        'village_id' => 'required|integer',
-        'kode_pos' => 'required',
-        'catatan' => 'nullable',
-        'order_id' => 'required'
+        'alamat'      => 'required',
+        'village_id'  => 'required',
+        'kode_pos'    => 'required',
+        'catatan'     => 'nullable',
+        'user_id'     => 'required'
     ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
+     */
     public function village()
     {
         return $this->belongsTo(Village::class);
@@ -82,9 +93,9 @@ class Shipment extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function order()
+     */
+    public function user()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(User::class);
     }
 }

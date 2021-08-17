@@ -20,7 +20,7 @@ class CreateSpendingsTable extends Migration
             $table->text('deskripsi')->nullable();
             $table->timestamp('tanggal');
             $table->string('kategori');
-            $table->integer('qty')->nullable();
+            $table->integer('jumlah')->nullable();
             $table->bigInteger('total')->nullable();
             $table->timestamps();
             $table->softDeletes();

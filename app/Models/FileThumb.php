@@ -7,14 +7,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class FileThumb
+ *
  * @package App\Models
  * @version July 8, 2021, 12:04 am UTC
- *
  * @property \App\Models\File $file
  * @property integer $file_id
  * @property string $path
  * @property string $dimensions
  * @property string $size
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb newQuery()
+ * @method static \Illuminate\Database\Query\Builder|FileThumb onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb query()
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb whereDimensions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb whereFileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileThumb whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|FileThumb withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|FileThumb withoutTrashed()
+ * @mixin \Eloquent
  */
 class FileThumb extends Model
 {

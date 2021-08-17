@@ -1,4 +1,5 @@
 @extends('layouts.app')
+<title>{{ env('APP_NAME') }} | Update status</title>
 
 @section('content')
     <section class="content-header">
@@ -18,15 +19,19 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::model($status, ['route' => ['admin.statuses.update', $status], 'method' => 'PUT', 'class' => 'm-0']) !!}
+                        {!! Form::model($status, ['route' => ['admin.statuses.update', $status], 'method' => 'PATCH', 'class' => 'm-0']) !!}
                         <div class="card-body">
                             <div class="row">
                                 @include('admin.statuses.fields')
                             </div>
                         </div>
                         <div class="card-footer">
-                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.statuses.index') }}" class="btn btn-default">Cancel</a>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i>&nbsp; Simpan
+                            </button>
+                            <a href="{{ route('admin.statuses.index') }}" class="btn btn-default">
+                                <i class="fas fa-times-circle"></i>&nbsp; Batal
+                            </a>
                         </div>
                         {!! Form::close() !!}
                     </div>

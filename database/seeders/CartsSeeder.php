@@ -28,7 +28,10 @@ class CartsSeeder extends Seeder
                     $jumlah = rand(1, 5);
                     $cart->products()->attach($product, array_merge(
                         CartDetail::factory()->make()->toArray(),
-                        ['jumlah' => $jumlah, 'sub_total' => $product->harga_customer * $jumlah]
+                        [
+                            'jumlah'    => $jumlah,
+                            'sub_total' => $cart->user->hasRole('reseller') ? $product->harga_reseller * $jumlah : $product->harga_customer * $jumlah
+                        ]
                     ));
                 }
 

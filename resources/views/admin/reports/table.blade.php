@@ -6,7 +6,7 @@
             <th>Laporan Eskternal?</th>
             <th>Tgl. Publikasi</th>
             <th>User</th>
-            <th colspan="3">Action</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -15,10 +15,10 @@
                 <td>{{ $report->judul }}</td>
                 <td>{{ Str::limit($report->deskripsi, 50, '...') }}</td>
                 <td>{!! $report->is_import ? 'Ya <i class="fas fa-check text-success"></i>' : 'Tidak <i class="fas fa-times text-danger"></i>' !!}</td>
-                <td>{{ $report->created_at->format('d F Y') }}</td>
+                <td>{{ $report->created_at->addHour(8)->format('d F Y') }}</td>
                 <td>{{ $report->user->name }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.reports.destroy', $report], 'method' => 'delete', 'class' => 'm-0']) !!}
+                    {!! Form::open(['route' => ['admin.reports.destroy', $report], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.reports.show', $report) }}" class="btn btn-default btn-sm">
                             <i class="far fa-eye"></i>

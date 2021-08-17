@@ -39,7 +39,7 @@
         "name": "total",
         "dbType": "integer:nullable",
         "htmlType": "number",
-        "validations": "required|numeric",
+        "validations": "nullable|numeric",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -50,8 +50,8 @@
     {
         "name": "kode_diskon",
         "dbType": "string:nullable",
-        "htmlType": "number",
-        "validations": "required|string",
+        "htmlType": "string",
+        "validations": "nullable|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -72,6 +72,18 @@
         "inView": true
     },
     {
+        "name": "berat",
+        "dbType": "integer:nullable",
+        "htmlType": "number",
+        "validations": "required|numeric",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "status_id",
         "dbType": "foreignId:constrained",
         "htmlType": "selectTable:statuses:name,id",
@@ -81,7 +93,21 @@
         "primary": false,
         "inForm": true,
         "inIndex": true,
-        "inView": true
+        "inView": true,
+        "relation": "mt1,Status"
+    },
+    {
+        "name": "shipment_id",
+        "dbType": "foreignId:constrained",
+        "htmlType": "selectTable:shipments:alamat,id",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true,
+        "relation": "mt1,Shipment"
     },
     {
         "name": "user_id",
@@ -122,14 +148,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Shipment"
-    },
-    {
-        "type": "relation",
         "relation": "mtm,Product,order_details"
-    },
-    {
-        "type": "relation",
-        "relation": "mtm,Transaction,transaction_details"
     }
 ]

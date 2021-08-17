@@ -17,7 +17,7 @@ class ProductsSeeder extends Seeder
     {
         Product::factory()
             ->count(rand(5, 20))
-            ->has(ProductStock::factory()->count(rand(1, 7)))
+            ->has(ProductStock::factory()->count(rand(10, 50)))
             ->create();
     }
 }

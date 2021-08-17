@@ -15,25 +15,18 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'               => $this->id,
-            'nama'             => $this->nama,
-            'deskripsi'        => $this->deskripsi,
-            'harga_customer'   => $this->harga_customer,
-            'harga_reseller'   => $this->harga_reseller,
-            'reseller_minimum' => $this->reseller_minimum,
-            'suka'             => $this->suka,
-            'category_id'      => $this->category_id,
-            'category'         => new CategoryResource($this->whenLoaded('category')),
-            'total_stok'       => (int) $this->product_stocks_sum_stok_ready,
-            'product_stocks'   => ProductStockResource::collection($this->whenLoaded('productStocks')),
-            'files'            => FileResource::collection($this->whenLoaded('files')),
-            // 'cart_jumlah'      => $this->whenPivotLoaded('cart_details', $this->pivot->jumlah),
-            // 'cart_sub_total'   => $this->whenPivotLoaded('cart_details', $this->pivot->sub_total),
-            // 'order_jumlah'     => $this->whenPivotLoaded('order_details', $this->pivot->jumlah),
-            // 'order_sub_total'  => $this->whenPivotLoaded('order_details', $this->pivot->sub_total),
-            // 'diskon_harga'     => $this->whenPivotLoaded('discount_details', $this->pivot->diskon_harga),
-            // 'minimal_produk'   => $this->whenPivotLoaded('discount_details', $this->pivot->minimal_produk),
-            // 'maksimal_produk'  => $this->whenPivotLoaded('discount_details', $this->pivot->maksimal_produk)
+            'id'                  => $this->id,
+            'nama'                => $this->nama,
+            'deskripsi'           => $this->deskripsi,
+            'harga_customer'      => $this->harga_customer,
+            'harga_reseller'      => $this->harga_reseller,
+            'reseller_minimum'    => $this->reseller_minimum,
+            'product_category_id' => $this->product_category_id,
+            'suka'                => $this->suka,
+            'review_avg'          => (float) number_format($this->testimonies_avg_review, 2),
+            'review_count'        => (int) $this->testimonies_count,
+            'total_stok'          => (int) $this->product_stocks_sum_stok_ready,
+            'image'               => new FileResource($this->whenLoaded('image')),
         ];
     }
 }

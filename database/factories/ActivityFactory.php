@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Activity;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ActivityFactory extends Factory
@@ -21,11 +22,14 @@ class ActivityFactory extends Factory
      */
     public function definition()
     {
+        $users = User::pluck('id')->toArray();
         return [
-            'id' => $this->faker->uuid,
-            'user_agent' => $this->faker->userAgent,
-            'ip_address' => $this->faker->ipv4,
-            'log' => $this->faker->text(200),
+            'id'            => $this->faker->uuid,
+            'loggable_type' => 'App\Models\User',
+            'loggable_id'   => $this->faker->randomElement($users),
+            'user_agent'    => $this->faker->userAgent,
+            'ip_address'    => $this->faker->ipv4,
+            'log'           => $this->faker->text(200),
         ];
     }
 }

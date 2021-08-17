@@ -1,11 +1,12 @@
 @extends('layouts.app')
+<title>{{ env('APP_NAME') }} | Update user</title>
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>Update User</h1>
+                    <h1>Update user</h1>
                 </div>
             </div>
         </div>
@@ -18,15 +19,19 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::model($user, ['route' => ['admin.users.update', $user], 'method' => 'PUT', 'class' => 'm-0']) !!}
+                        {!! Form::model($user, ['route' => ['admin.users.update', $user], 'method' => 'PATCH', 'class' => 'm-0', 'files' => true]) !!}
                         <div class="card-body">
                             <div class="row">
                                 @include('admin.users.fields')
                             </div>
                         </div>
                         <div class="card-footer">
-                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.users.index') }}" class="btn btn-default">Cancel</a>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i>&nbsp; Update
+                            </button>
+                            <a href="{{ route('admin.users.index') }}" class="btn btn-default">
+                                <i class="fas fa-times-circle"></i>&nbsp; Batal
+                            </a>
                         </div>
                         {!! Form::close() !!}
                     </div>

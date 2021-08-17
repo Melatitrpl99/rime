@@ -2,21 +2,23 @@
     <thead>
         <tr>
             <th>Nama</th>
-            <th>Harga Customer / Reseller</th>
-            <th>Reseller Minimum</th>
-            <th>Category</th>
-            <th colspan="3">Action</th>
+            <th width="150" class="text-right">Harga Customer</th>
+            <th width="150" class="text-right">Harga Reseller</th>
+            <th width="100" class="text-center">Stok ready</th>
+            <th>Kategori</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach($products as $product)
             <tr>
                 <td>{{ $product->nama }}</td>
-                <td>Rp. {{ number_format($product->harga_customer, 2, ',', '.') }} / Rp. {{ number_format($product->harga_reseller, 2, ',', '.') }}</td>
-                <td>{{ $product->reseller_minimum }}</td>
-                <td>{{ $product->category->nama }}</td>
+                <td class="text-right">{{ rp($product->harga_customer) }}</td>
+                <td class="text-right">{{ rp($product->harga_reseller) }}</td>
+                <td class="text-center">{{ numerify($product->product_stocks_sum_stok_ready) }}</td>
+                <td>{{ $product->productCategory->name }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.products.destroy', $product], 'method' => 'delete', 'class' => 'm-0']) !!}
+                    {!! Form::open(['route' => ['admin.products.destroy', $product], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.products.show', $product) }}" class="btn btn-default btn-sm"><i class="far fa-eye"></i>
                         </a>

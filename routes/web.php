@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
@@ -15,8 +14,12 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DimensionController;
+use App\Http\Controllers\Misc\CekDiskonController;
 use App\Http\Controllers\Misc\FilepondController;
+use App\Http\Controllers\Misc\GetUserRelationController;
 use App\Http\Controllers\Misc\RegionController;
+use App\Http\Controllers\Misc\StokProdukController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\ReportController;
@@ -26,6 +29,7 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserVerificationController;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,23 +52,37 @@ Route::post('import', [ExcelController::class, 'import'])->name('import');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [HomeController::class, 'home'])->name('page.home');
     Route::get('profile', [HomeController::class, 'profile'])->name('page.profile');
+    Route::get('settings', [HomeController::class, 'settings'])->name('page.settings');
 
-    Route::post('upload', [FilepondController::class, 'store'])->name('file.store');
-    Route::delete('revert', [FilepondController::class, 'destroy'])->name('file.destroy');
-
-    Route::get('/cek', function (Request $request) {
-        $diskon = $request->get('diskon');
-        return response(['exists' => Discount::where('kode', $diskon)->exists()]);
-    })->name('cek_diskon');
-
-    Route::group(['' => 'region', 'as' => 'region.'], function () {
-        Route::get('/kota/{provinsiId}', [RegionController::class, 'getKota'])
-            ->name('kota');
-        Route::get('/kecamatan/{kotaId}', [RegionController::class, 'getKecamatan'])
-            ->name('kecamatan');
-        Route::get('/desa_kelurahan/{provinsiId}', [RegionController::class, 'getDesaKelurahan'])
-            ->name('desa_kelurahan');
+    Route::group(['prefix' => 'filepond', 'as' => 'filepond.'], function () {
+        Route::post('process', [FilepondController::class, 'process'])->name('process');
+        Route::delete('revert', [FilepondController::class, 'revert'])->name('revert');
+        Route::get('restore', [FilepondController::class, 'restore'])->name('restore');
+        Route::get('load', [FilepondController::class, 'load'])->name('load');
+        Route::get('fetch', [FilepondController::class, 'fetch'])->name('fetch');
     });
+
+    Route::get('/cek', CekDiskonController::class)->name('cek_diskon');
+
+    Route::group(['prefix' => 'region', 'as' => 'region.'], function () {
+        Route::get('get_regency', [RegionController::class, 'getRegency'])
+            ->name('regency');
+        Route::get('get_district', [RegionController::class, 'getDistrict'])
+            ->name('district');
+        Route::get('get_village', [RegionController::class, 'getVillage'])
+            ->name('village');
+    });
+
+    Route::group(['prefix' => 'stok', 'as' => 'stok.'], function () {
+        Route::get('product_stock', [StokProdukController::class, 'getProductStock'])->name('produk');
+        Route::get('size', [StokProdukController::class, 'getSize'])->name('size');
+        Route::get('color', [StokProdukController::class, 'getColor'])->name('color');
+        Route::get('stok_ready', [StokProdukController::class, 'getStokReady'])->name('stok_ready');
+    });
+
+    Route::get('get_cart', [GetUserRelationController::class, 'getCart'])->name('get_cart');
+    Route::get('get_cart_detail', [GetUserRelationController::class, 'getCartDetail'])->name('get_cart_detail');
+    Route::get('get_shipping_address', [GetUserRelationController::class, 'getShippingAddress'])->name('get_shipping_address');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('activities', ActivityController::class)
@@ -77,12 +95,6 @@ Route::group(['middleware' => 'auth'], function () {
             ->missing(function () {
                 flash('Cart not found', 'danger');
                 return redirect()->route('admin.carts.index');
-            });
-
-        Route::resource('categories', CategoryController::class)
-            ->missing(function () {
-                flash('Category not found', 'danger');
-                return redirect()->route('admin.categories.index');
             });
 
         Route::resource('colors', ColorController::class)
@@ -137,6 +149,12 @@ Route::group(['middleware' => 'auth'], function () {
             ->missing(function () {
                 flash('Product not found', 'danger');
                 return redirect()->route('admin.products.index');
+            });
+
+        Route::resource('product_categories', ProductCategoryController::class)
+            ->missing(function () {
+                flash('Product Category not found', 'danger');
+                return redirect()->route('admin.product_categories.index');
             });
 
         Route::resource('product_stocks', ProductStockController::class)
@@ -196,5 +214,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('laba_rugi', LabaRugiController::class)
             ->parameters(['laba_rugi' => 'laba_rugis'])
             ->names('laba_rugi');
+
+        Route::resource('user_verifications', UserVerificationController::class)
+            ->missing(function () {
+                flash('User Verification not found', 'danger');
+                return redirect()->route('admin.user_verifications.index');
+            });
     });
 });

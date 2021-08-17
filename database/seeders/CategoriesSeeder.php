@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
 use App\Models\Color;
-use App\Models\Dimension;
 use App\Models\PostCategory;
+use App\Models\ProductCategory;
 use App\Models\Size;
 use App\Models\Status;
 use Illuminate\Database\Seeder;
@@ -37,9 +36,6 @@ class CategoriesSeeder extends Seeder
             ['name' => 'M', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'S', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'XS', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        Dimension::insert([
             ['name' => '140cm x 140cm', 'created_at' => now(), 'updated_at' => now()],
             ['name' => '135cm x 135cm', 'created_at' => now(), 'updated_at' => now()],
             ['name' => '125cm x 125cm', 'created_at' => now(), 'updated_at' => now()],
@@ -51,10 +47,12 @@ class CategoriesSeeder extends Seeder
             ['name' => '80cm x 80cm', 'created_at' => now(), 'updated_at' => now()],
             ['name' => '75cm x 75cm', 'created_at' => now(), 'updated_at' => now()],
             ['name' => '70cm x 70cm', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Dewasa', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Anak-anak', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         Color::factory(10)->create();
-        Category::factory(5)->create();
+        ProductCategory::factory(5)->create();
         PostCategory::factory(5)->create();
     }
 }

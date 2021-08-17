@@ -17,12 +17,13 @@ class AuthAPIController extends Controller
 
     public function login()
     {
-       $credentials = request(['email', 'password']);
-       if (! $token = auth('api')->attempt($credentials)) {
-           return response()->json(['error' => 'Unauthorized'], 401);
-       }
-       return $this->respondWithToken($token);
+        $credentials = request(['email', 'password']);
 
+        if (!$token = auth('api')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
     }
 
     public function register(Request $request)
@@ -41,11 +42,16 @@ class AuthAPIController extends Controller
         $user = User::create($register);
         $user->assignRole('customer');
 
-        if (! $token = auth('api')->attempt($login)) {
+        if (!$token = auth('api')->attempt($login)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'user' => $user,
+        ]);
     }
 
     public function me()
@@ -69,6 +75,7 @@ class AuthAPIController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60]);
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }

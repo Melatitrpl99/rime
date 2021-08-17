@@ -23,10 +23,9 @@ class CartFactory extends Factory
     public function definition()
     {
         return [
-            'nomor' => $this->faker->regexify('C[0-9]{2}-[A-Z0-9]{6}'),
-            'judul' => $this->faker->sentence(rand(1, 5)),
+            'judul'     => $this->faker->sentence(rand(1, 5)),
             'deskripsi' => $this->faker->text(rand(100, 200)),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id'   => User::inRandomOrder()->first()->id,
         ];
     }
 }

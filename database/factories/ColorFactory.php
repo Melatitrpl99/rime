@@ -22,7 +22,7 @@ class ColorFactory extends Factory
     public function definition()
     {
         return [
-            'name' => ucwords(implode(' ', preg_split('/(?=[A-Z])/', $this->faker->colorName))),
+            'name'       => trim(ucwords(implode(' ', preg_split('/(?=[A-Z])/', $this->faker->colorName)))),
             'rgba_color' => $this->faker->hexColor,
         ];
     }

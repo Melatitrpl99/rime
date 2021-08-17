@@ -19,7 +19,7 @@
                     <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Total User</span>
-                        <span class="info-box-number">{{ number_format($totalUser, 0, ',', '.') }}</span>
+                        <span class="info-box-number">{{ numerify($totalUser) }}</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-user-check"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Total Reseller</span>
-                        <span class="info-box-number">{{ number_format(25, 0, ',', '.') }}</span>
+                        <span class="info-box-number">{{ numerify($totalReseller) }}</span>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <span class="info-box-icon bg-gradient-success elevation-1"><i class="fas fa-shopping-bag"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Produk terjual</span>
-                        <span class="info-box-number">{{ number_format(39250, 0, ',', '.') }}</span>
+                        <span class="info-box-number">{{ numerify($totalProdukTerjual) }}</span>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     <span class="info-box-icon bg-gradient-info elevation-1"><i class="fas fa-money-bill"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Saldo</span>
-                        <span class="info-box-number">Rp. {{ number_format(105037000, 2, ',', '.') }}</span>
+                        <span class="info-box-number">{{ rp(105037000) }}</span>
                     </div>
                 </div>
             </div>
@@ -109,32 +109,25 @@
                     </div>
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="col-12 col-sm-4">
                                 <div class="description-block border-right">
                                     <span class="d-none d-sm-inline description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                                    <h5 class="description-header">Rp. 12.078.500,00</h5>
+                                    <h5 class="description-header">{{ rp(12078500) }}</h5>
                                     <span class="description-text">Pemasukan</span>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="col-12 col-sm-4">
                                 <div class="description-block border-right">
                                     <span class="d-none d-sm-inline description-percentage text-warning"><i class="fas fa-caret-up"></i> 1%</span>
-                                    <h5 class="description-header">Rp. 5.675.000,00</h5>
+                                    <h5 class="description-header">{{ rp(5675000) }}</h5>
                                     <span class="description-text">Pengeluaran</span>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="col-12 col-sm-4">
                                 <div class="description-block border-right">
                                     <span class="d-none d-sm-inline description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                                    <h5 class="description-header">Rp. {{ number_format(12078500 - 5675000, 2, ',', '.') }}</h5>
+                                    <h5 class="description-header">{{ rp(12078500-567500) }}</h5>
                                     <span class="description-text">Profit</span>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3">
-                                <div class="description-block">
-                                    <span class="d-none d-sm-inline description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                                    <h5 class="description-header">1200</h5>
-                                    <span class="description-text">GOAL COMPLETIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +136,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-9">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -190,7 +183,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-3">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">

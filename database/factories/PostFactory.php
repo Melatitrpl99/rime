@@ -24,7 +24,7 @@ class PostFactory extends Factory
     {
         $judul = $this->faker->sentence(rand(5, 12));
         return [
-            'judul' => $judul,
+            'judul'  => $judul,
             'konten' => function () {
                 $desc = '';
                 for ($i = 0; $i < rand(2, 7); $i++) {
@@ -32,7 +32,7 @@ class PostFactory extends Factory
                 }
                 return $desc;
             },
-            'slug' => Str::slug($judul),
+            'slug'   => Str::slug($judul),
         ];
     }
 }

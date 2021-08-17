@@ -13,13 +13,28 @@ use AzisHapidin\IndoRegion\Traits\DistrictTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Regency;
 use App\Models\Village;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
  * District Model.
+ *
+ * @property int $id
+ * @property string $regency_id
+ * @property string $name
+ * @property-read Regency $regency
+ * @property-read \Illuminate\Database\Eloquent\Collection|Village[] $villages
+ * @property-read int|null $villages_count
+ * @method static \Illuminate\Database\Eloquent\Builder|District newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|District newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|District query()
+ * @method static \Illuminate\Database\Eloquent\Builder|District whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|District whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|District whereRegencyId($value)
+ * @mixin \Eloquent
  */
 class District extends Model
 {
-    use DistrictTrait;
+    use DistrictTrait, BelongsToThrough;
 
     /**
      * Table name.
@@ -45,6 +60,12 @@ class District extends Model
     public function regency()
     {
         return $this->belongsTo(Regency::class);
+    }
+
+    public function province()
+    {
+
+        return $this->belongsToThrough(Province::class, Regency::class);
     }
 
     /**

@@ -23,7 +23,7 @@ class ShipmentController extends Controller
      */
     public function index(Request $request)
     {
-        $shipments = Shipment::with('order:id,nomor')->paginate(15);
+        $shipments = Shipment::with(['village', 'user'])->paginate(15);
 
         return view('admin.shipments.index')
             ->with('shipments', $shipments);

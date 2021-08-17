@@ -10,24 +10,21 @@ use Illuminate\Http\Request;
 
 class RegionController extends Controller
 {
-    public function getKota($provinsiId)
+    public function getRegency(Request $request)
     {
-        return Regency::where('province_id', $provinsiId)
-            ->pluck('name', 'id')
-            ->toArray();
+        return Regency::where('province_id', $request->get('province_id'))
+            ->pluck('name', 'id');
     }
 
-    public function getKecamatan($kotaId)
+    public function getDistrict(Request $request)
     {
-        return District::where('regency_id', $kotaId)
-            ->pluck('name', 'id')
-            ->toArray();
+        return District::where('regency_id', $request->get('regency_id'))
+            ->pluck('name', 'id');
     }
 
-    public function getDesaKelurahan($kecamatanId)
+    public function getVillage(Request $request)
     {
-        return Village::where('district_id', $kecamatanId)
-            ->pluck('name', 'id')
-            ->toArray();
+        return Village::where('district_id', $request->get('district_id'))
+            ->pluck('name', 'id');
     }
 }

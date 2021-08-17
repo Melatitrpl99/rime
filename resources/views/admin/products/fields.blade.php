@@ -28,10 +28,10 @@
     {!! Form::number('reseller_minimum', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Category Id Field -->
+<!-- Product Category Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('category_id', 'Category:') !!}
-    {!! Form::select('category_id', $categoryItems, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::label('product_category_id', 'Kategori:') !!}
+    {!! Form::select('product_category_id', $productCategoryItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Path Field -->
@@ -39,5 +39,7 @@
     {!! Form::label('path[]', 'Upload foto produk :') !!}
     {!! Form::file('path[]', ['class' => 'fileupload', 'multiple' => true]) !!}
 </div>
+
+@include('admin.products.table_fields')
 
 @include('layouts.plugins.filepond')

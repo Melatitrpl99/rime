@@ -1,4 +1,3 @@
-@foreach ($transaction->orders as $order)
 <div class="col-12">
     <div class="card">
         <div class="card-header">
@@ -13,4 +12,3 @@
         </div>
     </div>
 </div>
-@endforeach

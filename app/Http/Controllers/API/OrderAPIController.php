@@ -6,7 +6,10 @@ use App\Http\Requests\API\CreateOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderProductResource;
+use App\Models\Discount;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 /**
@@ -27,20 +30,23 @@ class OrderAPIController extends Controller
     {
         $query = Order::query();
 
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
-        if ($request->get('limit')) {
+
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
-        $orders = $query->get();
+        if ($request->has('status')) {
+            $query->where('status_id', $request->get('status'));
+        }
 
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => OrderResource::collection($orders)
-        ]);
+        $orders = $query->where('user_id', auth()->id())
+            ->with(['status', 'shipment'])
+            ->get();
+
+        return response()->json(OrderResource::collection($orders), 200);
     }
 
     /**
@@ -53,94 +59,194 @@ class OrderAPIController extends Controller
      */
     public function store(CreateOrderAPIRequest $request)
     {
-        $order = Order::create($request->validated());
+        $user = auth()->user();
+        $faker = \Faker\Factory::create();
+        $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
+        $input = collect($request->validated())
+            ->put('nomor', $nomor)
+            ->put('status_id', 1)
+            ->put('user_id', $user->id)
+            ->toArray();
 
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new OrderResource($order)
-        ]);
+        $order = Order::make($input);
+
+        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = $user->hasRole('reseller');
+            $discount = $request->filled('kode_diskon')
+                ? Discount::where('kode', $request->kode_diskon)
+                ->with('products')
+                ->first()
+                : null;
+
+            $total = 0;
+
+            foreach ($request->product_id as $key => $productId) {
+                $product = $products->find($productId);
+                $jumlah = $request->jumlah[$key];
+                $subTotal = $role
+                    ? $product->harga_reseller * $jumlah
+                    : $product->harga_customer * $jumlah;
+
+                $pivot = $discount
+                    ? optional($discount->products->find($productId))->pivot
+                    : null;
+
+                $hargaDiskon = $pivot && $jumlah >= $pivot->minimal_produk && $jumlah <= $pivot->maksimal_produk
+                    ? $pivot->diskon_harga
+                    : null;
+
+                $total += $subTotal;
+                $order->total = $total;
+
+                $order->save();
+
+                if ($role && $jumlah < $product->reseller_minimum) {
+                    $order->products()->detach();
+                    $order->forceDelete();
+
+                    return response()->json([
+                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.'
+                    ], 422);
+                }
+
+                $order->products()->attach($productId, [
+                    'color_id'     => $request->color_id[$key],
+                    'size_id'      => $request->size_id[$key],
+                    'jumlah'       => $jumlah,
+                    'diskon'       => $hargaDiskon,
+                    'sub_total'    => $subTotal,
+                ]);
+            }
+        } else {
+            $order->save();
+        }
+
+        return response()->json(new OrderResource($order), 201);
     }
 
     /**
      * Display the specified Order.
-     * GET|HEAD /orders/{$id}
+     * GET|HEAD /orders/{order}
      *
-     * @param $id
+     * @param \App\Models\Order $order
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        $order = Order::find($id);
+        if ($order->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
 
-        if (empty($order)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => new OrderResource($order)
+        $order->load([
+            'products',
+            'products.pivot.color',
+            'products.pivot.size',
+            'products.image',
+            'status',
+            'shipment',
         ]);
+
+        return response()->json(new OrderResource($order), 200);
     }
 
     /**
      * Update the specified Order in storage.
-     * PUT/PATCH /orders/{$id}
+     * PUT/PATCH /orders/{order}
      *
-     * @param $id
+     * @param \App\Models\Order $order
      * @param \App\Http\Requests\UpdateOrderRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateOrderAPIRequest $request)
+    public function update(Order $order, UpdateOrderAPIRequest $request)
     {
-        $order = Order::find($id);
+        if ($order->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
 
-        if (empty($order)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
+        $old = $order->load([
+            'products:id,nama,harga_customer,harga_reseller',
+        ])->replicate();
+
+        $sync = $old->products->map(function ($item, $key) {
+            return $item->pivot;
+        })->toArray();
 
         $order->update($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully updated',
-            'status' => 'success',
-            'data' => new OrderResource($order)
-        ]);
+        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {
+            $order->products()->detach();
+
+            $products = Product::whereIn('id', $request->product_id)->get();
+            $role = auth()->user()->hasRole('reseller');
+            $discount = $request->filled('kode_diskon') ? Discount::where('kode', $request->kode_diskon)
+                ->with('products')
+                ->first()
+                : null;
+
+            $total = 0;
+
+            foreach ($request->product_id as $key => $productId) {
+                $product = $products->find($productId);
+                $jumlah = $request->jumlah[$key];
+                $subTotal = $role
+                    ? $product->harga_reseller * $jumlah
+                    : $product->harga_customer * $jumlah;
+
+                $pivot = $discount
+                    ? optional($discount->products->find($productId))->pivot
+                    : null;
+
+                $hargaDiskon = $pivot && $jumlah >= $pivot->minimal_produk && $jumlah <= $pivot->maksimal_produk
+                    ? $pivot->diskon_harga
+                    : null;
+
+                $total += $subTotal;
+                $order->total = $total;
+
+                $order->save();
+
+                if ($role && $jumlah < $product->reseller_minimum) {
+                    $order->products()->detach();
+                    $order->update($old->toArray());
+                    foreach ($sync as $key => $item) {
+                        $order->products()->attach($item['product_id'], $item);
+                    }
+
+                    return response()->json([
+                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.'
+                    ], 422);
+                }
+
+                $order->products()->attach($productId, [
+                    'color_id'  => $request->color_id[$key],
+                    'size_id'   => $request->size_id[$key],
+                    'jumlah'    => $jumlah,
+                    'diskon'    => $hargaDiskon,
+                    'sub_total' => $subTotal,
+                ]);
+            }
+        }
+
+        return response()->json(['message' => 'Updated'], 200);
     }
 
     /**
      * Remove the specified Order from storage.
-     * DELETE /orders/{$id}
+     * DELETE /orders/{order}
      *
-     * @param $id
+     * @param \App\Models\Order $order
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        $order = Order::find($id);
+        if ($order->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
 
-        if (empty($order)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
+        $order->products()->detach();
         $order->delete();
 
-        return response()->json([
-            'message' => 'Successfully deleted',
-            'status' => 'success'
-        ]);
+        return response()->json(null, 204);
     }
 }

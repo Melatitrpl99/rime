@@ -97,9 +97,9 @@
         "inView": true
     },
     {
-        "name": "order_id",
+        "name": "user_id",
         "dbType": "foreignId:constrained",
-        "htmlType": "selectTable:orders:nomor,id",
+        "htmlType": "selectTable:users:nomor,id",
         "validations": "required",
         "searchable": false,
         "fillable": true,
@@ -107,7 +107,7 @@
         "inForm": true,
         "inIndex": true,
         "inView": true,
-        "relation": "mt1,Order"
+        "relation": "mt1,User"
     },
     {
         "name": "created_at",

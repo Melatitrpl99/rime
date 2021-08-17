@@ -15,14 +15,13 @@ class ProductStockResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'product_id' => $this->product_id,
-            'color_id' => $this->color_id,
-            'dimension_id' => $this->dimension_id,
-            'size_id' => $this->size_id,
-            'stok_ready' => $this->stok_ready,
-            'color' => new ColorResource($this->whenLoaded('color')),
-            'size' => new SizeResource($this->whenLoaded('size')),
-            'dimension' => new DimensionResource($this->whenLoaded('dimension')),
+            'id'           => $this->id,
+            'product_id'   => $this->product_id,
+            'color_id'     => $this->color_id,
+            'size_id'      => $this->size_id,
+            'stok_ready'   => $this->stok_ready,
+            'color'        => $this->whenLoaded('color'),
+            'size'         => $this->whenLoaded('size'),
         ];
     }
 }

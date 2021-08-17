@@ -15,7 +15,7 @@
         "name": "nomor",
         "dbType": "string:unique",
         "htmlType": "text",
-        "validations": "required|max:16",
+        "validations": "required|string|max:16",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -36,7 +36,7 @@
         "inView": true
     },
     {
-        "name": "user_id",
+        "name": "order_id",
         "dbType": "foreignId:constrained",
         "htmlType": "selectTable:users:name,id",
         "validations": "required",
@@ -46,7 +46,7 @@
         "inForm": true,
         "inIndex": true,
         "inView": true,
-        "relation": "mt1,User"
+        "relation": "mt1,Order"
     },
     {
         "name": "created_at",
@@ -71,9 +71,5 @@
         "inForm": false,
         "inIndex": false,
         "inView": true
-    },
-    {
-        "type": "relation",
-        "relation": "mtm,Product,transaction_details"
     }
 ]

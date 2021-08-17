@@ -2,18 +2,16 @@
 
 use App\Http\Controllers\API\AuthAPIController;
 use App\Http\Controllers\API\CartAPIController;
-use App\Http\Controllers\API\CartProductAPIController;
-use App\Http\Controllers\API\CategoryAPIController;
 use App\Http\Controllers\API\DiscountAPIController;
 use App\Http\Controllers\API\OrderAPIController;
 use App\Http\Controllers\API\PostAPIController;
 use App\Http\Controllers\API\ProductAPIController;
 use App\Http\Controllers\API\ColorAPIController;
-use App\Http\Controllers\API\DimensionAPIController;
+use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
 use App\Http\Controllers\API\SizeAPIController;
 use App\Http\Controllers\API\ShipmentAPIController;
 use App\Http\Controllers\API\TestimonyAPIController;
-use App\Http\Controllers\API\TransactionAPIController;
+use App\Http\Controllers\API\UserAPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,32 +34,31 @@ Route::group(['middleware' => 'api'], function () {
 });
 
 Route::group(['middleware' => 'jwt.auth'], function () {
+
+    Route::group(['prefix' => 'misc', 'as' => 'misc.'], function () {
+        Route::get('provinces', [GetShipmentDetailsController::class, 'getProvinces'])
+            ->name('shipment.provinces');
+        Route::get('regencies', [GetShipmentDetailsController::class, 'getRegencies'])
+            ->name('shipment.regencies');
+        Route::get('districts', [GetShipmentDetailsController::class, 'getDistricts'])
+            ->name('shipment.districts');
+        Route::get('villages', [GetShipmentDetailsController::class, 'getVillages'])
+            ->name('shipment.villages');
+    });
+
     Route::apiResource('carts', CartAPIController::class)
         ->missing(function () {
             return response()->json(['message' => 'Not found'], 404);
         });
 
-    Route::apiResource('carts.products', CartProductAPIController::class)
-        ->missing(function () {
-            return response()->json(['message' => 'Not found'], 404);
-        });
-
-    Route::apiResource('categories', CategoryAPIController::class)
-        ->missing(function () {
-            return response()->json(['message' => 'Not found'], 404);
-        });
-
     Route::apiResource('colors', ColorAPIController::class)
-        ->missing(function () {
-            return response()->json(['message' => 'Not found'], 404);
-        });
-
-    Route::apiResource('dimensions', DimensionAPIController::class)
+        ->only(['index', 'show'])
         ->missing(function () {
             return response()->json(['message' => 'Not found'], 404);
         });
 
     Route::apiResource('discounts', DiscountAPIController::class)
+        ->only(['index', 'show'])
         ->missing(function () {
             return response()->json(['message' => 'Not found'], 404);
         });
@@ -72,7 +69,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         });
 
     Route::apiResource('products', ProductAPIController::class)
-        ->only(['index', 'show'])
         ->missing(function () {
             return response(null, 204);
         });
@@ -84,22 +80,29 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         });
 
     Route::apiResource('shipments', ShipmentAPIController::class)
-        ->except(['index'])
         ->missing(function () {
             return response()->json(['message' => 'Not found'], 404);
         });
 
     Route::apiResource('sizes', SizeAPIController::class)
-        ->missing(function () {
-            return response()->json(['message' => 'Not found'], 404);
-        });
-
-    Route::apiResource('transactions', TransactionAPIController::class)
+        ->only(['index', 'show'])
         ->missing(function () {
             return response()->json(['message' => 'Not found'], 404);
         });
 
     Route::apiResource('testimonies', TestimonyAPIController::class)
+        ->missing(function () {
+            return response()->json(['message' => 'Not found'], 404);
+        });
+
+    Route::apiResource('user_verifications', UserVerificationAPIController::class)
+        ->only(['index', 'store', 'show'])
+        ->missing(function () {
+            return response()->json(['message' => 'Not found'], 404);
+        });
+
+    Route::apiResource('users', UserAPIController::class)
+        ->except('index')
         ->missing(function () {
             return response()->json(['message' => 'Not found'], 404);
         });

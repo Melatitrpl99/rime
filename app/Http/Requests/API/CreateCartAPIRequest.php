@@ -24,6 +24,10 @@ class CreateCartAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Cart::$rules;
+        return [
+            'judul'     => 'required',
+            'total'     => 'nullable|numeric',
+            'deskripsi' => 'nullable'
+        ];
     }
 }

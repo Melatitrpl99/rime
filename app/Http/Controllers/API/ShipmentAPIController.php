@@ -27,20 +27,17 @@ class ShipmentAPIController extends Controller
     {
         $query = Shipment::query();
 
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
-        if ($request->get('limit')) {
+
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
-        $shipments = $query->get();
+        $shipments = $query->where('user_id', auth()->id())->get();
 
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => ShipmentResource::collection($shipments)
-        ]);
+        return response()->json(ShipmentResource::collection($shipments), 200);
     }
 
     /**
@@ -55,92 +52,58 @@ class ShipmentAPIController extends Controller
     {
         $shipment = Shipment::create($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new ShipmentResource($shipment)
-        ]);
+        return response()->json(new ShipmentResource($shipment), 201);
     }
 
     /**
      * Display the specified Shipment.
-     * GET|HEAD /shipments/{$id}
+     * GET|HEAD /shipments/{shipment}
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show($id)
+    public function show(Shipment $shipment)
     {
-        $shipment = Shipment::find($id);
-
-        if (empty($shipment)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => new ShipmentResource($shipment)
-        ]);
+        return $shipment->user_id == auth()->id()
+            ? response()->json(new ShipmentResource($shipment), 200)
+            : response()->json(['message' => 'Not allowed'], 403);
     }
 
     /**
      * Update the specified Shipment in storage.
-     * PUT/PATCH /shipments/{$id}
+     * PUT/PATCH /shipments/{shipment}
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      * @param \App\Http\Requests\UpdateShipmentRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateShipmentAPIRequest $request)
+    public function update(Shipment $shipment, UpdateShipmentAPIRequest $request)
     {
-        $shipment = Shipment::find($id);
-
-        if (empty($shipment)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
+        if ($shipment->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
 
         $shipment->update($request->validated());
 
-        return response()->json([
-            'message' => 'Successfully updated',
-            'status' => 'success',
-            'data' => new ShipmentResource($shipment)
-        ]);
+        return response()->json(new ShipmentResource($shipment), 200);
     }
 
     /**
      * Remove the specified Shipment from storage.
-     * DELETE /shipments/{$id}
+     * DELETE /shipments/{shipment}
      *
-     * @param $id
+     * @param \App\Models\Shipment $shipment
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy($id)
+    public function destroy(Shipment $shipment)
     {
-        $shipment = Shipment::find($id);
-
-        if (empty($shipment)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
+        if ($shipment->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
 
         $shipment->delete();
 
-        return response()->json([
-            'message' => 'Successfully deleted',
-            'status' => 'success'
-        ]);
+        return response()->json(null, 204);
     }
 }

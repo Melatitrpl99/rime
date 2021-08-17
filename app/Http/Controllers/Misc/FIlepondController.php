@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class FilepondController extends Controller
 {
-    public function store(Request $request)
+    public function process(Request $request)
     {
         \Debugbar::disable();
         if ($request->has('path')) {
@@ -24,7 +24,7 @@ class FilepondController extends Controller
         return null;
     }
 
-    public function destroy()
+    public function revert()
     {
 
     }

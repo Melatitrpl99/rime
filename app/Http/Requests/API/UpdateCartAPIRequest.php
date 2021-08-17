@@ -24,8 +24,10 @@ class UpdateCartAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = Cart::$rules;
-        
-        return $rules;
+        return [
+            'judul'     => 'required',
+            'total'     => 'nullable|numeric',
+            'deskripsi' => 'nullable'
+        ];
     }
 }

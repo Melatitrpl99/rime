@@ -1,45 +1,37 @@
-<!-- Nama Lengkap Field -->
+<!-- User Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('nama_lengkap', 'Nama Lengkap:') !!}
-    {!! Form::text('nama_lengkap', null, ['class' => 'form-control']) !!}
+    {!! Form::label('user_id', 'User:') !!}
+    {!! Form::select('user_id', $userItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
 </div>
 
-<!-- Order Id Field -->
-<div class="form-group col-12 col-sm-6">
-    {!! Form::label('order_id', 'Order:') !!}
-    {!! Form::select('order_id', $orderItems, null, ['class' => 'form-control select2-dropdown']) !!}
+<!-- Alamat Field -->
+<div class="form-group col-12">
+    {!! Form::label('alamat', 'Alamat') !!}
+    {!! Form::textarea('alamat', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- No Field -->
+<!-- Province Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('no', 'No:') !!}
-    {!! Form::text('no', null, ['class' => 'form-control']) !!}
+    {!! Form::label('province_id', 'Provinsi') !!}
+    {!! Form::select('province_id', $provinceItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
 </div>
 
-<!-- Rt Field -->
+<!-- Regency Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('rt', 'Rt:') !!}
-    {!! Form::text('rt', null, ['class' => 'form-control']) !!}
+    {!! Form::label('regency_id', 'Kota/Kabupaten') !!}
+    {!! Form::select('regency_id', [], null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
 </div>
 
-<!-- Rw Field -->
+<!-- District Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('rw', 'Rw:') !!}
-    {!! Form::text('rw', null, ['class' => 'form-control']) !!}
+    {!! Form::label('district_id', 'Kecamatan') !!}
+    {!! Form::select('district_id', [], null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
 </div>
 
 <!-- Village Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('village_id', 'Desa / Kelurahan:') !!}
-    {!! Form::select('village_id', $villageItems, null, ['class' => 'form-control select2']) !!}
-</div>
-
-@include('layouts.plugins.select2')
-
-<!-- Alamat Field -->
-<div class="form-group col-12">
-    {!! Form::label('alamat', 'Alamat:') !!}
-    {!! Form::textarea('alamat', null, ['class' => 'form-control']) !!}
+    {!! Form::label('village_id', 'Desa/Kelurahan') !!}
+    {!! Form::select('village_id', [], null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
 </div>
 
 <!-- Kode Pos Field -->
@@ -53,3 +45,69 @@
     {!! Form::label('catatan', 'Catatan:') !!}
     {!! Form::textarea('catatan', null, ['class' => 'form-control']) !!}
 </div>
+
+@include('layouts.plugins.select2')
+
+@push('scripts')
+    <script>
+        $('#province_id').on('select2:select', function () {
+            $.ajax({
+                url: "{{ route('region.regency') }}",
+                type: 'get',
+                data: {
+                    province_id: $(this).find(':selected').val()
+                },
+                success: function (response) {
+                    $('#regency_id').empty();
+                    for (let [key, value] of Object.entries(response)) {
+                        const option = new Option(value, key, false, false);
+                        $('#regency_id').append(option).trigger('change');
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+        });
+
+        $('#regency_id').on('select2:select', function () {
+            $.ajax({
+                url: "{{ route('region.district') }}",
+                type: 'get',
+                data: {
+                    regency_id: $(this).find(':selected').val()
+                },
+                success: function (response) {
+                    $('#district_id').empty();
+                    for (let [key, value] of Object.entries(response)) {
+                        const option = new Option(value, key, false, false);
+                        $('#district_id').append(option).trigger('change');
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+        });
+
+        $('#district_id').on('select2:select', function () {
+            $.ajax({
+                url: "{{ route('region.village') }}",
+                type: 'get',
+                data: {
+                    district_id: $(this).find(':selected').val()
+                },
+                success: function (response) {
+                    $('#village_id').empty();
+                    for (let [key, value] of Object.entries(response)) {
+                        const option = new Option(value, key, false, false);
+                        $('#village_id').append(option).trigger('change');
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+        });
+    </script>
+@endpush

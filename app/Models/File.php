@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class File
+ *
  * @package App\Models
  * @version July 8, 2021, 12:04 am UTC
- *
  * @property \Illuminate\Database\Eloquent\Collection $fileThumbs
  * @property morphs $fileable
  * @property string $name
@@ -19,6 +19,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $size
  * @property string $path
  * @property string $url
+ * @property int $id
+ * @property string $fileable_type
+ * @property int $fileable_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read int|null $file_thumbs_count
+ * @method static \Database\Factories\FileFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|File newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|File newQuery()
+ * @method static \Illuminate\Database\Query\Builder|File onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|File query()
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereFileableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereFileableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereFormat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereMimeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|File withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|File withoutTrashed()
+ * @mixin \Eloquent
  */
 class File extends Model
 {
@@ -75,7 +102,7 @@ class File extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     **/
+     */
     public function fileable()
     {
         return $this->morphTo();
@@ -83,7 +110,7 @@ class File extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
+     */
     public function fileThumbs()
     {
         return $this->hasMany(FileThumb::class);

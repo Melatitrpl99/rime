@@ -23,7 +23,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::with('user.roles')->paginate(15);
+        $transactions = Transaction::with('order')->paginate(15);
 
         return view('admin.transactions.index')
             ->with('transactions', $transactions);
@@ -54,13 +54,7 @@ class TransactionController extends Controller
             ->put('nomor', $nomor)
             ->toArray();
 
-        $transaction = Transaction::create($input);
-
-        if ($request->has(['order_id'])) {
-            foreach ($request->order_id as $orderId) {
-                $transaction->orders()->attach($orderId, ['sub_total' => $request->sub_total]);
-            }
-        }
+        Transaction::create($input);
 
         flash('Transaction saved successfully.', 'success');
 
@@ -76,15 +70,7 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        $transaction->load([
-            'orders.products:id,nama,harga_reseller,harga_customer',
-            'orders.status:id,name',
-            'orders.user:id,name',
-            'orders.user.roles:id,name',
-            'orders.products.pivot.color:id,name',
-            'orders.products.pivot.size:id,name',
-            'orders.products.pivot.dimension:id,name',
-        ]);
+        $transaction->load('order.products');
 
         return view('admin.transactions.show')
             ->with('transaction', $transaction);
@@ -114,13 +100,6 @@ class TransactionController extends Controller
     public function update(Transaction $transaction, UpdateTransactionRequest $request)
     {
         $transaction->update($request->validated());
-
-        if ($request->has(['order_id'])) {
-            $transaction->orders()->detach();
-            foreach ($request->order_id as $orderId) {
-                $transaction->orders()->attach($orderId, ['sub_total' => $request->sub_total]);
-            }
-        }
 
         flash('Transaction updated successfully.', 'success');
 

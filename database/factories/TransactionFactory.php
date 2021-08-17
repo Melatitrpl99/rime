@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TransactionFactory extends Factory
@@ -22,11 +22,15 @@ class TransactionFactory extends Factory
      */
     public function definition()
     {
-        $user = User::pluck('id')->toArray();
+        $orders = Order::withSum('products as total_diskon', 'order_details.diskon')->get();
+        $ids = $orders->pluck('id')->toArray();
         return [
             'nomor' => $this->faker->regexify('T[0-9]{2}-[A-Z0-9]{6}'),
-            // 'total' => $this->faker->numberBetween(50, 5500) * 1000,
-            'user_id' => $this->faker->randomElement($user),
+            'order_id' => $this->faker->randomElement($ids),
+            'total' => function (array $attributes) use ($orders) {
+                $order = $orders->firstWhere('id', '==', $attributes['order_id']);
+                return $order->total + $order->biaya_pengiriman - $order->total_diskon;
+            }
         ];
     }
 }

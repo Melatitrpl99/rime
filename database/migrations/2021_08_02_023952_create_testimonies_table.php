@@ -20,7 +20,7 @@ class CreateTestimoniesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('judul');
             $table->longText('isi');
-            $table->integer('review');
+            $table->mediumInteger('review');
             $table->timestamps();
             $table->softDeletes();
         });

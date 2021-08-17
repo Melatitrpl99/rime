@@ -27,120 +27,29 @@ class PostAPIController extends Controller
     {
         $query = Post::query();
 
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
-        if ($request->get('limit')) {
+
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
-        $posts = $query->get();
+        $posts = $query->with('post_category')->get();
 
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => PostResource::collection($posts)
-        ]);
-    }
-
-    /**
-     * Store a newly created Post in storage.
-     * POST /posts
-     *
-     * @param \App\Http\Requests\CreatePostRequest $request
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function store(CreatePostAPIRequest $request)
-    {
-        $post = Post::create($request->validated());
-
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new PostResource($post)
-        ]);
+        return response()->json(PostResource::collection($posts), 200);
     }
 
     /**
      * Display the specified Post.
-     * GET|HEAD /posts/{$id}
+     * GET|HEAD /posts/{$post}
      *
-     * @param $id
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function show($id)
-    {
-        $post = Post::find($id);
-
-        if (empty($post)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => new PostResource($post)
-        ]);
-    }
-
-    /**
-     * Update the specified Post in storage.
-     * PUT/PATCH /posts/{$id}
-     *
-     * @param $id
-     * @param \App\Http\Requests\UpdatePostRequest $request
+     * @param \App\Models\Post $post
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdatePostAPIRequest $request)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
-
-        if (empty($post)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        $post->update($request->validated());
-
-        return response()->json([
-            'message' => 'Successfully updated',
-            'status' => 'success',
-            'data' => new PostResource($post)
-        ]);
-    }
-
-    /**
-     * Remove the specified Post from storage.
-     * DELETE /posts/{$id}
-     *
-     * @param $id
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function destroy($id)
-    {
-        $post = Post::find($id);
-
-        if (empty($post)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        $post->delete();
-
-        return response()->json([
-            'message' => 'Successfully deleted',
-            'status' => 'success'
-        ]);
+        return response()->json(new PostResource($post), 200);
     }
 }

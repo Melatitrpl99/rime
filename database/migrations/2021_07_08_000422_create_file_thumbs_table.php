@@ -15,14 +15,13 @@ class CreateFileThumbsTable extends Migration
     public function up()
     {
         Schema::create('file_thumbs', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('file_id')->constrained();
             $table->string('path')->nullable();
             $table->string('dimensions');
             $table->string('size');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->primary(['file_id']);
         });
     }
 

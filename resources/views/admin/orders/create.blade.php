@@ -1,11 +1,12 @@
 @extends('layouts.app')
+<title>{{ env('APP_NAME') }} | Tambah order baru</title>
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>Add new Order</h1>
+                    <h1>Tambah order baru</h1>
                 </div>
             </div>
         </div>
@@ -24,9 +25,13 @@
                                 @include('admin.orders.fields')
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-right align-items-center">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Simpan</button>
-                            <a href="{{ route('admin.orders.index') }}" class="btn btn-default ml-1">Batal</a>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i>&nbsp; Simpan
+                            </button>
+                            <a href="{{ route('admin.orders.index') }}" class="btn btn-default">
+                                <i class="fas fa-times-circle"></i>&nbsp; Batal
+                            </a>
                         </div>
                         {!! Form::close() !!}
                     </div>

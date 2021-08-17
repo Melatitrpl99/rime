@@ -3,9 +3,9 @@
         <tr>
             <th>Judul</th>
             <th>Konten</th>
-            <th>Post Category</th>
-            <th>User</th>
-            <th colspan="3">Action</th>
+            <th>Kategori</th>
+            <th>Penulis</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
                 <td>{{ $post->postCategory->name }}</td>
                 <td>{{ $post->user->name }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.posts.destroy', $post], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.posts.destroy', $post], 'method' => 'DELETE']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-default btn-sm">
                             <i class="far fa-eye"></i>

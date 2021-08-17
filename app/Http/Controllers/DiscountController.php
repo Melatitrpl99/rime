@@ -48,10 +48,11 @@ class DiscountController extends Controller
      */
     public function store(CreateDiscountRequest $request)
     {
+        // dd($request->all());
         $discount = Discount::create($request->validated());
 
         if ($request->has(['product_id', 'diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
-            foreach($request->product_id as $key => $productId) {
+            foreach ($request->product_id as $key => $productId) {
                 $discount->products()->attach($productId, [
                     'diskon_harga'    => $request->diskon_harga[$key],
                     'minimal_produk'  => $request->minimal_produk[$key],
@@ -75,6 +76,7 @@ class DiscountController extends Controller
     public function show(Discount $discount)
     {
         $discount->load('products');
+
         return view('admin.discounts.show')
             ->with('discount', $discount);
     }
@@ -106,7 +108,7 @@ class DiscountController extends Controller
 
         if ($request->has(['product_id', 'diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
             $discount->products()->detach(null, false);
-            foreach($request->product_id as $key => $productId) {
+            foreach ($request->product_id as $key => $productId) {
                 $discount->products()->attach($productId, [
                     'diskon_harga'    => $request->diskon_harga[$key],
                     'minimal_produk'  => $request->minimal_produk[$key],
@@ -129,7 +131,7 @@ class DiscountController extends Controller
      */
     public function destroy(Discount $discount)
     {
-        $discount->products()->detach();
+        $discount->products()->detach(null, false);
         $discount->delete();
 
         flash('Discount deleted successfully.', 'success');

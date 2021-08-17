@@ -15,14 +15,18 @@ class OrderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'nomor' => $this->nomor,
-            'pesan' => $this->pesan,
-            'kode_diskon' => $this->kode_diskon,
-            'status_id' => $this->status_id,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'id'               => $this->id,
+            'nomor'            => $this->nomor,
+            'pesan'            => $this->pesan,
+            'total'            => $this->total,
+            'kode_diskon'      => $this->kode_diskon,
+            'biaya_pengiriman' => $this->biaya_pengiriman,
+            'berat'            => $this->berat,
+            'status_id'        => $this->status_id,
+            'shipment_id'      => $this->shipment_id,
+            'status'           => $this->whenLoaded('status'),
+            'shipment'         => new ShipmentResource($this->whenLoaded('shipment')),
+            'products'         => OrderProductResource::collection($this->whenLoaded('products'))
         ];
     }
 }

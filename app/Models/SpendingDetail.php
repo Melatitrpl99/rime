@@ -9,11 +9,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class SpendingDetail
+ *
  * @package App\Models
  * @version May 18, 2021, 2:05 am UTC
- *
  * @property \App\Models\Spending $spending
  * @property integer $subtotal
+ * @property int $id
+ * @property int $spending_id
+ * @property string|null $nama
+ * @property int|null $sub_total
+ * @method static \Database\Factories\SpendingDetailFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail whereSpendingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpendingDetail whereSubTotal($value)
+ * @mixin \Eloquent
  */
 class SpendingDetail extends Model
 {
@@ -54,7 +67,7 @@ class SpendingDetail extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
+     */
     public function spending()
     {
         return $this->belongsTo(\App\Models\Spending::class);

@@ -24,8 +24,14 @@ class UpdateOrderAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = Order::$rules;
-        
-        return $rules;
+        return [
+            'pesan'            => 'nullable',
+            'total'            => 'nullable|numeric',
+            'kode_diskon'      => 'nullable|string',
+            'biaya_pengiriman' => 'nullable|numeric',
+            'berat'            => 'nullable|numeric',
+            'kode_resi'        => 'nullable|string',
+            'shipment_id'      => 'required',
+        ];
     }
 }

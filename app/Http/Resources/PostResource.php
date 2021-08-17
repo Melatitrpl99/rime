@@ -15,14 +15,13 @@ class PostResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'judul' => $this->judul,
-            'konten' => $this->konten,
-            'post_category' => $this->post_category->name,
-            'slug' => $this->slug,
-            'user' => $this->user->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'id'               => $this->id,
+            'judul'            => $this->judul,
+            'konten'           => $this->konten,
+            'post_category_id' => $this->post_category_id,
+            'slug'             => $this->slug,
+            'user'             => $this->user->name,
+            'last_updated'     => $this->updated_at,
         ];
     }
 }

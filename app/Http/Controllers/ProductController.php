@@ -6,6 +6,7 @@ use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductStock;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,9 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with('category:id,nama')->paginate(15);
+        $products = Product::with('productCategory:id,name')
+            ->withSum('productStocks', 'stok_ready')
+            ->paginate(15);
 
         return view('admin.products.index')
             ->with('products', $products);
@@ -52,8 +55,18 @@ class ProductController extends Controller
     {
         $product = Product::create($request->validated());
 
+        if ($request->has(['size_id', 'color_id', 'stok_ready'])) {
+            foreach ($request->color_id as $key => $colorId) {
+                $product->productStocks()->create([
+                    'color_id' => $colorId,
+                    'size_id' => $request->size_id[$key],
+                    'stok_ready' => $request->stok_ready[$key]
+                ]);
+            }
+        }
+
         if ($request->has('path')) {
-            $this->upload($request->file('path'), $request->nama, 'produk', $product);
+            $this->saveFile($request->input('path'), $request->nama, 'produk', $product);
         }
 
         flash('Product saved successfully.', 'success');
@@ -70,6 +83,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $product->load(['productStocks', 'productStocks.color:id,name', 'productStocks.size:id,name']);
+
         return view('admin.products.show')
             ->with('product', $product);
     }
@@ -99,8 +114,19 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
 
+        if ($request->has(['size_id', 'color_id', 'stok_ready'])) {
+            $product->productStocks()->forceDelete();
+            foreach ($request->color_id as $key => $colorId) {
+                $product->productStocks()->create([
+                    'color_id' => $colorId,
+                    'size_id' => $request->size_id[$key],
+                    'stok_ready' => $request->stok_ready[$key]
+                ]);
+            }
+        }
+
         if ($request->has('path')) {
-            $this->upload($request->file('path'), $request->nama, 'produk', $product);
+            $this->saveFile($request->input('path'), $request->nama, 'produk', $product);
         }
 
         flash('Product updated successfully.', 'success');
@@ -117,6 +143,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $product->productStocks()->delete();
         $product->delete();
 
         flash('Product deleted successfully.', 'success');

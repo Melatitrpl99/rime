@@ -6,7 +6,7 @@
             <th>Kategori</th>
             <th>Jumlah</th>
             <th>Total</th>
-            <th colspan="3">Action</th>
+            <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +18,7 @@
                 <td>{{ $spending->qty }}</td>
                 <td>Rp. {{ number_format($spending->total, 2, ',', '.') }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['admin.spendings.destroy', $spending], 'method' => 'delete', 'class' => 'm-0']) !!}
+                    {!! Form::open(['route' => ['admin.spendings.destroy', $spending], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.spendings.show', $spending) }}" class="btn btn-default btn-sm">
                             <i class="far fa-eye"></i>

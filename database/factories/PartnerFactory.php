@@ -22,14 +22,14 @@ class PartnerFactory extends Factory
      */
     public function definition()
     {
-        $lokasi = Regency::pluck('id');
+        $lokasi = Regency::pluck('name');
         return [
-            'nama' => $this->faker->name,
+            'nama'      => $this->faker->name,
             'deskripsi' => $this->faker->paragraph(rand(5, 12)),
-            'alamat' => $this->faker->address(),
-            'lokasi' => $this->faker->randomElement($lokasi),
-            'email' => $this->faker->safeEmail(),
-            'no_hp' => $this->faker->phoneNumber(),
+            'alamat'    => $this->faker->address(),
+            'lokasi'    => ucfirst($this->faker->randomElement($lokasi)),
+            'email'     => $this->faker->safeEmail(),
+            'no_hp'     => $this->faker->phoneNumber(),
         ];
     }
 }

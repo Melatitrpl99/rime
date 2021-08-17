@@ -1,11 +1,12 @@
 @extends('layouts.app')
+<title>{{ env('APP_NAME') }} | Tambah warna baru</title>
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>Add new Color</h1>
+                    <h1>Tambah warna baru</h1>
                 </div>
             </div>
         </div>
@@ -25,8 +26,12 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.colors.index') }}" class="btn btn-default">Cancel</a>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i>&nbsp; Simpan
+                            </button>
+                            <a href="{{ route('admin.colors.index') }}" class="btn btn-default">
+                                <i class="fas fa-times-circle"></i>&nbsp; Batal
+                            </a>
                         </div>
                         {!! Form::close() !!}
                     </div>

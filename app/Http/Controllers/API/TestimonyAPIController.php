@@ -27,14 +27,21 @@ class TestimonyAPIController extends Controller
     {
         $query = Testimony::query();
 
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
-        if ($request->get('limit')) {
+
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
-        $testimonies = $query->get();
+        if ($request->has('product_id')) {
+            $testimonies = $query->where('product_id', $request->get('product_id'))->get();
+
+            return response()->json(TestimonyResource::collection($testimonies), 200);
+        }
+
+        $testimonies = $query->where('user_id', auth()->id())->get();
 
         return response()->json(TestimonyResource::collection($testimonies), 200);
     }
@@ -64,7 +71,9 @@ class TestimonyAPIController extends Controller
      */
     public function show(Testimony $testimony)
     {
-        return response()->json(new TestimonyResource($testimony), 200);
+        return $testimony->user_id == auth()->id()
+            ? response()->json(new TestimonyResource($testimony), 200)
+            : response()->json(['message' => 'Not allowed'], 403);
     }
 
     /**
@@ -78,6 +87,9 @@ class TestimonyAPIController extends Controller
      */
     public function update(Testimony $testimony, UpdateTestimonyAPIRequest $request)
     {
+        if ($testimony->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
+
         $testimony->update($request->validated());
 
         return response()->json(new TestimonyResource($testimony), 200);
@@ -93,6 +105,9 @@ class TestimonyAPIController extends Controller
      */
     public function destroy(Testimony $testimony)
     {
+        if ($testimony->user_id != auth()->id())
+            return response()->json(['message' => 'Not allowed'], 403);
+
         $testimony->delete();
 
         return response()->json(null, 204);

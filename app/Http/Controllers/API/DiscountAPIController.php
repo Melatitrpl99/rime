@@ -27,120 +27,29 @@ class DiscountAPIController extends Controller
     {
         $query = Discount::query();
 
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
-        if ($request->get('limit')) {
+
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
         $discounts = $query->get();
 
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => DiscountResource::collection($discounts)
-        ]);
-    }
-
-    /**
-     * Store a newly created Discount in storage.
-     * POST /discounts
-     *
-     * @param \App\Http\Requests\CreateDiscountRequest $request
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function store(CreateDiscountAPIRequest $request)
-    {
-        $discount = Discount::create($request->validated());
-
-        return response()->json([
-            'message' => 'Successfully added',
-            'status' => 'success',
-            'data' => new DiscountResource($discount)
-        ]);
+        return response()->json(DiscountResource::collection($discounts));
     }
 
     /**
      * Display the specified Discount.
-     * GET|HEAD /discounts/{$id}
+     * GET|HEAD /discounts/{$discount}
      *
-     * @param $id
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function show($id)
-    {
-        $discount = Discount::find($id);
-
-        if (empty($discount)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Successfully retrieved',
-            'status' => 'success',
-            'data' => new DiscountResource($discount)
-        ]);
-    }
-
-    /**
-     * Update the specified Discount in storage.
-     * PUT/PATCH /discounts/{$id}
-     *
-     * @param $id
-     * @param \App\Http\Requests\UpdateDiscountRequest $request
+     * @param \App\Models\Discount $discount
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update($id, UpdateDiscountAPIRequest $request)
+    public function show(Discount $discount)
     {
-        $discount = Discount::find($id);
-
-        if (empty($discount)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        $discount->update($request->validated());
-
-        return response()->json([
-            'message' => 'Successfully updated',
-            'status' => 'success',
-            'data' => new DiscountResource($discount)
-        ]);
-    }
-
-    /**
-     * Remove the specified Discount from storage.
-     * DELETE /discounts/{$id}
-     *
-     * @param $id
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function destroy($id)
-    {
-        $discount = Discount::find($id);
-
-        if (empty($discount)) {
-            return response()->json([
-                'message' => 'Not found',
-                'status' => 'error'
-            ]);
-        }
-
-        $discount->delete();
-
-        return response()->json([
-            'message' => 'Successfully deleted',
-            'status' => 'success'
-        ]);
+        return response()->json(new DiscountResource($discount));
     }
 }

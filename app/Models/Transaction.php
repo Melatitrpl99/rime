@@ -6,16 +6,35 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * Class Transaction
- * @package App\Models
- * @version May 18, 2021, 2:11 am UTC
  *
- * @property \App\Models\User $user
- * @property \Illuminate\Database\Eloquent\Collection $products
+ * @package App\Models
+ * @version August 7, 2021, 7:05 am UTC
+ * @property \App\Models\Order $order
  * @property string $nomor
  * @property integer $total
- * @property foreignId $user_id
+ * @property foreignId $order_id
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\TransactionFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Transaction onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereNomor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Transaction withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Transaction withoutTrashed()
+ * @mixin \Eloquent
  */
 class Transaction extends Model
 {
@@ -28,7 +47,8 @@ class Transaction extends Model
     public $fillable = [
         'nomor',
         'total',
-        'user_id'
+        'order_id',
+        'tanggal_masuk'
     ];
 
     /**
@@ -38,7 +58,8 @@ class Transaction extends Model
      */
     protected $casts = [
         'nomor' => 'string',
-        'total' => 'integer'
+        'total' => 'integer',
+        'tanggal_masuk' => 'datetime'
     ];
 
     /**
@@ -47,24 +68,17 @@ class Transaction extends Model
      * @var array
      */
     public static $rules = [
-        'nomor' => 'nullable|max:16',
+        'nomor' => 'required|string|max:16',
         'total' => 'required|integer',
-        'user_id' => 'required'
+        'order_id' => 'required',
+        'tanggal_masuk' => 'required'
     ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function user()
+     */
+    public function order()
     {
-        return $this->belongsTo(\App\Models\User::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     **/
-    public function orders()
-    {
-        return $this->belongsToMany(Order::class, 'transaction_details');
+        return $this->belongsTo(Order::class);
     }
 }

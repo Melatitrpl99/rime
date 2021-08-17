@@ -1,52 +1,34 @@
-<table class="table table-sm table-borderless table-striped" id="cart_detail-table">
+@php
+    $role = $transaction->order->user->hasRole('reseller');
+@endphp
+<table class="table table-sm table-borderless table-striped" id="transaction_detail-table">
     <thead>
         <tr>
             <th class="py-2 border-bottom" width="50">#</th>
-            <th class="py-2 border-bottom">Order</th>
-            <th class="py-2 border-bottom" width="160">Subtotal</th>
-            <th class="py-2 border-bottom" width="160">Biaya Pengiriman</th>
+            <th class="py-2 border-bottom">Varian produk</th>
+            <th class="py-2 border-bottom" width="160">Harga</th>
+            <th class="py-2 border-bottom" width="160">Jumlah</th>
             <th class="py-2 border-bottom" width="160">Diskon</th>
-            <th class="py-2 border-bottom" width="160">Total</th>
+            <th class="py-2 border-bottom" width="160">Subtotal</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($transaction->orders as $order)
+        @foreach($transaction->order->products as $product)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $order->nomor }}</td>
-                <td>
-                    <div class="d-flex justify-content-between align-items-baseline">
-                        <span>Rp.</span>
-                        <span>{{ number_format($order->total, 2, ',', '.') }}</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex justify-content-between align-items-baseline">
-                        <span>Rp.</span>
-                        <span>{{ number_format($order->biaya_pengiriman, 2, ',', '.') }}</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex justify-content-between align-items-baseline">
-                        <span>Rp.</span>
-                        <span>{{ number_format($order->products->sum('pivot.diskon'), 2, ',', '.') }}</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex justify-content-between align-items baseline">
-                        <span>Rp.</span>
-                        <span>{{ number_format($order->total + $order->biaya_pengiriman - $order->products->sum('pivot.diskon'), 2, ',', '.') }}</span>
-                    </div>
-                </td>
+                <td>{{ $product->nama }}</td>
+                <td>{{ $role ? rp($product->harga_reseller) : rp($product->harga_customer) }}</td>
+                <td>{{ numerify($product->pivot->jumlah) }}</td>
+                <td>{{ rp($product->pivot->diskon ?? 0) }}</td>
+                <td>{{ rp($product->pivot->sub_total - $product->pivot->diskon ?? 0) }}</td>
             </tr>
         @endforeach
     </tbody>
     <tfoot>
         <th class="py-2 border-top" colspan="4"></th>
         <th class="py-2 border-top">Total transaksi</th>
-        <th class="py-2 border-top d-flex justify-content-between align-items-baseline">
-            <span>Rp.</span>
-            <span>{{ number_format($transaction->total, 2, ',', '.') }}</span>
+        <th class="py-2 border-top">
+            {{ rp($transaction->total) }}
         </th>
     </tfoot>
 </table>

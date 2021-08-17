@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductDetailResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -23,17 +24,19 @@ class ProductAPIController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::query();
+        $products = Product::query();
 
         if ($request->get('skip')) {
-            $query->skip($request->get('skip'));
+            $products->skip($request->get('skip'));
         }
         if ($request->get('limit')) {
-            $query->limit($request->get('limit'));
+            $products->limit($request->get('limit'));
         }
 
-        $products = $query->withSum('productStocks', 'stok_ready')
-            ->with(['files', 'category'])
+        $products = $products->withSum('productStocks', 'stok_ready')
+            ->withAvg('testimonies', 'review')
+            ->withCount('testimonies')
+            ->with('image')
             ->get();
 
         return response()->json(ProductResource::collection($products), 200);
@@ -49,8 +52,18 @@ class ProductAPIController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load(['category', 'productStocks']);
+        $product->load([
+            'productCategory',
+            'productStocks',
+            'productStocks.color',
+            'productStocks.size',
+            'images',
+            'testimonies.user.avatar'
+        ])
+            ->loadSum('productStocks', 'stok_ready')
+            ->loadAvg('testimonies', 'review')
+            ->loadCount('testimonies');
 
-        return response()->json(new ProductResource($product), 200);
+        return response()->json(new ProductDetailResource($product), 200);
     }
 }
