@@ -31,11 +31,39 @@ class SizeAPIController extends Controller
         if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
+<<<<<<< Updated upstream
+=======
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $sizes = $query->get();
+
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => SizeResource::collection($sizes)
+        ]);
+    }
+
+    /**
+     * Display the specified Size.
+     * GET|HEAD /sizes/{$id}
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
+    public function show($id)
+    {
+        $size = Size::find($id);
+>>>>>>> Stashed changes
 
         if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
+<<<<<<< Updated upstream
         if ($request->has('product_id')) {
             $productStock = ProductStock::where('product_id', $request->get('product_id'))
                 ->pluck('size_id')
@@ -62,3 +90,12 @@ class SizeAPIController extends Controller
         return response()->json($size);
     }
 }
+=======
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new SizeResource($size)
+        ]);
+    }
+}
+>>>>>>> Stashed changes

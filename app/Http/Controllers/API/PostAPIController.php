@@ -35,9 +35,19 @@ class PostAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
+<<<<<<< Updated upstream
         $posts = $query->with('post_category')->get();
 
         return response()->json(PostResource::collection($posts), 200);
+=======
+        $posts = $query->get();
+
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => PostResource::collection($posts)
+        ]);
+>>>>>>> Stashed changes
     }
 
     /**
@@ -50,6 +60,25 @@ class PostAPIController extends Controller
      */
     public function show(Post $post)
     {
+<<<<<<< Updated upstream
         return response()->json(new PostResource($post), 200);
     }
 }
+=======
+        $post = Post::find($id);
+
+        if (empty($post)) {
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new PostResource($post)
+        ]);
+    }
+}
+>>>>>>> Stashed changes

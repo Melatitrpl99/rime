@@ -9,6 +9,7 @@ use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 
 /**
@@ -176,13 +177,18 @@ class OrderController extends Controller
                 $product = $products->find($productId);
                 $jumlah = $request->jumlah[$key];
 
-                $pivot = $discount
-                    ? optional($discount->products->find($productId))->pivot
-                    : null;
+                $pivot = null;
+                $isDiscountable = false;
+                if ($request->filled('kode_diskon')) {
+                    $discountProduct = optional($discount->products)->find($product);
 
-                $hargaDiskon = $pivot && $jumlah >= $pivot->minimal_produk && $jumlah <= $pivot->maksimal_produk
-                    ? $pivot->diskon_harga
-                    : null;
+                    if (!empty($discountProduct)) {
+                       $pivot = $discountProduct->pivot;
+                    }
+
+                    $isDiscountable = (!empty($pivot) && $pivot->minimal_produk > $jumlah
+                              && $pivot->maksimal_produk < $jumlah);
+                }
 
                 if ($role && $jumlah < $product->reseller_minimum) {
                     $order->products()->detach();

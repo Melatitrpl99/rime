@@ -31,11 +31,40 @@ class ColorAPIController extends Controller
         if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
+<<<<<<< Updated upstream
+=======
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+
+        $colors = $query->get();
+
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => ColorResource::collection($colors)
+        ]);
+    }
+
+
+    /**
+     * Display the specified Color.
+     * GET|HEAD /colors/{$id}
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
+    public function show($id)
+    {
+        $color = Color::find($id);
+>>>>>>> Stashed changes
 
         if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
+<<<<<<< Updated upstream
         if ($request->has('product_id')) {
             $productStocks = ProductStock::where('product_id', $request->get('product_id'))
                 ->pluck('color_id')
@@ -62,3 +91,12 @@ class ColorAPIController extends Controller
         return response()->json($color);
     }
 }
+=======
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new ColorResource($color)
+        ]);
+    }
+}
+>>>>>>> Stashed changes

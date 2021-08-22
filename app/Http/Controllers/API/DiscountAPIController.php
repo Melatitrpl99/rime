@@ -37,8 +37,18 @@ class DiscountAPIController extends Controller
 
         $discounts = $query->get();
 
+<<<<<<< Updated upstream
         return response()->json(DiscountResource::collection($discounts));
     }
+=======
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => DiscountResource::collection($discounts)
+        ]);
+    }
+
+>>>>>>> Stashed changes
 
     /**
      * Display the specified Discount.
@@ -50,6 +60,25 @@ class DiscountAPIController extends Controller
      */
     public function show(Discount $discount)
     {
+<<<<<<< Updated upstream
         return response()->json(new DiscountResource($discount));
     }
 }
+=======
+        $discount = Discount::find($id);
+
+        if (empty($discount)) {
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 'error'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Successfully retrieved',
+            'status' => 'success',
+            'data' => new DiscountResource($discount)
+        ]);
+    }
+}
+>>>>>>> Stashed changes

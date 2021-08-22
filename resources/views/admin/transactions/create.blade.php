@@ -36,7 +36,7 @@
                         {!! Form::close() !!}
                     </div>
                 </div>
-                @include('admin.transactions.show_orders')
+                {{-- @include('admin.transactions.show_orders') --}}
             </div>
         </div>
     </section>

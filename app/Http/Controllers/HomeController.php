@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -27,12 +27,13 @@ class HomeController extends Controller
     {
         $totalUser = User::count();
         $totalReseller = User::has('role')->count();
-        $totalProdukTerjual = Order::where('status_id', 5)
-            ->withSum('products as total_produk', 'order_details.jumlah')
-            ->get('total_produk')
-            ->sum('total_produk');
+        $totalProdukTerjual = Order::where('status_id',5)
+        ->withSum('products as total_produk', 'order_details.jumlah')
+        ->get('total_produk')
+        ->sum('total_produk');
 
-        return view('admin.home', compact('totalUser', 'totalReseller', 'totalProdukTerjual'));
+
+        return view('admin.home', compact('totalUser','totalReseller','totalProdukTerjual'));
     }
 
     public function profile()
