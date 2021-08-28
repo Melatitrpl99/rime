@@ -22,7 +22,7 @@ class DiscountResource extends JsonResource
             'batas_pemakaian' => $this->batas_pemakaian,
             'waktu_mulai'     => $this->waktu_mulai,
             'waktu_berakhir'  => $this->waktu_berakhir,
-            'detail'          => ProductResource::collection($this->whenLoaded('products'))
+            'detail'          => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

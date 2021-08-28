@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStatusRequest;
 use App\Http\Requests\UpdateStatusRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Status;
 use Illuminate\Http\Request;
 
 /**
- * Class StatusController
- * @package App\Http\Controllers
+ * Class StatusController.
  */
 class StatusController extends Controller
 {

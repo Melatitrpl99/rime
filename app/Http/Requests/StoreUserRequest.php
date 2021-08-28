@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
             'tgl_lahir'     => ['nullable', 'date'],
             'alamat'        => ['nullable'],
             'no_hp'         => ['nullable', 'regex:/^(\+62|0)\w+/g'],
-            'no_wa'         => ['nullable', 'regex:/^(\+62|0)\w+/g']
+            'no_wa'         => ['nullable', 'regex:/^(\+62|0)\w+/g'],
         ];
     }
 }

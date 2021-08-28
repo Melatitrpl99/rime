@@ -3,9 +3,8 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\UserShipment;
 
-class UpdateUserShipmentRequest extends FormRequest
+class UpdateUserShipmentAPIRequest extends FormRequest
 {
     public function authorize()
     {

@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDiscountRequest;
 use App\Http\Requests\UpdateDiscountRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 
 /**
- * Class DiscountController
- * @package App\Http\Controllers
+ * Class DiscountController.
  */
 class DiscountController extends Controller
 {
@@ -56,7 +54,7 @@ class DiscountController extends Controller
                 $discount->products()->attach($productId, [
                     'diskon_harga'    => $request->diskon_harga[$key],
                     'minimal_produk'  => $request->minimal_produk[$key],
-                    'maksimal_produk' => $request->maksimal_produk[$key]
+                    'maksimal_produk' => $request->maksimal_produk[$key],
                 ]);
             }
         }
@@ -112,7 +110,7 @@ class DiscountController extends Controller
                 $discount->products()->attach($productId, [
                     'diskon_harga'    => $request->diskon_harga[$key],
                     'minimal_produk'  => $request->minimal_produk[$key],
-                    'maksimal_produk' => $request->maksimal_produk[$key]
+                    'maksimal_produk' => $request->maksimal_produk[$key],
                 ]);
             }
         }

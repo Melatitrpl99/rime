@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\API\Misc;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\RegionResource;
-use App\Models\Color;
 use App\Models\District;
-use App\Models\ProductStock;
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Village;

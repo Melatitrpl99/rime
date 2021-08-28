@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * App\Models\OrderDetail
+ * App\Models\OrderDetail.
  *
  * @property int $id
  * @property int $order_id
@@ -56,7 +56,7 @@ class OrderDetail extends Pivot
         'size_id',
         'jumlah',
         'sub_total',
-        'diskon'
+        'diskon',
     ];
 
     public function color(): BelongsTo

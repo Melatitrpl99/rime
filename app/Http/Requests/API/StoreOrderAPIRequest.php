@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Order;
 use Illuminate\Http\Request;
 
 class StoreOrderAPIRequest extends FormRequest

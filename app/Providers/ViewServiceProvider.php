@@ -2,23 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\Cart;
-use App\Models\Shipment;
 use App\Models\Color;
-use App\Models\District;
-use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\PostCategory;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductStock;
 use App\Models\Province;
-use App\Models\Regency;
 use App\Models\Size;
 use App\Models\Status;
 use App\Models\User;
-use App\Models\Village;
-
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider

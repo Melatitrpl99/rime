@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\FileThumb
+ * App\Models\FileThumb.
  *
  * @property int $id
  * @property int $file_id
@@ -46,7 +46,7 @@ class FileThumb extends Model
     ];
 
     protected $casts = [
-        'size' => 'string'
+        'size' => 'string',
     ];
 
     public function file(): BelongsTo

@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class SpendingCategory
+ * Class SpendingCategory.
  *
- * @package App\Models
  * @version August 25, 2021, 3:09 pm UTC
  * @property string $name
  * @property int $id
@@ -41,7 +40,7 @@ class SpendingCategory extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function spendings(): HasMany

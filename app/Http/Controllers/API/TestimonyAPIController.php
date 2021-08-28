@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreTestimonyAPIRequest;
 use App\Http\Requests\API\UpdateTestimonyAPIRequest;
 use App\Http\Resources\TestimonyResource;
-use App\Http\Controllers\Controller;
 use App\Models\Testimony;
 use Illuminate\Http\Request;
 
 /**
- * Class TestimonyAPIController
- * @package App\Http\Controllers\API
+ * Class TestimonyAPIController.
  */
 class TestimonyAPIController extends Controller
 {
     /**
      * Display a listing of the Testimony.
-     * GET|HEAD /testimonies
+     * GET|HEAD /testimonies.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -48,7 +47,7 @@ class TestimonyAPIController extends Controller
 
     /**
      * Store a newly created Testimony in storage.
-     * POST /testimonies
+     * POST /testimonies.
      *
      * @param \App\Http\Requests\StoreTestimonyRequest $request
      *
@@ -63,7 +62,7 @@ class TestimonyAPIController extends Controller
 
     /**
      * Display the specified Testimony.
-     * GET|HEAD /testimonies/{testimony}
+     * GET|HEAD /testimonies/{testimony}.
      *
      * @param \App\Models\Testimony $testimony
      *
@@ -78,7 +77,7 @@ class TestimonyAPIController extends Controller
 
     /**
      * Update the specified Testimony in storage.
-     * PUT/PATCH /testimonies/{testimony}
+     * PUT/PATCH /testimonies/{testimony}.
      *
      * @param \App\Models\Testimony $testimony
      * @param \App\Http\Requests\UpdateTestimonyRequest $request
@@ -87,8 +86,9 @@ class TestimonyAPIController extends Controller
      */
     public function update(Testimony $testimony, UpdateTestimonyAPIRequest $request)
     {
-        if ($testimony->user_id != auth()->id())
+        if ($testimony->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $testimony->update($request->validated());
 
@@ -97,7 +97,7 @@ class TestimonyAPIController extends Controller
 
     /**
      * Remove the specified Testimony from storage.
-     * DELETE /testimonies/{testimony}
+     * DELETE /testimonies/{testimony}.
      *
      * @param \App\Models\Testimony $testimony
      *
@@ -105,8 +105,9 @@ class TestimonyAPIController extends Controller
      */
     public function destroy(Testimony $testimony)
     {
-        if ($testimony->user_id != auth()->id())
+        if ($testimony->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $testimony->delete();
 

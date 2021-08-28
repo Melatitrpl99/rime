@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\SpendingUnit
+ * App\Models\SpendingUnit.
  *
  * @property int $id
  * @property string $name
@@ -35,6 +35,6 @@ class SpendingUnit extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 }

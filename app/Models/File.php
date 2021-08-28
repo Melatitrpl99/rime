@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\File
+ * App\Models\File.
  *
  * @property int $id
  * @property string $name
@@ -57,7 +57,7 @@ class File extends Model
         'format',
         'size',
         'path',
-        'url'
+        'url',
     ];
 
     protected $casts = [
@@ -67,7 +67,7 @@ class File extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function fileable(): MorphTo

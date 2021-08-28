@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Status;
 
 class UpdateStatusRequest extends FormRequest
 {
@@ -25,7 +24,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
         ];
     }
 }

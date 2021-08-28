@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePartnerRequest;
 use App\Http\Requests\UpdatePartnerRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 
 /**
- * Class PartnerController
- * @package App\Http\Controllers
+ * Class PartnerController.
  */
 class PartnerController extends Controller
 {

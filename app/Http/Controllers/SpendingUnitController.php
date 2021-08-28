@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpendingUnitRequest;
 use App\Http\Requests\UpdateSpendingUnitRequest;
-use App\Http\Controllers\Controller;
 use App\Models\SpendingUnit;
 use Illuminate\Http\Request;
 
 /**
- * Class SpendingUnitController
- * @package App\Http\Controllers
+ * Class SpendingUnitController.
  */
 class SpendingUnitController extends Controller
 {

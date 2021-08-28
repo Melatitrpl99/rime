@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 trait FileUpload
 {
     /**
-     * Upload file from temporary storage
+     * Upload file from temporary storage.
      *
      * @param array $files
      * @param string $name

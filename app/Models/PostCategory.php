@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\PostCategory
+ * App\Models\PostCategory.
  *
  * @property int $id
  * @property string $name
@@ -42,7 +42,7 @@ class PostCategory extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function posts(): HasMany

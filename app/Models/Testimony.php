@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Testimony
+ * App\Models\Testimony.
  *
  * @property int $id
  * @property int $product_id
@@ -52,7 +52,7 @@ class Testimony extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function product(): BelongsTo

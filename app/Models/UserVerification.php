@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\UserVerification
+ * App\Models\UserVerification.
  *
  * @property int $id
  * @property int $user_id
@@ -46,17 +46,17 @@ class UserVerification extends Model
         'result_token',
         'similarity',
         'accuracy',
-        'status'
+        'status',
     ];
 
     protected $casts = [
         'result_token' => 'string',
         'similarity'   => 'double',
-        'accuracy'     => 'double'
+        'accuracy'     => 'double',
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function user()

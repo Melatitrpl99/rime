@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpendingCategoryRequest;
 use App\Http\Requests\UpdateSpendingCategoryRequest;
-use App\Http\Controllers\Controller;
 use App\Models\SpendingCategory;
 use Illuminate\Http\Request;
 
 /**
- * Class SpendingCategoryController
- * @package App\Http\Controllers
+ * Class SpendingCategoryController.
  */
 class SpendingCategoryController extends Controller
 {

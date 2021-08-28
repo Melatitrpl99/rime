@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 /**
- * Class PostController
- * @package App\Http\Controllers
+ * Class PostController.
  */
 class PostController extends Controller
 {

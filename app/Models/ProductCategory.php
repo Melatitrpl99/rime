@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\ProductCategory
+ * App\Models\ProductCategory.
  *
  * @property int $id
  * @property string $name
@@ -40,7 +40,7 @@ class ProductCategory extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function productCategories(): HasMany

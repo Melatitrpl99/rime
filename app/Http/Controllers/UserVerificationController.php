@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserVerificationRequest;
 use App\Http\Requests\UpdateUserVerificationRequest;
-use App\Http\Controllers\Controller;
 use App\Models\UserVerification;
 use Illuminate\Http\Request;
 
 /**
- * Class UserVerificationController
- * @package App\Http\Controllers
+ * Class UserVerificationController.
  */
 class UserVerificationController extends Controller
 {

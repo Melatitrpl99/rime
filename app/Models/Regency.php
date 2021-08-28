@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
- * App\Models\Regency
+ * App\Models\Regency.
  *
  * @property int $id
  * @property string $province_id
@@ -41,7 +41,7 @@ class Regency extends Model
     protected $table = 'regencies';
 
     protected $hidden = [
-        'province_id'
+        'province_id',
     ];
 
     public function province(): BelongsTo

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
@@ -14,8 +13,7 @@ use Illuminate\Http\Request;
 use Validator;
 
 /**
- * Class OrderController
- * @package App\Http\Controllers
+ * Class OrderController.
  */
 class OrderController extends Controller
 {
@@ -30,7 +28,7 @@ class OrderController extends Controller
     {
         $orders = Order::with([
             'status:id,name',
-            'user:id,nama_lengkap'
+            'user:id,nama_lengkap',
         ])
             ->orderByDesc('id')
             ->paginate(15);
@@ -152,7 +150,7 @@ class OrderController extends Controller
         $order->load([
             'products:id,nama,harga_customer,harga_reseller',
             'products.pivot.color:id,name',
-            'products.pivot.size:id,name'
+            'products.pivot.size:id,name',
         ]);
 
         return view('admin.orders.show')

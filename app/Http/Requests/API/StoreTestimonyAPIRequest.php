@@ -3,9 +3,8 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Testimony;
 
-class StoreTestimonyRequest extends FormRequest
+class StoreTestimonyAPIRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

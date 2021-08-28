@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductDetailResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 /**
- * Class ProductAPIController
- * @package App\Http\Controllers\API
+ * Class ProductAPIController.
  */
 class ProductAPIController extends Controller
 {
     /**
      * Display a listing of the Product.
-     * GET|HEAD /products
+     * GET|HEAD /products.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -44,7 +43,7 @@ class ProductAPIController extends Controller
 
     /**
      * Display the specified Product.
-     * GET|HEAD /products/{$id}
+     * GET|HEAD /products/{$id}.
      *
      * @param \App\Models\Product $product
      *
@@ -58,7 +57,7 @@ class ProductAPIController extends Controller
             'productStocks.color',
             'productStocks.size',
             'images',
-            'testimonies.user.avatar'
+            'testimonies.user.avatar',
         ])
             ->loadSum('productStocks', 'stok_ready')
             ->loadAvg('testimonies', 'review')

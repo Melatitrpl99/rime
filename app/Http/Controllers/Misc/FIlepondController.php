@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Misc;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FilepondController extends Controller
+class FIlepondController extends Controller
 {
     public function process(Request $request)
     {
-        \Debugbar::disable();
+        \DebugBar::disable();
         if ($request->has('path')) {
             $file = $request->file('path');
 
@@ -21,11 +21,7 @@ class FilepondController extends Controller
 
             return response($fn, 200, ['Content-Type' => 'text/plain']);
         }
+
         return null;
-    }
-
-    public function revert()
-    {
-
     }
 }

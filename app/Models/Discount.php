@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Discount
+ * App\Models\Discount.
  *
  * @property int $id
  * @property string $judul
@@ -60,7 +60,7 @@ class Discount extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function products(): BelongsToMany

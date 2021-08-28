@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreUserVerificationAPIRequest;
 use App\Http\Requests\API\UpdateUserVerificationAPIRequest;
 use App\Http\Resources\UserVerificationResource;
-use App\Http\Controllers\Controller;
 use App\Models\UserVerification;
 use Illuminate\Http\Request;
 
 /**
- * Class UserVerificationAPIController
- * @package App\Http\Controllers\API
+ * Class UserVerificationAPIController.
  */
 class UserVerificationAPIController extends Controller
 {
     /**
      * Display a listing of the UserVerification.
-     * GET|HEAD /user_verifications
+     * GET|HEAD /user_verifications.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -42,7 +41,7 @@ class UserVerificationAPIController extends Controller
 
     /**
      * Store a newly created UserVerification in storage.
-     * POST /user_verifications
+     * POST /user_verifications.
      *
      * @param \App\Http\Requests\StoreUserVerificationRequest $request
      *
@@ -57,7 +56,7 @@ class UserVerificationAPIController extends Controller
 
     /**
      * Display the specified UserVerification.
-     * GET|HEAD /user_verifications/{userVerification}
+     * GET|HEAD /user_verifications/{userVerification}.
      *
      * @param \App\Models\UserVerification $userVerification
      *
@@ -70,7 +69,7 @@ class UserVerificationAPIController extends Controller
 
     /**
      * Update the specified UserVerification in storage.
-     * PUT/PATCH /user_verifications/{userVerification}
+     * PUT/PATCH /user_verifications/{userVerification}.
      *
      * @param \App\Models\UserVerification $userVerification
      * @param \App\Http\Requests\UpdateUserVerificationRequest $request
@@ -86,7 +85,7 @@ class UserVerificationAPIController extends Controller
 
     /**
      * Remove the specified UserVerification from storage.
-     * DELETE /user_verifications/{userVerification}
+     * DELETE /user_verifications/{userVerification}.
      *
      * @param \App\Models\UserVerification $userVerification
      *

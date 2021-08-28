@@ -24,7 +24,7 @@ class APIServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Response::macro('success', function ($data, $code = 200, $message = "Sukses", $status = "success") {
+        Response::macro('success', function ($data, $code = 200, $message = 'Sukses', $status = 'success') {
             return response()->json([
                 'message' => $message,
                 'status' => $status,
@@ -32,7 +32,7 @@ class APIServiceProvider extends ServiceProvider
             ], $code);
         });
 
-        Response::macro('empty', function ($message = "Kosong") {
+        Response::macro('empty', function ($message = 'Kosong') {
             return response()->json([
                 'message' => $message,
                 'status' => 'empty',
@@ -40,35 +40,35 @@ class APIServiceProvider extends ServiceProvider
             ], 204);
         });
 
-        Response::macro('error', function ($error = "Terjadi error", $code = 404, $status = "error") {
+        Response::macro('error', function ($error = 'Terjadi error', $code = 404, $status = 'error') {
             return response()->json([
                 'message' => $error,
                 'status' => $status,
             ], $code);
         });
 
-        Response::macro('invalid', function ($error = "Tidak dapat memproses permintaan") {
+        Response::macro('invalid', function ($error = 'Tidak dapat memproses permintaan') {
             return response()->json([
                 'message' => $error,
                 'status' => 'invalid',
             ], 400);
         });
 
-        Response::macro('unauthenticated', function ($error = "Anda harus login terlebih dahulu") {
+        Response::macro('unauthenticated', function ($error = 'Anda harus login terlebih dahulu') {
             return response()->json([
                 'message' => $error,
                 'status' => 'unauthenticated',
             ], 401);
         });
 
-        Response::macro('unauthorized', function ($error = "Anda tidak diizinkan untuk mengakses fitur ini") {
+        Response::macro('unauthorized', function ($error = 'Anda tidak diizinkan untuk mengakses fitur ini') {
             return response()->json([
                 'message' => $error,
                 'status' => 'unauthorized',
             ], 403);
         });
 
-        Response::macro('unprocessed', function ($error = "Terjadi kesalahan ketika memproses permintaan") {
+        Response::macro('unprocessed', function ($error = 'Terjadi kesalahan ketika memproses permintaan') {
             return response()->json([
                 'status' => 'unproceessed',
                 'message' => $error,

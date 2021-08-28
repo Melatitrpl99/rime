@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\UserShipment
+ * App\Models\UserShipment.
  *
  * @property int $id
  * @property string $alamat
@@ -58,11 +58,11 @@ class UserShipment extends Model
 
     protected $casts = [
         'kode_pos'   => 'string',
-        'is_default' => 'boolean'
+        'is_default' => 'boolean',
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function scopeIsDefault(Builder $query): Builder

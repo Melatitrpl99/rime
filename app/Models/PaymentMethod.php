@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class PaymentMethod
+ * Class PaymentMethod.
  *
- * @package App\Models
  * @version August 27, 2021, 8:20 am UTC
  * @property string $name
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentMethod newModelQuery()

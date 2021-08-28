@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePaymentMethodRequest;
 use App\Http\Requests\UpdatePaymentMethodRequest;
-use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 
 /**
- * Class PaymentMethodController
- * @package App\Http\Controllers
+ * Class PaymentMethodController.
  */
 class PaymentMethodController extends Controller
 {

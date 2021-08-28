@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderTransactionRequest;
 use App\Http\Requests\UpdateOrderTransactionRequest;
-use App\Http\Controllers\Controller;
 use App\Models\OrderTransaction;
 use Illuminate\Http\Request;
 
 /**
- * Class OrderTransactionController
- * @package App\Http\Controllers
+ * Class OrderTransactionController.
  */
 class OrderTransactionController extends Controller
 {

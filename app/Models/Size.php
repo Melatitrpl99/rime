@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Size
+ * App\Models\Size.
  *
  * @property int $id
  * @property string $name
@@ -33,12 +33,12 @@ class Size extends Model
     use SoftDeletes, HasFactory;
 
     public $fillable = [
-        'name'
+        'name',
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 }

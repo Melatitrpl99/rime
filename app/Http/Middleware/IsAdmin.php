@@ -20,6 +20,7 @@ class IsAdmin
             auth()->logout();
             abort(404);
         }
+
         return $next($request);
     }
 }

@@ -21,7 +21,7 @@ class UserVerificationResource extends JsonResource
             'similarity' => $this->similarity,
             'accuracy' => $this->accuracy,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
         ];
     }
 }

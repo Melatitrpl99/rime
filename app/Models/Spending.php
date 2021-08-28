@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Spending
+ * App\Models\Spending.
  *
  * @property int $id
  * @property string $nomor
@@ -60,7 +60,7 @@ class Spending extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function spendingCategory(): BelongsTo

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Color
+ * App\Models\Color.
  *
  * @property int $id
  * @property string $name
@@ -36,12 +36,12 @@ class Color extends Model
 
     public $fillable = [
         'name',
-        'rgba_color'
+        'rgba_color',
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 }

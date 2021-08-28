@@ -3,9 +3,8 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\UserVerification;
 
-class UpdateUserVerificationRequest extends FormRequest
+class UpdateUserVerificationAPIRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

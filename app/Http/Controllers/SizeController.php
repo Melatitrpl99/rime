@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\UpdateSizeRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Size;
 use Illuminate\Http\Request;
 
 /**
- * Class SizeController
- * @package App\Http\Controllers
+ * Class SizeController.
  */
 class SizeController extends Controller
 {

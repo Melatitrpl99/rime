@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Cart;
 use Illuminate\Http\Request;
 
 class UpdateCartRequest extends FormRequest

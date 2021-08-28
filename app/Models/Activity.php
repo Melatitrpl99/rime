@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Activity
+ * App\Models\Activity.
  *
  * @property string $id
  * @property string $loggable_type
@@ -51,13 +51,13 @@ class Activity extends Model
     public $fillable = [
         'user_agent',
         'ip_address',
-        'log'
+        'log',
     ];
 
     protected $casts = [
         'user_agent' => 'string',
         'ip_address' => 'string',
-        'log'        => 'string'
+        'log'        => 'string',
     ];
 
     public function loggable(): MorphTo

@@ -5,6 +5,7 @@ function numerify(float $number = null, bool $useDecimal = false): String
     if ($number == 0) {
         return '-';
     }
+
     return number_format($number, $useDecimal ? 2 : 0, ',', '.');
 }
 

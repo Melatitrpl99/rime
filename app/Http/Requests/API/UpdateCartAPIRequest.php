@@ -3,10 +3,9 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Cart;
 use Illuminate\Http\Request;
 
-class UpdateCartRequest extends FormRequest
+class UpdateCartAPIRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

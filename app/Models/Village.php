@@ -11,13 +11,12 @@ namespace App\Models;
 
 use AzisHapidin\IndoRegion\Traits\VillageTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\District;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 /**
- * App\Models\Village
+ * App\Models\Village.
  *
  * @property int $id
  * @property string $district_id
@@ -36,7 +35,7 @@ class Village extends Model
     use VillageTrait, BelongsToThroughTrait;
 
     protected $hidden = [
-        'district_id'
+        'district_id',
     ];
 
     public function district(): BelongsTo

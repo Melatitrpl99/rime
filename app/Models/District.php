@@ -11,12 +11,10 @@ namespace App\Models;
 
 use AzisHapidin\IndoRegion\Traits\DistrictTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Regency;
-use App\Models\Village;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
- * App\Models\District
+ * App\Models\District.
  *
  * @property int $id
  * @property string $regency_id
@@ -49,7 +47,7 @@ class District extends Model
      * @var array
      */
     protected $hidden = [
-        'regency_id'
+        'regency_id',
     ];
 
     /**
@@ -64,7 +62,6 @@ class District extends Model
 
     public function province()
     {
-
         return $this->belongsToThrough(Province::class, Regency::class);
     }
 

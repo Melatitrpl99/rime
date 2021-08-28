@@ -4,19 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\ProductStock;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 /**
- * Class ProductController
- * @package App\Http\Controllers
+ * Class ProductController.
  */
 class ProductController extends Controller
 {
     use FileUpload;
+
     /**
      * Display a listing of the Product.
      *
@@ -61,7 +59,7 @@ class ProductController extends Controller
             $product->productStocks()->create([
                 'color_id'   => $colorId,
                 'size_id'    => $request->size_id[$key],
-                'stok_ready' => $request->stok_ready[$key]
+                'stok_ready' => $request->stok_ready[$key],
             ]);
         }
 
@@ -101,8 +99,9 @@ class ProductController extends Controller
         $product->load([
             'productStocks',
             'productStocks.color',
-            'productStocks.size'
+            'productStocks.size',
         ]);
+
         return view('admin.products.edit')
             ->with('product', $product);
     }
@@ -124,7 +123,7 @@ class ProductController extends Controller
             $product->productStocks()->create([
                 'color_id' => $colorId,
                 'size_id' => $request->size_id[$key],
-                'stok_ready' => $request->stok_ready[$key]
+                'stok_ready' => $request->stok_ready[$key],
             ]);
         }
 

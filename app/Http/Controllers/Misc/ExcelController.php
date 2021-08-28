@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Misc;
 
 use App\Http\Controllers\Controller;
-use App\Imports\ImportProducts;
 use App\Imports\ImportProductStocks;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -29,6 +28,5 @@ class ExcelController extends Controller
 
     public function export()
     {
-
     }
 }

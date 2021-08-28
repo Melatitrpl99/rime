@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTestimonyRequest;
 use App\Http\Requests\UpdateTestimonyRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Testimony;
 use Illuminate\Http\Request;
 
 /**
- * Class TestimonyController
- * @package App\Http\Controllers
+ * Class TestimonyController.
  */
 class TestimonyController extends Controller
 {

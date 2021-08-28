@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Misc;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\Color;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\Size;
 use App\Models\UserShipment;
 use Form;
 use Illuminate\Http\Request;
@@ -26,7 +23,7 @@ class GetUserRelationController extends Controller
         $cart = Cart::with(['products', 'products.pivot.color', 'products.pivot.size'])
             ->find($request->get('cart_id'));
 
-        $out = "";
+        $out = '';
 
         foreach ($cart->products as $product) {
             $harga = $cart->user->hasRole('reseller')
@@ -54,9 +51,9 @@ class GetUserRelationController extends Controller
             </td>
             <td class='text-right'>
                 <input type='hidden' name='sub_total[]' value='{$product->pivot->sub_total}'>
-                <span>" . rp($product->pivot->sub_total) . "</span>
+                <span>" . rp($product->pivot->sub_total) . '</span>
             </td>
-        </tr>";
+        </tr>';
         }
 
         // dd($cart);

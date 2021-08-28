@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * App\Models\CartDetail
+ * App\Models\CartDetail.
  *
  * @property int $id
  * @property int $cart_id
@@ -50,14 +50,14 @@ class CartDetail extends Pivot
 
     protected $casts = [
         'jumlah'    => 'integer',
-        'sub_total' => 'integer'
+        'sub_total' => 'integer',
     ];
 
     public static $pivotColumns = [
         'color_id',
         'size_id',
         'jumlah',
-        'sub_total'
+        'sub_total',
     ];
 
     public function color(): BelongsTo

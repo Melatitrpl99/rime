@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\API\StoreUserShipmentRequest;
 use App\Http\Requests\API\UpdateUserShipmentRequest;
-use App\Http\Controllers\Controller;
 use App\Models\UserShipment;
-use Illuminate\Http\Request;
 
 /**
- * Class ShipmentController
- * @package App\Http\Controllers
+ * Class ShipmentController.
  */
 class UserShipmentController extends Controller
 {

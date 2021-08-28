@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreShipmentAPIRequest;
 use App\Http\Requests\API\UpdateShipmentAPIRequest;
 use App\Http\Resources\ShipmentResource;
-use App\Http\Controllers\Controller;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
 
 /**
- * Class ShipmentAPIController
- * @package App\Http\Controllers\API
+ * Class ShipmentAPIController.
  */
 class ShipmentAPIController extends Controller
 {
     /**
      * Display a listing of the Shipment.
-     * GET|HEAD /shipments
+     * GET|HEAD /shipments.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -42,7 +41,7 @@ class ShipmentAPIController extends Controller
 
     /**
      * Store a newly created Shipment in storage.
-     * POST /shipments
+     * POST /shipments.
      *
      * @param \App\Http\Requests\StoreShipmentRequest $request
      *
@@ -57,7 +56,7 @@ class ShipmentAPIController extends Controller
 
     /**
      * Display the specified Shipment.
-     * GET|HEAD /shipments/{shipment}
+     * GET|HEAD /shipments/{shipment}.
      *
      * @param \App\Models\Shipment $shipment
      *
@@ -72,7 +71,7 @@ class ShipmentAPIController extends Controller
 
     /**
      * Update the specified Shipment in storage.
-     * PUT/PATCH /shipments/{shipment}
+     * PUT/PATCH /shipments/{shipment}.
      *
      * @param \App\Models\Shipment $shipment
      * @param \App\Http\Requests\UpdateShipmentRequest $request
@@ -81,8 +80,9 @@ class ShipmentAPIController extends Controller
      */
     public function update(Shipment $shipment, UpdateShipmentAPIRequest $request)
     {
-        if ($shipment->user_id != auth()->id())
+        if ($shipment->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $shipment->update($request->validated());
 
@@ -91,7 +91,7 @@ class ShipmentAPIController extends Controller
 
     /**
      * Remove the specified Shipment from storage.
-     * DELETE /shipments/{shipment}
+     * DELETE /shipments/{shipment}.
      *
      * @param \App\Models\Shipment $shipment
      *
@@ -99,8 +99,9 @@ class ShipmentAPIController extends Controller
      */
     public function destroy(Shipment $shipment)
     {
-        if ($shipment->user_id != auth()->id())
+        if ($shipment->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $shipment->delete();
 

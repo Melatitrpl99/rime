@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreColorRequest;
 use App\Http\Requests\UpdateColorRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Color;
 use Illuminate\Http\Request;
 
 /**
- * Class ColorController
- * @package App\Http\Controllers
+ * Class ColorController.
  */
 class ColorController extends Controller
 {

@@ -4,7 +4,6 @@
  * This file is part of the IndoRegion package.
  *
  * (c) Azis Hapidin <azishapidin.com | azishapidin@gmail.com>
- *
  */
 
 namespace App\Models;
@@ -17,7 +16,7 @@ use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
- * App\Models\Province
+ * App\Models\Province.
  *
  * @property int $id
  * @property string $name

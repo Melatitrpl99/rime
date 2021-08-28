@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
 use App\Http\Resources\OrderResource;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\OrderProductResource;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 /**
- * Class OrderAPIController
- * @package App\Http\Controllers\API
+ * Class OrderAPIController.
  */
 class OrderAPIController extends Controller
 {
     /**
      * Display a listing of the Order.
-     * GET|HEAD /orders
+     * GET|HEAD /orders.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -56,7 +54,7 @@ class OrderAPIController extends Controller
 
     /**
      * Store a newly created Order in storage.
-     * POST /orders
+     * POST /orders.
      *
      * @param \App\Http\Requests\StoreOrderRequest $request
      *
@@ -111,7 +109,7 @@ class OrderAPIController extends Controller
                     $order->forceDelete();
 
                     return response()->json([
-                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.'
+                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.',
                     ], 422);
                 }
 
@@ -132,7 +130,7 @@ class OrderAPIController extends Controller
 
     /**
      * Display the specified Order.
-     * GET|HEAD /orders/{order}
+     * GET|HEAD /orders/{order}.
      *
      * @param \App\Models\Order $order
      *
@@ -140,8 +138,9 @@ class OrderAPIController extends Controller
      */
     public function show(Order $order)
     {
-        if ($order->user_id != auth()->id())
+        if ($order->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $order->load([
             'products',
@@ -158,7 +157,7 @@ class OrderAPIController extends Controller
 
     /**
      * Update the specified Order in storage.
-     * PUT/PATCH /orders/{order}
+     * PUT/PATCH /orders/{order}.
      *
      * @param \App\Models\Order $order
      * @param \App\Http\Requests\UpdateOrderRequest $request
@@ -167,8 +166,9 @@ class OrderAPIController extends Controller
      */
     public function update(Order $order, UpdateOrderAPIRequest $request)
     {
-        if ($order->user_id != auth()->id())
+        if ($order->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $old = $order->load([
             'products:id,nama,harga_customer,harga_reseller',
@@ -220,7 +220,7 @@ class OrderAPIController extends Controller
                     }
 
                     return response()->json([
-                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.'
+                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.',
                     ], 422);
                 }
 

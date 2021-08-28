@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostCategoryRequest;
 use App\Http\Requests\UpdatePostCategoryRequest;
-use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 
 /**
- * Class PostCategoryController
- * @package App\Http\Controllers
+ * Class PostCategoryController.
  */
 class PostCategoryController extends Controller
 {

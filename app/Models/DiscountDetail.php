@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * App\Models\DiscountDetail
+ * App\Models\DiscountDetail.
  *
  * @property int $discount_id
  * @property int $product_id
@@ -41,6 +41,6 @@ class DiscountDetail extends Pivot
     public static $pivotColumns = [
         'diskon_harga',
         'minimal_produk',
-        'maksimal_produk'
+        'maksimal_produk',
     ];
 }

@@ -17,7 +17,7 @@ class StokProdukController extends Controller
         $productId = $request->get('product_id');
         $stock = ProductStock::with([
             'color:id,name',
-            'size:id,name'
+            'size:id,name',
         ])->where('product_id', $productId)
             ->get()
             ->except('id')

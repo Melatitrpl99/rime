@@ -3,10 +3,9 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Order;
 use Illuminate\Http\Request;
 
-class UpdateOrderRequest extends FormRequest
+class UpdateOrderAPIRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

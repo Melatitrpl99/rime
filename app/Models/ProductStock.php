@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\ProductStock
+ * App\Models\ProductStock.
  *
  * @property int $id
  * @property int $product_id
@@ -52,11 +52,11 @@ class ProductStock extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
-     * Find all products by stock is still available
+     * Find all products by stock is still available.
      */
     public function scopeIsReady(Builder $query): Builder
     {

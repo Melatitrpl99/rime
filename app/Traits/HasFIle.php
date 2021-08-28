@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\Models;
 
-trait HasFile
+trait HasFIle
 {
     //
 }

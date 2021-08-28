@@ -29,7 +29,7 @@ class ProductDetailResource extends JsonResource
             'total_stok'          => (int) $this->product_stocks_sum_stok_ready,
             'product_stocks'      => ProductStockResource::collection($this->whenLoaded('productStocks')),
             'images'              => FileResource::collection($this->whenLoaded('images')),
-            'testimonies'         => TestimonyResource::collection($this->whenLoaded('testimonies'))
+            'testimonies'         => TestimonyResource::collection($this->whenLoaded('testimonies')),
         ];
     }
 }

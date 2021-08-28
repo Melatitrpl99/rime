@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Order
+ * App\Models\Order.
  *
  * @property int $id
  * @property string $nomor
@@ -58,6 +58,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Order withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \App\Models\PaymentMethod $paymentMethod
  */
 class Order extends Model
 {
@@ -78,7 +79,7 @@ class Order extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function discount(): BelongsTo

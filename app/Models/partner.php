@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Partner
+ * App\Models\Partner.
  *
  * @property int $id
  * @property string $nama
@@ -54,6 +54,6 @@ class Partner extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 }

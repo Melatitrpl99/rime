@@ -16,7 +16,7 @@ class BukuBesarController extends Controller
     public function index()
     {
         //
-        $transaksis=OrderTransaction::all();
+        $transaksis = OrderTransaction::all();
 
         return view('laporan.bukubesar', compact('transaksis'));
     }

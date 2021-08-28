@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Spending;
 use App\Models\OrderTransaction;
+use App\Models\Spending;
 use Illuminate\Http\Request;
 
 class LabaRugiController extends Controller
@@ -19,9 +19,10 @@ class LabaRugiController extends Controller
         $jumlahTransaksi = OrderTransaction::sum('total');
         $pengeluaran = Spending::sum('total');
 
-        $pengeluaran=Spending::all()->sum('total');
+        $pengeluaran = Spending::all()->sum('total');
+
         return view('laporan.labarugi')->with('pemasukan', $jumlahTransaksi)
-            ->with('pengeluaran',$pengeluaran);
+            ->with('pengeluaran', $pengeluaran);
         //
     }
 

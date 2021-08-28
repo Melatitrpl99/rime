@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Post
+ * App\Models\Post.
  *
  * @property int $id
  * @property string $judul
@@ -67,7 +67,7 @@ class Post extends Model
     ];
 
     /**
-     * Filter posts displayed on front page
+     * Filter posts displayed on front page.
      */
     public function scopeDisplayedOnFrontPage(Builder $query): Builder
     {

@@ -21,7 +21,7 @@ class FileResource extends JsonResource
             'format'    => $this->format,
             'size'      => $this->size,
             'path'      => $this->path,
-            'url'       => $this->url
+            'url'       => $this->url,
         ];
     }
 }

@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
-use App\Http\Controllers\Controller;
 use App\Models\File;
 use Illuminate\Http\Request;
 
 /**
- * Class FileController
- * @package App\Http\Controllers
+ * Class FileController.
  */
 class FileController extends Controller
 {

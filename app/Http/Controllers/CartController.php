@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
-use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\User;
@@ -13,8 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Class CartController
- * @package App\Http\Controllers
+ * Class CartController.
  */
 class CartController extends Controller
 {
@@ -78,7 +76,7 @@ class CartController extends Controller
 
             if ($hasRole) {
                 $validator = Validator::make([
-                    'jumlah' => $jumlah[$key]
+                    'jumlah' => $jumlah[$key],
                 ], [
                     'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
                 ], $messages = [
@@ -167,7 +165,7 @@ class CartController extends Controller
 
             if ($hasRole) {
                 $validator = Validator::make([
-                    'jumlah' => $jumlah[$key]
+                    'jumlah' => $jumlah[$key],
                 ], [
                     'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
                 ], $messages = [

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\OrderTransaction
+ * App\Models\OrderTransaction.
  *
  * @property int $id
  * @property string $nomor
@@ -44,15 +44,15 @@ class OrderTransaction extends Model
         'nomor',
         'total',
         'order_id',
-        'tanggal_masuk'
+        'tanggal_masuk',
     ];
 
     protected $casts = [
-        'tanggal_masuk' => 'datetime'
+        'tanggal_masuk' => 'datetime',
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function order(): BelongsTo

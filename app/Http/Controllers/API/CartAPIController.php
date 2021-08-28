@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreCartAPIRequest;
 use App\Http\Requests\API\UpdateCartAPIRequest;
 use App\Http\Resources\CartResource;
-use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use Faker\Factory;
@@ -13,14 +13,13 @@ use Illuminate\Http\Request;
 use Validator;
 
 /**
- * Class CartAPIController
- * @package App\Http\Controllers\API
+ * Class CartAPIController.
  */
 class CartAPIController extends Controller
 {
     /**
      * Display a listing of the Cart.
-     * GET|HEAD /carts
+     * GET|HEAD /carts.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -52,7 +51,7 @@ class CartAPIController extends Controller
 
     /**
      * Store a newly created Cart in storage.
-     * POST /carts
+     * POST /carts.
      *
      * @param \App\Http\Requests\StoreCartRequest $request
      *
@@ -87,7 +86,7 @@ class CartAPIController extends Controller
 
             if ($hasRole) {
                 $validator = Validator::make([
-                    'jumlah' => $jumlah[$key]
+                    'jumlah' => $jumlah[$key],
                 ], [
                     'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
                 ], $messages = [
@@ -116,7 +115,7 @@ class CartAPIController extends Controller
 
     /**
      * Display the specified Cart.
-     * GET|HEAD /carts/{$cart}
+     * GET|HEAD /carts/{$cart}.
      *
      * @param \App\Models\Cart $cart
      *
@@ -124,8 +123,9 @@ class CartAPIController extends Controller
      */
     public function show(Cart $cart)
     {
-        if ($cart->user_id != auth()->id())
+        if ($cart->user_id != auth()->id()) {
             return response()->unauthorized();
+        }
 
         $cart->load('products.image')
             ->loadSum('products as jumlah', 'cart_details.jumlah');
@@ -135,7 +135,7 @@ class CartAPIController extends Controller
 
     /**
      * Update the specified Cart in storage.
-     * PUT/PATCH /carts/{$cart}
+     * PUT/PATCH /carts/{$cart}.
      *
      * @param \App\Models\Cart $cart
      * @param \App\Http\Requests\UpdateCartRequest $request
@@ -147,7 +147,7 @@ class CartAPIController extends Controller
         $collect = collect($request->only(['product_id', 'color_id', 'size_id', 'jumlah']));
         dd($collect);
 
-        $old = $cart->load(['products:id,nama,harga_customer,harga_reseller',])
+        $old = $cart->load(['products:id,nama,harga_customer,harga_reseller'])
             ->replicate();
 
         $sync = $old->products->mapWithKeys(function ($item, $key) {
@@ -190,7 +190,7 @@ class CartAPIController extends Controller
                     'color_id'     => $request->color_id[$key],
                     'size_id'      => $request->size_id[$key],
                     'jumlah'       => $jumlah,
-                    'sub_total'    => $subTotal
+                    'sub_total'    => $subTotal,
                 ]);
             }
         }
@@ -200,7 +200,7 @@ class CartAPIController extends Controller
 
     /**
      * Remove the specified Cart from storage.
-     * DELETE /carts/{$id}
+     * DELETE /carts/{$id}.
      *
      * @param \App\Models\Cart $cart
      *
@@ -208,8 +208,9 @@ class CartAPIController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        if ($cart->user_id != auth()->id())
+        if ($cart->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
+        }
 
         $cart->products()->detach();
         $cart->delete();

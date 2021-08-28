@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
-use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 /**
- * Class ProductCategoryController
- * @package App\Http\Controllers
+ * Class ProductCategoryController.
  */
 class ProductCategoryController extends Controller
 {

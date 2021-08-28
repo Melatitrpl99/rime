@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Product
+ * App\Models\Product.
  *
  * @property int $id
  * @property string $nama
@@ -74,7 +74,7 @@ class Product extends Model
     protected $hidden = [
         'slug',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function productStocks(): HasMany

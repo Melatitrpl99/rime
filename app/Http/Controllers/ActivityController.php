@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 
 /**
- * Class ActivityController
- * @package App\Http\Controllers
+ * Class ActivityController.
  */
 class ActivityController extends Controller
 {
