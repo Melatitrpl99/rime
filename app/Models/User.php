@@ -100,7 +100,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'tgl_lahir' => 'date',
-        'password'  => 'encrypted',
+        // 'password'  => 'encrypted',
     ];
 
     /**

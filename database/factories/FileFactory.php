@@ -26,7 +26,12 @@ class FileFactory extends Factory
         $name = $this->faker->words(rand(3, 6), true);
         $name = Str::slug($name);
 
-        $dir = storage_path('app\\public\\files\\' . $name);
+        $baseDir = storage_path('app\\public\\files');
+        if (!file_exists($baseDir)) {
+            mkdir($baseDir);
+        }
+
+        $dir = $baseDir . '\\' . $name;
 
         if (!file_exists($dir)) {
             mkdir($dir);
