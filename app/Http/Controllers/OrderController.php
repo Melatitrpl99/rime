@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\ProductStock;
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Http\Request;
