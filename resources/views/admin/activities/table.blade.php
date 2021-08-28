@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="activities-table">
+<table class="table table-hover table-borderless table-striped" id="activities-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>User Agent</th>
             <th>IP Address</th>
             <th>Log</th>
@@ -11,6 +12,9 @@
     <tbody>
     @foreach($activities as $activity)
         <tr>
+            <td>
+                {{ $activities->perPage() * ($activities->currentPage() - 1) + $loop->iteration }}
+            </td>
             <td>{{ Str::limit($activity->user_agent, 25, '...') }}</td>
             <td>{{ $activity->ip_address }}</td>
             <td>{{ Str::limit($activity->log, 50, '...') }}</td>

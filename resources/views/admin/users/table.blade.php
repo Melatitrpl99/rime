@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="users-table">
+<table class="table table-hover table-borderless table-striped" id="users-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
@@ -10,10 +11,17 @@
     <tbody>
         @foreach($users as $user)
             <tr>
-                <td>{{ $user->name }}</td>
+                <td>
+                    {{ $users->perPage() * ($users->currentPage() - 1) + $loop->iteration }}
+                </td>
+                <td>{{ $user->nama_lengkap }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->role->name }}</td>
-                <td width="120">
+                <td>
+                    @foreach($user->getRoleNames() as $role)
+                        <span class="badge badge-primary">{{ $role }}</span>
+                    @endforeach
+                </td>
+                <td>
                     {!! Form::open(['route' => ['admin.users.destroy', $user], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.users.show', $user) }}" class="btn btn-default btn-sm"><i class="far fa-eye"></i>

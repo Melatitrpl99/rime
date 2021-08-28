@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="products-table">
+<table class="table table-hover table-borderless table-striped" id="products-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Nama</th>
             <th width="150" class="text-right">Harga Customer</th>
             <th width="150" class="text-right">Harga Reseller</th>
@@ -12,12 +13,15 @@
     <tbody>
         @foreach($products as $product)
             <tr>
+                <td>
+                    {{ $products->perPage() * ($products->currentPage() - 1) + $loop->iteration }}
+                </td>
                 <td>{{ $product->nama }}</td>
                 <td class="text-right">{{ rp($product->harga_customer) }}</td>
                 <td class="text-right">{{ rp($product->harga_reseller) }}</td>
                 <td class="text-center">{{ numerify($product->product_stocks_sum_stok_ready) }}</td>
                 <td>{{ $product->productCategory->name }}</td>
-                <td width="120">
+                <td>
                     {!! Form::open(['route' => ['admin.products.destroy', $product], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.products.show', $product) }}" class="btn btn-default btn-sm"><i class="far fa-eye"></i>

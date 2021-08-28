@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center">
                 <h1>Detail aktivitas</h1>
-                <a class="btn btn-info" href="{{ route('admin.activities.index') }}"><i class="fas fa-angle-double-left mr-1"></i> Back</a>
+                <a class="btn btn-info" href="{{ route('admin.activities.index') }}"><i class="fas fa-angle-double-left mr-1"></i> Kembali</a>
             </div>
         </div>
     </div>

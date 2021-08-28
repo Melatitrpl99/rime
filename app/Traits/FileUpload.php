@@ -27,19 +27,19 @@ trait FileUpload
 
             $storage = Storage::putFile(
                 "public/{$location}/{$name}",
-                storage_path('app/'.$file)
+                storage_path('app/' . $file)
             );
 
             $path = Storage::url($storage);
 
             $nama = new File();
             $nama->fill([
-                'name' => $name,
+                'name'      => $name,
                 'mime_type' => Storage::mimeType($storage),
-                'format' => $format,
-                'size' => Storage::size($storage),
-                'path' => $path,
-                'url' => asset($path),
+                'format'    => $format,
+                'size'      => Storage::size($storage),
+                'path'      => $path,
+                'url'       => asset($path),
             ]);
 
             $nama->fileable()->associate($model);

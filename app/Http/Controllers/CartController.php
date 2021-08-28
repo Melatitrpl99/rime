@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCartRequest;
+use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\User;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,7 +27,8 @@ class CartController extends Controller
      */
     public function index(Request $request)
     {
-        $carts = Cart::with('user')->paginate(15);
+        $carts = Cart::orderByDesc('updated_at')->with('user')
+            ->paginate(15);
 
         return view('admin.carts.index')
             ->with('carts', $carts);
@@ -45,47 +47,60 @@ class CartController extends Controller
     /**
      * Store a newly created Cart in storage.
      *
-     * @param \App\Http\Requests\CreateCartRequest $request
+     * @param \App\Http\Requests\StoreCartRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateCartRequest $request)
+    public function store(StoreCartRequest $request)
     {
-        $faker = \Faker\Factory::create();
+        $faker = Factory::create();
         $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
-        $input = collect($request->validated())
-            ->put('nomor', $nomor)
-            ->toArray();
 
-        $cart = Cart::create($input);
-
-        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah', 'sub_total'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
-            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
-
-            foreach ($request->product_id as $key => $productId) {
-                $jumlah = $request->jumlah[$key];
-                $product = $products->find($productId);
-
-                if ($role && $jumlah < $product->reseller_minimum) {
-                    $cart->products()->detach();
-                    $cart->forceDelete();
-
-                    flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
-
-                    return redirect()->route('admin.carts.index');
-                }
-
-                $cart->products()->attach($productId, [
-                    'color_id'     => $request->color_id[$key],
-                    'size_id'      => $request->size_id[$key],
-                    'jumlah'       => $jumlah,
-                    'sub_total'    => $role
-                        ? $product->harga_reseller * $jumlah
-                        : $product->harga_customer * $jumlah
-                ]);
-            }
+        while (Cart::where('nomor', $nomor)->exists()) {
+            $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
         }
+
+        $input = collect($request->validated())
+            ->put('nomor', $nomor);
+
+        $pivot = [];
+        $total = 0;
+        $productId = array_values($request->only('product_id'))[0];
+        $colorId = array_values($request->only('color_id'))[0];
+        $sizeId = array_values($request->only('size_id'))[0];
+        $jumlah = array_values($request->only('jumlah'))[0];
+
+        $products = Product::whereIn('id', $productId)->get();
+        $hasRole = User::where('id', $request->user_id)->first()->hasRole('reseller');
+
+        foreach ($productId as $key => $id) {
+            $product = $products->find($id);
+
+            if ($hasRole) {
+                $validator = Validator::make([
+                    'jumlah' => $jumlah[$key]
+                ], [
+                    'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
+                ], $messages = [
+                    'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
+                ])->validate();
+            }
+
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $subTotal = $harga * $jumlah[$key];
+            $total = $total + $subTotal;
+
+            $pivot[$id] = [
+                'color_id' => $colorId[$key],
+                'size_id' => $sizeId[$key],
+                'jumlah' => $jumlah[$key],
+                'sub_total' => $subTotal,
+            ];
+        }
+
+        $input->put('total', $total);
+        $cart = Cart::create($input->toArray());
+        $cart->products()->sync($pivot);
 
         flash('Cart saved successfully.', 'success');
 
@@ -104,8 +119,10 @@ class CartController extends Controller
         $cart->load([
             'products:id,nama,harga_customer,harga_reseller',
             'products.pivot.color:id,name',
-            'products.pivot.size:id,name'
+            'products.pivot.size:id,name',
+            'user',
         ]);
+
         return view('admin.carts.show')
             ->with('cart', $cart);
     }
@@ -133,46 +150,46 @@ class CartController extends Controller
      */
     public function update(Cart $cart, UpdateCartRequest $request)
     {
-        $old = $cart->load([
-            'products:id,nama,harga_customer,harga_reseller',
-        ])->replicate();
+        $input = collect($request->validated());
 
-        $sync = $old->products->mapWithKeys(function ($item, $key) {
-            return [$item->id => $item->pivot];
-        })->toArray();
+        $products = Product::whereIn('id', $request->product_id)->get();
+        $hasRole = User::where('id', $request->user_id)->first()->hasRole('reseller');
 
-        $cart->update($request->validated());
+        $pivot = [];
+        $total = 0;
+        $productId = array_values($request->only('product_id'))[0];
+        $colorId = array_values($request->only('color_id'))[0];
+        $sizeId = array_values($request->only('size_id'))[0];
+        $jumlah = array_values($request->only('jumlah'))[0];
 
-        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah', 'sub_total'])) {
-            $cart->products()->detach();
+        foreach ($productId as $key => $id) {
+            $product = $products->find($id);
 
-            $products = Product::whereIn('id', $request->product_id)->get();
-            $role = User::where('id', $request->user_id)->first()->hasRole('reseller');
-
-            foreach ($request->product_id as $key => $productId) {
-                $jumlah = $request->jumlah[$key];
-                $product = $products->find($productId);
-
-                if ($role && $jumlah < $product->reseller_minimum) {
-                    $cart->products()->detach();
-                    $cart->update($old->toArray());
-                    $cart->products()->attach($sync);
-
-                    flash('Jumlah minimum pembelian untuk reseller kurang.', 'danger');
-
-                    return redirect()->route('admin.carts.index');
-                }
-
-                $cart->products()->attach($productId, [
-                    'color_id'     => $request->color_id[$key],
-                    'size_id'      => $request->size_id[$key],
-                    'jumlah'       => $jumlah,
-                    'sub_total'    => $role
-                        ? $product->harga_reseller * $jumlah
-                        : $product->harga_customer * $jumlah
-                ]);
+            if ($hasRole) {
+                $validator = Validator::make([
+                    'jumlah' => $jumlah[$key]
+                ], [
+                    'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
+                ], $messages = [
+                    'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
+                ])->validate();
             }
+
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $subTotal = $harga * $jumlah[$key];
+            $total = $total + $subTotal;
+
+            $pivot[$id] = [
+                'color_id' => $colorId[$key],
+                'size_id' => $sizeId[$key],
+                'jumlah' => $jumlah[$key],
+                'sub_total' => $subTotal,
+            ];
         }
+
+        $input->put('total', $total);
+        $cart->update($input->toArray());
+        $cart->products()->sync($pivot);
 
         flash('Cart updated successfully.', 'success');
 

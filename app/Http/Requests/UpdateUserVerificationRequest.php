@@ -7,7 +7,6 @@ use App\Models\UserVerification;
 
 class UpdateUserVerificationRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,12 @@ class UpdateUserVerificationRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = UserVerification::$rules;
-        
-        return $rules;
+        return [
+            'result_token' => ['nullable'],
+            'similarity'   => ['nullable'],
+            'accuracy'     => ['nullable'],
+            'status'       => ['nullable'],
+            'user_id'      => ['required'],
+        ];
     }
 }

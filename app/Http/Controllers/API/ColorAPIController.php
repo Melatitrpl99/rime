@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateColorAPIRequest;
-use App\Http\Requests\API\UpdateColorAPIRequest;
 use App\Http\Resources\ColorResource;
 use App\Http\Controllers\Controller;
 use App\Models\Color;
@@ -36,10 +34,14 @@ class ColorAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        if ($request->has('product_id')) {
-            $productStocks = ProductStock::where('product_id', $request->get('product_id'))
-                ->pluck('color_id')
-                ->toArray();
+        if ($request->filled('product_id')) {
+            $productStocks = ProductStock::select('color_id')->where('product_id', $request->get('product_id'));
+
+            if ($request->filled('size_id')) {
+                $productStocks->where('size_id', $request->get('size_id'));
+            }
+
+            $productStocks->pluck('color_id')->toArray();
 
             $query->whereIn('id', $productStocks);
         }

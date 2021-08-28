@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateOrderAPIRequest;
+use App\Http\Requests\API\StoreOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Controllers\Controller;
@@ -38,12 +38,17 @@ class OrderAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        if ($request->has('status')) {
-            $query->where('status_id', $request->get('status'));
+        if ($request->has('status_id') && $request->get('status_id') != 0) {
+            $query->where('status_id', $request->get('status_id'));
+
+            if ($request->get('status_id') > 7) {
+                return response()->json(null, 204);
+            }
         }
 
         $orders = $query->where('user_id', auth()->id())
             ->with(['status', 'shipment'])
+            ->withSum('products as jumlah', 'order_details.jumlah')
             ->get();
 
         return response()->json(OrderResource::collection($orders), 200);
@@ -53,11 +58,11 @@ class OrderAPIController extends Controller
      * Store a newly created Order in storage.
      * POST /orders
      *
-     * @param \App\Http\Requests\CreateOrderRequest $request
+     * @param \App\Http\Requests\StoreOrderRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateOrderAPIRequest $request)
+    public function store(StoreOrderAPIRequest $request)
     {
         $user = auth()->user();
         $faker = \Faker\Factory::create();
@@ -145,7 +150,8 @@ class OrderAPIController extends Controller
             'products.image',
             'status',
             'shipment',
-        ]);
+        ])
+            ->loadSum('products', 'order_details.jumlah');
 
         return response()->json(new OrderResource($order), 200);
     }
@@ -229,24 +235,5 @@ class OrderAPIController extends Controller
         }
 
         return response()->json(['message' => 'Updated'], 200);
-    }
-
-    /**
-     * Remove the specified Order from storage.
-     * DELETE /orders/{order}
-     *
-     * @param \App\Models\Order $order
-     *
-     * @return \Illuminate\Support\Facades\Response
-     */
-    public function destroy(Order $order)
-    {
-        if ($order->user_id != auth()->id())
-            return response()->json(['message' => 'Not allowed'], 403);
-
-        $order->products()->detach();
-        $order->delete();
-
-        return response()->json(null, 204);
     }
 }

@@ -19,7 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->foreignId('order_id')->constrained();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('color_id')->constrained();
-            $table->foreignId('size_id')->nullable()->constrained();
+            $table->foreignId('size_id')->constrained();
             $table->integer('jumlah');
             $table->bigInteger('sub_total');
             $table->bigInteger('diskon')->nullable();

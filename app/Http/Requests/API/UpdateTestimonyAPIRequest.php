@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Testimony;
-use InfyOm\Generator\Request\APIRequest;
 
-class UpdateTestimonyAPIRequest extends APIRequest
+class UpdateTestimonyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,12 @@ class UpdateTestimonyAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = Testimony::$rules;
-        
-        return $rules;
+        return [
+            'judul'      => ['nullable', 'string', 'max:255'],
+            'isi'        => ['nullable', 'string', 'max:65535'],
+            'review'     => ['required', 'numeric'],
+            'user_id'    => ['required'],
+            'product_id' => ['required'],
+        ];
     }
 }

@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\PostCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class PostFactory extends Factory
 {
@@ -22,17 +22,14 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        $judul = $this->faker->sentence(rand(5, 12));
+        $postCategoryIds = PostCategory::pluck('id')->toArray();
+
         return [
-            'judul'  => $judul,
-            'konten' => function () {
-                $desc = '';
-                for ($i = 0; $i < rand(2, 7); $i++) {
-                    $desc += '<p>'.$this->faker->paragraph(rand(3, 12)).'</p>';
-                }
-                return $desc;
-            },
-            'slug'   => Str::slug($judul),
+            'judul'            => $this->faker->words(rand(3, 6), true),
+            'konten'           => $this->faker->text,
+            'front_page'       => $this->faker->boolean,
+            'post_category_id' => $this->faker->randomElement($postCategoryIds),
+            'user_id'          => 1,
         ];
     }
 }

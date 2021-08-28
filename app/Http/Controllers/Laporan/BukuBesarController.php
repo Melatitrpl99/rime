@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Transaction;
+use App\Models\OrderTransaction;
 use Illuminate\Http\Request;
 
 class BukuBesarController extends Controller
@@ -16,7 +16,7 @@ class BukuBesarController extends Controller
     public function index()
     {
         //
-        $transaksis=Transaction::all();
+        $transaksis=OrderTransaction::all();
 
         return view('laporan.bukubesar', compact('transaksis'));
     }

@@ -6,6 +6,7 @@ use App\Models\Discount;
 use App\Models\DiscountDetail;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+
 class DiscountsSeeder extends Seeder
 {
     /**
@@ -15,6 +16,7 @@ class DiscountsSeeder extends Seeder
      */
     public function run()
     {
+        //
         Discount::factory()
             ->count(rand(1, 30))
             ->create()
@@ -23,11 +25,13 @@ class DiscountsSeeder extends Seeder
                     ->limit(rand(1, Product::count()))
                     ->get();
 
-                foreach($products as $product) {
-                    $discount->products()->attach($product,
+                foreach ($products as $product) {
+                    $discount->products()->attach(
+                        $product,
                         DiscountDetail::factory()
                             ->make()
-                            ->toArray());
+                            ->toArray()
+                    );
                 }
             });
     }

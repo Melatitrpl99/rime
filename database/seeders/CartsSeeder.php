@@ -16,6 +16,7 @@ class CartsSeeder extends Seeder
      */
     public function run()
     {
+        //
         Cart::factory()
             ->count(rand(15, 50))
             ->create()
@@ -24,7 +25,7 @@ class CartsSeeder extends Seeder
                     ->limit(rand(1, Product::count()))
                     ->get();
 
-                foreach($products as $product) {
+                foreach ($products as $product) {
                     $jumlah = rand(1, 5);
                     $cart->products()->attach($product, array_merge(
                         CartDetail::factory()->make()->toArray(),

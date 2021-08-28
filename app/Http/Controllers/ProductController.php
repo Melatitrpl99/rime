@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -47,25 +47,25 @@ class ProductController extends Controller
     /**
      * Store a newly created Product in storage.
      *
-     * @param \App\Http\Requests\CreateProductRequest $request
+     * @param \App\Http\Requests\StoreProductRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateProductRequest $request)
+    public function store(StoreProductRequest $request)
     {
-        $product = Product::create($request->validated());
+        $product = Product::create($request
+            ->safe()
+            ->except(['size_id', 'color_id', 'stok_ready']));
 
-        if ($request->has(['size_id', 'color_id', 'stok_ready'])) {
-            foreach ($request->color_id as $key => $colorId) {
-                $product->productStocks()->create([
-                    'color_id' => $colorId,
-                    'size_id' => $request->size_id[$key],
-                    'stok_ready' => $request->stok_ready[$key]
-                ]);
-            }
+        foreach ($request->color_id as $key => $colorId) {
+            $product->productStocks()->create([
+                'color_id'   => $colorId,
+                'size_id'    => $request->size_id[$key],
+                'stok_ready' => $request->stok_ready[$key]
+            ]);
         }
 
-        if ($request->has('path')) {
+        if ($request->filled('path')) {
             $this->saveFile($request->input('path'), $request->nama, 'produk', $product);
         }
 
@@ -98,6 +98,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load([
+            'productStocks',
+            'productStocks.color',
+            'productStocks.size'
+        ]);
         return view('admin.products.edit')
             ->with('product', $product);
     }
@@ -114,18 +119,17 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
 
-        if ($request->has(['size_id', 'color_id', 'stok_ready'])) {
-            $product->productStocks()->forceDelete();
-            foreach ($request->color_id as $key => $colorId) {
-                $product->productStocks()->create([
-                    'color_id' => $colorId,
-                    'size_id' => $request->size_id[$key],
-                    'stok_ready' => $request->stok_ready[$key]
-                ]);
-            }
+        $product->productStocks()->forceDelete();
+        foreach ($request->color_id as $key => $colorId) {
+            $product->productStocks()->create([
+                'color_id' => $colorId,
+                'size_id' => $request->size_id[$key],
+                'stok_ready' => $request->stok_ready[$key]
+            ]);
         }
 
-        if ($request->has('path')) {
+        if ($request->filled('path')) {
+            $product->images()->delete();
             $this->saveFile($request->input('path'), $request->nama, 'produk', $product);
         }
 
@@ -143,6 +147,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $product->images()->delete();
         $product->productStocks()->delete();
         $product->delete();
 

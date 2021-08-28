@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateColorRequest;
+use App\Http\Requests\StoreColorRequest;
 use App\Http\Requests\UpdateColorRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Color;
@@ -42,11 +42,11 @@ class ColorController extends Controller
     /**
      * Store a newly created Color in storage.
      *
-     * @param \App\Http\Requests\CreateColorRequest $request
+     * @param \App\Http\Requests\StoreColorRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateColorRequest $request)
+    public function store(StoreColorRequest $request)
     {
         Color::create($request->validated());
 

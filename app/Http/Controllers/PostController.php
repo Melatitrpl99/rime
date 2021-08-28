@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
@@ -42,11 +42,11 @@ class PostController extends Controller
     /**
      * Store a newly created Post in storage.
      *
-     * @param \App\Http\Requests\CreatePostRequest $request
+     * @param \App\Http\Requests\StorePostRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreatePostRequest $request)
+    public function store(StorePostRequest $request)
     {
         Post::create($request->validated());
 

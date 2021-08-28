@@ -7,7 +7,6 @@ use App\Models\ProductCategory;
 
 class UpdateProductCategoryRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,8 @@ class UpdateProductCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = ProductCategory::$rules;
-        
-        return $rules;
+        return [
+            'name' => ['required', 'string', 'max:255'],
+        ];
     }
 }

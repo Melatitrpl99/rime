@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateStatusRequest;
+use App\Http\Requests\StoreStatusRequest;
 use App\Http\Requests\UpdateStatusRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Status;
@@ -42,11 +42,11 @@ class StatusController extends Controller
     /**
      * Store a newly created Status in storage.
      *
-     * @param \App\Http\Requests\CreateStatusRequest $request
+     * @param \App\Http\Requests\StoreStatusRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateStatusRequest $request)
+    public function store(StoreStatusRequest $request)
     {
         Status::create($request->validated());
 

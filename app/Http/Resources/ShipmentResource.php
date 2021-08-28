@@ -18,8 +18,9 @@ class ShipmentResource extends JsonResource
             'id'         => $this->id,
             'alamat'     => $this->alamat,
             'village_id' => $this->village_id,
+            'is_default' => $this->is_default,
             'kode_pos'   => $this->kode_pos,
-            'catatan'    => $this->catatan
+            'catatan'    => $this->catatan,
         ];
     }
 }

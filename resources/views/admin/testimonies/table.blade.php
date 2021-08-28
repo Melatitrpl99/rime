@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="testimonies-table">
+<table class="table table-hover table-borderless table-striped" id="testimonies-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Judul</th>
             <th>Review</th>
             <th width="120" class="text-center">Action</th>
@@ -9,6 +10,9 @@
     <tbody>
     @foreach($testimonies as $testimony)
         <tr>
+            <td>
+                {{ $testimonies->perPage() * ($testimonies->currentPage() - 1) + $loop->iteration }}
+            </td>
             <td>{{ $testimony->judul }}</td>
             <td>{{ $testimony->review }}</td>
             <td width="120">

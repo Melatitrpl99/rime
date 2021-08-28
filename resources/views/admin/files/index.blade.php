@@ -21,8 +21,8 @@
                             @include('admin.files.table')
                         </div>
                         <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items center">
-                                <span class="d-block my-auto text-secondary">Displaying {{ $files->count() }} of {{ $files->total() }} records</span>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="d-none d-sm-block my-auto text-secondary mr-auto">Displaying {{ $files->count() }} of {{ $files->total() }} records</span>
                                 {{ $files->links() }}
                             </div>
                         </div>

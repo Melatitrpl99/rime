@@ -25,6 +25,7 @@ class OrderResource extends JsonResource
             'status_id'        => $this->status_id,
             'shipment_id'      => $this->shipment_id,
             'status'           => $this->whenLoaded('status'),
+            'jumlah'           => (int) $this->jumlah,
             'shipment'         => new ShipmentResource($this->whenLoaded('shipment')),
             'products'         => OrderProductResource::collection($this->whenLoaded('products'))
         ];

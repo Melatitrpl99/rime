@@ -7,7 +7,6 @@ use App\Models\Color;
 
 class UpdateColorRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,9 @@ class UpdateColorRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Color::$rules;
-
-        return $rules;
+        return [
+            'name'       => ['required', 'string', 'max:255'],
+            'rgba_color' => ['nullable', 'string', 'max:9', 'starts_with:#'],
+        ];
     }
 }

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateCartAPIRequest;
+use App\Http\Requests\API\StoreCartAPIRequest;
 use App\Http\Requests\API\UpdateCartAPIRequest;
 use App\Http\Resources\CartResource;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
-use App\Models\User;
+use Faker\Factory;
 use Illuminate\Http\Request;
+use Validator;
 
 /**
  * Class CartAPIController
@@ -27,77 +28,90 @@ class CartAPIController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Cart::query();
+        $query = Cart::query()->where('user_id', auth()->id())
+            ->withSum('products as jumlah', 'cart_details.jumlah');
 
-        if ($request->has('user_id')) {
-            $query->where('user_id', $request->get('user_id'));
-        }
-
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
 
-        if ($request->get('limit')) {
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
-        $carts = $query->where('user_id', auth()->id())->get();
+        $carts = null;
 
-        return response()->json(CartResource::collection($carts));
+        if ($request->has('per_page')) {
+            $carts = $query->simplePaginate($request->get('per_page') ?? 25);
+        } else {
+            $carts = $query->get();
+        }
+
+        return response()->success(CartResource::collection($carts));
     }
 
     /**
      * Store a newly created Cart in storage.
      * POST /carts
      *
-     * @param \App\Http\Requests\CreateCartRequest $request
+     * @param \App\Http\Requests\StoreCartRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateCartAPIRequest $request)
+    public function store(StoreCartAPIRequest $request)
     {
         $user = auth()->user();
-        $cart = Cart::make($request->validated());
-        $cart->user_id = $user->id;
+        $faker = Factory::create();
+        $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
 
-        if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {
-            $products = Product::whereIn('id', $request->product_id)->get();
-            $role = $user->hasRole('reseller');
-            $total = 0;
-
-            foreach ($request->product_id as $key => $productId) {
-                $jumlah = $request->jumlah[$key];
-                $product = $products->find($productId);
-                $subTotal = $role
-                    ? $product->harga_reseller * $jumlah
-                    : $product->harga_customer * $jumlah;
-
-                $total += $subTotal;
-
-                $cart->total = $total;
-                $cart->save();
-
-                if ($role && $jumlah < $product->reseller_minimum) {
-                    $cart->products()->detach();
-                    $cart->forceDelete();
-
-                    return response()->json([
-                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.'
-                    ], 422);
-                }
-
-                $cart->products()->attach($productId, [
-                    'color_id'     => $request->color_id[$key],
-                    'size_id'      => $request->size_id[$key],
-                    'jumlah'       => $jumlah,
-                    'sub_total'    => $subTotal
-                ]);
-            }
-        } else {
-            $cart->save();
+        while (Cart::where('nomor', $nomor)->exists()) {
+            $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
         }
 
-        return response()->json(new CartResource($cart));
+        $input = collect($request->validated())
+            ->put('nomor', $nomor)
+            ->put('user_id', $user->id);
+
+        $products = Product::whereIn('id', $request->product_id)->get();
+        $hasRole = $user->hasRole('reseller');
+
+        $pivot = [];
+        $total = 0;
+        $productId = array_values($request->only('product_id'))[0];
+        $colorId = array_values($request->only('color_id'))[0];
+        $sizeId = array_values($request->only('size_id'))[0];
+        $jumlah = array_values($request->only('jumlah'))[0];
+
+        foreach ($productId as $key => $id) {
+            $product = $products->find($id);
+
+            if ($hasRole) {
+                $validator = Validator::make([
+                    'jumlah' => $jumlah[$key]
+                ], [
+                    'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
+                ], $messages = [
+                    'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
+                ])->validate();
+            }
+
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $subTotal = $harga * $jumlah[$key];
+            $total = $total + $subTotal;
+
+            $pivot[$id] = [
+                'color_id' => $colorId[$key],
+                'size_id' => $sizeId[$key],
+                'jumlah' => $jumlah[$key],
+                'sub_total' => $subTotal,
+            ];
+        }
+
+        $input->put('total', $total);
+        $cart = Cart::create($input->toArray());
+        $cart->products()->sync($pivot);
+
+        return response()->success(new CartResource($cart), 201);
     }
 
     /**
@@ -111,11 +125,12 @@ class CartAPIController extends Controller
     public function show(Cart $cart)
     {
         if ($cart->user_id != auth()->id())
-            return response()->json(['message' => 'Not allowed'], 403);
+            return response()->unauthorized();
 
-        $cart->load('products');
+        $cart->load('products.image')
+            ->loadSum('products as jumlah', 'cart_details.jumlah');
 
-        return response()->json(new CartResource($cart), 200);
+        return response()->success(new CartResource($cart));
     }
 
     /**
@@ -129,16 +144,17 @@ class CartAPIController extends Controller
      */
     public function update(Cart $cart, UpdateCartAPIRequest $request)
     {
-        if ($cart->user_id != auth()->id())
-            return response()->json(['message' => 'Not allowed'], 403);
+        $collect = collect($request->only(['product_id', 'color_id', 'size_id', 'jumlah']));
+        dd($collect);
 
-        $old = $cart->load([
-            'products:id,nama,harga_customer,harga_reseller',
-        ])->replicate();
+        $old = $cart->load(['products:id,nama,harga_customer,harga_reseller',])
+            ->replicate();
 
-        $sync = $old->products->map(function ($item, $key) {
-            return $item->pivot;
+        $sync = $old->products->mapWithKeys(function ($item, $key) {
+            return [$item->pivot->product_id => $item->pivot];
         })->toArray();
+
+        dd($sync);
 
         $cart->update($request->validated());
 
@@ -167,9 +183,7 @@ class CartAPIController extends Controller
                         $cart->products()->attach($item['product_id'], $item);
                     }
 
-                    return response()->json([
-                        'message' => 'Jumlah minimum pembelian untuk reseller kurang.'
-                    ], 422);
+                    return response()->unprocessed('Jumlah minimum pembelian untuk reseller kurang');
                 }
 
                 $cart->products()->attach($productId, [

@@ -7,7 +7,6 @@ use App\Models\Status;
 
 class UpdateStatusRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,8 @@ class UpdateStatusRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Status::$rules;
-        
-        return $rules;
+        return [
+            'name' => ['required', 'string', 'max:255']
+        ];
     }
 }

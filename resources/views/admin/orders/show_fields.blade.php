@@ -43,13 +43,13 @@
 <!-- Shipment Id Field -->
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Alamat pengiriman</div>
-    <div class="col-12 col-md-9">{{ $order->shipment->alamat }}</div>
+    <div class="col-12 col-md-9">{{ $order->userShipment->alamat }}</div>
 </div>
 
 <!-- User Id Field -->
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Nama pelanggan</div>
-    <div class="col-12 col-md-9">{{ $order->user->name }}</div>
+    <div class="col-12 col-md-9">{{ $order->user->nama_lengkap }}</div>
 </div>
 
 <!-- Created At Field -->

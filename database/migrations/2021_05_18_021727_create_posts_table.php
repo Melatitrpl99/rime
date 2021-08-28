@@ -17,9 +17,10 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id('id');
             $table->string('judul');
-            $table->longtext('konten');
-            $table->foreignId('post_category_id')->constrained();
+            $table->longText('konten');
+            $table->boolean('front_page')->default(false);
             $table->string('slug')->nullable();
+            $table->foreignId('post_category_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

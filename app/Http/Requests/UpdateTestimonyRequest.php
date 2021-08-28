@@ -7,7 +7,6 @@ use App\Models\Testimony;
 
 class UpdateTestimonyRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,12 @@ class UpdateTestimonyRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Testimony::$rules;
-        
-        return $rules;
+        return [
+            'judul'      => ['nullable', 'string', 'max:255'],
+            'isi'        => ['nullable', 'string', 'max:65535'],
+            'review'     => ['required', 'numeric'],
+            'user_id'    => ['required'],
+            'product_id' => ['required'],
+        ];
     }
 }

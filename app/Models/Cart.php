@@ -4,25 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Cart
+ * App\Models\Cart
  *
- * @package App\Models
- * @version July 8, 2021, 12:02 am UTC
- * @property \App\Models\User $user
- * @property \App\Models\Product $products
- * @property string $nomor
- * @property string $judul
- * @property string $deskripsi
- * @property string $total
- * @property foreignId $user_id
  * @property int $id
+ * @property string $judul
+ * @property string|null $deskripsi
+ * @property int|null $total
+ * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\CartFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Cart newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cart newQuery()
@@ -44,56 +43,23 @@ class Cart extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'carts';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'judul',
         'total',
         'deskripsi',
-        'user_id'
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'judul'     => 'string',
-        'total'     => 'integer',
-        'deskripsi' => 'string'
+        'user_id',
     ];
 
     protected $hidden = [
         'deleted_at'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'judul'     => 'required',
-        'total'     => 'nullable|numeric',
-        'deskripsi' => 'nullable',
-        'user_id'   => 'required'
-    ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'cart_details')
             ->withPivot(CartDetail::$pivotColumns)

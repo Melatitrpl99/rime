@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Spending;
 use App\Models\SpendingDetail;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SpendingsSeeder extends Seeder
 {
@@ -19,6 +18,10 @@ class SpendingsSeeder extends Seeder
         Spending::factory()
             ->count(rand(15, 100))
             ->has(SpendingDetail::factory()->count(rand(3, 10)))
-            ->create();
+            ->create()
+            ->each(function ($spending) {
+                //
+                $spending->update(['total' => $spending->spendingDetails()->sum('sub_total')]);
+            });
     }
 }

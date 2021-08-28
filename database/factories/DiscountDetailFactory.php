@@ -22,10 +22,10 @@ class DiscountDetailFactory extends Factory
     public function definition()
     {
         return [
-            'diskon_harga'    => $this->faker->numberBetween(5, 50) * 1000,
-            'minimal_produk'  => $this->faker->randomDigit(),
+            'diskon_harga'    => $this->faker->numberBetween(5, 100) * 1000,
+            'minimal_produk'  => $this->faker->randomDigitNotNull,
             'maksimal_produk' => function (array $attributes) {
-                $max = $this->faker->randomDigitNotNull();
+                $max = $this->faker->randomDigitNotNull;
                 return $attributes['minimal_produk'] < $max
                     ? $max
                     : $attributes['minimal_produk'] + $this->faker->randomDigitNotNull();

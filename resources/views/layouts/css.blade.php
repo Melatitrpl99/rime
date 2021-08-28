@@ -10,5 +10,10 @@
     body {
         font-family: 'Roboto';
     }
+
+    .py-0\.5 {
+        padding-top: 0.125rem !important;
+        padding-bottom: 0.125rem !important;
+    }
 </style>
 @stack('css')

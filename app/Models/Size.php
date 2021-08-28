@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
- * Class Size
+ * App\Models\Size
  *
- * @package App\Models
- * @version July 8, 2021, 12:39 am UTC
- * @property id $id
+ * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\SizeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Size newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Size newQuery()
  * @method static \Illuminate\Database\Query\Builder|Size onlyTrashed()
@@ -34,35 +32,13 @@ class Size extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'sizes';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'name'
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'string'
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
         'deleted_at'
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'name' => 'required'
     ];
 }

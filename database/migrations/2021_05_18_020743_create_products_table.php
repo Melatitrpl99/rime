@@ -17,11 +17,10 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id('id');
             $table->string('nama');
-            $table->longText('deskripsi');
+            $table->text('deskripsi');
             $table->bigInteger('harga_customer');
             $table->bigInteger('harga_reseller');
-            $table->integer('reseller_minimum');
-            $table->integer('suka')->nullable()->default(0);
+            $table->unsignedTinyInteger('reseller_minimum');
             $table->string('slug')->nullable();
             $table->foreignId('product_category_id')->constrained();
             $table->timestamps();

@@ -17,11 +17,11 @@ class CreatePartnersTable extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->id('id');
             $table->string('nama');
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->text('alamat');
             $table->text('lokasi');
             $table->string('email');
-            $table->string('no_hp');
+            $table->string('no_telp');
             $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();

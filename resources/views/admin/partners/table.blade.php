@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="partners-table">
+<table class="table table-hover table-borderless table-striped" id="partners-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th widht="50">#</th>
             <th>Nama</th>
             <th>Lokasi</th>
             <th>Email</th>
@@ -11,12 +12,15 @@
     <tbody>
         @foreach($partners as $partner)
             <tr>
+                <td>
+                    {{ $partners->perPage() * ($partners->currentPage() - 1) + $loop->iteration }}
+                </td>
                 <td>{{ $partner->nama }}</td>
                 <td>{{ $partner->lokasi }}</td>
                 <td>{{ $partner->email }}</td>
                 <td>{{ $partner->no_hp }}</td>
                 <td>{{ $partner->slug }}</td>
-                <td width="120">
+                <td>
                     {!! Form::open(['route' => ['admin.partners.destroy', $partner], 'method' => 'DELETE']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.partners.show', $partner) }}" class="btn btn-default btn-sm">

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateSizeAPIRequest;
-use App\Http\Requests\API\UpdateSizeAPIRequest;
 use App\Http\Resources\SizeResource;
 use App\Http\Controllers\Controller;
 use App\Models\ProductStock;
@@ -36,12 +34,16 @@ class SizeAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        if ($request->has('product_id')) {
-            $productStock = ProductStock::where('product_id', $request->get('product_id'))
-                ->pluck('size_id')
-                ->toArray();
+        if ($request->filled('product_id')) {
+            $productStocks = ProductStock::select('size_id')->where('product_id', $request->get('product_id'));
 
-            $query->whereIn('id', $productStock);
+            if ($request->filled('color_id')) {
+                $productStocks->where('color_id', $request->get('color_id'));
+            }
+
+            $productStocks->pluck('size_id')->toArray();
+
+            $query->whereIn('id', $productStocks);
         }
 
         $sizes = $query->get();

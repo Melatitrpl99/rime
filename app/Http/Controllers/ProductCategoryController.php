@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProductCategoryRequest;
+use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
@@ -42,11 +42,11 @@ class ProductCategoryController extends Controller
     /**
      * Store a newly created ProductCategory in storage.
      *
-     * @param \App\Http\Requests\CreateProductCategoryRequest $request
+     * @param \App\Http\Requests\StoreProductCategoryRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateProductCategoryRequest $request)
+    public function store(StoreProductCategoryRequest $request)
     {
         ProductCategory::create($request->validated());
 

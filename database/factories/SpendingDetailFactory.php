@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\SpendingDetail;
+use App\Models\SpendingUnit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SpendingDetailFactory extends Factory
@@ -16,14 +17,19 @@ class SpendingDetailFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        $spendingUnitIds = SpendingUnit::pluck('id')->toArray();
         return [
-            'nama' => $this->faker->sentence(rand(3, 6)),
-            'sub_total' => $this->faker->numberBetween(5, 50) * 1000
+            'nama'         => $this->faker->words(rand(3, 6), true),
+            'ket'          => $this->faker->text,
+            'harga_satuan' => $this->faker->numberBetween(1, 15) * 1000,
+            'jumlah'       => $this->faker->randomDigitNotNull,
+            'sub_total'    => function (array $attributes) {
+                return $attributes['harga_satuan'] * $attributes['jumlah'];
+            },
+            'spending_unit_id' => $this->faker->randomElement($spendingUnitIds),
         ];
     }
 }

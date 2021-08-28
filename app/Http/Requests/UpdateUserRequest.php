@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,13 +23,16 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('user');
-        $rules = [
-          'name'     => 'required',
-          'email'    => 'required|email|unique:users,email,'.$id,
-          'password' => 'confirmed'
+        return [
+            'email'         => ['required', 'email', 'unique:users'],
+            'password'      => ['required'],
+            'nama_lengkap'  => ['required'],
+            'jenis_kelamin' => ['nullable'],
+            'tempat_lahir'  => ['nullable'],
+            'tgl_lahir'     => ['nullable', 'date'],
+            'alamat'        => ['nullable'],
+            'no_hp'         => ['nullable', 'regex:/^(\+62|0)\w+/g'],
+            'no_wa'         => ['nullable', 'regex:/^(\+62|0)\w+/g']
         ];
-        
-        return $rules;
     }
 }

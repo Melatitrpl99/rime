@@ -25,8 +25,8 @@
                             @include('admin.carts.table')
                         </div>
                         <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items center">
-                                <span class="d-block my-auto text-secondary">Displaying {{ $carts->count() }} of {{ $carts->total() }} records</span>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="d-none d-sm-block my-auto text-secondary mr-auto">Displaying {{ $carts->count() }} of {{ $carts->total() }} records</span>
                                 {{ $carts->links() }}
                             </div>
                         </div>

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Spending;
+use App\Models\SpendingCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SpendingFactory extends Factory
@@ -21,25 +22,14 @@ class SpendingFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'nomor'     => $this->faker->regexify('S[0-9]{2}-[A-Z0-9]{4}'),
-            'deskripsi' => $this->faker->paragraph(rand(5, 10)),
-            'tanggal'   => $this->faker->dateTime(),
-            'kategori'  => $this->faker->word(),
-            'qty'       => $this->faker->numberBetween(1, 99),
-            'total'     => $this->faker->numberBetween(100, 50000) * 1000,
-        ];
-    }
+        $spendingCategoryIds = SpendingCategory::pluck('id')->toArray();
 
-    /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    public function configure()
-    {
-        return $this->afterCreating(function (Spending $spending) {
-            $spending->total = $spending->spendingDetails->sum('sub_total');
-        });
+        return [
+            'nomor'                => $this->faker->regexify('S[0-9]{2}-[A-Z0-9]{6}'),
+            'judul'                => $this->faker->words(rand(3, 6), true),
+            'deskripsi'            => $this->faker->text,
+            'tanggal'              => now(),
+            'spending_category_id' => $this->faker->randomElement($spendingCategoryIds),
+        ];
     }
 }

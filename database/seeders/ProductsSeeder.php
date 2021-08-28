@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\File;
 use App\Models\Product;
 use App\Models\ProductStock;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Seeder;
 
 class ProductsSeeder extends Seeder
@@ -17,7 +20,14 @@ class ProductsSeeder extends Seeder
     {
         Product::factory()
             ->count(rand(5, 20))
-            ->has(ProductStock::factory()->count(rand(10, 50)))
+            ->hasImages(5)
             ->create();
+
+        try {
+            ProductStock::factory()
+                ->count(Product::count() * rand(5, 10))
+                ->create();
+        } catch (Exception $e) {
+        }
     }
 }

@@ -20,19 +20,17 @@ class CartProductResource extends JsonResource
             'deskripsi'      => $this->deskripsi,
             'harga_customer' => $this->harga_customer,
             'harga_reseller' => $this->harga_reseller,
-            'color_id'       => $this->pivot->color_id,
-            'size_id'       => $this->pivot->size_id,
-            'color'          => $this->whenPivotLoaded('cart_details', function () {
-                return $this->pivot->color;
-            }),
-            'size'           => $this->whenPivotLoaded('cart_details', function () {
-                return $this->pivot->size;
-            }),
-            'sub_total'      => $this->whenPivotLoaded('cart_details', function () {
-                return $this->pivot->sub_total;
-            }),
-            'jumlah'         => $this->whenPivotLoaded('cart_details', function () {
-                return $this->pivot->jumlah;
+            'image'          => new FileResource($this->whenLoaded('image')),
+            'pivot'          => $this->whenPivotLoaded('cart_details', function () {
+                return [
+                    'color_id'  => $this->pivot->color_id,
+                    'size_id'   => $this->pivot->size_id,
+                    'size'      => $this->pivot->size,
+                    'jumlah'    => $this->pivot->jumlah,
+                    'sub_total' => $this->pivot->sub_total,
+                    'color'     => $this->pivot->color,
+                    'size'      => $this->pivot->size,
+                ];
             }),
         ];
     }

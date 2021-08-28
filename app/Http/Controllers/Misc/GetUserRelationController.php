@@ -5,51 +5,81 @@ namespace App\Http\Controllers\Misc;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Color;
+use App\Models\Order;
 use App\Models\Product;
-use App\Models\Shipment;
 use App\Models\Size;
+use App\Models\UserShipment;
 use Form;
 use Illuminate\Http\Request;
 
 class GetUserRelationController extends Controller
 {
-    public function getCart(Request $request)
+    public function getCarts(Request $request)
     {
         $carts = Cart::where('user_id', $request->get('user_id'))->get();
 
         return $carts;
     }
 
-    public function getShippingAddress(Request $request)
+    public function getCartDetails(Request $request)
     {
-        $shipments = Shipment::where('user_id', $request->get('user_id'))->get();
-
-        return $shipments;
-    }
-
-    public function getCartDetail(Request $request)
-    {
-        $cart = Cart::with('products')->find($request->get('cart_id'));
-
-        // weird hack for cart import lol
+        $cart = Cart::with(['products', 'products.pivot.color', 'products.pivot.size'])
+            ->find($request->get('cart_id'));
 
         $out = "";
-        $productItems = Product::pluck('nama', 'id')->toArray();
-        $colorItems = Color::pluck('name', 'id')->toArray();
-        $sizeItems = Size::pluck('name', 'id')->toArray();
 
         foreach ($cart->products as $product) {
+            $harga = $cart->user->hasRole('reseller')
+                ? $product->harga_reseller
+                : $product->harga_customer;
+
             $out .= "<tr>
-                        <td>" . Form::checkbox('row_product', '1', null, ['class' => 'form-control']) . "</td>
-                        <td>" . Form::select('product_id[]', $productItems, $product->id, ['class' => 'form-control custom-select', 'onchange' => 'updateProduct(this)', 'placeholder' => 'Pilih produk...']) . "</td>
-                        <td>" . Form::select('color_id[]', $colorItems, $product->pivot->color_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih warna...', 'onchange' => 'updateProductSize(this)']) . "</td>
-                        <td>" . Form::select('size_id[]', $sizeItems, $product->pivot->size_id, ['class' => 'form-control custom-select', 'placeholder' => 'Pilih ukuran...']) . "</td>
-                        <td>" . Form::number('jumlah[]', $product->pivot->jumlah, ['class' => 'form-control', 'onchange' => 'updateJumlah(this)', 'min' => 1]) . "</td>
-                        <td>" . Form::hidden('sub_total[]', $product->pivot->sub_total) . Form::text('subtotal[]', rp($product->pivot->sub_total), ['class' => 'form-control-plaintext text-right', 'readonly' => true]) . "
-                        </td>
-                    </tr>";
+                <td class='py-0.5'>" . Form::checkbox('row_product', '1', null, ['class' => 'form-control']) . "</td>
+            <td><input type='hidden' name='product_id[]' value='{$product->id}'>
+                <span>{$product->nama}</span>
+            </td>
+            <td><input type='hidden' name='color_id[]' value='{$product->pivot->color_id}'>
+                <span>{$product->pivot->color->name}</span>
+            </td>
+            <td><input type='hidden' name='size_id[]' value='{$product->pivot->size_id}'>
+                <span>{$product->pivot->size->name}</span>
+            </td>
+            <td class='text-right'>
+                <input type='hidden' name='harga[]' value='{$harga}'>
+                <span>" . rp($harga) . "</span>
+            </td>
+            <td class='text-right'>
+                <input type='hidden' name='jumlah[]' value='{$product->pivot->jumlah}'>
+                <span>" . numerify($product->pivot->jumlah) . "</span>
+            </td>
+            <td class='text-right'>
+                <input type='hidden' name='sub_total[]' value='{$product->pivot->sub_total}'>
+                <span>" . rp($product->pivot->sub_total) . "</span>
+            </td>
+        </tr>";
         }
 
+        // dd($cart);
+
         return $out;
+    }
+
+    public function getOrders(Request $request)
+    {
+        $orders = Order::where('user_id', $request->get('user_id'))->get();
+
+        return $orders;
+    }
+
+    public function getOrderDetails(Request $request)
+    {
+        //
+    }
+
+    public function getShippingAddresses(Request $request)
+    {
+        $userShipments = UserShipment::where('user_id', $request->get('user_id'))->get();
+
+        return $userShipments;
     }
 }

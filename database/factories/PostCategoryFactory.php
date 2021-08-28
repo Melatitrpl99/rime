@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\PostCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class PostCategoryFactory extends Factory
 {

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductStocksTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -18,10 +17,12 @@ class CreateProductStocksTable extends Migration
             $table->id('id');
             $table->foreignId('product_id')->constrained();
             $table->foreignId('color_id')->constrained();
-            $table->foreignId('size_id')->nullable()->constrained();
+            $table->foreignId('size_id')->constrained();
             $table->integer('stok_ready');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['product_id', 'color_id', 'size_id']);
         });
     }
 

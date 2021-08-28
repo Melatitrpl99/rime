@@ -13,25 +13,22 @@ use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\DimensionController;
 use App\Http\Controllers\Misc\CekDiskonController;
 use App\Http\Controllers\Misc\FilepondController;
 use App\Http\Controllers\Misc\GetUserRelationController;
 use App\Http\Controllers\Misc\RegionController;
 use App\Http\Controllers\Misc\StokProdukController;
+use App\Http\Controllers\OrderTransactionController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\SpendingController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TestimonyController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserShipmentController;
 use App\Http\Controllers\UserVerificationController;
-use App\Models\Discount;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +46,7 @@ Route::get('/pengeluaran', function () {
 
 Route::post('import', [ExcelController::class, 'import'])->name('import');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'auth.admin']], function () {
     Route::get('home', [HomeController::class, 'home'])->name('page.home');
     Route::get('profile', [HomeController::class, 'profile'])->name('page.profile');
     Route::get('settings', [HomeController::class, 'settings'])->name('page.settings');
@@ -80,9 +77,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('stok_ready', [StokProdukController::class, 'getStokReady'])->name('stok_ready');
     });
 
-    Route::get('get_cart', [GetUserRelationController::class, 'getCart'])->name('get_cart');
-    Route::get('get_cart_detail', [GetUserRelationController::class, 'getCartDetail'])->name('get_cart_detail');
-    Route::get('get_shipping_address', [GetUserRelationController::class, 'getShippingAddress'])->name('get_shipping_address');
+    Route::get('get_carts', [GetUserRelationController::class, 'getCarts'])->name('get_carts');
+    Route::get('get_order', [GetUserRelationController::class, 'getOrders'])->name('get_orders');
+    Route::get('get_cart_details', [GetUserRelationController::class, 'getCartDetails'])->name('get_cart_details');
+    Route::get('get_shipping_addresses', [GetUserRelationController::class, 'getShippingAddresses'])->name('get_shipping_addresses');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('activities', ActivityController::class)
@@ -101,12 +99,6 @@ Route::group(['middleware' => 'auth'], function () {
             ->missing(function () {
                 flash('Color not found', 'danger');
                 return redirect()->route('admin.colors.index');
-            });
-
-        Route::resource('dimensions', DimensionController::class)
-            ->missing(function () {
-                flash('Dimension not found', 'danger');
-                return redirect()->route('admin.dimensions.index');
             });
 
         Route::resource('discounts', DiscountController::class)
@@ -169,9 +161,9 @@ Route::group(['middleware' => 'auth'], function () {
                 return redirect()->route('admin.reports.index');
             });
 
-        Route::resource('shipments', ShipmentController::class)
+        Route::resource('user_shipments', UserShipmentController::class)
             ->missing(function () {
-                flash('Shipment not found', 'danger');
+                flash('User Shipment not found', 'danger');
                 return redirect()->route('admin.shipments.index');
             });
 
@@ -193,7 +185,7 @@ Route::group(['middleware' => 'auth'], function () {
                 return redirect()->route('admin.statuses.index');
             });
 
-        Route::resource('transactions', TransactionController::class)
+        Route::resource('order_transactions', OrderTransactionController::class)
             ->missing(function () {
                 flash('Transaction not found', 'danger');
                 return redirect()->route('admin.transactions.index');
@@ -221,4 +213,34 @@ Route::group(['middleware' => 'auth'], function () {
                 return redirect()->route('admin.user_verifications.index');
             });
     });
+});
+
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('spending_categories', App\Http\Controllers\SpendingCategoryController::class)
+        ->missing(function () {
+            flash('Spending Category not found', 'danger');
+
+            return redirect()->route('admin.spending_categories.index');
+        });
+});
+
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('spending_units', App\Http\Controllers\SpendingUnitController::class)
+        ->missing(function () {
+            flash('Spending Unit not found', 'danger');
+
+            return redirect()->route('admin.spending_units.index');
+        });
+});
+
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('payment_methods', App\Http\Controllers\PaymentMethodController::class)
+        ->missing(function () {
+            flash('Payment Method not found', 'danger');
+
+            return redirect()->route('admin.payment_methods.index');
+        });
 });

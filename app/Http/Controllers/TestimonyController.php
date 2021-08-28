@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTestimonyRequest;
+use App\Http\Requests\StoreTestimonyRequest;
 use App\Http\Requests\UpdateTestimonyRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Testimony;
@@ -42,11 +42,11 @@ class TestimonyController extends Controller
     /**
      * Store a newly created Testimony in storage.
      *
-     * @param \App\Http\Requests\CreateTestimonyRequest $request
+     * @param \App\Http\Requests\StoreTestimonyRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateTestimonyRequest $request)
+    public function store(StoreTestimonyRequest $request)
     {
         Testimony::create($request->validated());
 

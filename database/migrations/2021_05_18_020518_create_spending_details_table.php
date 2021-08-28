@@ -16,11 +16,13 @@ class CreateSpendingDetailsTable extends Migration
     {
         Schema::create('spending_details', function (Blueprint $table) {
             $table->id('id');
-            $table->foreignId('spending_id')->constrained();
             $table->string('nama')->nullable();
-            $table->text('keterangan')->nullable();
-            $table->integer('qty')->nullable();
+            $table->text('ket')->nullable();
+            $table->bigInteger('harga_satuan')->nullable();
+            $table->unsignedInteger('jumlah')->nullable();
             $table->bigInteger('sub_total')->nullable();
+            $table->foreignId('spending_id')->constrained();
+            $table->foreignId('spending_unit_id')->nullable()->constrained();
         });
     }
 

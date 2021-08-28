@@ -5,8 +5,9 @@ namespace Database\Seeders;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderTransaction;
 use App\Models\Product;
-use App\Models\Shipment;
+use App\Models\UserShipment;
 use Illuminate\Database\Seeder;
 
 class OrdersSeeder extends Seeder
@@ -20,19 +21,15 @@ class OrdersSeeder extends Seeder
     {
         Order::factory()
             ->count(rand(10, 50))
-            ->has(Shipment::factory())
             ->create()
             ->each(function ($order) {
-                $diskon = Discount::where('kode', $order->kode_diskon)
-                    ->with('products')
-                    ->first();
+                $diskon = $order->discount->load('products');
 
-                $upperLimit = rand(1, 7);
                 $products = Product::inRandomOrder()
-                    ->limit(rand(1, Product::count() - $upperLimit))
+                    ->limit(rand(1, Product::count()))
                     ->get();
 
-                foreach($products as $product) {
+                foreach ($products as $product) {
                     $jumlah = rand(1, 8);
                     $d = (!empty($diskon) || !is_null($diskon)) ? optional($diskon->products->find($product))->pivot : null;
 
@@ -52,5 +49,9 @@ class OrdersSeeder extends Seeder
                     'total' => $order->products->sum('pivot.sub_total')
                 ]);
             });
+
+        OrderTransaction::factory()
+            ->count(rand(5, 25))
+            ->create();
     }
 }

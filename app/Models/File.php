@@ -4,28 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class File
+ * App\Models\File
  *
- * @package App\Models
- * @version July 8, 2021, 12:04 am UTC
- * @property \Illuminate\Database\Eloquent\Collection $fileThumbs
- * @property morphs $fileable
- * @property string $name
- * @property string $mime_type
- * @property string $format
- * @property string $size
- * @property string $path
- * @property string $url
  * @property int $id
- * @property string $fileable_type
- * @property int $fileable_id
+ * @property string $name
+ * @property string|null $fileable_type
+ * @property int|null $fileable_id
+ * @property string|null $mime_type
+ * @property string|null $format
+ * @property int|null $size
+ * @property string|null $path
+ * @property string|null $url
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FileThumb[] $fileThumbs
  * @property-read int|null $file_thumbs_count
+ * @property-read Model|\Eloquent $fileable
  * @method static \Database\Factories\FileFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|File newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|File newQuery()
@@ -51,13 +51,8 @@ class File extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'files';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'name',
-        'fileable',
         'mime_type',
         'format',
         'size',
@@ -65,18 +60,8 @@ class File extends Model
         'url'
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'name' => 'string',
-        'mime_type' => 'string',
-        'format' => 'string',
-        'size' => 'string',
-        'path' => 'string',
-        'url' => 'string'
+        'size' => 'integer',
     ];
 
     protected $hidden = [
@@ -85,33 +70,12 @@ class File extends Model
         'deleted_at'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'name' => 'string',
-        'fileable' => 'nullable',
-        'mime_type' => 'nullable|string',
-        'format' => 'string',
-        'size' => 'string',
-        'path' => 'string',
-        'url' => 'string'
-    ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function fileable()
+    public function fileable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function fileThumbs()
+    public function fileThumbs(): HasMany
     {
         return $this->hasMany(FileThumb::class);
     }

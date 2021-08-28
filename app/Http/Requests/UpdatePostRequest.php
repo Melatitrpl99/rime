@@ -7,7 +7,6 @@ use App\Models\Post;
 
 class UpdatePostRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,12 @@ class UpdatePostRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Post::$rules;
-        
-        return $rules;
+        return [
+            'judul'            => ['required', 'string', 'max:255'],
+            'konten'           => ['required', 'string', 'max:4294967295'],
+            'slug'             => ['nullable', 'string', 'max:255'],
+            'post_category_id' => ['required'],
+            'user_id'          => ['required'],
+        ];
     }
 }

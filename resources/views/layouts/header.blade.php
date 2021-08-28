@@ -11,7 +11,7 @@
         <li class="nav-item dropdown">
             <a href="#" class="nav-link d-flex justify-content-between align-items-center pt-2" data-toggle="dropdown">
                 <img src="https://gravatar.com/avatar/f751162407008c2d67b944f90c322a68?s=200&d=mp&r=x" class="user-image img-circle elevation-1 mr-2" alt="User Image" style="width: 24px; height: 24px">
-                <span class="d-none d-md-inline">{{ auth()->check() ? auth()->user()->name : 'Guest' }}</span>
+                <span class="d-none d-md-inline">{{ auth()->check() ? auth()->user()->nama_lengkap : 'Guest' }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @auth

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Spending;
-use App\Models\Transaction;
+use App\Models\OrderTransaction;
 use Illuminate\Http\Request;
 
 class LabaRugiController extends Controller
@@ -16,7 +16,7 @@ class LabaRugiController extends Controller
      */
     public function index()
     {
-        $jumlahTransaksi = Transaction::sum('total');
+        $jumlahTransaksi = OrderTransaction::sum('total');
         $pengeluaran = Spending::sum('total');
 
         $pengeluaran=Spending::all()->sum('total');

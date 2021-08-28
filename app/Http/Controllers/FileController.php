@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateFileRequest;
+use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Http\Controllers\Controller;
 use App\Models\File;
@@ -42,11 +42,11 @@ class FileController extends Controller
     /**
      * Store a newly created File in storage.
      *
-     * @param \App\Http\Requests\CreateFileRequest $request
+     * @param \App\Http\Requests\StoreFileRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateFileRequest $request)
+    public function store(StoreFileRequest $request)
     {
         File::create($request->validated());
 

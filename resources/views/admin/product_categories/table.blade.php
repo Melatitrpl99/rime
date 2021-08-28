@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="productCategories-table">
+<table class="table table-hover table-borderless table-striped" id="productCategories-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Nama</th>
             <th width="120" class="text-center">Action</th>
         </tr>
@@ -8,8 +9,11 @@
     <tbody>
         @foreach ($productCategories as $productCategory)
             <tr>
+                <td>
+                    {{ $productCategories->perPage() * ($productCategories->currentPage() - 1) + $loop->iteration }}
+                </td>
                 <td>{{ $productCategory->name }}</td>
-                <td width="120">
+                <td>
                     {!! Form::open(['route' => ['admin.product_categories.destroy', $productCategory], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.product_categories.show', [$productCategory]) }}" class="btn btn-default btn-sm">

@@ -3,10 +3,10 @@
 namespace Database\Factories;
 
 use App\Models\Color;
-use App\Models\Dimension;
 use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\Size;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductStockFactory extends Factory
@@ -25,12 +25,25 @@ class ProductStockFactory extends Factory
      */
     public function definition()
     {
-        $colors = Color::pluck('id')->toArray();
-        $sizes = Size::pluck('id')->toArray();
+        $productId = $this->faker->randomElement(Product::pluck('id')->toArray());
+        $colorId = $this->faker->randomElement(Color::pluck('id')->toArray());
+        $sizeId = $this->faker->randomElement(Size::pluck('id')->toArray());
+
+        $exists = ProductStock::where([
+            ['product_id', '=', $productId],
+            ['color_id', '=', $colorId],
+            ['size_id', '=', $sizeId],
+        ])->exists();
+
+        if ($exists) {
+            throw new Exception('duplicate value');
+        }
+
         return [
-            'color_id'   => $this->faker->randomElement($colors),
-            'size_id'    => $this->faker->randomElement($sizes),
-            'stok_ready' => $this->faker->numberBetween(0, 50),
+            'product_id' => $productId,
+            'color_id' => $colorId,
+            'size_id' => $sizeId,
+            'stok_ready' => $this->faker->numberBetween(0, 100),
         ];
     }
 }

@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="colors-table">
+<table class="table table-hover table-borderless table-striped" id="colors-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Name</th>
             <th width="120" class="text-center">Action</th>
         </tr>
@@ -8,8 +9,11 @@
     <tbody>
         @foreach($sizes as $size)
             <tr>
+                <td>
+                    {{ $sizes->perPage() * ($sizes->currentPage() - 1) + $loop->iteration }}
+                </td>
                 <td>{{ $size->name }}</td>
-                <td width="120">
+                <td>
                     {!! Form::open(['route' => ['admin.sizes.destroy', $size], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.sizes.show', $size) }}" class="btn btn-default btn-sm">

@@ -20,7 +20,7 @@ class CreateCartDetailsTable extends Migration
             $table->foreignId('product_id')->constrained();
             $table->foreignId('color_id')->constrained();
             $table->foreignId('size_id')->nullable()->constrained();
-            $table->integer('jumlah');
+            $table->unsignedinteger('jumlah');
             $table->bigInteger('sub_total');
         });
     }

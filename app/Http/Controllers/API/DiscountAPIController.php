@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateDiscountAPIRequest;
-use App\Http\Requests\API\UpdateDiscountAPIRequest;
 use App\Http\Resources\DiscountResource;
 use App\Http\Controllers\Controller;
 use App\Models\Discount;

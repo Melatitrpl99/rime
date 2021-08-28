@@ -17,11 +17,11 @@ class CreateSpendingsTable extends Migration
         Schema::create('spendings', function (Blueprint $table) {
             $table->id('id');
             $table->string('nomor')->unique();
+            $table->string('judul')->nullable();
             $table->text('deskripsi')->nullable();
             $table->timestamp('tanggal');
-            $table->string('kategori');
-            $table->integer('jumlah')->nullable();
             $table->bigInteger('total')->nullable();
+            $table->foreignId('spending_category_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

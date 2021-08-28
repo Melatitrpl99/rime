@@ -4,24 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Testimony
+ * App\Models\Testimony
  *
- * @package App\Models
- * @version August 2, 2021, 2:39 am UTC
- * @property \App\Models\Product $product
- * @property \App\Models\User $user
- * @property foreignId $product_id
- * @property foreignId $user_id
- * @property string $judul
- * @property string $isi
- * @property integer $review
  * @property int $id
+ * @property int $product_id
+ * @property int $user_id
+ * @property string|null $judul
+ * @property string|null $isi
+ * @property int $review
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\TestimonyFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Testimony newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Testimony newQuery()
@@ -44,53 +43,24 @@ class Testimony extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'testimonies';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
-        'product_id',
-        'user_id',
         'judul',
         'isi',
-        'review'
+        'review',
+        'product_id',
+        'user_id',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'judul' => 'string',
-        'review' => 'integer'
+    protected $hidden = [
+        'deleted_at'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'product_id' => 'required|integer',
-        'user_id'    => 'required|integer',
-        'judul'      => 'nullable',
-        'isi'        => 'nullable|required_unless:judul,null',
-        'review'     => 'required'
-    ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

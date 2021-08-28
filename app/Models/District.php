@@ -16,7 +16,7 @@ use App\Models\Village;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
- * District Model.
+ * App\Models\District
  *
  * @property int $id
  * @property string $regency_id

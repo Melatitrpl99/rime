@@ -36,6 +36,13 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('admin.testimonies.index') }}" class="nav-link {{ Request::is('admin/testimonies*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-star"></i>
+        <p>Review & Testimoni</p>
+    </a>
+</li>
+
 <li class="nav-header"></li>
 <li class="nav-header text-xs">PENJUALAN</li>
 
@@ -60,11 +67,18 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('admin.payment_methods.index') }}" class="nav-link {{ Request::is('admin/payment_methods*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-edit"></i>
+        <p>Metode Pembayaran</p>
+    </a>
+</li>
+
 <li class="nav-header"></li>
 <li class="nav-header text-xs">KEUANGAN</li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.transactions.index') }}" class="nav-link {{ Request::is('admin/transactions*') ? 'active' : '' }}">
+    <a href="{{ route('admin.order_transactions.index') }}" class="nav-link {{ Request::is('admin/transactions*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-cash-register"></i>
         <p>Transaksi</p>
     </a>
@@ -76,6 +90,23 @@
         <p>Pengeluaran</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.spending_categories.index') }}" class="nav-link {{ Request::is('admin/spending_categories*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-bars"></i>
+        <p>Kategori Pengeluaran</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.spending_units.index') }}" class="nav-link {{ Request::is('admin/spending_units*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-cubes"></i>
+        <p>Satuan Unit</p>
+    </a>
+</li>
+
+<li class="nav-header"></li>
+<li class="nav-header text-xs">LAPORAN</li>
 
 <li class="nav-item">
     <a href="{{ route('admin.laba_rugi.index') }}" class="nav-link {{ Request::is('admin/laba_rugi*') ? 'active' : '' }}">
@@ -93,7 +124,7 @@
 
 <li class="nav-item">
     <a href="{{ route('admin.reports.index') }}" class="nav-link {{ Request::is('admin/reports*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-file-archive"></i>
+        <i class="nav-icon fas fa-archive"></i>
         <p>Arsip Laporan</p>
     </a>
 </li>
@@ -126,18 +157,21 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.testimonies.index') }}" class="nav-link {{ Request::is('admin/testimonies*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-star"></i>
-        <p>Testimoni</p>
+    <a href="{{ route('admin.user_verifications.index') }}" class="nav-link {{ Request::is('admin/user_verifications*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-user-check"></i>
+        <p>Verifikasi Identitas</p>
     </a>
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.shipments.index') }}" class="nav-link {{ Request::is('admin/shipments*') ? 'active' : '' }}">
+    <a href="{{ route('admin.user_shipments.index') }}" class="nav-link {{ Request::is('admin/shipments*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-truck"></i>
         <p>Alamat Pengiriman</p>
     </a>
 </li>
+
+<li class="nav-header"></li>
+<li class="nav-header text-xs">ADMIN</li>
 
 <li class="nav-item">
     <a href="{{ route('admin.activities.index') }}" class="nav-link {{ Request::is('admin/activities*') ? 'active' : '' }}">
@@ -145,9 +179,6 @@
         <p>Aktivitas</p>
     </a>
 </li>
-
-<li class="nav-header"></li>
-<li class="nav-header text-xs">ADMIN</li>
 
 <li class="nav-item">
     <a href="{{ route('admin.partners.index') }}" class="nav-link {{ Request::is('admin/partners*') ? 'active' : '' }}">
@@ -171,8 +202,8 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.user_verifications.index') }}" class="nav-link {{ Request::is('admin/user_verifications*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-user-check"></i>
-        <p>Verifikasi Identitas</p>
+    <a href="/admin/routes" class="nav-link {{ Request::is('admin/routes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-paperclip"></i>
+        <p>Route Explorer</p>
     </a>
 </li>

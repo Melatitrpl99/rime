@@ -1,7 +1,8 @@
-<table class="table table-hover table-borderless table-striped" id="colors-table">
+<table class="table table-hover table-borderless table-striped" id="colors-table" style="min-width: 1024px">
     <thead>
         <tr>
-            <th>Nama</th>
+            <th width="50">#</th>
+            <th width="200">Nama</th>
             <th>Deskripsi</th>
             <th width="120" class="text-center">Action</th>
         </tr>
@@ -9,9 +10,12 @@
     <tbody>
         @foreach($statuses as $status)
             <tr>
+                <td>
+                    {{ $statuses->perPage() * ($statuses->currentPage() - 1) + $loop->iteration }}
+                </td>
                 <td>{{ $status->name }}</td>
-                <td>{{ Str::limit($status->desc, 100, '...') }}</td>
-                <td width="120">
+                <td>{{ Str::limit($status->desc, 150, '...') }}</td>
+                <td>
                     {!! Form::open(['route' => ['admin.statuses.destroy', $status], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.statuses.show', $status) }}" class="btn btn-default btn-sm">

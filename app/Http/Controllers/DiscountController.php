@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateDiscountRequest;
+use App\Http\Requests\StoreDiscountRequest;
 use App\Http\Requests\UpdateDiscountRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Discount;
@@ -42,11 +42,11 @@ class DiscountController extends Controller
     /**
      * Store a newly created Discount in storage.
      *
-     * @param \App\Http\Requests\CreateDiscountRequest $request
+     * @param \App\Http\Requests\StoreDiscountRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateDiscountRequest $request)
+    public function store(StoreDiscountRequest $request)
     {
         // dd($request->all());
         $discount = Discount::create($request->validated());

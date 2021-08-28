@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Models\UserVerification;
-use InfyOm\Generator\Request\APIRequest;
 
-class UpdateUserVerificationAPIRequest extends APIRequest
+class UpdateUserVerificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,12 @@ class UpdateUserVerificationAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = UserVerification::$rules;
-        
-        return $rules;
+        return [
+            'result_token' => ['nullable'],
+            'similarity'   => ['nullable'],
+            'accuracy'     => ['nullable'],
+            'status'       => ['nullable'],
+            'user_id'      => ['required'],
+        ];
     }
 }

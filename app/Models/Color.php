@@ -6,15 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
- * Class Color
+ * App\Models\Color
  *
- * @package App\Models
- * @version July 8, 2021, 12:26 am UTC
- * @property id $id
+ * @property int $id
  * @property string $name
- * @property string $rgba_color
+ * @property string|null $rgba_color
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -37,38 +34,14 @@ class Color extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'colors';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'name',
         'rgba_color'
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'string',
-        'rgba_color' => 'string'
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
         'deleted_at'
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'name' => 'required',
-        'rgba_color' => 'nullable'
     ];
 }

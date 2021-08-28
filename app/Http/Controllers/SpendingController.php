@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateSpendingRequest;
+use App\Http\Requests\StoreSpendingRequest;
 use App\Http\Requests\UpdateSpendingRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Spending;
@@ -23,7 +23,9 @@ class SpendingController extends Controller
      */
     public function index(Request $request)
     {
-        $spendings = Spending::paginate(15);
+        $spendings = Spending::with('spendingCategory')
+            ->withSum('spendingDetails', 'jumlah')
+            ->paginate(15);
 
         return view('admin.spendings.index')
             ->with('spendings', $spendings);
@@ -42,11 +44,11 @@ class SpendingController extends Controller
     /**
      * Store a newly created Spending in storage.
      *
-     * @param \App\Http\Requests\CreateSpendingRequest $request
+     * @param \App\Http\Requests\StoreSpendingRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateSpendingRequest $request)
+    public function store(StoreSpendingRequest $request)
     {
         Spending::create($request->validated());
 

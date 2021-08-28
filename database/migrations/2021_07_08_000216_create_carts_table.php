@@ -17,8 +17,8 @@ class CreateCartsTable extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id('id');
             $table->string('judul');
-            $table->bigInteger('total')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->bigInteger('total')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

@@ -7,7 +7,6 @@ use App\Models\PostCategory;
 
 class UpdatePostCategoryRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,8 @@ class UpdatePostCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = PostCategory::$rules;
-        
-        return $rules;
+        return [
+            'name' => ['required', 'string', 'max:255'],
+        ];
     }
 }

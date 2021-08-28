@@ -18,8 +18,8 @@ class CreateDiscountDetailsTable extends Migration
             $table->foreignId('discount_id')->constrained();
             $table->foreignId('product_id')->constrained();
             $table->bigInteger('diskon_harga');
-            $table->integer('minimal_produk')->nullable();
-            $table->integer('maksimal_produk')->nullable();
+            $table->unsignedInteger('minimal_produk')->nullable();
+            $table->unsignedInteger('maksimal_produk')->nullable();
 
             $table->primary(['discount_id', 'product_id']);
         });

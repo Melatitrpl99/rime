@@ -2,11 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class ProductFactory extends Factory
 {
@@ -24,16 +22,16 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $productCategories = ProductCategory::pluck('id')->toArray();
+        $productCategoryIds = ProductCategory::pluck('id')->toArray();
         return [
-            'nama'                => $this->faker->sentence(rand(1, 5)),
-            'deskripsi'           => $this->faker->paragraph(rand(2, 5)),
-            'harga_customer'      => $this->faker->numberBetween(55, 150) * 1000,
-            'harga_reseller'      => function (array $attributes) {
-                return $attributes['harga_customer'] - rand(1, 20) * 1000;
+            'nama'           => $this->faker->words(rand(3, 6), true),
+            'deskripsi'      => $this->faker->text,
+            'harga_customer' => $this->faker->numberBetween(35, 150) * 1000,
+            'harga_reseller' => function (array $attributes) {
+                return $attributes['harga_customer'] - ($attributes['harga_customer'] * 0.085);
             },
-            'reseller_minimum'    => $this->faker->randomDigitNotNull(),
-            'product_category_id' => $this->faker->randomElement($productCategories),
+            'reseller_minimum'    => $this->faker->randomDigitNotNull,
+            'product_category_id' => $this->faker->randomElement($productCategoryIds),
         ];
     }
 }

@@ -24,8 +24,8 @@
                             @include('admin.partners.table')
                         </div>
                         <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items center">
-                                <span class="d-block my-auto text-secondary">Displaying {{ $partners->count() }} of {{ $partners->total() }} records</span>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="d-none d-sm-block my-auto text-secondary mr-auto">Displaying {{ $partners->count() }} of {{ $partners->total() }} records</span>
                                 {{ $partners->links() }}
                             </div>
                         </div>

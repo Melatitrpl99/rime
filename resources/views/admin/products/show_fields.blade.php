@@ -5,7 +5,7 @@
 
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Deskripsi</div>
-    <div class="col-12 col-md-9">{{ $product->deskripsi }}</div>
+    <div class="col-12 col-md-9">{!! $product->deskripsi !!}</div>
 </div>
 
 <div class="form-group row">

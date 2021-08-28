@@ -7,7 +7,6 @@ use App\Models\Partner;
 
 class UpdatePartnerRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,13 @@ class UpdatePartnerRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Partner::$rules;
-        
-        return $rules;
+        return [
+            'nama'      => ['required', 'string', 'max:255'],
+            'deskripsi' => ['nullable', 'string', 'max:65535'],
+            'alamat'    => ['required', 'string', 'max:65535'],
+            'lokasi'    => ['required', 'string', 'max:255'],
+            'email'     => ['required', 'email', 'unique:partners'],
+            'no_telp'   => ['nullable', 'regex:/^(\+62|0)\w+/g'],
+        ];
     }
 }

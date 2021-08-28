@@ -7,6 +7,7 @@ use App\Models\Shipment;
 use App\Models\Color;
 use App\Models\District;
 use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Models\PostCategory;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -55,11 +56,11 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.carts.fields', function ($view) {
-            $users = User::with('role')->get();
+            $users = User::with('roles')->get();
             $products = Product::all();
 
             $maps = $users->map(function ($user, $key) {
-                return [$user->id, (string) optional($user->role)->name];
+                return [$user->id, (string) optional($user->roles->first())->name];
             })->flatten()->toArray();
 
             $ids = array_values(array_filter($maps, function ($v, $k) {
@@ -72,7 +73,7 @@ class ViewServiceProvider extends ServiceProvider
 
             $userRoles = collect(array_combine($ids, $roles))->toJson();
 
-            $userItems = $users->pluck('name', 'id')->toArray();
+            $userItems = $users->pluck('nama_lengkap', 'id')->toArray();
             $priceCustomer = $products->pluck('harga_customer', 'id')->toJson();
             $priceReseller = $products->pluck('harga_reseller', 'id')->toJson();
             $minimumReseller = $products->pluck('reseller_minimum', 'id')->toJson();
@@ -93,11 +94,11 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.orders.fields', function ($view) {
-            $users = User::with('role')->get();
+            $users = User::with('roles')->get();
             $products = Product::all();
 
-            $maps = $users->map(function ($item, $key) {
-                return [$item->id, (string) optional($item->role)->name];
+            $maps = $users->map(function ($user, $key) {
+                return [$user->id, (string) optional($user->roles->first())->name];
             })->flatten()->toArray();
 
             $ids = array_values(array_filter($maps, function ($v, $k) {
@@ -110,7 +111,7 @@ class ViewServiceProvider extends ServiceProvider
 
             $userRoles = collect(array_combine($ids, $roles))->toJson();
 
-            $userItems = $users->pluck('name', 'id')->toArray();
+            $userItems = $users->pluck('nama_lengkap', 'id')->toArray();
             $priceCustomer = $products->pluck('harga_customer', 'id')->toJson();
             $priceReseller = $products->pluck('harga_reseller', 'id')->toJson();
             $minimumReseller = $products->pluck('reseller_minimum', 'id')->toJson();
@@ -118,6 +119,7 @@ class ViewServiceProvider extends ServiceProvider
             $statusItems = Status::pluck('name', 'id')->toArray();
             $colorItems = Color::pluck('name', 'id')->toArray();
             $sizeItems = Size::pluck('name', 'id')->toArray();
+            $paymentMethodItems = PaymentMethod::pluck('name', 'id')->toArray();
 
             $view->with('userItems', $userItems)
                 ->with('userRoles', $userRoles)
@@ -127,12 +129,13 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('productItems', $productItems)
                 ->with('colorItems', $colorItems)
                 ->with('sizeItems', $sizeItems)
+                ->with('paymentMethodItems', $paymentMethodItems)
                 ->with('statusItems', $statusItems);
         });
 
         view()->composer('admin.posts.fields', function ($view) {
             $postCategoryItems = PostCategory::pluck('name', 'id')->toArray();
-            $userItems = User::pluck('name', 'id')->toArray();
+            $userItems = User::pluck('nama_lengkap', 'id')->toArray();
 
             $view->with('postCategoryItems', $postCategoryItems)
                 ->with('userItems', $userItems);
@@ -149,7 +152,7 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.reports.fields', function ($view) {
-            $userItems = User::pluck('name', 'id')->toArray();
+            $userItems = User::pluck('nama_lengkap', 'id')->toArray();
 
             $view->with('userItems', $userItems);
         });
@@ -160,18 +163,12 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('productItems', $productItems);
         });
 
-        view()->composer('admin.shipments.fields', function ($view) {
-            $userItems = User::pluck('name', 'id')->toArray();
+        view()->composer('admin.user_shipments.fields', function ($view) {
+            $userItems = User::pluck('nama_lengkap', 'id')->toArray();
             $provinceItems = Province::pluck('name', 'id')->toArray();
 
             $view->with('userItems', $userItems)
                 ->with('provinceItems', $provinceItems);
-        });
-
-        view()->composer('admin.transactions.fields', function ($view) {
-            $userItems = User::pluck('name', 'id')->toArray();
-
-            $view->with('userItems', $userItems);
         });
     }
 }

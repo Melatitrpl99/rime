@@ -15,7 +15,7 @@
 
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">User</div>
-    <div class="col-12 col-md-9">{{ $cart->user->name }}</div>
+    <div class="col-12 col-md-9">{{ $cart->user->nama_lengkap }}</div>
 </div>
 
 <div class="form-group row">

@@ -7,18 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Partner
+ * App\Models\Partner
  *
- * @package App\Models
- * @version May 18, 2021, 2:03 am UTC
+ * @property int $id
  * @property string $nama
- * @property string $deskripsi
+ * @property string|null $deskripsi
  * @property string $alamat
  * @property string $lokasi
  * @property string $email
- * @property string $no_hp
- * @property string $slug
- * @property int $id
+ * @property string $no_telp
+ * @property string|null $slug
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -35,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereLokasi($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereNama($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Partner whereNoHp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Partner whereNoTelp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Partner withTrashed()
@@ -46,49 +44,16 @@ class Partner extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'partners';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'nama',
         'deskripsi',
         'alamat',
         'lokasi',
         'email',
-        'no_hp',
-        'slug'
+        'no_telp',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'nama' => 'string',
-        'deskripsi' => 'string',
-        'alamat' => 'string',
-        'lokasi' => 'string',
-        'email' => 'string',
-        'no_hp' => 'string',
-        'slug' => 'string'
+    protected $hidden = [
+        'deleted_at'
     ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'nama' => 'required',
-        'deskripsi' => 'required',
-        'alamat' => 'required',
-        'lokasi' => 'required',
-        'email' => 'required|email',
-        'no_hp' => 'required|numeric',
-        'slug' => 'nullable'
-    ];
-
-
 }

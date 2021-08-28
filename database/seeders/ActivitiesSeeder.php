@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Activity;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ActivitiesSeeder extends Seeder
@@ -15,7 +14,8 @@ class ActivitiesSeeder extends Seeder
      */
     public function run()
     {
-        Activity::factory(100)
+        Activity::factory()
+            ->count(100)
             ->create();
     }
 }

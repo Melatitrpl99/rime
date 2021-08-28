@@ -72,7 +72,7 @@ return [
      | X-Requested-With with the value XMLHttpRequest (most JS libraries send this), or have application/json as a Accept header.
      */
 
-    'capture_ajax' => true,
+    'capture_ajax' => false,
     'add_ajax_timing' => false,
 
     /*
@@ -229,5 +229,5 @@ return [
      | By default, the DebugBar limits the number of frames returned by the 'debug_backtrace()' function.
      | If you need larger stacktraces, you can increase this number. Setting it to 0 will result in no limit.
      */
-    'debug_backtrace_limit' => 50,
+    'debug_backtrace_limit' => 60,
 ];

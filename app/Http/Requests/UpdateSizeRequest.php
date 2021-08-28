@@ -3,11 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Size;
 
 class UpdateSizeRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +23,8 @@ class UpdateSizeRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Size::$rules;
-
-        return $rules;
+        return [
+            'name' => ['required', 'string', 'max:255'],
+        ];
     }
 }

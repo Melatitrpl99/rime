@@ -4,9 +4,10 @@ namespace Database\Factories;
 
 use App\Models\Discount;
 use App\Models\Order;
-use App\Models\Shipment;
+use App\Models\PaymentMethod;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\UserShipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
@@ -25,19 +26,23 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-        $users = User::pluck('id')->toArray();
-        $statuses = Status::pluck('id')->toArray();
-        $shipments = Shipment::pluck('id')->toArray();
-        $discounts = Discount::pluck('kode')->toArray();
+        $statusIds = Status::pluck('id')->toArray();
+        $userId = $this->faker->randomElement(User::pluck('id')->toArray());
+        $discountIds = Discount::pluck('id')->toArray();
+        $shipmentIds = UserShipment::where('user_id', $userId)->pluck('id')->toArray();
+        $paymentMethodIds = PaymentMethod::pluck('id')->toArray();
+
         return [
-            'nomor'            => $this->faker->regexify('O[0-9]{2}-[A-Z0-9]{6}'),
-            'pesan'            => $this->faker->text(rand(50, 150)),
-            'kode_diskon'      => $this->faker->optional(0.8)->randomElement($discounts),
-            'biaya_pengiriman' => $this->faker->numberBetween(40, 120) * 1000,
-            'berat'            => $this->faker->numberBetween(20, 1000) * 10,
-            'status_id'        => $this->faker->randomElement($statuses),
-            'shipment_id'      => $this->faker->randomElement($shipments),
-            'user_id'          => $this->faker->randomElement($users),
+            'nomor'             => $this->faker->regexify('O[0-9]{2}-[A-Z0-9]{6}'),
+            'pesan'             => $this->faker->realText,
+            'biaya_pengiriman'  => $this->faker->numberBetween(5, 100) * 1000,
+            'berat'             => $this->faker->numberBetween(10, 400) * 10,
+            'kode_resi'         => $this->faker->regexify('[a-z0-9]{16}'),
+            'payment_method_id' => $this->faker->randomElement($paymentMethodIds),
+            'discount_id'       => $this->faker->randomElement($discountIds),
+            'status_id'         => $this->faker->randomElement($statusIds),
+            'user_shipment_id'  => $this->faker->randomElement($shipmentIds),
+            'user_id'           => $userId,
         ];
     }
 }

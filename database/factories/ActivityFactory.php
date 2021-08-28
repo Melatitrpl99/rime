@@ -17,19 +17,17 @@ class ActivityFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
-        $users = User::pluck('id')->toArray();
+        $userIds = User::pluck('id')->toArray();
         return [
             'id'            => $this->faker->uuid,
             'loggable_type' => 'App\Models\User',
-            'loggable_id'   => $this->faker->randomElement($users),
+            'loggable_id'   => $this->faker->randomElement($userIds),
             'user_agent'    => $this->faker->userAgent,
             'ip_address'    => $this->faker->ipv4,
-            'log'           => $this->faker->text(200),
+            'log'           => $this->faker->text,
         ];
     }
 }

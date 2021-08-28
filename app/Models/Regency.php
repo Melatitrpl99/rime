@@ -11,10 +11,12 @@ namespace App\Models;
 
 use AzisHapidin\IndoRegion\Traits\RegencyTrait;
 use Illuminate\Database\Eloquent\Model;
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
- * Regency Model.
+ * App\Models\Regency
  *
  * @property int $id
  * @property string $province_id
@@ -34,45 +36,25 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  */
 class Regency extends Model
 {
-    use RegencyTrait, HasRelationships;
+    use RegencyTrait;
 
-    /**
-     * Table name.
-     *
-     * @var string
-     */
     protected $table = 'regencies';
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'province_id'
     ];
 
-    /**
-     * Regency belongs to Province.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function province()
+    public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
     }
 
-    /**
-     * Regency has many districts.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function districts()
+    public function districts(): HasMany
     {
         return $this->hasMany(District::class);
     }
 
-    public function villages()
+    public function villages(): HasManyThrough
     {
         return $this->hasManyThrough(Village::class, District::class);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateUserVerificationAPIRequest;
+use App\Http\Requests\API\StoreUserVerificationAPIRequest;
 use App\Http\Requests\API\UpdateUserVerificationAPIRequest;
 use App\Http\Resources\UserVerificationResource;
 use App\Http\Controllers\Controller;
@@ -27,10 +27,11 @@ class UserVerificationAPIController extends Controller
     {
         $query = UserVerification::query();
 
-        if ($request->get('skip')) {
+        if ($request->has('skip')) {
             $query->skip($request->get('skip'));
         }
-        if ($request->get('limit')) {
+
+        if ($request->has('limit')) {
             $query->limit($request->get('limit'));
         }
 
@@ -43,11 +44,11 @@ class UserVerificationAPIController extends Controller
      * Store a newly created UserVerification in storage.
      * POST /user_verifications
      *
-     * @param \App\Http\Requests\CreateUserVerificationRequest $request
+     * @param \App\Http\Requests\StoreUserVerificationRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateUserVerificationAPIRequest $request)
+    public function store(StoreUserVerificationAPIRequest $request)
     {
         $userVerification = UserVerification::create($request->validated());
 

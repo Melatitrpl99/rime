@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateUserVerificationRequest;
+use App\Http\Requests\StoreUserVerificationRequest;
 use App\Http\Requests\UpdateUserVerificationRequest;
 use App\Http\Controllers\Controller;
 use App\Models\UserVerification;
@@ -42,11 +42,11 @@ class UserVerificationController extends Controller
     /**
      * Store a newly created UserVerification in storage.
      *
-     * @param \App\Http\Requests\CreateUserVerificationRequest $request
+     * @param \App\Http\Requests\StoreUserVerificationRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateUserVerificationRequest $request)
+    public function store(StoreUserVerificationRequest $request)
     {
         UserVerification::create($request->validated());
 

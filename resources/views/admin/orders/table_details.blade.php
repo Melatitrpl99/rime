@@ -1,4 +1,4 @@
-<table class="table table-sm table-borderless table-striped" id="order_detail-table">
+<table class="table table-sm table-borderless table-striped" id="order_detail-table" style="min-width: 1024px">
     <thead>
         <tr>
             <th class="py-2 border-bottom" width="50">#</th>

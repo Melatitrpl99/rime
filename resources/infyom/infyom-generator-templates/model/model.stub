@@ -5,7 +5,6 @@ namespace $NAMESPACE_MODEL$;
 use Illuminate\Database\Eloquent\Model;
 $SOFT_DELETE_IMPORT$
 $HAS_FACTORY_IMPORT$
-
 $DOCS$
 class $MODEL_NAME$ extends Model
 {

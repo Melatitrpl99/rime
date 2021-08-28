@@ -21,7 +21,6 @@ class CreateDiscountsTable extends Migration
             $table->integer('batas_pemakaian')->nullable();
             $table->timestamp('waktu_mulai')->nullable();
             $table->timestamp('waktu_berakhir')->nullable();
-            $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

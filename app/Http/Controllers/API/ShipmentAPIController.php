@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateShipmentAPIRequest;
+use App\Http\Requests\API\StoreShipmentAPIRequest;
 use App\Http\Requests\API\UpdateShipmentAPIRequest;
 use App\Http\Resources\ShipmentResource;
 use App\Http\Controllers\Controller;
@@ -44,11 +44,11 @@ class ShipmentAPIController extends Controller
      * Store a newly created Shipment in storage.
      * POST /shipments
      *
-     * @param \App\Http\Requests\CreateShipmentRequest $request
+     * @param \App\Http\Requests\StoreShipmentRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateShipmentAPIRequest $request)
+    public function store(StoreShipmentAPIRequest $request)
     {
         $shipment = Shipment::create($request->validated());
 

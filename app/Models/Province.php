@@ -11,10 +11,13 @@ namespace App\Models;
 
 use AzisHapidin\IndoRegion\Traits\ProvinceTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
- * Province Model.
+ * App\Models\Province
  *
  * @property int $id
  * @property string $name
@@ -32,29 +35,20 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 class Province extends Model
 {
     use ProvinceTrait, HasRelationships;
-    /**
-     * Table name.
-     *
-     * @var string
-     */
+
     protected $table = 'provinces';
 
-    /**
-     * Province has many regencies.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function regencies()
+    public function regencies(): HasMany
     {
         return $this->hasMany(Regency::class);
     }
 
-    public function districts()
+    public function districts(): HasManyThrough
     {
         return $this->hasManyThrough(District::class, Regency::class);
     }
 
-    public function villages()
+    public function villages(): HasManyDeep
     {
         return $this->hasManyDeep(Village::class, [Regency::class, District::class]);
     }

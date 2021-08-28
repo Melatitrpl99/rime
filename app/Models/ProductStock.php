@@ -2,43 +2,40 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class ProductStock
+ * App\Models\ProductStock
  *
- * @package App\Models
- * @version July 8, 2021, 12:39 am UTC
- * @property \App\Models\Product $product
- * @property \App\Models\Colour $colour
- * @property \App\Models\Size $size
- * @property \App\Models\Dimensions $dimensions
- * @property foreignId $product_id
- * @property foreignId $colour_id
- * @property foreignId $size_id
- * @property foreignId $dimension_id
- * @property integer $stok_ready
  * @property int $id
+ * @property int $product_id
  * @property int $color_id
+ * @property int|null $size_id
+ * @property int $stok_ready
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Color $color
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\Size|null $size
  * @method static \Database\Factories\ProductStockFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock newQuery()
+ * @method static Builder|ProductStock isReady()
+ * @method static Builder|ProductStock newModelQuery()
+ * @method static Builder|ProductStock newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductStock onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock query()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereColorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereSizeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereStokReady($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductStock whereUpdatedAt($value)
+ * @method static Builder|ProductStock query()
+ * @method static Builder|ProductStock whereColorId($value)
+ * @method static Builder|ProductStock whereCreatedAt($value)
+ * @method static Builder|ProductStock whereDeletedAt($value)
+ * @method static Builder|ProductStock whereId($value)
+ * @method static Builder|ProductStock whereProductId($value)
+ * @method static Builder|ProductStock whereSizeId($value)
+ * @method static Builder|ProductStock whereStokReady($value)
+ * @method static Builder|ProductStock whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|ProductStock withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductStock withoutTrashed()
  * @mixin \Eloquent
@@ -47,69 +44,37 @@ class ProductStock extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'product_stocks';
-
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'product_id',
         'color_id',
         'size_id',
-        'dimension_id',
-        'stok_ready'
+        'stok_ready',
+    ];
+
+    protected $hidden = [
+        'deleted_at'
     ];
 
     /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
+     * Find all products by stock is still available
      */
-    protected $casts = [
-        'stok_ready' => 'integer'
-    ];
+    public function scopeIsReady(Builder $query): Builder
+    {
+        return $query->where('stok_ready', '>', 0);
+    }
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'product_id'   => 'required',
-        'color_id'     => 'required',
-        'size_id'      => 'nullable',
-        'dimension_id' => 'nullable',
-        'stok_ready'   => 'nullable'
-    ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function color()
+    public function color(): BelongsTo
     {
         return $this->belongsTo(Color::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function size()
+    public function size(): BelongsTo
     {
         return $this->belongsTo(Size::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function dimension()
-    {
-        return $this->belongsTo(Dimension::class);
     }
 }

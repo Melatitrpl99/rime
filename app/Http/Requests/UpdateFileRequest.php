@@ -7,7 +7,6 @@ use App\Models\File;
 
 class UpdateFileRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,13 @@ class UpdateFileRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = File::$rules;
-        
-        return $rules;
+        return [
+            'name'      => ['string'],
+            'mime_type' => ['nullable', 'string'],
+            'format'    => ['string'],
+            'size'      => ['string'],
+            'path'      => ['string'],
+            'url'       => ['string'],
+        ];
     }
 }

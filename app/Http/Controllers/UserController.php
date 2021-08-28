@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+
 class UserController extends Controller
 {
     /**
@@ -18,7 +20,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('role:id,name')->paginate(15);
+        $users = User::with('roles:id,name')->paginate(15);
 
         return view('admin.users.index')->with('users', $users);
     }
@@ -36,11 +38,11 @@ class UserController extends Controller
     /**
      * Store a newly created User in storage.
      *
-     * @param \App\Http\Requests\CreateUserRequest $request
+     * @param \App\Http\Requests\StoreUserRequest $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateUserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         $input = $request->validated();
         $input['password'] = bcrypt($input['password']);

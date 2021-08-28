@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="files-table">
+<table class="table table-hover table-borderless table-striped" id="files-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Name</th>
             <th>MIME Type</th>
             <th>Format</th>
@@ -11,6 +12,9 @@
     <tbody>
     @foreach($files as $file)
         <tr>
+            <td>
+                {{ $files->perPage() * ($files->currentPage() - 1) + $loop->iteration }}
+            </td>
             <td><a href="{{ $file->url }}">{{ $file->name }}</a></td>
             <td>{{ $file->mime_type }}</td>
             <td>{{ $file->format }}</td>

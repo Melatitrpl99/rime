@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePartnerRequest;
+use App\Http\Requests\StorePartnerRequest;
 use App\Http\Requests\UpdatePartnerRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
@@ -42,11 +42,11 @@ class PartnerController extends Controller
     /**
      * Store a newly created Partner in storage.
      *
-     * @param \App\Http\Requests\CreatePartnerRequest $request
+     * @param \App\Http\Requests\StorePartnerRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreatePartnerRequest $request)
+    public function store(StorePartnerRequest $request)
     {
         Partner::create($request->validated());
 

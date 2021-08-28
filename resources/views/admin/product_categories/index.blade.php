@@ -8,7 +8,8 @@
                 <div class="col-12 d-flex justify-content-between align-items-center">
                     <h1>Kategori produk</h1>
                     <a href="{{ route('admin.product_categories.create') }}" class="btn btn-primary float-right">
-                        <i class="fas fa-plus mr-1"></i> Tambah baru
+                        <i class="fas fa-plus mr-sm-1"></i>
+                        <span class="d-none d-sm-inline">Tambah baru</span>
                     </a>
                 </div>
             </div>
@@ -24,8 +25,8 @@
                             @include('admin.product_categories.table')
                         </div>
                         <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items center">
-                                <span class="d-block my-auto text-secondary">Displaying {{ $productCategories->count() }} of {{ $productCategories->total() }} records</span>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="d-none d-sm-block my-auto text-secondary mr-auto">Displaying {{ $productCategories->count() }} of {{ $productCategories->total() }} records</span>
                                 {{ $productCategories->links() }}
                             </div>
                         </div>

@@ -12,10 +12,12 @@ namespace App\Models;
 use AzisHapidin\IndoRegion\Traits\VillageTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\District;
-use Znck\Eloquent\Traits\BelongsToThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 /**
- * Village Model.
+ * App\Models\Village
  *
  * @property int $id
  * @property string $district_id
@@ -31,43 +33,23 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Village extends Model
 {
-    use VillageTrait, BelongsToThrough;
+    use VillageTrait, BelongsToThroughTrait;
 
-    /**
-     * Table name.
-     *
-     * @var string
-     */
-    protected $table = 'villages';
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'district_id'
     ];
 
-    /**
-     * Village belongs to District.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function district()
+    public function district(): BelongsTo
     {
         return $this->belongsTo(District::class);
     }
 
-    public function regency()
+    public function regency(): BelongsToThrough
     {
         return $this->belongsToThrough(Regency::class, District::class);
     }
 
-    /**
-     * @return \Znck\Eloquent\Relations\BelongsToThrough
-     */
-    public function province()
+    public function province(): BelongsToThrough
     {
         return $this->belongsToThrough(Province::class, [Regency::class, District::class]);
     }

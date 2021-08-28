@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 /**
- * Class UserVerification
+ * App\Models\UserVerification
  *
- * @package App\Models
- * @version August 10, 2021, 6:25 am UTC
- * @property \App\Models\User $user
- * @property foreignId $user_id
- * @property string $result_token
- * @property number $similarity
- * @property number $accuracy
  * @property int $id
+ * @property int $user_id
+ * @property string $result_token
+ * @property float $similarity
+ * @property float $accuracy
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification newQuery()
  * @method static \Illuminate\Database\Query\Builder|UserVerification onlyTrashed()
@@ -30,6 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification whereResultToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification whereSimilarity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserVerification whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserVerification whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|UserVerification withTrashed()
@@ -40,49 +39,28 @@ class UserVerification extends Model
 {
     use SoftDeletes;
 
-
     public $table = 'user_verifications';
-
-
-    protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'user_id',
         'result_token',
         'similarity',
-        'accuracy'
+        'accuracy',
+        'status'
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'result_token' => 'string',
-        'similarity' => 'double',
-        'accuracy' => 'double'
+        'similarity'   => 'double',
+        'accuracy'     => 'double'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'user_id' => 'required',
-        'result_token' => 'nullable|string',
-        'similarity' => 'nullable',
-        'accuracy' => 'nullable'
+    protected $hidden = [
+        'deleted_at'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 }

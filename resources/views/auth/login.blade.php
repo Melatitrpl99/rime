@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>{{ env('APP_NAME') }} | Login</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="csrf_token" content="{{ csrf_token() }}">
 
     @include('layouts.css')
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
@@ -44,10 +45,10 @@
                         @enderror
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="icheck-primary">
+                        {{-- <div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">Ingat saya</label>
-                        </div>
+                        </div> --}}
                         <button type="submit" class="btn btn-primary" style="width: 35%">
                             <i class="fas fa-sign-in-alt mr-2"></i>Login
                         </button>

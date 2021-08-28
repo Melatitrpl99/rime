@@ -7,7 +7,7 @@
 <!-- Deskripsi Field -->
 <div class="form-group col-12">
     {!! Form::label('deskripsi', 'Deskripsi:') !!}
-    {!! Form::textarea('deskripsi', null, ['class' => 'form-control']) !!}
+    {!! Form::textarea('deskripsi', null, ['class' => 'form-control ckeditor']) !!}
 </div>
 
 <!-- Kode Field -->
@@ -41,45 +41,78 @@
     {!! Form::text('waktu_berakhir', null, ['class' => 'form-control datetimepicker-input', 'id' => 'waktu_berakhir', 'data-target-input' => 'nearest', 'data-toggle' => 'datetimepicker', 'data-target' => '#waktu_berakhir', 'autocomplete' => 'off']) !!}
 </div>
 
-@include('admin.discounts.table_fields')
+<div class="col-12 mt-4 mb-2">
+    <h4>Detail diskon</h4>
+</div>
 
-@include('layouts.plugins.datetimepicker')
+<div class="col-12 col-sm-6 col-md-5">
+    {!! Form::label('products', 'Produk:') !!}
+    {!! Form::select('products', $productItems, null, ['class' => 'form-control select2-dropdown', 'placeholder' => 'Pilih produk...', 'style' => 'width: 100%']) !!}
+</div>
 
-@once
-    @push('scripts')
-    <script>
-        function generateRandomString(length = 8) {
-            const upper = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-            const lower = [..."abcdefghijklmnopqrstuvwxyz"];
-            const unique = [..."+="];
-            const nums = [..."0123456789"];
+<div class="col-12 col-sm-6 col-md-2">
+    {!! Form::label('discount_min', 'Min. Pembelian:') !!}
+    {!! Form::number('discount_min', null, ['class' => 'form-control', 'min' => 0]) !!}
+</div>
 
-            const base = [...upper, ...lower, ...nums, ...unique];
+<div class="col-12 col-sm-6 col-md-2">
+    {!! Form::label('discount_max', 'Maks. Pembelian:') !!}
+    {!! Form::number('discount_max', null, ['class' => 'form-control', 'min' => 0]) !!}
+</div>
 
-            const generator = (base, len) => {
-                return [...Array(len)]
-                    .map(i => base[Math.random() * base.length|0])
-                    .join('');
-            };
+<div class="col-12 col-sm-6 col-md-3">
+    {!! Form::label('discount_price', 'Diskon:') !!}
+    {!! Form::number('discount_price', null, ['class' => 'form-control', 'min' => 0]) !!}
+</div>
 
-            return generator(base, length);
-        }
-        $('#random_discount_code').on('click', function () {
-            value = generateRandomString();
-            $('#kode').val(value);
-        });
+<div class="col-12 mt-4 mb-2 d-flex justify-content-end align-items-center">
+    <button type="button" id="add_row" class="ml-2 btn btn-primary">
+        <i class="fas fa-plus mr-sm-1"></i>
+        <span class="d-none d-sm-inline">Tambah Data</span>
+    </button>
+    <button type="button" id="remove_row" class="ml-2 btn btn-danger">
+        <i class="fas fa-trash-alt mr-sm-1"></i>
+        <span class="d-none d-sm-inline">Hapus Data</span>
+    </button>
+</div>
 
-        $('#waktu_mulai').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: false
-        });
+<div class="mt-4 col-12 table-responsive">
+    <table class="table table-borderless" style="min-width: 1024px">
+        <thead>
+            <tr class="border-bottom">
+                <th width="40">#</th>
+                <th>Produk</th>
+                <th width="150" class="text-right">Min. Pembelian</th>
+                <th width="150" class="text-right">Maks. Pembelian</th>
+                <th width="180" class="text-right">Diskon Harga</th>
+            </tr>
+        </thead>
+        <tbody id="form-body-recursive">
+            @if (Route::currentRouteName() == 'admin.discounts.edit')
+                @foreach ($discount->products as $product)
+                    <tr>
+                        <td class="py-0.5">{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                        <td>
+                            {!! Form::hidden('product_id[]', $product->id) !!}
+                            <span>{{ $product->nama }}</span>
+                        </td>
+                        <td class="text-right">
+                            {!! Form::hidden('minimal_produk[]', $product->pivot->minimal_produk) !!}
+                            <span>{{ $product->pivot->minimal_produk }}</span>
+                        </td>
+                        <td class="text-right">
+                            {!! Form::hidden('maksimal_produk[]', $product->pivot->maksimal_produk) !!}
+                            <span>{{ $product->pivot->maksimal_produk }}</span>
+                        </td>
+                        <td class="text-right">
+                            {!! Form::hidden('diskon_harga[]', $product->pivot->diskon_harga) !!}
+                            <span>{{ rp($product->pivot->diskon_harga) }}</span>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+        </tbody>
+    </table>
+</div>
 
-        $('#waktu_berakhir').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: false
-        });
-    </script>
-    @endpush
-@endonce
+@include('admin.discounts.field_js')

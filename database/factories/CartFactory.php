@@ -17,15 +17,14 @@ class CartFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        $userIds = User::pluck('id')->toArray();
         return [
-            'judul'     => $this->faker->sentence(rand(1, 5)),
-            'deskripsi' => $this->faker->text(rand(100, 200)),
-            'user_id'   => User::inRandomOrder()->first()->id,
+            'judul'     => $this->faker->words(rand(3, 6), true),
+            'deskripsi' => $this->faker->text,
+            'user_id'   => $this->faker->randomElement($userIds),
         ];
     }
 }

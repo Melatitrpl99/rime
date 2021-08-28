@@ -34,7 +34,7 @@
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table" id="activities-table">
+                <table class="table" id="activities-table" style="min-width: 1024px">
                     <thead>
                         <tr>
                             <th>Tanggal </th>

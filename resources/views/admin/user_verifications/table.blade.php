@@ -1,7 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="userVerifications-table">
+<table class="table table-hover table-borderless table-striped" id="userVerifications-table" style="min-width: 1024px">
     <thead>
         <tr>
-            <th>#</th>
+            <th width="50">#</th>
             <th>User</th>
             <th>Result Token</th>
             <th>Similarity</th>
@@ -12,8 +12,8 @@
     <tbody>
     @foreach($userVerifications as $userVerification)
         <tr>
-            <td>{{ ($userVerifications->currentPage() - 1) * $userVerifications->count() + $loop->iteration }}</td>
-            <td>{{ $userVerification->user->name }}</td>
+            <td>{{ ($userVerifications->currentPage() - 1) * $userVerifications->perPage() + $loop->iteration }}</td>
+            <td>{{ $userVerification->user->nama_lengkap }}</td>
             <td>{{ $userVerification->result_token }}</td>
             <td>{{ $userVerification->similarity }}</td>
             <td>{{ $userVerification->accuracy }}</td>

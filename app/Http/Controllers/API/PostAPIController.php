@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreatePostAPIRequest;
-use App\Http\Requests\API\UpdatePostAPIRequest;
 use App\Http\Resources\PostResource;
 use App\Http\Controllers\Controller;
 use App\Models\Post;

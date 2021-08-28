@@ -22,8 +22,8 @@
                 @include('admin.spendings.table')
             </div>
             <div class="card-footer">
-                <div class="d-flex justify-content-between align-items center">
-                    <span class="d-block my-auto text-secondary">Displaying {{ $spendings->count() }} of {{ $spendings->total() }} records</span>
+                <div class="d-flex justify-content-center align-items-center">
+                    <span class="d-none d-sm-block my-auto text-secondary mr-auto">Displaying {{ $spendings->count() }} of {{ $spendings->total() }} records</span>
                     {{ $spendings->links() }}
                 </div>
             </div>

@@ -23,14 +23,15 @@ class TestimonyFactory extends Factory
      */
     public function definition()
     {
-        $products = Product::pluck('id')->toArray();
-        $users = User::pluck('id')->toArray();
+        $productIds = Product::pluck('id')->toArray();
+        $userIds = User::pluck('id')->toArray();
+
         return [
-            'product_id' => $this->faker->randomElement($products),
-            'user_id' => $this->faker->randomElement($users),
-            'judul' => $this->faker->sentence(),
-            'isi' => $this->faker->text(250),
-            'review' => $this->faker->numberBetween(1, 5)
+            'judul'      => $this->faker->words(rand(3, 6), true),
+            'isi'        => $this->faker->text,
+            'review'     => $this->faker->numberBetween(1, 5),
+            'product_id' => $this->faker->randomElement($productIds),
+            'user_id'    => $this->faker->randomElement($userIds),
         ];
     }
 }

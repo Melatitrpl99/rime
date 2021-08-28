@@ -15,11 +15,19 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                => $this->id,
-            'name'              => $this->name,
-            'email'             => $this->email,
-            'email_verified_at' => $this->email_verified_at,
-            'created_at'        => $this->created_at,
+            'name'          => $this->name,
+            'email'         => $this->email,
+            'jenis_kelamin' => $this->user_jenis_kelamin,
+            'jk'            => $this->jenis_kelamin,
+            'tempat_lahir'  => $this->tempat_lahir,
+            'tgl_lahir'     => $this->tgl_lahir,
+            'no_hp'         => $this->no_hp,
+            'no_wa'         => $this->no_wa,
+            'created_at'    => $this->created_at,
+            'avatar'        => new FileResource($this->whenLoaded('avatar')),
+            'shipment'      => $this->defaultShipment,
+            // 'shipments'     => ShipmentResource::collection($this->whenLoaded('shipments')),
+            'roles'         => $this->getRoleNames(),
         ];
     }
 }

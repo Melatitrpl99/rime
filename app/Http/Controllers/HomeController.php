@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -26,7 +25,7 @@ class HomeController extends Controller
     public function home()
     {
         $totalUser = User::count();
-        $totalReseller = User::has('role')->count();
+        $totalReseller = User::role('reseller')->count();
         $totalProdukTerjual = Order::where('status_id', 5)
             ->withSum('products as total_produk', 'order_details.jumlah')
             ->get('total_produk')

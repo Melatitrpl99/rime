@@ -2,40 +2,47 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Post
+ * App\Models\Post
  *
- * @package App\Models
- * @version May 18, 2021, 2:17 am UTC
- * @property \App\Models\PostCategory $postCategory
- * @property \App\Models\User $user
+ * @property int $id
  * @property string $judul
  * @property string $konten
- * @property string $slug
- * @property foreignId $post_category_id
- * @property foreignId $user_id
- * @property int $id
+ * @property int $front_page
+ * @property string|null $slug
+ * @property int $post_category_id
+ * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $images
+ * @property-read int|null $images_count
+ * @property-read \App\Models\File|null $latestImage
+ * @property-read \App\Models\User $user
+ * @method static Builder|Post displayedOnFrontPage()
  * @method static \Database\Factories\PostFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
+ * @method static Builder|Post newModelQuery()
+ * @method static Builder|Post newQuery()
  * @method static \Illuminate\Database\Query\Builder|Post onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Post query()
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereJudul($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereKonten($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePostCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
+ * @method static Builder|Post query()
+ * @method static Builder|Post whereCreatedAt($value)
+ * @method static Builder|Post whereDeletedAt($value)
+ * @method static Builder|Post whereFrontPage($value)
+ * @method static Builder|Post whereId($value)
+ * @method static Builder|Post whereJudul($value)
+ * @method static Builder|Post whereKonten($value)
+ * @method static Builder|Post wherePostCategoryId($value)
+ * @method static Builder|Post whereSlug($value)
+ * @method static Builder|Post whereUpdatedAt($value)
+ * @method static Builder|Post whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|Post withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Post withoutTrashed()
  * @mixin \Eloquent
@@ -44,52 +51,41 @@ class Post extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'posts';
-
     public $fillable = [
         'judul',
         'konten',
-        'slug',
+        'front_page',
         'post_category_id',
-        'user_id'
+        'user_id',
+    ];
+
+    protected $hidden = [
+        'slug',
+        'front_page',
+        'deleted_at',
+        'user_id',
     ];
 
     /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
+     * Filter posts displayed on front page
      */
-    protected $casts = [
-        'judul' => 'string',
-        'slug' => 'string'
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'judul' => 'required',
-        'konten' => 'required',
-        'slug' => 'nullable',
-        'user_id' => 'required',
-        'post_category_id' => 'required'
-    ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function postCategory()
+    public function scopeDisplayedOnFrontPage(Builder $query): Builder
     {
-        return $this->belongsTo(PostCategory::class);
+        return $query->where('front_page', true);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
+    public function latestImage(): MorphOneOrMany
+    {
+        return $this->morphOne(File::class, 'fileable')->latestOfMany();
     }
 }

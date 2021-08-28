@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateSizeRequest;
+use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\UpdateSizeRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Size;
@@ -42,11 +42,11 @@ class SizeController extends Controller
     /**
      * Store a newly created Size in storage.
      *
-     * @param \App\Http\Requests\CreateSizeRequest $request
+     * @param \App\Http\Requests\StoreSizeRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreateSizeRequest $request)
+    public function store(StoreSizeRequest $request)
     {
         Size::create($request->validated());
 

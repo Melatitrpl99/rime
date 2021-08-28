@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePostCategoryRequest;
+use App\Http\Requests\StorePostCategoryRequest;
 use App\Http\Requests\UpdatePostCategoryRequest;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
@@ -42,11 +42,11 @@ class PostCategoryController extends Controller
     /**
      * Store a newly created PostCategory in storage.
      *
-     * @param \App\Http\Requests\CreatePostCategoryRequest $request
+     * @param \App\Http\Requests\StorePostCategoryRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function store(CreatePostCategoryRequest $request)
+    public function store(StorePostCategoryRequest $request)
     {
         PostCategory::create($request->validated());
 

@@ -1,6 +1,7 @@
-<table class="table table-hover table-borderless table-striped" id="posts-table">
+<table class="table table-hover table-borderless table-striped" id="posts-table" style="min-width: 1024px">
     <thead>
         <tr>
+            <th width="50">#</th>
             <th>Judul</th>
             <th>Konten</th>
             <th>Kategori</th>
@@ -11,11 +12,14 @@
     <tbody>
         @foreach($posts as $post)
             <tr>
+                <td>
+                    {{ $posts->perPage() * ($posts->currentPage() - 1) + $loop->iteration }}
+                </td>
                 <td>{{ $post->judul }}</td>
                 <td>{{ $post->konten }}</td>
                 <td>{{ $post->postCategory->name }}</td>
-                <td>{{ $post->user->name }}</td>
-                <td width="120">
+                <td>{{ $post->user->nama_lengkap }}</td>
+                <td>
                     {!! Form::open(['route' => ['admin.posts.destroy', $post], 'method' => 'DELETE']) !!}
                     <div class="btn-group">
                         <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-default btn-sm">

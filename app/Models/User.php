@@ -3,65 +3,71 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * Class User
+ * App\Models\User
  *
- * @package App\Models
- * @version March 2, 2021, 7:57 am UTC
  * @property int $id
- * @property string $name
  * @property string $email
+ * @property string|null $email_verified_at
  * @property string $password
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property int $role_id
- * @property string|null $jenis_kelamin
+ * @property string|null $nik
+ * @property string $nama_lengkap
+ * @property string|null $jk
  * @property string|null $tempat_lahir
- * @property string|null $tgl_lahir
+ * @property \Illuminate\Support\Carbon|null $tgl_lahir
  * @property string|null $alamat
  * @property string|null $no_hp
  * @property string|null $no_wa
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $deleted_at
  * @property-read \App\Models\File|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cart[] $carts
  * @property-read int|null $carts_count
+ * @property string $jenis_kelamin
  * @property-read \App\Models\UserVerification|null $latestUserVerification
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Activity[] $logs
- * @property-read int|null $logs_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @property-read int|null $posts_count
- * @property-read \App\Models\Role $role
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shipment[] $shipments
- * @property-read int|null $shipments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Testimony[] $testimonies
  * @property-read int|null $testimonies_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserVerification[] $userVerifications
+ * @property-read int|null $user_verifications_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAlamat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereJenisKelamin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereJk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNamaLengkap($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNik($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereNoHp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereNoWa($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTempatLahir($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTglLahir($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
@@ -69,21 +75,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasFactory;
+    use Notifiable, HasFactory, HasRoles;
 
-    public $table = 'users';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     public $fillable = [
-        'name',
         'email',
         'password',
-        'role_id',
-        'jenis_kelamin',
+        'nik',
+        'nama_lengkap',
+        'jk',
         'tempat_lahir',
         'tgl_lahir',
         'alamat',
@@ -91,146 +90,82 @@ class User extends Authenticatable implements JWTSubject
         'no_wa'
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'created_at'        => 'datetime',
-        'updated_at'        => 'datetime',
-        'deleted_at'        => 'datetime',
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'name'          => ['required'],
-        'email'         => ['required', 'email', 'unique:users'],
-        'password'      => ['required'],
-        'role_id'       => ['required'],
-        'jenis_kelamin' => ['nullable'],
-        'tempat_lahir'  => ['nullable'],
-        'tgl_lahir'     => ['nullable', 'date'],
-        'alamat'        => ['nullable'],
-        'no_hp'         => ['nullable', 'regex:/^(\+62|0)\w+/g'],
-        'no_wa'         => ['nullable', 'regex:/^(\+62|0)\w+/g']
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var string[]
-     */
     protected $hidden = [
+        'email_verified_at',
         'password',
-        'role_id',
         'remember_token',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
+    protected $casts = [
+        'tgl_lahir' => 'date',
+        'password'  => 'encrypted',
+    ];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
      */
-    public function getJWTIdentifier()
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
 
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return mixed
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function logs()
+    public function setJenisKelaminAttribute(string $value)
     {
-        return $this->morphMany(Activity::class, 'loggable');
+        if (strtolower(trim($value)) == 'laki-laki') {
+            $this->attributes['jk'] = 'l';
+        }
+
+        if (strtolower(trim($value)) == 'perempuan') {
+            $this->attributes['jk'] = 'p';
+        }
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function orders()
+    public function getJenisKelaminAttribute(): string
     {
-        return $this->hasMany(Order::class);
+        return $this->jk == 'l' ? 'Laki-laki' : 'Perempuan';
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function carts()
+    public function carts(): HasMany
     {
         return $this->hasMany(Cart::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function posts()
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function latestUserVerification()
-    {
-        return $this->hasOne(UserVerification::class)->latestOfMany();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function shipments()
-    {
-        return $this->hasMany(Shipment::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function testimonies()
+    public function testimonies(): HasMany
     {
         return $this->hasMany(Testimony::class);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasRole($role)
+    public function userVerifications(): HasMany
     {
-        return $this->role()->where('name', $role)->exists();
+        return $this->hasMany(UserVerification::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
-     */
-    public function avatar()
+    public function latestUserVerification(): HasOneOrMany
+    {
+        return $this->hasOne(UserVerification::class)->latestOfMany();
+    }
+
+    public function avatar(): MorphOne
     {
         return $this->morphOne(File::class, 'fileable');
     }
