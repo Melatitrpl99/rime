@@ -60,7 +60,7 @@ class CategoriesSeeder extends Seeder
             ['name' => 'anak-anak', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        Color::factory(10)->create();
+        Color::factory(15)->create();
         ProductCategory::factory(5)->create();
         PostCategory::factory(5)->create();
 

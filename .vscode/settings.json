@@ -40,5 +40,15 @@
             1
         ],
         "comment": 2
-    }
+    },
+    "intelephense.environment.includePaths": [
+        "./resources/views/**",
+        "_ide_helper.php"
+    ],
+    "intelephense.files.associations": [
+        "*.php",
+        "*.phtml",
+        "*.blade.php",
+    ],
+    "intelephense.trace.server": "messages"
 }

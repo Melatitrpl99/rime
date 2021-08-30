@@ -109,9 +109,9 @@
 <li class="nav-header text-xs">LAPORAN</li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.laba_rugi.index') }}" class="nav-link {{ Request::is('admin/laba_rugi*') ? 'active' : '' }}">
+    <a href="{{ route('admin.buku_besar.index') }}" class="nav-link {{ Request::is('admin/buku_besar*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-book"></i>
-        <p>Buku Kas</p>
+        <p>Buku Besar</p>
     </a>
 </li>
 
@@ -126,6 +126,13 @@
     <a href="{{ route('admin.reports.index') }}" class="nav-link {{ Request::is('admin/reports*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-archive"></i>
         <p>Arsip Laporan</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.report_categories.index') }}" class="nav-link {{ Request::is('admin/report_categories*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-bars"></i>
+        <p>Kategori Laporan</p>
     </a>
 </li>
 

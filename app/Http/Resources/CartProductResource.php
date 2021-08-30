@@ -18,8 +18,9 @@ class CartProductResource extends JsonResource
             'id'             => $this->id,
             'nama'           => $this->nama,
             'deskripsi'      => $this->deskripsi,
-            'harga_customer' => $this->harga_customer,
-            'harga_reseller' => $this->harga_reseller,
+            'harga'          => auth()->user()->hasRole('reseller')
+                ? $this->harga_reseller
+                : $this->harga_customer,
             'image'          => new FileResource($this->whenLoaded('image')),
             'pivot'          => $this->whenPivotLoaded('cart_details', function () {
                 return [

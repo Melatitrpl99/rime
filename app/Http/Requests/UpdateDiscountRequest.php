@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Discount;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UpdateDiscountRequest extends FormRequest
 {
@@ -24,12 +26,16 @@ class UpdateDiscountRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Request $request)
+    public function rules(Request $request, Discount $discount)
     {
         $discount = [
             'judul'           => ['required', 'string', 'max:255'],
             'deskripsi'       => ['nullable', 'string', 'max:65535'],
-            'kode'            => ['required', 'string', 'unique:discounts', 'max:16'],
+            'kode'            => [
+                'string',
+                Rule::unique('discounts')->ignore($discount),
+                'max:16'
+            ],
             'batas_pemakaian' => ['nullable', 'numeric'],
             'waktu_mulai'     => ['required', 'date'],
             'waktu_berakhir'  => ['nullable', 'date', 'after_or_equal:waktu_mulai'],
@@ -37,7 +43,7 @@ class UpdateDiscountRequest extends FormRequest
 
         $discountDetail = [
             'product_id'        => ['required', 'array'],
-            'product_id.*'      => ['required'],
+            'product_id.*'      => ['required', 'distinct'],
             'diskon_harga'      => ['required', 'array'],
             'diskon_harga.*'    => ['required', 'numeric'],
             'minimal_produk'    => ['required', 'array'],

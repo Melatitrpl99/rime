@@ -15,22 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
-/**
- * App\Models\Province.
- *
- * @property int $id
- * @property string $name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\District[] $districts
- * @property-read int|null $districts_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Regency[] $regencies
- * @property-read int|null $regencies_count
- * @method static \Illuminate\Database\Eloquent\Builder|Province newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Province newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Province query()
- * @method static \Illuminate\Database\Eloquent\Builder|Province whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Province whereName($value)
- * @mixin \Eloquent
- */
 class Province extends Model
 {
     use ProvinceTrait, HasRelationships;

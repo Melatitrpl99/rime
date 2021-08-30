@@ -16,14 +16,14 @@ class LabaRugiController extends Controller
      */
     public function index()
     {
-        $jumlahTransaksi = OrderTransaction::sum('total');
+        $pemasukan = OrderTransaction::sum('total');
         $pengeluaran = Spending::sum('total');
 
         $pengeluaran = Spending::all()->sum('total');
 
-        return view('laporan.labarugi')->with('pemasukan', $jumlahTransaksi)
+        return view('admin.reports.laba_rugi.index')
+            ->with('pemasukan', $pemasukan)
             ->with('pengeluaran', $pengeluaran);
-        //
     }
 
     /**

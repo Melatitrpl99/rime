@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderTransactionRequest;
 use App\Http\Requests\UpdateOrderTransactionRequest;
 use App\Models\OrderTransaction;
+use Faker\Factory;
 use Illuminate\Http\Request;
 
 /**
@@ -21,7 +22,7 @@ class OrderTransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $orderTransactions = OrderTransaction::with('order')->paginate(15);
+        $orderTransactions = OrderTransaction::with(['order.user'])->paginate(15);
 
         return view('admin.order_transactions.index')
             ->with('orderTransactions', $orderTransactions);
@@ -46,13 +47,12 @@ class OrderTransactionController extends Controller
      */
     public function store(StoreOrderTransactionRequest $request)
     {
-        $faker = \Faker\Factory::create();
-        $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
+        $faker = Factory::create();
+        $nomor = $faker->regexify('T[0-9]{2}-[A-Z0-9]{6}');
         $input = collect($request->validated())
-            ->put('nomor', $nomor)
-            ->toArray();
+            ->put('nomor', $nomor);
 
-        OrderTransaction::create($input);
+        OrderTransaction::create($input->toArray());
 
         flash('Order Transaction saved successfully.', 'success');
 

@@ -26,7 +26,7 @@ class StoreOrderTransactionRequest extends FormRequest
         return [
             'total'         => ['required', 'numeric'],
             'tanggal_masuk' => ['required', 'date'],
-            'order_id'      => ['required'],
+            'order_id'      => ['required', 'unique:order_transactions'],
         ];
     }
 }

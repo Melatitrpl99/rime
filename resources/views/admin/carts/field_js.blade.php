@@ -1,6 +1,9 @@
 @push('scripts')
     <script>
-        var role = "";
+        var role = null;
+        var onUpdate = null;
+        var rowCount = 0;
+        var selectedRow = null;
 
         function priceCustomer(productId) {
             return {!! $priceCustomer !!}[productId];
@@ -18,12 +21,54 @@
             return {!! $userRoles !!}[userId];
         }
 
+        $(document).ready(function() {
+            let userId = $('#user_id').find(':selected').val();
+            role = userRoles(userId);
+
+            let form = document.querySelector('#form-body-recursive');
+            rowCount = form.children.length;
+        });
+
         function addRow(product, color, size, jumlah, subTotal) {
-            return `<tr>
-                        <td class="py-0.5"><input class="form-control" name="row_product" type="checkbox" value="1"></td>
+            if (onUpdate) {
+                return `<td class="py-0.5" style="z-index: 3; position: relative;">
+                            <input class="form-control" name="row_product" type="checkbox" value="1">
+                        </td>
                         <td>
                             <input name="product_id[]" type="hidden" value="${product.id}">
-                            <span>${product.name}</span>
+                            <a href="javascript:void(0)" class="stretched-link text-decoration-none text-reset" onclick="updateDetail(this)">${product.name}</a>
+                            <i class="fas fa-pencil-alt fa-xs ml-1 text-info"></i>
+                        </td>
+                        <td>
+                            <input name="color_id[]" type="hidden" value="${color.id}">
+                            <span>${color.name}</span>
+                        </td>
+                        <td>
+                            <input name="size_id[]" type="hidden" value="${size.id}">
+                            <span>${size.name}</span>
+                        </td>
+                        <td class="text-right">
+                            <input name="harga" type="hidden" value="${product.harga}">
+                            <span>${convertNumber(product.harga)}</span>
+                        </td>
+                        <td class="text-right">
+                            <input name="jumlah[]" type="hidden" value="${jumlah}">
+                            <span>${jumlah}</span>
+                        </td>
+                        <td class="text-right">
+                            <input name="sub_total[]" type="hidden" value="${subTotal}">
+                            <span>${convertNumber(subTotal)}</span>
+                        </td>`;
+            }
+            rowCount++;
+            return `<tr style="transform: rotate(0)" id="row-${rowCount}">
+                        <td class="py-0.5" style="z-index: 3; position: relative;">
+                            <input class="form-control" name="row_product" type="checkbox" value="1">
+                        </td>
+                        <td>
+                            <input name="product_id[]" type="hidden" value="${product.id}">
+                            <a href="javascript:void(0)" class="stretched-link text-decoration-none text-reset" onclick="updateDetail(this)">${product.name}</a>
+                            <i class="fas fa-pencil-alt fa-xs ml-1 text-info"></i>
                         </td>
                         <td>
                             <input name="color_id[]" type="hidden" value="${color.id}">
@@ -72,7 +117,15 @@
 
                 const subTotal = product.harga * jumlah;
 
-                $('#form-body-recursive').append(addRow(product, color, size, jumlah, subTotal));
+                if (onUpdate) {
+                    $('#form-body-recursive tr#' + onUpdate).html(null);
+                    $('#form-body-recursive tr#' + onUpdate).html(addRow(product, color, size, jumlah, subTotal));
+                    onUpdate = null;
+                } else {
+                    $('#form-body-recursive').append(addRow(product, color, size, jumlah, subTotal));
+                }
+
+                $('#add_row').html('<i class="fas fa-plus mr-sm-1"></i><span class="d-none d-sm-inline">Tambah Data</span>');
 
                 updateTotal();
             }
@@ -82,6 +135,14 @@
             var checkbox = $('input:checked[name=row_product]');
             var parent = checkbox.parent().parent();
             parent.remove();
+
+            let form = document.querySelector('#form-body-recursive');
+            rowCount = form.children.length;
+            let row = 1;
+            for (let tr of form.children) {
+                tr.id = row;
+                row++;
+            }
 
             updateTotal();
         });
@@ -94,21 +155,7 @@
             var rows = forms.getElementsByTagName('tr');
 
             for (let element of rows) {
-                let productId = element.children[1].children[0].value;
-
-                let harga = element.children[4];
-                harga.children[0].value = role == "reseller" ? priceReseller(productId) : priceCustomer(productId);
-                harga.children[1].innerHTML = convertNumber(harga.children[0].value);
-
-                let jumlah = element.children[5];
-                if (role == "reseller" && parseInt(jumlah.children[0].value) < minimumReseller(productId)) {
-                    jumlah.children[0].value = minimumReseller(productId);
-                    jumlah.children[1].innerHTML = minimumReseller(productId);
-                }
-
-                let subTotal = element.lastElementChild;
-                subTotal.children[0].value = parseInt(harga.children[0].value) * parseInt(jumlah.children[0].value);
-                subTotal.children[1].innerHTML = convertNumber(subTotal.children[0].value);
+                updateUserRoleProductDetails(element);
             }
 
             updateTotal();
@@ -137,8 +184,6 @@
                                     'text': `${value}`
                                 });
                             }
-
-                            console.log(output);
 
                             return output;
                         }
@@ -175,8 +220,6 @@
                                     'text': `${value}`
                                 });
                             }
-
-                            console.log(output);
 
                             return output;
                         }
@@ -223,6 +266,71 @@
             });
         });
 
+        function updateUserRoleProductDetails(element) {
+            let produk = element.children[1].children[0];
+            let productId = parseInt(produk.value);
+            let colorId = parseInt(element.children[2].children[0].value);
+            let sizeId = parseInt(element.children[3].children[0].value);
+            let harga = element.children[4].children[0];
+            let jumlah = element.children[5].children[0];
+            let subTotal = element.lastElementChild.children[0];
+
+            harga.value = role == "reseller" ?
+                priceReseller(parseInt(produk.value)) :
+                priceCustomer(parseInt(produk.value));
+
+            updateJumlah(parseInt(produk.value), colorId, sizeId, jumlah);
+
+            subTotal.value = parseInt(harga.value) * parseInt(jumlah.value);
+
+            harga.nextElementSibling.innerHTML = convertNumber(harga.value);
+            jumlah.nextElementSibling.innerHTML = jumlah.value;
+            subTotal.nextElementSibling.innerHTML = convertNumber(subTotal.value);
+        }
+
+        function updateDetail(element) {
+            let productTd = element.parentElement;
+            let tr = productTd.parentElement;
+            let form = tr.parentElement;
+
+            if (selectedRow) {
+                row = form.querySelector('#' + selectedRow);
+                let cols = [].slice.call(row.children, 1);
+                for (let col of cols) {
+                    col.children[1].classList.remove('font-weight-bold');
+                }
+            }
+
+            onUpdate = tr.id;
+
+            productTd.children[1].classList.add('font-weight-bold');
+            $('#products').val(productTd.children[0].value);
+            $('#products').trigger('change');
+            $('#products').trigger('select2:select');
+
+            let colorTd = productTd.nextElementSibling;
+            colorTd.children[1].classList.add('font-weight-bold');
+            $('#colors').val(colorTd.children[0].value);
+            $('#colors').trigger('change');
+            $('#colors').trigger('select2:select');
+
+            let sizeTd = colorTd.nextElementSibling;
+            sizeTd.children[1].classList.add('font-weight-bold');
+            sizeTd.nextElementSibling.children[1].classList.add('font-weight-bold');
+            $('#sizes').val(sizeTd.children[0].value);
+            $('#sizes').trigger('change');
+            $('#sizes').trigger('select2:select');
+
+            let jumlahTd = sizeTd.nextElementSibling.nextElementSibling;
+            jumlahTd.children[1].classList.add('font-weight-bold');
+            jumlahTd.nextElementSibling.children[1].classList.add('font-weight-bold');
+            $('#jmlh').val(jumlahTd.children[0].value);
+
+            selectedRow = tr.id;
+
+            $('#add_row').html('<i class="fas fa-save mr-sm-1"></i><span class="d-none d-sm-inline">Simpan Perubahan</span>');
+        }
+
         function updateTotal() {
             let form = document.getElementById('form-body-recursive');
             let trs = form.children;
@@ -240,13 +348,6 @@
 
             let calc = document.getElementById('calc');
             calc.innerHTML = convertNumber(total.value);
-        }
-
-        function convertNumber(value) {
-            return Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR'
-            }).format(value);
         }
     </script>
 

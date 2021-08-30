@@ -60,19 +60,8 @@ class CartAPIController extends Controller
     public function store(StoreCartAPIRequest $request)
     {
         $user = auth()->user();
-        $faker = Factory::create();
-        $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
-
-        while (Cart::where('nomor', $nomor)->exists()) {
-            $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
-        }
-
         $input = collect($request->validated())
-            ->put('nomor', $nomor)
             ->put('user_id', $user->id);
-
-        $products = Product::whereIn('id', $request->product_id)->get();
-        $hasRole = $user->hasRole('reseller');
 
         $pivot = [];
         $total = 0;
@@ -80,6 +69,9 @@ class CartAPIController extends Controller
         $colorId = array_values($request->only('color_id'))[0];
         $sizeId = array_values($request->only('size_id'))[0];
         $jumlah = array_values($request->only('jumlah'))[0];
+
+        $products = Product::whereIn('id', $productId)->get();
+        $hasRole = $user->hasRole('reseller');
 
         foreach ($productId as $key => $id) {
             $product = $products->find($id);
@@ -144,58 +136,56 @@ class CartAPIController extends Controller
      */
     public function update(Cart $cart, UpdateCartAPIRequest $request)
     {
-        $collect = collect($request->only(['product_id', 'color_id', 'size_id', 'jumlah']));
-        dd($collect);
-
-        $old = $cart->load(['products:id,nama,harga_customer,harga_reseller'])
-            ->replicate();
-
-        $sync = $old->products->mapWithKeys(function ($item, $key) {
-            return [$item->pivot->product_id => $item->pivot];
-        })->toArray();
-
-        dd($sync);
-
-        $cart->update($request->validated());
+        $user = auth()->user();
+        $input = collect($request->validated())
+            ->put('user_id', $user->id);
 
         if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {
-            $cart->products()->detach();
+
             $products = Product::whereIn('id', $request->product_id)->get();
-            $role = auth()->user()->hasRole('reseller');
+            $hasRole = $user->hasRole('reseller');
+
+            $pivot = [];
             $total = 0;
+            $productId = array_values($request->only('product_id'))[0];
+            $colorId = array_values($request->only('color_id'))[0];
+            $sizeId = array_values($request->only('size_id'))[0];
+            $jumlah = array_values($request->only('jumlah'))[0];
 
-            foreach ($request->product_id as $key => $productId) {
-                $jumlah = $request->jumlah[$key];
-                $product = $products->find($productId);
-                $subTotal = $role
-                    ? $product->harga_reseller * $jumlah
-                    : $product->harga_customer * $jumlah;
+            foreach ($productId as $key => $id) {
+                $product = $products->find($id);
 
-                $total += $subTotal;
-
-                $cart->total = $total;
-                $cart->save();
-
-                if ($role && $jumlah < $product->reseller_minimum) {
-                    $cart->products()->detach();
-                    $cart->update($old->toArray());
-                    foreach ($sync as $key => $item) {
-                        $cart->products()->attach($item['product_id'], $item);
-                    }
-
-                    return response()->unprocessed('Jumlah minimum pembelian untuk reseller kurang');
+                if ($hasRole) {
+                    $validator = Validator::make([
+                        'jumlah' => $jumlah[$key],
+                    ], [
+                        'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
+                    ], $messages = [
+                        'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
+                    ])->validate();
                 }
 
-                $cart->products()->attach($productId, [
-                    'color_id'     => $request->color_id[$key],
-                    'size_id'      => $request->size_id[$key],
-                    'jumlah'       => $jumlah,
-                    'sub_total'    => $subTotal,
-                ]);
+                $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+                $subTotal = $harga * $jumlah[$key];
+                $total = $total + $subTotal;
+
+                $pivot[$id] = [
+                    'color_id' => $colorId[$key],
+                    'size_id' => $sizeId[$key],
+                    'jumlah' => $jumlah[$key],
+                    'sub_total' => $subTotal,
+                ];
             }
+
+            $input->put('total', $total);
+            $cart->products()->sync($pivot);
         }
 
-        return response()->json(new CartResource($cart), 200);
+        $cart->update($input->toArray());
+
+        $cart->loadSum('products as jumlah', 'cart_details.jumlah');
+
+        return response()->success(new CartResource($cart));
     }
 
     /**
@@ -209,12 +199,12 @@ class CartAPIController extends Controller
     public function destroy(Cart $cart)
     {
         if ($cart->user_id != auth()->id()) {
-            return response()->json(['message' => 'Not allowed'], 403);
+            return response()->unauthorized();
         }
 
         $cart->products()->detach();
         $cart->delete();
 
-        return response()->json(null, 204);
+        return response()->success(null, 200, 'Keranjang berhasil dihapus');
     }
 }

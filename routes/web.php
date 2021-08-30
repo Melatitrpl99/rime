@@ -12,6 +12,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\Laporan\BukuBesarController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Misc\CekDiskonController;
 use App\Http\Controllers\Misc\FilepondController;
@@ -19,11 +20,15 @@ use App\Http\Controllers\Misc\GetUserRelationController;
 use App\Http\Controllers\Misc\RegionController;
 use App\Http\Controllers\Misc\StokProdukController;
 use App\Http\Controllers\OrderTransactionController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\ReportCategoryController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SpendingCategoryController;
 use App\Http\Controllers\SpendingController;
+use App\Http\Controllers\SpendingUnitController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\UserController;
@@ -78,8 +83,9 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
     });
 
     Route::get('get_carts', [GetUserRelationController::class, 'getCarts'])->name('get_carts');
-    Route::get('get_order', [GetUserRelationController::class, 'getOrders'])->name('get_orders');
     Route::get('get_cart_details', [GetUserRelationController::class, 'getCartDetails'])->name('get_cart_details');
+    Route::get('get_orders', [GetUserRelationController::class, 'getOrders'])->name('get_orders');
+    Route::get('get_order_details', [GetUserRelationController::class, 'getOrderDetails'])->name('get_order_details');
     Route::get('get_shipping_addresses', [GetUserRelationController::class, 'getShippingAddresses'])->name('get_shipping_addresses');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -207,40 +213,38 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
             ->parameters(['laba_rugi' => 'laba_rugis'])
             ->names('laba_rugi');
 
+        Route::resource('buku_besar', BukuBesarController::class)
+            ->parameters(['buku_besar' => 'besar'])
+            ->names('buku_besar');
+
         Route::resource('user_verifications', UserVerificationController::class)
             ->missing(function () {
                 flash('User Verification not found', 'danger');
                 return redirect()->route('admin.user_verifications.index');
             });
+
+        Route::resource('spending_categories', SpendingCategoryController::class)
+            ->missing(function () {
+                flash('Spending Category not found', 'danger');
+                return redirect()->route('admin.spending_categories.index');
+            });
+
+        Route::resource('spending_units', SpendingUnitController::class)
+            ->missing(function () {
+                flash('Spending Unit not found', 'danger');
+                return redirect()->route('admin.spending_units.index');
+            });
+
+        Route::resource('payment_methods', PaymentMethodController::class)
+            ->missing(function () {
+                flash('Payment Method not found', 'danger');
+                return redirect()->route('admin.payment_methods.index');
+            });
+
+        Route::resource('report_categories', ReportCategoryController::class)
+            ->missing(function () {
+                flash('Report Category not found', 'danger');
+                return redirect()->route('admin.report_categories.index');
+            });
     });
-});
-
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('spending_categories', App\Http\Controllers\SpendingCategoryController::class)
-        ->missing(function () {
-            flash('Spending Category not found', 'danger');
-
-            return redirect()->route('admin.spending_categories.index');
-        });
-});
-
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('spending_units', App\Http\Controllers\SpendingUnitController::class)
-        ->missing(function () {
-            flash('Spending Unit not found', 'danger');
-
-            return redirect()->route('admin.spending_units.index');
-        });
-});
-
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('payment_methods', App\Http\Controllers\PaymentMethodController::class)
-        ->missing(function () {
-            flash('Payment Method not found', 'danger');
-
-            return redirect()->route('admin.payment_methods.index');
-        });
 });

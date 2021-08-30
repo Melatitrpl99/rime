@@ -15,5 +15,13 @@
         padding-top: 0.125rem !important;
         padding-bottom: 0.125rem !important;
     }
+
+    a:hover + i, a + i:hover {
+        visibility: visible;
+    }
+
+    a + i {
+        visibility: hidden;
+    }
 </style>
 @stack('css')

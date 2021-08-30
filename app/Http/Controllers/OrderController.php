@@ -30,8 +30,9 @@ class OrderController extends Controller
             'status:id,name',
             'user:id,nama_lengkap',
         ])
+            ->doesntHave('orderTransactions')
             ->orderByDesc('id')
-            ->paginate(15);
+            ->paginate($request->get('per_page') ?? 15);
 
         return view('admin.orders.index')
             ->with('orders', $orders);
@@ -106,7 +107,7 @@ class OrderController extends Controller
             )->validate();
 
             $discountPivot = $discount
-                ? optional($discount->products->find($productId))->pivot
+                ? optional($discount->products->find($id))->pivot
                 : null;
 
             $diskon = $discountPivot
@@ -119,6 +120,8 @@ class OrderController extends Controller
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 
+            $productStock->update(['stok_ready' => $productStock->stok_ready - $jumlah[$key]]);
+
             $pivot[$id] = [
                 'color_id' => $colorId[$key],
                 'size_id' => $sizeId[$key],
@@ -130,7 +133,6 @@ class OrderController extends Controller
 
         $input->put('total', $total);
         $order = Order::create($input->toArray());
-
         $order->products()->sync($pivot);
 
         flash('Order saved successfully.', 'success');
@@ -180,6 +182,7 @@ class OrderController extends Controller
      */
     public function update(Order $order, UpdateOrderRequest $request)
     {
+        $order->load('products');
         $input = collect($request->validated());
 
         $products = Product::whereIn('id', $request->product_id)->get();
@@ -198,6 +201,15 @@ class OrderController extends Controller
         $colorId = array_values($request->only('color_id'))[0];
         $sizeId = array_values($request->only('size_id'))[0];
         $jumlah = array_values($request->only('jumlah'))[0];
+
+        $order->products->each(function ($product) {
+            $productStock = $product->productStocks()->where([
+                ['color_id', '=', $product->pivot->color_id],
+                ['size_id', '=', $product->pivot->size_id],
+            ])->first();
+
+            $productStock->update(['stok_ready' => $productStock->stok_ready + $product->pivot->jumlah]);
+        });
 
         foreach ($productId as $key => $id) {
             $product = $products->find($id);
@@ -222,7 +234,7 @@ class OrderController extends Controller
             )->validate();
 
             $discountPivot = $discount
-                ? optional($discount->products->find($productId))->pivot
+                ? optional($discount->products->find($id))->pivot
                 : null;
 
             $diskon = $discountPivot
@@ -234,6 +246,9 @@ class OrderController extends Controller
             $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
+
+            // dd($order->products->find($id)->pivot->jumlah);
+            $productStock->update(['stok_ready' => $productStock->stok_ready - $jumlah[$key]]);
 
             $pivot[$id] = [
                 'color_id' => $colorId[$key],

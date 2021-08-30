@@ -15,11 +15,12 @@ class OrderProductResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                  => $this->id,
-            'nama'                => $this->nama,
-            'deskripsi'           => $this->deskripsi,
-            'harga_customer'      => $this->harga_customer,
-            'harga_reseller'      => $this->harga_reseller,
+            'id'        => $this->id,
+            'nama'      => $this->nama,
+            'deskripsi' => $this->deskripsi,
+            'harga'     => auth()->user()->hasRole('reseller')
+                ? $this->harga_reseller
+                : $this->harga_customer,
             'reseller_minimum'    => $this->reseller_minimum,
             'suka'                => $this->suka,
             'product_category_id' => $this->product_category_id,

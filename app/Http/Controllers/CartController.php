@@ -25,8 +25,11 @@ class CartController extends Controller
      */
     public function index(Request $request)
     {
-        $carts = Cart::orderByDesc('updated_at')->with('user')
+        $carts = Cart::orderByDesc('updated_at')
+            ->with('user')
             ->paginate(15);
+
+        // dd($carts);
 
         return view('admin.carts.index')
             ->with('carts', $carts);
@@ -51,15 +54,7 @@ class CartController extends Controller
      */
     public function store(StoreCartRequest $request)
     {
-        $faker = Factory::create();
-        $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
-
-        while (Cart::where('nomor', $nomor)->exists()) {
-            $nomor = $faker->regexify('C[0-9]{2}-[A-Z0-9]{6}');
-        }
-
-        $input = collect($request->validated())
-            ->put('nomor', $nomor);
+        $input = collect($request->validated());
 
         $pivot = [];
         $total = 0;

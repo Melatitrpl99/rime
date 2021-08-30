@@ -106,7 +106,7 @@
 </div>
 
 <div class="mt-4 col-12 table-responsive">
-    <table class="table table-borderless" style="min-width: 1024px">
+    <table class="table table-borderless table-hover" style="min-width: 1024px">
         <thead>
             <tr class="border-bottom">
                 <th width="40">#</th>
@@ -121,11 +121,12 @@
         <tbody id="form-body-recursive">
             @if (Route::currentRouteName() == 'admin.orders.edit')
                 @foreach ($order->products as $product)
-                    <tr>
-                        <td class="py-0.5">{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                    <tr style="transform: rotate(0)" id="row-{{ $loop->iteration }}">
+                        <td class="py-0.5" style="z-index: 3; position: relative;">{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
                         <td>
                             {!! Form::hidden('product_id[]', $product->id) !!}
-                            <span>{{ $product->nama }}</span>
+                            <a href="javascript:void(0)" class="stretched-link text-decoration-none text-reset" onclick="updateDetail(this)">{{ $product->nama }}</a>
+                            <i class="fas fa-pencil-alt fa-xs ml-1 text-info"></i>
                         </td>
                         <td>
                             {!! Form::hidden('color_id[]', $product->pivot->color_id) !!}

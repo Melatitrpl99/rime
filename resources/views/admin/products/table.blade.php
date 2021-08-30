@@ -5,7 +5,7 @@
             <th>Nama</th>
             <th width="150" class="text-right">Harga Customer</th>
             <th width="150" class="text-right">Harga Reseller</th>
-            <th width="100" class="text-center">Stok ready</th>
+            <th width="150" class="text-center">Stok ready</th>
             <th>Kategori</th>
             <th width="120" class="text-center">Action</th>
         </tr>

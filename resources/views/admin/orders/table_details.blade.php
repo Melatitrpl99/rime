@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         @foreach ($order->products as $product)
-            <tr>
+            <tr style="transform: rotate(0)">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $product->nama }} + warna {{ $product->pivot->color->name }} + ukuran {{ $product->pivot->size->name }}</td>
                 <td class="text-right">

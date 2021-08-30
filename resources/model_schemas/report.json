@@ -25,7 +25,7 @@
     },
     {
         "name": "deskripsi",
-        "dbType": "longtext:nullable",
+        "dbType": "longText:nullable",
         "htmlType": "textarea",
         "validations": "nullable",
         "searchable": true,
@@ -61,7 +61,7 @@
     },
     {
         "name": "user_id",
-        "dbType": "unsignedBigInteger:foreign,users,id",
+        "dbType": "foreignId:constrained",
         "htmlType": "selectTable:users:name,id",
         "validations": "required",
         "searchable": false,

@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthAPIController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
-
     public function login()
     {
         $credentials = request(['email', 'password']);
@@ -34,12 +29,9 @@ class AuthAPIController extends Controller
     public function register(RegisterRequest $request)
     {
         $register = $request->validated();
-
-        dd($register);
+        $register['password'] = Hash::make($register['password']);
 
         $login = $request->safe()->only(['email', 'password']);
-
-        $register['password'] = Hash::make($register['password']);
 
         $user = User::create($register);
         $user->assignRole('customer');

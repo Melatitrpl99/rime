@@ -39,4 +39,5 @@
             </div>
         </div>
     </section>
+    @include('admin.order_transactions.show_orders')
 @endsection

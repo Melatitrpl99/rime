@@ -19,15 +19,16 @@ class ProductsSeeder extends Seeder
     public function run()
     {
         Product::factory()
-            ->count(rand(5, 20))
+            ->count(rand(5, 25))
             ->hasImages(5)
             ->create();
 
         try {
             ProductStock::factory()
-                ->count(Product::count() * rand(5, 10))
+                ->count(Product::count() * rand(7, 20))
                 ->create();
         } catch (Exception $e) {
+            //
         }
     }
 }

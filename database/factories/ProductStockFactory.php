@@ -8,6 +8,7 @@ use App\Models\ProductStock;
 use App\Models\Size;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\QueryException;
 
 class ProductStockFactory extends Factory
 {
@@ -29,14 +30,18 @@ class ProductStockFactory extends Factory
         $colorId = $this->faker->randomElement(Color::pluck('id')->toArray());
         $sizeId = $this->faker->randomElement(Size::pluck('id')->toArray());
 
-        $exists = ProductStock::where([
-            ['product_id', '=', $productId],
-            ['color_id', '=', $colorId],
-            ['size_id', '=', $sizeId],
-        ])->exists();
+        $exists = true;
 
-        if ($exists) {
-            throw new Exception('duplicate value');
+        while ($exists) {
+            $exists = ProductStock::where([
+                ['product_id', '=', $productId],
+                ['color_id', '=', $colorId],
+                ['size_id', '=', $sizeId],
+            ])->exists();
+        }
+
+        if ($exists == true) {
+            throw new Exception();
         }
 
         return [

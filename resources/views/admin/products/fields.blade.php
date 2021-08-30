@@ -69,7 +69,7 @@
 </div>
 
 <div class="col-12 mt-4 table-responsive">
-    <table class="table table-borderless" style="min-width: 540px">
+    <table class="table table-borderless table-hover" style="min-width: 540px">
         <thead>
             <tr class="border-bottom">
                 <th width="40">#</th>
@@ -81,18 +81,19 @@
         <tbody id="form-body-recursive">
             @if (Route::currentRouteName() == 'admin.products.edit')
                 @foreach ($product->productStocks as $productStock)
-                    <tr>
-                        <td class="py-0.5">{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
+                    <tr style="transform: rotate(0)" id="row-{{ $loop->iteration }}">
+                        <td class="py-0.5" style="z-index: 3; position: relative;">{!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}</td>
                         <td>
                             {!! Form::hidden('color_id[]', $productStock->color_id) !!}
-                            <span>{{ $productStock->color->name }}</span>
+                            <a href="javascript:void(0)" class="stretched-link text-decoration-none text-reset" onclick="updateDetail(this)">{{ $productStock->color->name }}</a>
+                            <i class="fas fa-pencil-alt fa-xs ml-1 text-info"></i>
                         </td>
                         <td>
                             {!! Form::hidden('size_id[]', $productStock->size_id) !!}
                             <span>{{ $productStock->size->name }}</span>
                         </td>
                         <td class="text-right">
-                            {!! Form::hidden('jumlah[]', $productStock->stok_ready) !!}
+                            {!! Form::hidden('stok_ready[]', $productStock->stok_ready) !!}
                             <span>{{ $productStock->stok_ready }}</span>
                         </td>
                     </tr>

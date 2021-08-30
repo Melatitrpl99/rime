@@ -15,7 +15,6 @@
                         <i class="fas fa-angle-double-left mr-sm-1"></i>
                         <span class="d-none d-sm-inline">Kembali</span>
                     </a>
-                    </div>
                 </div>
             </div>
         </div>

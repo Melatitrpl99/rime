@@ -45,10 +45,10 @@
                         @enderror
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        {{-- <div class="icheck-primary">
+                        <div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">Ingat saya</label>
-                        </div> --}}
+                        </div>
                         <button type="submit" class="btn btn-primary" style="width: 35%">
                             <i class="fas fa-sign-in-alt mr-2"></i>Login
                         </button>

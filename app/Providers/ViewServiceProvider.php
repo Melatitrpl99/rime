@@ -33,16 +33,28 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer('admin.reports.fields', function ($view) {
+            $userItems = User::pluck('name','id')->toArray();
+
+            $view->with('userItems', $userItems);
+        });
         // predefined here already //
         view()->composer('admin.user_verifications.fields', function ($view) {
-            $userItems = User::pluck('name', 'id')->toArray();
+            $userItems = User::pluck('nama_lengkap', 'id')->toArray();
+
+            $view->with('userItems', $userItems);
+        });
+
+        view()->composer('admin.order_transactions.fields', function ($view) {
+            //
+            $userItems = User::pluck('nama_lengkap', 'id')->toArray();
 
             $view->with('userItems', $userItems);
         });
 
         view()->composer('admin.testimonies.fields', function ($view) {
             $productItems = Product::pluck('nama', 'id')->toArray();
-            $userItems = User::pluck('name', 'id')->toArray();
+            $userItems = User::pluck('nama_lengkap', 'id')->toArray();
 
             $view->with('userItems', $userItems)
                 ->with('productItems', $productItems);

@@ -27,7 +27,7 @@
                         <div class="card-footer">
                             <div class="d-flex justify-content-center align-items-center">
                                 <span class="d-none d-sm-block my-auto text-secondary mr-auto">Displaying {{ $orders->count() }} of {{ $orders->total() }} records</span>
-                                {{ $orders->links() }}
+                                {{ $orders->withQueryString()->links() }}
                             </div>
                         </div>
                     </div>
