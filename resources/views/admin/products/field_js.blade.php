@@ -1,4 +1,4 @@
-@include('layouts.plugins.filepond')
+@include('layouts.plugins.filepond', ['multiple' => true])
 
 @include('layouts.plugins.select2')
 
