@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\File;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Seeder;
@@ -65,5 +66,9 @@ class UsersSeeder extends Seeder
         $admin->assignRole('admin');
         $reseller->assignRole('reseller');
         $customer->assignRole('customer');
+
+        File::factory()->for($admin, 'fileable')->create();
+        File::factory()->for($reseller, 'fileable')->create();
+        File::factory()->for($customer, 'fileable')->create();
     }
 }

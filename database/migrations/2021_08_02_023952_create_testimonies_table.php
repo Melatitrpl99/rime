@@ -20,9 +20,11 @@ class CreateTestimoniesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('judul')->nullable();
             $table->text('isi')->nullable();
-            $table->unsignedTinyInteger('review');
+            $table->unsignedTinyInteger('rating');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['product_id', 'user_id']);
         });
     }
 

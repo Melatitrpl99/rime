@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Testimony;
+use Exception;
 use Illuminate\Database\Seeder;
 
 class TestimoniesSeeder extends Seeder
@@ -14,8 +15,12 @@ class TestimoniesSeeder extends Seeder
      */
     public function run()
     {
-        Testimony::factory()
-            ->count(rand(10, 250))
-            ->create();
+        try {
+            Testimony::factory()
+                ->count(rand(10, 250))
+                ->create();
+        } catch (Exception $e) {
+            //
+        }
     }
 }

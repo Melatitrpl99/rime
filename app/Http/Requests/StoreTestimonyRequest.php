@@ -26,7 +26,7 @@ class StoreTestimonyRequest extends FormRequest
         return [
             'judul'      => ['nullable', 'string', 'max:255'],
             'isi'        => ['nullable', 'string', 'max:65535'],
-            'review'     => ['required', 'numeric'],
+            'rating'     => ['required', 'numeric'],
             'user_id'    => ['required'],
             'product_id' => ['required'],
         ];

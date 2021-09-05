@@ -248,3 +248,13 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
             });
     });
 });
+
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('delivery_costs', App\Http\Controllers\DeliveryCostController::class)
+        ->missing(function () {
+            flash('Delivery Cost not found', 'danger');
+
+            return redirect()->route('admin.delivery_costs.index');
+        });
+});

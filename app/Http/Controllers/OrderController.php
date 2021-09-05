@@ -116,7 +116,7 @@ class OrderController extends Controller
                 ? $discountPivot->diskon_harga
                 : null;
 
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_customer;
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 
@@ -243,7 +243,7 @@ class OrderController extends Controller
                 ? $discountPivot->diskon_harga
                 : null;
 
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_customer;
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 

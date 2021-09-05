@@ -14,7 +14,7 @@ class Testimony extends Model
     public $fillable = [
         'judul',
         'isi',
-        'review',
+        'rating',
         'product_id',
         'user_id',
     ];

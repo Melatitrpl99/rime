@@ -24,11 +24,12 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'judul'            => ['required', 'string', 'max:255'],
-            'konten'           => ['required', 'string', 'max:4294967295'],
+            'judul'            => ['sometimes', 'required', 'string', 'max:255'],
+            'konten'           => ['sometimes', 'required', 'string', 'max:4294967295'],
             'slug'             => ['nullable', 'string', 'max:255'],
-            'post_category_id' => ['required'],
-            'user_id'          => ['required'],
+            'front_page'       => ['sometimes', 'required'],
+            'post_category_id' => ['sometimes', 'required'],
+            'user_id'          => ['sometimes', 'required'],
         ];
     }
 }

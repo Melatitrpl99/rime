@@ -30,14 +30,14 @@ class UpdateCartAPIRequest extends FormRequest
         ];
 
         $cartDetail = [
-            'product_id'   => ['sometimes', 'required_with:color_id,size_id,jumlah', 'array'],
+            'product_id'   => ['required', 'array'],
             'product_id.*' => ['required'],
-            'color_id'     => ['sometimes', 'required', 'array'],
+            'color_id'     => ['required', 'array'],
             'color_id.*'   => ['required'],
-            'size_id'      => ['sometimes', 'required', 'array'],
+            'size_id'      => ['required', 'array'],
             'size_id.*'    => ['required'],
-            'jumlah'       => ['sometimes', 'required', 'array'],
-            'jumlah.*'     => ['required'],
+            'jumlah'       => ['required', 'array'],
+            'jumlah.*'     => ['required', 'numeric'],
         ];
 
         if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {

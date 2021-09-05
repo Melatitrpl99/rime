@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 /**
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
  */
 class PostController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the Post.
      *
@@ -21,7 +23,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::paginate(15);
+        $posts = Post::with(['postCategory', 'user'])->paginate(15);
 
         return view('admin.posts.index')
             ->with('posts', $posts);
@@ -46,7 +48,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        Post::create($request->validated());
+        $post = Post::create($request->validated());
+
+        if ($request->has('path')) {
+            $this->saveFile($request->input('path'), $request->judul, 'post', $post);
+        }
 
         flash('Post saved successfully.', 'success');
 
@@ -90,6 +96,10 @@ class PostController extends Controller
     public function update(Post $post, UpdatePostRequest $request)
     {
         $post->update($request->validated());
+
+        if ($request->filled('path')) {
+            $this->saveFile($request->input('path'), $request->judul, 'post', $post);
+        }
 
         flash('Post updated successfully.', 'success');
 

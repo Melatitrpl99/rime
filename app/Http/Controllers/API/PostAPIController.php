@@ -32,7 +32,9 @@ class PostAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        $posts = $query->with('post_category')->get();
+        $posts = $query->with(['postCategory', 'image'])
+            ->displayedOnFrontPage()
+            ->get();
 
         return response()->json(PostResource::collection($posts), 200);
     }
@@ -47,6 +49,8 @@ class PostAPIController extends Controller
      */
     public function show(Post $post)
     {
+        $post->load(['postCategory', 'image']);
+
         return response()->json(new PostResource($post), 200);
     }
 }

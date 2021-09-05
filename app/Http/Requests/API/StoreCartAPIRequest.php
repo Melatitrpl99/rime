@@ -30,14 +30,10 @@ class StoreCartAPIRequest extends FormRequest
         ];
 
         $cartDetail = [
-            'product_id'   => ['required', 'array'],
-            'product_id.*' => ['required'],
-            'color_id'     => ['required', 'array'],
-            'color_id.*'   => ['integer'],
-            'size_id'      => ['required', 'array'],
-            'size_id.*'    => ['integer'],
-            'jumlah'       => ['required', 'array'],
-            'jumlah.*'     => ['integer'],
+            'product_id'   => ['required'],
+            'color_id'     => ['required'],
+            'size_id'      => ['required'],
+            'jumlah'       => ['required', 'numeric'],
         ];
 
         if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,7 +71,14 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJenisKelaminAttribute(): string
     {
-        return $this->jk == 'l' ? 'Laki-laki' : 'Perempuan';
+        switch ($this->jk) {
+            case 'l':
+                return 'Laki-laki';
+            case 'p':
+                return 'Perempuan';
+            default:
+                return 'Tidak diketahui';
+        }
     }
 
     public function carts(): HasMany
@@ -101,6 +109,16 @@ class User extends Authenticatable implements JWTSubject
     public function latestUserVerification(): HasOneOrMany
     {
         return $this->hasOne(UserVerification::class)->latestOfMany();
+    }
+
+    public function defaultUserShipment(): HasOne
+    {
+        return $this->hasOne(UserShipment::class)->where('is_default', true);
+    }
+
+    public function userShipments(): HasMany
+    {
+        return $this->hasMany(UserShipment::class);
     }
 
     public function avatar(): MorphOne

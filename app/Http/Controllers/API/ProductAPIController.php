@@ -33,12 +33,12 @@ class ProductAPIController extends Controller
         }
 
         $products = $products->withSum('productStocks', 'stok_ready')
-            ->withAvg('testimonies', 'review')
+            ->withAvg('testimonies', 'rating')
             ->withCount('testimonies')
             ->with('image')
             ->get();
 
-        return response()->json(ProductResource::collection($products), 200);
+        return response()->json(ProductResource::collection($products));
     }
 
     /**
@@ -51,6 +51,7 @@ class ProductAPIController extends Controller
      */
     public function show(Product $product)
     {
+        // dd($product->harga);
         $product->load([
             'productCategory',
             'productStocks',
@@ -60,9 +61,9 @@ class ProductAPIController extends Controller
             'testimonies.user.avatar',
         ])
             ->loadSum('productStocks', 'stok_ready')
-            ->loadAvg('testimonies', 'review')
+            ->loadAvg('testimonies', 'rating')
             ->loadCount('testimonies');
 
-        return response()->json(new ProductDetailResource($product), 200);
+        return response()->json(new ProductDetailResource($product));
     }
 }

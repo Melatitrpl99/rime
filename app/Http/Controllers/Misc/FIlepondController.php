@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Misc;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FIlepondController extends Controller
+class FilepondController extends Controller
 {
     public function process(Request $request)
     {
-        \DebugBar::disable();
         if ($request->has('path')) {
             $file = $request->file('path');
 

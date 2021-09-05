@@ -13,4 +13,10 @@ class PaymentMethod extends Model
         'name',
         'ket',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

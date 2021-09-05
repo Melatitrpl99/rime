@@ -21,7 +21,7 @@ class SpendingUnitController extends Controller
      */
     public function index(Request $request)
     {
-        $spendingUnits = SpendingUnit::all();
+        $spendingUnits = SpendingUnit::paginate(15);
 
         return view('admin.spending_units.index')
             ->with('spendingUnits', $spendingUnits);

@@ -20,8 +20,10 @@ class PostResource extends JsonResource
             'konten'           => $this->konten,
             'post_category_id' => $this->post_category_id,
             'slug'             => $this->slug,
-            'user'             => $this->user->name,
             'last_updated'     => $this->updated_at,
+            'user'             => $this->whenLoaded('user'),
+            'image'            => new FileResource($this->whenLoaded('image')),
+            'post_category'    => $this->whenLoaded('postCategory'),
         ];
     }
 }

@@ -38,6 +38,16 @@ class Order extends Model
         'deleted_at',
     ];
 
+    public function scopeIsOngoing(Builder $query): Builder
+    {
+        return $query->whereIn('status_id', [1, 2, 3, 4]);
+    }
+
+    public function scopeAllProcessed(Builder $query): Builder
+    {
+        return $query->whereIn('status_id', [5, 6, 7]);
+    }
+
     public function scopeNotPaid(Builder $query): Builder
     {
         return $query->doesntHave('orderTransactions');

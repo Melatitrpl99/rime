@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        {!! Form::model($post, ['route' => ['admin.posts.update', $post], 'method' => 'PATCH', 'class' => 'm-0']) !!}
+                        {!! Form::model($post, ['route' => ['admin.posts.update', $post], 'method' => 'PATCH', 'class' => 'm-0', 'files' => true]) !!}
                         <div class="card-body">
                             <div class="row">
                                 @include('admin.posts.fields')

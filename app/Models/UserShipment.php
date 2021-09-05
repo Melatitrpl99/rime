@@ -27,7 +27,13 @@ class UserShipment extends Model
     ];
 
     protected $hidden = [
+        'created_at',
+        'updated_at',
         'deleted_at',
+    ];
+
+    protected $with = [
+        'village',
     ];
 
     public function scopeIsDefault(Builder $query): Builder

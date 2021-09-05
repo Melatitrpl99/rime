@@ -4,7 +4,7 @@
  * Convert numeric values to pre-formatted strings
  */
 function numerify(
-    int|float $number = null,
+    float $number = null,
     bool $useDecimal = false,
     string $prepend = null,
     string $append = null

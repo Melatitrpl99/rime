@@ -20,7 +20,7 @@ class OrdersSeeder extends Seeder
     public function run()
     {
         Order::factory()
-            ->count(rand(10, 50))
+            ->count(rand(25, 100))
             ->create()
             ->each(function ($order) {
                 $diskon = $order->discount->load('products');

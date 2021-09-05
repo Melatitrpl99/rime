@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\RegisterRequest;
+use App\Http\Requests\API\UpdateProfileAPIRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -49,11 +50,9 @@ class AuthAPIController extends Controller
 
     public function me()
     {
-        $user = auth('api')
+        return response()->json(new UserResource(auth('api')
             ->user()
-            ->load(['avatar', 'shipments']);
-
-        return new UserResource($user);
+            ->load(['avatar', 'userShipments'])));
     }
 
     public function logout()
@@ -72,5 +71,14 @@ class AuthAPIController extends Controller
             'token_type'   => 'bearer',
             'expires_in'   => auth('api')->factory()->getTTL() * 60,
         ], 200);
+    }
+
+    public function updateProfile(UpdateProfileAPIRequest $request)
+    {
+        auth('api')->user()->update($request->validated());
+
+        return response()->json(new UserResource(auth('api')
+            ->user()
+            ->load(['avatar'])));
     }
 }

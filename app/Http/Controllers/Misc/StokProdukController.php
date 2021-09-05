@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\User;
+use Debugbar;
 use Illuminate\Http\Request;
 
 class StokProdukController extends Controller
 {
     public function getProductStock(Request $request)
     {
-        \Debugbar::disable();
+        Debugbar::disable();
 
         $productId = $request->get('product_id');
         $stock = ProductStock::with([

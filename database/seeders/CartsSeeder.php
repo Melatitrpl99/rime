@@ -16,9 +16,8 @@ class CartsSeeder extends Seeder
      */
     public function run()
     {
-        //
         Cart::factory()
-            ->count(rand(15, 50))
+            ->count(rand(25, 100))
             ->create()
             ->each(function ($cart) {
                 $products = Product::inRandomOrder()

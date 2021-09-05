@@ -21,7 +21,7 @@ class SpendingCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $spendingCategories = SpendingCategory::all();
+        $spendingCategories = SpendingCategory::paginate(15);
 
         return view('admin.spending_categories.index')
             ->with('spendingCategories', $spendingCategories);

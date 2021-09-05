@@ -31,6 +31,13 @@ class Product extends Model
         'deleted_at',
     ];
 
+    public function getHargaAttribute()
+    {
+        return auth()->user()->hasRole('reseller')
+            ? $this->harga_reseller
+            : $this->harga_customer;
+    }
+
     public function productStocks(): HasMany
     {
         return $this->hasMany(ProductStock::class);
@@ -60,6 +67,11 @@ class Product extends Model
         return $this->belongsToMany(Order::class, 'order_details')
             ->withPivot(OrderDetail::$pivotColumns)
             ->using(OrderDetail::class);
+    }
+
+    public function testimonies(): HasMany
+    {
+        return $this->hasMany(Testimony::class);
     }
 
     public function images(): MorphMany

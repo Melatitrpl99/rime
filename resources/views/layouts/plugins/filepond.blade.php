@@ -41,7 +41,7 @@
                     }
                 },
 
-                allowMultiple: true,
+                allowMultiple: {{ $multiple ? 'true' : 'false' }},
                 allowImageExifOrientation: true,
                 allowImagePreview: true,
                 imagePreviewHeight: 200

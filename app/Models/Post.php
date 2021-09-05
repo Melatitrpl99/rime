@@ -37,6 +37,11 @@ class Post extends Model
         return $query->where('front_page', true);
     }
 
+    public function postCategory(): BelongsTo
+    {
+        return $this->belongsTo(PostCategory::class);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -47,7 +52,7 @@ class Post extends Model
         return $this->morphMany(File::class, 'fileable');
     }
 
-    public function latestImage(): MorphOneOrMany
+    public function image(): MorphOneOrMany
     {
         return $this->morphOne(File::class, 'fileable')->latestOfMany();
     }

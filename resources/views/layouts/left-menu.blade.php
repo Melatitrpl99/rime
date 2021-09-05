@@ -214,3 +214,10 @@
         <p>Route Explorer</p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('admin.delivery_costs.index') }}" class="nav-link {{ Request::is('admin/delivery_costs*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-edit"></i>
+        <p>Delivery Costs</p>
+    </a>
+</li>
+

@@ -15,19 +15,21 @@ class OrderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'               => $this->id,
-            'nomor'            => $this->nomor,
-            'pesan'            => $this->pesan,
-            'total'            => $this->total,
-            'kode_diskon'      => $this->kode_diskon,
-            'biaya_pengiriman' => $this->biaya_pengiriman,
-            'berat'            => $this->berat,
-            'status_id'        => $this->status_id,
-            'shipment_id'      => $this->shipment_id,
-            'status'           => $this->whenLoaded('status'),
-            'jumlah'           => (int) $this->jumlah,
-            'shipment'         => new ShipmentResource($this->whenLoaded('shipment')),
-            'products'         => OrderProductResource::collection($this->whenLoaded('products')),
+            'id'                => $this->id,
+            'nomor'             => $this->nomor,
+            'pesan'             => $this->pesan,
+            'total'             => $this->total,
+            'jumlah'            => (int) $this->jumlah,
+            'biaya_pengiriman'  => $this->biaya_pengiriman,
+            'berat'             => $this->berat,
+            'discount_id'       => $this->discount_id,
+            'status_id'         => $this->status_id,
+            'payment_method_id' => $this->payment_method_id,
+            'user_shipment_id'  => $this->user_shipment_id,
+            'status'            => $this->whenLoaded('status'),
+            'payment_method'    => $this->whenLoaded('paymentMethod'),
+            'user_shipment'     => new UserShipmentResource($this->whenLoaded('userShipment')),
+            'products'          => OrderProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

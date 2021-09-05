@@ -40,8 +40,8 @@ class ProductStockFactory extends Factory
             ])->exists();
         }
 
-        if ($exists == true) {
-            throw new Exception();
+        if ($exists) {
+            throw new Exception('Duplicate value');
         }
 
         return [

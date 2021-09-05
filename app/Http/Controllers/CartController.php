@@ -79,7 +79,7 @@ class CartController extends Controller
                 ])->validate();
             }
 
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_customer;
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 
@@ -168,7 +168,7 @@ class CartController extends Controller
                 ])->validate();
             }
 
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
+            $harga = $hasRole ? $product->harga_reseller : $product->harga_customer;
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 

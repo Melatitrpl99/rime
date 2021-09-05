@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\API\StoreUserShipmentRequest;
-use App\Http\Requests\API\UpdateUserShipmentRequest;
+use App\Http\Requests\StoreUserShipmentRequest;
+use App\Http\Requests\UpdateUserShipmentRequest;
 use App\Models\UserShipment;
 
 /**

@@ -28,6 +28,7 @@ class CartAPIController extends Controller
     public function index(Request $request)
     {
         $query = Cart::query()->where('user_id', auth()->id())
+            ->orderByDesc('created_at')
             ->withSum('products as jumlah', 'cart_details.jumlah');
 
         if ($request->has('skip')) {
@@ -46,7 +47,7 @@ class CartAPIController extends Controller
             $carts = $query->get();
         }
 
-        return response()->success(CartResource::collection($carts));
+        return response()->json(CartResource::collection($carts));
     }
 
     /**
@@ -63,46 +64,42 @@ class CartAPIController extends Controller
         $input = collect($request->validated())
             ->put('user_id', $user->id);
 
-        $pivot = [];
-        $total = 0;
-        $productId = array_values($request->only('product_id'))[0];
-        $colorId = array_values($request->only('color_id'))[0];
-        $sizeId = array_values($request->only('size_id'))[0];
-        $jumlah = array_values($request->only('jumlah'))[0];
+        $productId = $request->product_id;
+        $colorId = $request->color_id;
+        $sizeId = $request->size_id;
+        $jumlah = $request->jumlah;
 
-        $products = Product::whereIn('id', $productId)->get();
+        $product = Product::find($productId);
         $hasRole = $user->hasRole('reseller');
 
-        foreach ($productId as $key => $id) {
-            $product = $products->find($id);
-
-            if ($hasRole) {
-                $validator = Validator::make([
-                    'jumlah' => $jumlah[$key],
-                ], [
-                    'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
-                ], $messages = [
-                    'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
-                ])->validate();
-            }
-
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
-            $subTotal = $harga * $jumlah[$key];
-            $total = $total + $subTotal;
-
-            $pivot[$id] = [
-                'color_id' => $colorId[$key],
-                'size_id' => $sizeId[$key],
-                'jumlah' => $jumlah[$key],
-                'sub_total' => $subTotal,
-            ];
+        if ($hasRole) {
+            $validator = Validator::make([
+                'jumlah' => $jumlah,
+            ], [
+                'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
+            ], $messages = [
+                'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
+            ])->validate();
         }
+
+        $total = $product->harga * $jumlah;
+
+        $pivot[$productId] = [
+            'color_id' => $colorId,
+            'size_id' => $sizeId,
+            'jumlah' => $jumlah,
+            'sub_total' => $total,
+        ];
 
         $input->put('total', $total);
         $cart = Cart::create($input->toArray());
         $cart->products()->sync($pivot);
 
-        return response()->success(new CartResource($cart), 201);
+        return response()->json(new CartResource(
+            $cart
+                ->load('products.image')
+                ->loadSum('products as jumlah', 'cart_details.jumlah')
+        ));
     }
 
     /**
@@ -122,7 +119,11 @@ class CartAPIController extends Controller
         $cart->load('products.image')
             ->loadSum('products as jumlah', 'cart_details.jumlah');
 
-        return response()->success(new CartResource($cart));
+        return response()->json(new CartResource(
+            $cart
+                ->load('products.image')
+                ->loadSum('products as jumlah', 'cart_details.jumlah')
+        ));
     }
 
     /**
@@ -141,7 +142,6 @@ class CartAPIController extends Controller
             ->put('user_id', $user->id);
 
         if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {
-
             $products = Product::whereIn('id', $request->product_id)->get();
             $hasRole = $user->hasRole('reseller');
 
@@ -165,8 +165,7 @@ class CartAPIController extends Controller
                     ])->validate();
                 }
 
-                $harga = $hasRole ? $product->harga_reseller : $product->harga_reseller;
-                $subTotal = $harga * $jumlah[$key];
+                $subTotal = $product->harga * $jumlah[$key];
                 $total = $total + $subTotal;
 
                 $pivot[$id] = [
@@ -185,7 +184,11 @@ class CartAPIController extends Controller
 
         $cart->loadSum('products as jumlah', 'cart_details.jumlah');
 
-        return response()->success(new CartResource($cart));
+        return response()->json(new CartResource(
+            $cart
+                ->load('products.image')
+                ->loadSum('products as jumlah', 'cart_details.jumlah')
+        ));
     }
 
     /**
@@ -205,6 +208,6 @@ class CartAPIController extends Controller
         $cart->products()->detach();
         $cart->delete();
 
-        return response()->success(null, 200, 'Keranjang berhasil dihapus');
+        return response()->json(['message' => 'Keranjang berhasil dihapus'], 200);
     }
 }

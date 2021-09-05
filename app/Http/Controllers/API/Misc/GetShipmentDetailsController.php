@@ -11,11 +11,6 @@ use Illuminate\Http\Request;
 
 class GetShipmentDetailsController extends Controller
 {
-    public function __construct()
-    {
-        \Debugbar::disable();
-    }
-
     public function getProvinces(Request $request)
     {
         if ($request->has('village_id')) {
