@@ -19,7 +19,7 @@ trait FileUpload
      *
      * @return void
      */
-    protected function saveFile(array $files, string $name, string $location, Model $model)
+    protected function saveFile($files, string $name, string $location, Model $model)
     {
         foreach ($files as $file) {
             $name = Str::slug($name);
