@@ -18,7 +18,6 @@ class CreateTestimoniesTable extends Migration
             $table->id('id');
             $table->foreignId('product_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->string('judul')->nullable();
             $table->text('isi')->nullable();
             $table->unsignedTinyInteger('rating');
             $table->timestamps();

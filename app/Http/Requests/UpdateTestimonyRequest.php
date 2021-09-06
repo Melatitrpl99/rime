@@ -24,7 +24,6 @@ class UpdateTestimonyRequest extends FormRequest
     public function rules()
     {
         return [
-            'judul'      => ['nullable', 'string', 'max:255'],
             'isi'        => ['nullable', 'string', 'max:65535'],
             'review'     => ['required', 'numeric'],
             'user_id'    => ['required'],

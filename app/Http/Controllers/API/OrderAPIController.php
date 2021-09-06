@@ -53,6 +53,7 @@ class OrderAPIController extends Controller
         }
 
         $orders = $query->where('user_id', auth()->id())
+            ->orderByDesc('updated_at')
             ->with(['status', 'userShipment'])
             ->withSum('products as jumlah', 'order_details.jumlah')
             ->get();

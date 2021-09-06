@@ -69,6 +69,13 @@ class Product extends Model
             ->using(OrderDetail::class);
     }
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'product_likes')
+            ->withPivot('liked_at')
+            ->wherePivotNotNull('liked_at');
+    }
+
     public function testimonies(): HasMany
     {
         return $this->hasMany(Testimony::class);

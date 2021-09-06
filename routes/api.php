@@ -10,6 +10,7 @@ use App\Http\Controllers\API\ProductAPIController;
 use App\Http\Controllers\API\ColorAPIController;
 use App\Http\Controllers\API\Misc\GetPaymentMethodAPIController;
 use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
+use App\Http\Controllers\API\Product\ProductLikeController;
 use App\Http\Controllers\API\SizeAPIController;
 use App\Http\Controllers\API\TestimonyAPIController;
 use App\Http\Controllers\API\UserAPIController;
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::patch('profile/update', [AuthAPIController::class, 'updateProfile']);
 
     Route::group(['middleware' => 'jwt.auth'], function () {
+
         Route::group(['prefix' => 'shipments', 'as' => 'shipments.'], function () {
             Route::get('provinces', [GetShipmentDetailsController::class, 'getProvinces'])
                 ->name('provinces');
@@ -48,6 +50,9 @@ Route::group(['middleware' => 'api'], function () {
             Route::get('villages', [GetShipmentDetailsController::class, 'getVillages'])
                 ->name('villages');
         });
+
+        Route::post('products/{product}/likes', [ProductLikeController::class, 'store'])
+            ->name('products.liked');
 
         Route::apiResource('colors', ColorAPIController::class)
             ->only('index')

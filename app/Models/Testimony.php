@@ -12,7 +12,6 @@ class Testimony extends Model
     use SoftDeletes, HasFactory;
 
     public $fillable = [
-        'judul',
         'isi',
         'rating',
         'product_id',

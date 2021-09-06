@@ -61,6 +61,7 @@ class ProductAPIController extends Controller
             'testimonies.user.avatar',
         ])
             ->loadSum('productStocks', 'stok_ready')
+            ->loadCount('users as likes')
             ->loadAvg('testimonies', 'rating')
             ->loadCount('testimonies');
 

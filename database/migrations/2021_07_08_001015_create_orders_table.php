@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('discount_id')->nullable()->constrained();
             $table->foreignId('status_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('user_shipment_id')->constrained();
+            $table->foreignId('user_shipment_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

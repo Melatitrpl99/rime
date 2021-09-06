@@ -24,7 +24,6 @@ class StoreTestimonyRequest extends FormRequest
     public function rules()
     {
         return [
-            'judul'      => ['nullable', 'string', 'max:255'],
             'isi'        => ['nullable', 'string', 'max:65535'],
             'rating'     => ['required', 'numeric'],
             'user_id'    => ['required'],

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
@@ -119,6 +120,13 @@ class User extends Authenticatable implements JWTSubject
     public function userShipments(): HasMany
     {
         return $this->hasMany(UserShipment::class);
+    }
+
+    public function likedProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_likes')
+            ->withPivot('liked_at')
+            ->wherePivotNotNull('liked_at');
     }
 
     public function avatar(): MorphOne
