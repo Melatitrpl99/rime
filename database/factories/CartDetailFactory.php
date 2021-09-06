@@ -25,8 +25,8 @@ class CartDetailFactory extends Factory
         $sizeIds = Size::pluck('id')->toArray();
 
         return [
-            'color_id' => $this->faker->randomElement($colorIds),
-            'size_id'  => $this->faker->randomElement($sizeIds),
+            'color_id' => $this->faker->unique(true)->randomElement($colorIds),
+            'size_id'  => $this->faker->unique(true)->randomElement($sizeIds),
         ];
     }
 }

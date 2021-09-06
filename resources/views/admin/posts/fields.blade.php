@@ -12,7 +12,7 @@
 
 <!-- Post Category Id Field -->
 <div class="form-group col-12 col-sm-6">
-    {!! Form::label('post_category_id', 'Post Category:') !!}
+    {!! Form::label('post_category_id', 'Kategori postingan:') !!}
     {!! Form::select('post_category_id', $postCategoryItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
@@ -24,12 +24,6 @@
         {!! Form::checkbox('front_page', '1', null, ['class' => 'custom-control-input custom-control-input-primary', 'id' => 'front_page']) !!}
         {!! Form::label('front_page', 'Ya', ['class' => 'custom-control-label']) !!}
     </div>
-</div>
-
-<!-- User Id Field -->
-<div class="form-group col-12 col-sm-6">
-    {!! Form::label('user_id', 'User:') !!}
-    {!! Form::select('user_id', $userItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Path Field -->

@@ -14,7 +14,7 @@
                 {{ $testimonies->perPage() * ($testimonies->currentPage() - 1) + $loop->iteration }}
             </td>
             <td>{{ $testimony->judul }}</td>
-            <td>{{ $testimony->review }}</td>
+            <td>{{ $testimony->rating }}</td>
             <td width="120">
                 {!! Form::open(['route' => ['admin.testimonies.destroy', $testimony], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                 <div class="btn-group">

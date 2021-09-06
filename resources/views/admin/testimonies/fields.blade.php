@@ -24,27 +24,27 @@
 
 <!-- Review Field -->
 <div class="form-group col-12">
-    {!! Form::label('review', 'Review:') !!}
+    {!! Form::label('rating', 'Rating:') !!}
     <div class="form-group row pl-2">
         <div class="custom-control custom-radio custom-control-inline">
-            {!! Form::radio('review', '1', null, ['class' => 'custom-control-input', 'id' => 'review_1']) !!}
-            {!! Form::label('review_1', 'Satu', ['class' => 'custom-control-label']) !!}
+            {!! Form::radio('rating', '1', null, ['class' => 'custom-control-input', 'id' => 'rating_1']) !!}
+            {!! Form::label('rating_1', 'Satu', ['class' => 'custom-control-label']) !!}
         </div>
         <div class="custom-control custom-radio custom-control-inline">
-            {!! Form::radio('review', '2', null, ['class' => 'custom-control-input', 'id' => 'review_2']) !!}
-            {!! Form::label('review_2', 'Dua', ['class' => 'custom-control-label']) !!}
+            {!! Form::radio('rating', '2', null, ['class' => 'custom-control-input', 'id' => 'rating_2']) !!}
+            {!! Form::label('rating_2', 'Dua', ['class' => 'custom-control-label']) !!}
         </div>
         <div class="custom-control custom-radio custom-control-inline">
-            {!! Form::radio('review', '3', null, ['class' => 'custom-control-input', 'id' => 'review_3']) !!}
-            {!! Form::label('review_3', 'Tiga', ['class' => 'custom-control-label']) !!}
+            {!! Form::radio('rating', '3', null, ['class' => 'custom-control-input', 'id' => 'rating_3']) !!}
+            {!! Form::label('rating_3', 'Tiga', ['class' => 'custom-control-label']) !!}
         </div>
         <div class="custom-control custom-radio custom-control-inline">
-            {!! Form::radio('review', '4', null, ['class' => 'custom-control-input', 'id' => 'review_4']) !!}
-            {!! Form::label('review_4', 'Empat', ['class' => 'custom-control-label']) !!}
+            {!! Form::radio('rating', '4', null, ['class' => 'custom-control-input', 'id' => 'rating_4']) !!}
+            {!! Form::label('rating_4', 'Empat', ['class' => 'custom-control-label']) !!}
         </div>
         <div class="custom-control custom-radio custom-control-inline">
-            {!! Form::radio('review', '5', null, ['class' => 'custom-control-input', 'id' => 'review_5']) !!}
-            {!! Form::label('review_5', 'Lima', ['class' => 'custom-control-label']) !!}
+            {!! Form::radio('rating', '5', null, ['class' => 'custom-control-input', 'id' => 'rating_5']) !!}
+            {!! Form::label('rating_5', 'Lima', ['class' => 'custom-control-label']) !!}
         </div>
     </div>
 </div>

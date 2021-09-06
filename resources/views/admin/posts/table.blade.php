@@ -16,7 +16,7 @@
                     {{ $posts->perPage() * ($posts->currentPage() - 1) + $loop->iteration }}
                 </td>
                 <td>{{ $post->judul }}</td>
-                <td>{{ $post->konten }}</td>
+                <td>{{ Str::limit($post->konten, 100, '...') }}</td>
                 <td>{{ $post->postCategory->name }}</td>
                 <td>{{ $post->user->nama_lengkap }}</td>
                 <td>

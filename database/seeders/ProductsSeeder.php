@@ -8,6 +8,7 @@ use App\Models\ProductStock;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Seeder;
+use OverflowException;
 
 class ProductsSeeder extends Seeder
 {
@@ -27,7 +28,7 @@ class ProductsSeeder extends Seeder
             ProductStock::factory()
                 ->count(Product::count() * rand(7, 20))
                 ->create();
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             //
         }
     }

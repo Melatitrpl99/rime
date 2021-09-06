@@ -29,7 +29,6 @@ class UpdatePostRequest extends FormRequest
             'slug'             => ['nullable', 'string', 'max:255'],
             'front_page'       => ['sometimes', 'required'],
             'post_category_id' => ['sometimes', 'required'],
-            'user_id'          => ['sometimes', 'required'],
         ];
     }
 }

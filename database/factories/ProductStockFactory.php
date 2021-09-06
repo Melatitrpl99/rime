@@ -48,7 +48,7 @@ class ProductStockFactory extends Factory
             'product_id' => $productId,
             'color_id' => $colorId,
             'size_id' => $sizeId,
-            'stok_ready' => $this->faker->numberBetween(0, 100),
+            'stok_ready' => $this->faker->numberBetween(30, 100),
         ];
     }
 }

@@ -1,12 +1,12 @@
 @extends('layouts.app')
-<title>{{ env('APP_NAME') }} | Add new Spending Unit</title>
+<title>{{ env('APP_NAME') }} | Tambah unit pengeluaran baru</title>
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>Add new Spending Unit</h1>
+                    <h1>Tambah unit pengeluaran baru</h1>
                 </div>
             </div>
         </div>

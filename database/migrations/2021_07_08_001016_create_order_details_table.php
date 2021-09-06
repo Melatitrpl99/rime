@@ -23,6 +23,8 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('jumlah');
             $table->bigInteger('sub_total');
             $table->bigInteger('diskon')->nullable();
+
+            $table->unique(['order_id', 'product_id', 'color_id', 'size_id']);
         });
     }
 

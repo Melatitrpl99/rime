@@ -48,7 +48,10 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $post = Post::create($request->validated());
+        $input = collect($request->validated());
+        $input->put('user_id', auth()->id());
+
+        $post = Post::create($input->toArray());
 
         if ($request->has('path')) {
             $this->saveFile($request->input('path'), $request->judul, 'post', $post);

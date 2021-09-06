@@ -34,6 +34,8 @@ class PostAPIController extends Controller
 
         $posts = $query->with(['postCategory', 'image'])
             ->displayedOnFrontPage()
+            ->orderByDesc('updated_at')
+            ->limit(10)
             ->get();
 
         return response()->json(PostResource::collection($posts), 200);

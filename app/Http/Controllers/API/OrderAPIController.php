@@ -178,7 +178,7 @@ class OrderAPIController extends Controller
             'userShipment',
             'paymentMethod',
         ])
-            ->loadSum('products', 'order_details.jumlah');
+            ->loadSum('products as jumlah', 'order_details.jumlah');
 
         return response()->json(new OrderResource($order), 200);
     }

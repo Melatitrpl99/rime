@@ -29,7 +29,6 @@ class StorePostRequest extends FormRequest
             'slug'             => ['nullable', 'string', 'max:255'],
             'front_page'       => ['sometimes', 'required'],
             'post_category_id' => ['required'],
-            'user_id'          => ['required'],
         ];
     }
 }
