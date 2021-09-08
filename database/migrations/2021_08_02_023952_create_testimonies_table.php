@@ -16,8 +16,12 @@ class CreateTestimoniesTable extends Migration
     {
         Schema::create('testimonies', function (Blueprint $table) {
             $table->id('id');
-            $table->foreignId('product_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('product_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->text('isi')->nullable();
             $table->unsignedTinyInteger('rating');
             $table->timestamps();

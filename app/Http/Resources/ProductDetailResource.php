@@ -21,6 +21,7 @@ class ProductDetailResource extends JsonResource
             'harga'               => $this->harga,
             'reseller_minimum'    => $this->reseller_minimum,
             'suka'                => $this->suka,
+            'liked'               => $this->liked,
             'product_category_id' => $this->product_category_id,
             'product_category'    => $this->whenLoaded('productCategory'),
             'review_avg'          => (float) number_format($this->testimonies_avg_rating, 2),

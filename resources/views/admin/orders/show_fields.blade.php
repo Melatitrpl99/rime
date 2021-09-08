@@ -19,7 +19,7 @@
 <!-- Kode Diskon Field -->
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Kode Diskon</div>
-    <div class="col-12 col-md-9">{{ $order->discount->kode }}</div>
+    <div class="col-12 col-md-9">{{ optional($order->discount)->kode }}</div>
 </div>
 
 <!-- Biaya Pengiriman Field -->

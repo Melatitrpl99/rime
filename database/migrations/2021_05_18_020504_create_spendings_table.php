@@ -19,9 +19,12 @@ class CreateSpendingsTable extends Migration
             $table->string('nomor')->unique();
             $table->string('judul')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->timestamp('tanggal');
-            $table->bigInteger('total')->nullable();
-            $table->foreignId('spending_category_id')->constrained();
+            $table->unsignedBigInteger('total')->nullable();
+            $table->foreignId('spending_category_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -20,7 +20,11 @@ class CreateReportsTable extends Migration
             $table->longText('deskripsi')->nullable();
             $table->boolean('is_import')->nullable();
             $table->string('slug')->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,7 +3,7 @@
         <tr>
             <th width="50">#</th>
             <th>Nomor</th>
-            <th>Tanggal</th>
+            <th>Judul</th>
             <th>Kategori</th>
             <th width="100" class="text-right">Jumlah</th>
             <th width="150" class="text-right">Total</th>
@@ -17,9 +17,9 @@
                     {{ $spendings->perPage() * ($spendings->currentPage() - 1) + $loop->iteration }}
                 </td>
                 <td>{{ $spending->nomor }}</td>
-                <td>{{ $spending->tanggal->format('d F Y') }}</td>
+                <td>{{ $spending->judul }}</td>
                 <td>{{ $spending->spendingCategory->name }}</td>
-                <td class="text-right">{{ $spending->spending_details_sum_jumlah }}</td>
+                <td class="text-right">{{ $spending->jumlah }}</td>
                 <td class="text-right">{{ rp($spending->total) }}</td>
                 <td>
                     {!! Form::open(['route' => ['admin.spendings.destroy', $spending], 'method' => 'DELETE', 'class' => 'm-0']) !!}

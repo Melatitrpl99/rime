@@ -19,13 +19,24 @@
             </div>
         </div>
     </section>
-    <div class="content">
+    <section class="content">
         <div class="container-fluid">
-            <div class="card">
-                <div class="card-body">
-                    @include('admin.spendings.show_fields')
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            @include('admin.spendings.show_fields')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body p-0 table-responsive">
+                            @include('admin.spendings.table_details')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

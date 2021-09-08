@@ -16,7 +16,7 @@ class CreateApiCallsCountTable extends Migration
         Schema::create('api_calls_count', function (Blueprint $table) {
             $table->increments('id');
             $table->string('url');
-            $table->unsignedInteger('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

@@ -22,11 +22,27 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('biaya_pengiriman')->nullable();
             $table->integer('berat')->nullable();
             $table->string('kode_resi')->nullable();
-            $table->foreignId('payment_method_id')->constrained();
-            $table->foreignId('discount_id')->nullable()->constrained();
-            $table->foreignId('status_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('user_shipment_id')->nullable()->constrained();
+            $table->foreignId('payment_method_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+            $table->foreignId('discount_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+            $table->foreignId('status_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+            $table->foreignId('user_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('user_shipment_id')->nullable()->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

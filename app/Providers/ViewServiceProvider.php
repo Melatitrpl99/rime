@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Color;
+use App\Models\Material;
 use App\Models\PaymentMethod;
 use App\Models\PostCategory;
 use App\Models\Product;
@@ -10,6 +11,8 @@ use App\Models\ProductCategory;
 use App\Models\ProductStock;
 use App\Models\Province;
 use App\Models\Size;
+use App\Models\SpendingCategory;
+use App\Models\SpendingUnit;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
@@ -174,6 +177,18 @@ class ViewServiceProvider extends ServiceProvider
 
             $view->with('userItems', $userItems)
                 ->with('provinceItems', $provinceItems);
+        });
+
+        view()->composer('admin.spendings.fields', function ($view) {
+            $spendingCategoryItems = SpendingCategory::pluck('name', 'id')->toArray();
+            $spendingUnitItems = SpendingUnit::pluck('name', 'id')->toArray();
+            $productItems = Product::pluck('nama', 'id')->toArray();
+            $colorItems = Color::pluck('name', 'id')->toArray();
+
+            $view->with('spendingCategoryItems', $spendingCategoryItems)
+                ->with('spendingUnitItems', $spendingUnitItems)
+                ->with('productItems', $productItems)
+                ->with('colorItems', $colorItems);
         });
     }
 }

@@ -19,7 +19,9 @@ class CreateCartsTable extends Migration
             $table->string('judul');
             $table->text('deskripsi')->nullable();
             $table->bigInteger('total')->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

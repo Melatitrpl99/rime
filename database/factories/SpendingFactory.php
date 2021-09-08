@@ -28,7 +28,6 @@ class SpendingFactory extends Factory
             'nomor'                => $this->faker->regexify('S[0-9]{2}-[A-Z0-9]{6}'),
             'judul'                => $this->faker->words(rand(3, 6), true),
             'deskripsi'            => $this->faker->text,
-            'tanggal'              => now(),
             'spending_category_id' => $this->faker->randomElement($spendingCategoryIds),
         ];
     }

@@ -13,7 +13,7 @@ class UserAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view()
+    public function show()
     {
         return response()->success(new UserResource(auth()->user()));
     }
@@ -27,7 +27,5 @@ class UserAPIController extends Controller
     public function update(UpdateUserAPIRequest $request)
     {
         //
-        $user = auth()->user();
-        return response()->success(new UserResource($user), 200, 'Profil berhasil diubah');
     }
 }

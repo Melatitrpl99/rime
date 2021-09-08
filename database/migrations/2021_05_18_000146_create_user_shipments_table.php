@@ -20,7 +20,9 @@ class CreateUserShipmentsTable extends Migration
             $table->string('kode_pos');
             $table->text('catatan')->nullable();
             $table->boolean('is_default')->default(false);
-            $table->char('village_id', 10)->index();
+            $table->char('village_id', 10)
+                ->nullable()
+                ->index();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
@@ -28,7 +30,8 @@ class CreateUserShipmentsTable extends Migration
             $table->foreign('village_id')
                 ->references('id')
                 ->on('villages')
-                ->onUpdate('cascade')->onDelete('restrict');
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
         });
     }
 

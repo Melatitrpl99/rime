@@ -16,7 +16,7 @@
         "dbType": "string",
         "htmlType": "text",
         "validations": "required|string",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,

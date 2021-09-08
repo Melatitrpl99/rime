@@ -3,7 +3,7 @@
         <tr>
             <th width="50">#</th>
             <th>Judul</th>
-            <th>Review</th>
+            <th>Rating</th>
             <th width="120" class="text-center">Action</th>
         </tr>
     </thead>
@@ -14,7 +14,17 @@
                 {{ $testimonies->perPage() * ($testimonies->currentPage() - 1) + $loop->iteration }}
             </td>
             <td>{{ $testimony->judul }}</td>
-            <td>{{ $testimony->rating }}</td>
+            <td>
+                <span class="d-flex">
+                    @for($i = 0; $i < 5; $i++)
+                        @if($i + 1 < $testimony->rating)
+                            <i class="fas fa-star text-warning"></i>
+                        @else
+                            <i class="fas fa-star text-secondary"></i>
+                        @endif
+                    @endfor
+                </span>
+            </td>
             <td width="120">
                 {!! Form::open(['route' => ['admin.testimonies.destroy', $testimony], 'method' => 'DELETE', 'class' => 'm-0']) !!}
                 <div class="btn-group">

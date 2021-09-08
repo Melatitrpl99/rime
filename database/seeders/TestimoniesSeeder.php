@@ -16,9 +16,11 @@ class TestimoniesSeeder extends Seeder
     public function run()
     {
         try {
-            Testimony::factory()
-                ->count(rand(10, 250))
-                ->create();
+            Testimony::chunk(2, function ($testimony) {
+                $testimony->factory()
+                    ->count(rand(5, 30))
+                    ->create();
+            });
         } catch (Exception $e) {
             //
         }

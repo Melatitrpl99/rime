@@ -8,7 +8,7 @@
             <div class="col-12 d-flex justify-content-between align-items-center">
                 <h1>Pengeluaran</h1>
                 <a href="{{ route('admin.spendings.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus mr-1"></i> Add New
+                    <i class="fas fa-plus mr-1"></i> Tambah baru
                 </a>
             </div>
         </div>

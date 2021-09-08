@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Material;
 
-class StoreTestimonyAPIRequest extends FormRequest
+class StoreMaterialRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,8 @@ class StoreTestimonyAPIRequest extends FormRequest
     public function rules()
     {
         return [
-            'isi'        => ['nullable', 'string', 'max:65535'],
-            'rating'     => ['required', 'numeric'],
+            'name'       => ['required', 'string', 'max:255'],
+            'desc'       => ['nullable', 'string', 'max:65535'],
             'product_id' => ['required'],
         ];
     }

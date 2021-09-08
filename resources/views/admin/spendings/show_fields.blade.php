@@ -4,28 +4,23 @@
 </div>
 
 <div class="form-group row">
-    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
-    <div class="col-12 col-md-9">{{ $spending->nomor }}</div>
+    <div class="col-12 col-md-3 text-bold">Judul</div>
+    <div class="col-12 col-md-9">{{ $spending->judul }}</div>
 </div>
 
 <div class="form-group row">
-    <div class="col-12 col-md-3 text-bold">Tanggal</div>
-    <div class="col-12 col-md-9">{{ $spending->tanggal->format('d F Y H:m:s') }}</div>
+    <div class="col-12 col-md-3 text-bold">Deskripsi</div>
+    <div class="col-12 col-md-9">{{ $spending->deskripsi }}</div>
 </div>
 
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Kategori</div>
-    <div class="col-12 col-md-9">{{ $spending->kategori }}</div>
-</div>
-
-<div class="form-group row">
-    <div class="col-12 col-md-3 text-bold">Jumlah</div>
-    <div class="col-12 col-md-9">{{ $spending->qty }}</div>
+    <div class="col-12 col-md-9">{{ $spending->spendingCategory->name }}</div>
 </div>
 
 <div class="form-group row">
     <div class="col-12 col-md-3 text-bold">Total</div>
-    <div class="col-12 col-md-9">{{ $spending->total }}</div>
+    <div class="col-12 col-md-9">{{ rp($spending->total) }}</div>
 </div>
 
 <div class="form-group row">

@@ -29,7 +29,7 @@
         "dbType": "integer",
         "htmlType": "number",
         "validations": "required|numeric",
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": true,

@@ -20,8 +20,14 @@ class CreatePostsTable extends Migration
             $table->longText('konten');
             $table->boolean('front_page')->default(false);
             $table->string('slug')->nullable();
-            $table->foreignId('post_category_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('post_category_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+            $table->foreignId('user_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

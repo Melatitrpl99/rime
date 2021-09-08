@@ -16,10 +16,14 @@ class CreateUserVerificationsTable extends Migration
     {
         Schema::create('user_verifications', function (Blueprint $table) {
             $table->id('id');
-            $table->foreignId('user_id')->constrained();
-            $table->text('result_token');
+            $table->foreignId('user_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->text('face_path')->nullable();
+            $table->text('id_card_path')->nullable();
+            $table->text('result_id');
             $table->double('similarity');
-            $table->double('accuracy');
             $table->string('status');
             $table->timestamps();
             $table->softDeletes();

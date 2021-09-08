@@ -63,6 +63,7 @@ class ProductAPIController extends Controller
             ->loadSum('productStocks', 'stok_ready')
             ->loadCount('users as likes')
             ->loadAvg('testimonies', 'rating')
+            ->loadExists('users as liked')
             ->loadCount('testimonies');
 
         return response()->json(new ProductDetailResource($product));

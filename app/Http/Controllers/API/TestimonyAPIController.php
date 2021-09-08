@@ -55,7 +55,10 @@ class TestimonyAPIController extends Controller
      */
     public function store(StoreTestimonyAPIRequest $request)
     {
-        $testimony = Testimony::create($request->validated());
+        $input = collect($request->validated());
+        $input->put('user_id', auth()->id());
+
+        $testimony = Testimony::create($input->toArray());
 
         return response()->json(new TestimonyResource($testimony), 201);
     }

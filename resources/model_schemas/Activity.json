@@ -28,7 +28,7 @@
         "dbType": "text",
         "htmlType": null,
         "validations": null,
-        "searchable": true,
+        "searchable": false,
         "fillable": true,
         "primary": false,
         "inForm": false,

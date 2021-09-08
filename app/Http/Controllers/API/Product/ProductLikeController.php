@@ -5,27 +5,32 @@ namespace App\Http\Controllers\API\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductDetailResource;
 use App\Models\Product;
+use DB;
 use Illuminate\Http\Request;
 
 class ProductLikeController extends Controller
 {
     public function store(Product $product, Request $request)
     {
-        $product->users()->attach(auth()->id());
+        $product->users()->syncWithoutDetaching(auth()->id(), ['liked_at' => now()]);
 
-        $product->load([
-            'productCategory',
-            'productStocks',
-            'productStocks.color',
-            'productStocks.size',
-            'images',
-            'testimonies.user.avatar',
-        ])
-            ->loadSum('productStocks', 'stok_ready')
-            ->loadCount('users as likes')
-            ->loadAvg('testimonies', 'rating')
-            ->loadCount('testimonies');
+        $likes = DB::table('product_likes')
+            ->select(DB::raw('COUNT(*) AS likes'))
+            ->whereNotNull('liked_at')
+            ->first();
 
-        return response()->json(new ProductDetailResource($product));
+        return response()->json($likes->likes);
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->users()->detach(auth()->id());
+
+        $likes = DB::table('product_likes')
+            ->select(DB::raw('COUNT(*) AS likes'))
+            ->whereNotNull('liked_at')
+            ->first();
+
+        return response()->json($likes->likes);
     }
 }

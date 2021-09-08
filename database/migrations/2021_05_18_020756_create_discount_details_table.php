@@ -17,7 +17,7 @@ class CreateDiscountDetailsTable extends Migration
         Schema::create('discount_details', function (Blueprint $table) {
             $table->foreignId('discount_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->bigInteger('diskon_harga');
+            $table->unsignedBigInteger('diskon_harga');
             $table->unsignedInteger('minimal_produk')->nullable();
             $table->unsignedInteger('maksimal_produk')->nullable();
 

@@ -19,7 +19,11 @@ class CreateOrderTransactionsTable extends Migration
             $table->string('nomor')->unique();
             $table->integer('total');
             $table->timestamp('tanggal_masuk')->nullable();
-            $table->foreignId('order_id')->constrained();
+            $table->foreignId('order_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

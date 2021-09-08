@@ -10,8 +10,6 @@ class CartDetail extends Pivot
 {
     use HasFactory;
 
-    public $table = 'cart_details';
-
     public $timestamps = false;
 
     public $incrementing = true;

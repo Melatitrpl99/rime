@@ -21,9 +21,10 @@ class AuthAPIController extends Controller
         }
 
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'Bearer',
-            'expires_in'   => auth('api')->factory()->getTTL() * 60,
+            'access_token'  => $token,
+            'token_type'    => 'Bearer',
+            'expires_in'    => auth('api')->factory()->getTTL() * 60,
+            'expires_until' => now()->format('U') + (auth('api')->factory()->getTTL() * 60),
         ], 200);
     }
 
@@ -42,9 +43,10 @@ class AuthAPIController extends Controller
         }
 
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'Bearer',
-            'expires_in'   => auth('api')->factory()->getTTL() * 60,
+            'access_token'  => $token,
+            'token_type'    => 'Bearer',
+            'expires_in'    => auth('api')->factory()->getTTL() * 60,
+            'expires_until' => now()->format('U') + (auth('api')->factory()->getTTL() * 60),
         ]);
     }
 
@@ -67,9 +69,10 @@ class AuthAPIController extends Controller
         $token = auth('api')->refresh();
 
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth('api')->factory()->getTTL() * 60,
+            'access_token'  => $token,
+            'token_type'    => 'Bearer',
+            'expires_in'    => auth('api')->factory()->getTTL() * 60,
+            'expires_until' => now()->format('U') + (auth('api')->factory()->getTTL() * 60),
         ], 200);
     }
 

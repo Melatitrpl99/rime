@@ -18,9 +18,9 @@ class CreateProductsTable extends Migration
             $table->id('id');
             $table->string('nama');
             $table->text('deskripsi');
-            $table->bigInteger('harga_customer');
-            $table->bigInteger('harga_reseller');
-            $table->unsignedTinyInteger('reseller_minimum');
+            $table->unsignedBigInteger('harga_customer');
+            $table->unsignedBigInteger('harga_reseller');
+            $table->unsignedInteger('reseller_minimum');
             $table->string('slug')->nullable();
             $table->foreignId('product_category_id')->constrained();
             $table->timestamps();

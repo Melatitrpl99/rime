@@ -118,7 +118,7 @@
                 <th width="150" class="text-right">Subtotal</th>
             </tr>
         </thead>
-        <tbody id="form-body-recursive">
+        <tbody id="form-body-recursive" style="min-width: 1024px">
             @if (Route::currentRouteName() == 'admin.orders.edit')
                 @foreach ($order->products as $product)
                     <tr style="transform: rotate(0)" id="row-{{ $loop->iteration }}">

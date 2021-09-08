@@ -16,7 +16,9 @@ class CreateFileThumbsTable extends Migration
     {
         Schema::create('file_thumbs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('file_id')->constrained();
+            $table->foreignId('file_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->string('path')->nullable();
             $table->string('dimensions');
             $table->string('size');

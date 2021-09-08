@@ -18,9 +18,15 @@ class CreateDeliveryCostsTable extends Migration
             $table->id('id');
             $table->string('name');
             $table->integer('harga');
-            $table->integer('jarak');
+            $table->char('regency_id', 4)->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('regency_id')
+                ->references('id')
+                ->on('regencies')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
         });
     }
 

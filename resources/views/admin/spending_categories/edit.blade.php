@@ -1,12 +1,12 @@
 @extends('layouts.app')
-    <title>{{ env('APP_NAME') }} | Update Spending Category</title>
+    <title>{{ env('APP_NAME') }} | Update kategori pengeluaran</title>
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>Update Spending Category</h1>
+                    <h1>Update kategori pengeluaran</h1>
                 </div>
             </div>
         </div>
@@ -26,8 +26,12 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.spending_categories.index') }}" class="btn btn-default">Cancel</a>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i>&nbsp; Simpan
+                            </button>
+                            <a href="{{ route('admin.spending_categories.index') }}" class="btn btn-default">
+                                <i class="fas fa-times-circle"></i>&nbsp; Batal
+                            </a>
                         </div>
                         {!! Form::close() !!}
                     </div>

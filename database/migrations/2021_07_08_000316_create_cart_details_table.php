@@ -16,12 +16,20 @@ class CreateCartDetailsTable extends Migration
     {
         Schema::create('cart_details', function (Blueprint $table) {
             $table->id('id');
-            $table->foreignId('cart_id')->constrained();
-            $table->foreignId('product_id')->constrained();
-            $table->foreignId('color_id')->constrained();
-            $table->foreignId('size_id')->constrained();
-            $table->unsignedinteger('jumlah');
-            $table->bigInteger('sub_total');
+            $table->foreignId('cart_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('color_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('size_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->unsignedInteger('jumlah');
+            $table->unsignedBigInteger('sub_total');
 
             $table->unique(['cart_id', 'product_id', 'color_id', 'size_id']);
         });

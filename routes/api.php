@@ -52,7 +52,10 @@ Route::group(['middleware' => 'api'], function () {
         });
 
         Route::post('products/{product}/likes', [ProductLikeController::class, 'store'])
-            ->name('products.liked');
+            ->name('products.like');
+
+        Route::delete('products/{product}/likes', [ProductLikeController::class, 'destroy'])
+            ->name('products.dislike');
 
         Route::apiResource('colors', ColorAPIController::class)
             ->only('index')

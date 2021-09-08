@@ -22,7 +22,7 @@ class SpendingController extends Controller
     public function index(Request $request)
     {
         $spendings = Spending::with('spendingCategory')
-            ->withSum('spendingDetails', 'jumlah')
+            ->withSum('products as jumlah', 'spending_details.jumlah_item')
             ->paginate(15);
 
         return view('admin.spendings.index')
@@ -64,6 +64,8 @@ class SpendingController extends Controller
      */
     public function show(Spending $spending)
     {
+        $spending->load(['products', 'products.pivot.spendingUnit']);
+
         return view('admin.spendings.show')
             ->with('spending', $spending);
     }
@@ -77,6 +79,8 @@ class SpendingController extends Controller
      */
     public function edit(Spending $spending)
     {
+        $spending->load(['products', 'products.pivot.spendingUnit']);
+
         return view('admin.spendings.edit')
             ->with('spending', $spending);
     }

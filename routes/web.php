@@ -258,3 +258,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             return redirect()->route('admin.delivery_costs.index');
         });
 });
+
+

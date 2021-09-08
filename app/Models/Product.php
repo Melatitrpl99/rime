@@ -69,6 +69,13 @@ class Product extends Model
             ->using(OrderDetail::class);
     }
 
+    public function spendings(): BelongsToMany
+    {
+        return $this->belongsToMany(Spending::class, 'spending_details')
+            ->withPivot(SpendingDetail::$pivotColumns)
+            ->using(SpendingDetail::class);
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'product_likes')
