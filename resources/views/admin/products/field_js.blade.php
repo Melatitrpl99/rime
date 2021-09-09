@@ -99,8 +99,6 @@
 
             onUpdate = tr.id;
 
-            console.log(onUpdate);
-
             colorTd.children[1].classList.add('font-weight-bold');
             $('#colors').val(colorTd.children[0].value);
             $('#colors').trigger('change');

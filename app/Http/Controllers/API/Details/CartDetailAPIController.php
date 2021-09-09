@@ -28,8 +28,17 @@ class CartDetailAPIController extends Controller
             'sub_total' => $jumlah * $product->harga,
         ];
 
-        $cart->products()->attach($pivot);
-        $cart->update(['total' => $cart->products()->sum('cart_details.sub_total')]);
+        $query = $cart->products()
+            ->wherePivot('product_id', $productId)
+            ->wherePivot('color_id', $colorId)
+            ->wherePivot('size_id', $sizeId);
+
+        $exist = $query->exists();
+
+        if (!$exist) {
+            $cart->products()->attach($pivot);
+            $cart->update(['total' => $cart->products()->sum('cart_details.sub_total')]);
+        }
 
         return response()->json(new CartResource(
             $cart->load('products.image')

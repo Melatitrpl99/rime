@@ -64,7 +64,7 @@ class ProductAPIController extends Controller
             ->loadCount('users as likes')
             ->loadAvg('testimonies', 'rating')
             ->loadExists('users as liked')
-            ->loadCount('testimonies');
+            ->loadCount(['testimonies', 'users as likes']);
 
         return response()->json(new ProductDetailResource($product));
     }

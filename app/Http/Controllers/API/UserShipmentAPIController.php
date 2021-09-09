@@ -7,7 +7,9 @@ use App\Http\Requests\API\StoreUserShipmentAPIRequest;
 use App\Http\Requests\API\UpdateUserShipmentAPIRequest;
 use App\Http\Resources\UserShipmentResource;
 use App\Models\UserShipment;
+use DB;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * Class UserShipmentAPIController.
@@ -80,12 +82,24 @@ class UserShipmentAPIController extends Controller
      */
     public function update(UserShipment $UserShipment, UpdateUserShipmentAPIRequest $request)
     {
+        Log::debug($request->validated());
         if ($UserShipment->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
         }
 
+        $query = UserShipment::where('user_id', auth()->id())
+            ->where('is_default', true);
+
+        $exist = $query->exists();
+
+        if ($exist) {
+            $old = $query->first();
+            $old->update(['is_default' => false]);
+        }
+        DB::enableQueryLog();
         $UserShipment->update($request->validated());
 
+        Log::debug(DB::getQueryLog());
         return response()->json(new UserShipmentResource($UserShipment), 200);
     }
 

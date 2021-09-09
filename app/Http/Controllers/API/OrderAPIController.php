@@ -111,6 +111,7 @@ class OrderAPIController extends Controller
             if (!$productStock) {
                 return response()->json(['message' => 'tidak dapat menemukan produk dengan warna dan ukuran yang dipesan'], 422);
             }
+
             $validateRules['jumlah'] = ['numeric', 'max:' . $productStock->stok_ready];
             $validateMessages['jumlah.max'] = 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok ready';
 
@@ -151,7 +152,7 @@ class OrderAPIController extends Controller
 
         $input->put('total', $total);
         $order = Order::create($input->toArray());
-        $order->products()->sync($pivot);
+        $order->products()->syncWithoutDetaching($pivot);
 
         return response()->json(new OrderResource($order), 201);
     }

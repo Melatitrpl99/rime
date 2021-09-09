@@ -8,8 +8,10 @@ use App\Http\Requests\API\UpdateCartAPIRequest;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
 use App\Models\Product;
+use DB;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Log;
 use Validator;
 
 /**
@@ -142,6 +144,7 @@ class CartAPIController extends Controller
             ->put('user_id', $user->id);
 
         if ($request->has(['product_id', 'color_id', 'size_id', 'jumlah'])) {
+            $cart->products()->detach();
             $products = Product::whereIn('id', $request->product_id)->get();
             $hasRole = $user->hasRole('reseller');
 
@@ -177,10 +180,15 @@ class CartAPIController extends Controller
             }
 
             $input->put('total', $total);
-            $cart->products()->sync($pivot);
         }
 
+        DB::enableQueryLog();
+        $cart->products()->attach($pivot);
         $cart->update($input->toArray());
+
+        $log = DB::getQueryLog();
+
+        Log::debug($log);
 
         $cart->loadSum('products as jumlah', 'cart_details.jumlah');
 

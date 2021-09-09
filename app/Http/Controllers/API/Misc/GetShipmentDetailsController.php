@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Village;
+use DB;
 use Illuminate\Http\Request;
 
 class GetShipmentDetailsController extends Controller
@@ -144,6 +145,17 @@ class GetShipmentDetailsController extends Controller
             $village = Village::find($id);
 
             return response()->json([$village], 200);
+        }
+
+        if ($request->has('q')) {
+            // DB::enableQueryLog();
+            $villages = Village::where('name', 'LIKE', '%' . $request->get('q') . '%')
+                ->with('district.regency.province')
+                // ->limit(15)
+                ->get();
+            // $log = DB::getQueryLog();
+
+            return response()->json($villages);
         }
 
         $villages = Village::all();

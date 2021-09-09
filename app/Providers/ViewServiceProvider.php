@@ -184,11 +184,13 @@ class ViewServiceProvider extends ServiceProvider
             $spendingUnitItems = SpendingUnit::pluck('name', 'id')->toArray();
             $productItems = Product::pluck('nama', 'id')->toArray();
             $colorItems = Color::pluck('name', 'id')->toArray();
+            $sizeItems = Size::pluck('name', 'id')->toArray();
 
             $view->with('spendingCategoryItems', $spendingCategoryItems)
                 ->with('spendingUnitItems', $spendingUnitItems)
                 ->with('productItems', $productItems)
-                ->with('colorItems', $colorItems);
+                ->with('colorItems', $colorItems)
+                ->with('sizeItems', $sizeItems);
         });
     }
 }

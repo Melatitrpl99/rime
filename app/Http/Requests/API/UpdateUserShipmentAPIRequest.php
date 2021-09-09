@@ -15,11 +15,10 @@ class UpdateUserShipmentAPIRequest extends FormRequest
     {
         return [
             'alamat'      => ['required'],
-            'village_id'  => ['required'],
             'kode_pos'    => ['required'],
             'catatan'     => ['nullable'],
             'is_default'  => ['nullable'],
-            'user_id'     => ['required'],
+            'village_id'  => ['required'],
         ];
     }
 }

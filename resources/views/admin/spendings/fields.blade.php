@@ -20,29 +20,34 @@
     <h4>Detail pengeluaran</h4>
 </div>
 
-<div class="form-group col-12 col-md-4">
+<div class="form-group col-12 col-sm-6 col-md-4">
     {!! Form::label('names', 'Nama') !!}
     {!! Form::text('names', null, ['class' => 'form-control']) !!}
 </div>
 
-<div class="form-group col-12 col-sm-3 col-md-4">
+<div class="form-group col-12 col-sm-6 col-md-8">
+    {!! Form::label('misc', 'Keterangan') !!}
+    {!! Form::text('misc', null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group col-12 col-sm-6 col-md-4">
     {!! Form::label('price', 'Harga satuan') !!}
     {!! Form::number('price', null, ['class' => 'form-control']) !!}
 </div>
 
-<div class="form-group col-12 col-sm-3 col-md-2">
+<div class="form-group col-12 col-sm-6 col-md-2">
     {!! Form::label('qty_mat', 'Jumlah') !!}
     {!! Form::number('qty_mat', null, ['class' => 'form-control']) !!}
 </div>
 
-<div class="form-group col-12 col-sm-3 col-md-2">
+<div class="form-group col-12 col-sm-6 col-md-2">
     {!! Form::label('unit', '&nbsp;') !!}
     {!! Form::select('unit', $spendingUnitItems, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
-<div class="form-group col-12">
-    {!! Form::label('misc', 'Keterangan') !!}
-    {!! Form::text('misc', null, ['class' => 'form-control']) !!}
+<div class="form-group col-12 col-sm-6 col-md-4">
+    {!! Form::label('subtotal', 'Sub Total') !!}
+    {!! Form::number('subtotal', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="col-12 mt-4 mb-2">
@@ -61,7 +66,7 @@
 
 <div class="form-group col-12 col-sm-6 col-md-3">
     {!! Form::label('size', 'Ukuran') !!}
-    {!! Form::select('size', $productItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
+    {!! Form::select('size', $sizeItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
 </div>
 
 <div class="form-group col-12 col-sm-3 col-md-2">
@@ -98,32 +103,32 @@
                             {!! Form::checkbox('row_product', '1', null, ['class' => 'form-control']) !!}
                         </td>
                         <td>
-                            {!! Form::hidden('nama[]', $product->pivot->nama) !!}
-                            {!! Form::hidden('ket[]', $product->pivot->ket) !!}
                             <a href="javascript:void(0)" class="stretched-link text-decoration-none text-reset" onclick="updateDetail(this)">
                                 {{ $product->pivot->nama }}
                             </a>
+                            {!! Form::hidden('nama[]', $product->pivot->nama) !!}
+                            {!! Form::hidden('ket[]', $product->pivot->ket) !!}
                         </td>
                         <td class="text-right">
-                            {!! Form::hidden('jumlah[]', $product->pivot->jumlah_item) !!}
-                            {!! Form::hidden('spending_unit_id', $product->pivot->spending_unit_id) !!}
                             <span>{{ $product->pivot->jumlah_item . ' ' . $product->pivot->spendingUnit->name }}</span>
+                            {!! Form::hidden('jumlah[]', $product->pivot->jumlah_item) !!}
+                            {!! Form::hidden('spending_unit_id[]', $product->pivot->spending_unit_id) !!}
                         </td>
                         <td class="text-right">
-                            {!! Form::hidden('harga_satuan[]', $product->pivot->harga_satuan) !!}
                             <span>{{ rp($product->pivot->sub_total) }}</span>
+                            {!! Form::hidden('harga_satuan[]', $product->pivot->harga_satuan) !!}
                         </td>
                         <td>
-                            {!! Form::hidden('product_id[]', $product->id) !!}
-                            {!! Form::hidden('color_id[]', $product->pivot->color_id) !!}
-                            {!! Form::hidden('size_id[]', $product->pivot->size_id) !!}
                             <span class="d-block mb-2">{{ $product->nama }}</span>
                             <span class="d-block">warna: {{ $product->pivot->color->name }}</span>
                             <span class="d-block">ukuran: {{ $product->pivot->size->name }}</span>
+                            {!! Form::hidden('product_id[]', $product->id) !!}
+                            {!! Form::hidden('color_id[]', $product->pivot->color_id) !!}
+                            {!! Form::hidden('size_id[]', $product->pivot->size_id) !!}
                         </td>
                         <td>
+                            <span>{{ $product->pivot->jumlah_stok }}</span>
                             {!! Form::hidden('jumlah_stok[]', $product->pivot->jumlah_stok) !!}
-                            {{ $product->pivot->jumlah_stok }}
                         </td>
                     </tr>
                 @endforeach

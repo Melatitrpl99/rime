@@ -19,7 +19,7 @@ class CreateUserShipmentsTable extends Migration
             $table->text('alamat');
             $table->string('kode_pos');
             $table->text('catatan')->nullable();
-            $table->boolean('is_default')->default(false);
+            $table->tinyInteger('is_default')->default(0);
             $table->char('village_id', 10)
                 ->nullable()
                 ->index();
