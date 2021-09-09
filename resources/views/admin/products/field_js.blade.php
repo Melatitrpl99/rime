@@ -10,6 +10,11 @@
         var selectedRow = null;
         var rowCount = 0;
 
+        $(document).ready(function (e) {
+            table = document.querySelector('#form-body-recursive');
+            rowCount = table.children.length;
+        });
+
         function addRow(color, size, stokReady) {
             if (onUpdate) {
                 return `<td class="py-0.5" style="z-index: 3; position: relative;">

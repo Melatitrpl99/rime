@@ -14,6 +14,7 @@ class Spending extends Model
     use SoftDeletes, HasFactory;
 
     public $fillable = [
+        'nomor',
         'judul',
         'deskripsi',
         'tanggal',

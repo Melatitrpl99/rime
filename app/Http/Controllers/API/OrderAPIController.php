@@ -73,6 +73,7 @@ class OrderAPIController extends Controller
     {
         $user = auth()->user();
         $hasRole = $user->hasRole('reseller');
+
         $faker = Factory::create();
         $nomor = $faker->regexify('O[0-9]{2}-[A-Z0-9]{6}');
         $input = collect($request->validated())

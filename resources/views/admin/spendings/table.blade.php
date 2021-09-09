@@ -5,7 +5,6 @@
             <th>Nomor</th>
             <th>Judul</th>
             <th>Kategori</th>
-            <th width="100" class="text-right">Jumlah</th>
             <th width="150" class="text-right">Total</th>
             <th width="120" class="text-center">Action</th>
         </tr>
@@ -19,7 +18,6 @@
                 <td>{{ $spending->nomor }}</td>
                 <td>{{ $spending->judul }}</td>
                 <td>{{ $spending->spendingCategory->name }}</td>
-                <td class="text-right">{{ $spending->jumlah }}</td>
                 <td class="text-right">{{ rp($spending->total) }}</td>
                 <td>
                     {!! Form::open(['route' => ['admin.spendings.destroy', $spending], 'method' => 'DELETE', 'class' => 'm-0']) !!}

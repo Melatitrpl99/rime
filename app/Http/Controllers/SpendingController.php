@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpendingRequest;
 use App\Http\Requests\UpdateSpendingRequest;
+use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\Spending;
+use DB;
+use Faker\Factory;
 use Illuminate\Http\Request;
 
 /**
@@ -48,7 +52,63 @@ class SpendingController extends Controller
      */
     public function store(StoreSpendingRequest $request)
     {
-        Spending::create($request->validated());
+        $faker = Factory::create();
+        $nomor = $faker->regexify('S[0-9]{2}-[A-Z0-9]{6}');
+        $input = collect($request->validated())
+            ->put('nomor', $nomor);
+
+        $pivot = [];
+        $stok = [];
+        $total = 0;
+
+        if ($request->hasAny(['product_id', 'nama', 'ket', 'jumlah_item', 'jumlah_stok', 'spending_unit_id', 'color_id', 'size_id'])) {
+
+            $productStocks = ProductStock::whereIn('product_id', $request->product_id)->get();
+
+            foreach ($request->product_id as $key => $id) {
+                $productStock = $productStocks->where('product_id', $id)
+                    ->where('color_id', $request->color_id[$key])
+                    ->where('size_id', $request->size_id[$key])
+                    ->first();
+
+                $subTotal = $request->sub_total[$key] ?? 0;
+                $hargaSatuan = (int) $request->harga_satuan[$key] ?? 0;
+                $jumlah = $request->jumlah_stok[$key];
+
+                if ($request->has('harga_satuan')) {
+                    $subTotal = (int) $request->jumlah_item[$key] * $hargaSatuan;
+                }
+
+                $total += $subTotal;
+
+                $pivot[$id] = [
+                    'nama' => $request->nama[$key],
+                    'ket' => $request->ket[$key],
+                    'harga_satuan' => $request->harga_satuan[$key] ?? null,
+                    'jumlah_item' => $request->jumlah_item[$key] ?? null,
+                    'jumlah_stok' => $jumlah,
+                    'sub_total' => $subTotal,
+                    'spending_unit_id' => $request->spending_unit_id[$key],
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                ];
+
+                $stok[$key] = [
+                    'product_id' => $id,
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                    'stok_ready' => ($productStock)
+                        ? $jumlah + $productStock->stok_ready
+                        : $jumlah,
+                ];
+            }
+        }
+
+        $input->put('total', $total);
+
+        $spending = Spending::create($input->toArray());
+        $spending->products()->attach($pivot);
+        ProductStock::upsert($stok, ['product_id', 'color_id', 'size_id', 'stok_ready']);
 
         flash('Spending saved successfully.', 'success');
 
@@ -95,7 +155,72 @@ class SpendingController extends Controller
      */
     public function update(Spending $spending, UpdateSpendingRequest $request)
     {
-        $spending->update($request->validated());
+        $input = collect($request->validated());
+
+        $pivot = [];
+        $stok = [];
+        $total = 0;
+
+        if ($request->hasAny(['product_id', 'nama', 'ket', 'jumlah_item', 'jumlah_stok', 'spending_unit_id', 'color_id', 'size_id'])) {
+            $productStocks = ProductStock::whereIn('product_id', $request->product_id)->get();
+
+            foreach ($request->product_id as $key => $id) {
+                $productStock = $productStocks->where('product_id', $id)
+                    ->where('color_id', $request->color_id[$key])
+                    ->where('size_id', $request->size_id[$key])
+                    ->first();
+
+                DB::enableQueryLog();
+                $oldProduct = $spending->products()
+                    ->wherePivot('product_id', $id)
+                    ->wherePivot('color_id', $request->color_id[$key])
+                    ->wherePivot('size_id', $request->size_id[$key])
+                    ->first();
+
+                $log = DB::getQueryLog();
+
+                // dd($spending->load('products'));
+
+                $subTotal = $request->sub_total[$key] ?? 0;
+                $hargaSatuan = (int) $request->harga_satuan[$key] ?? 0;
+                $jumlah = (int) $request->jumlah_stok[$key];
+
+                if ($request->has('harga_satuan')) {
+                    $subTotal = (int) $request->jumlah_item[$key] * $hargaSatuan;
+                }
+
+                $total += $subTotal;
+
+                $pivot[$id] = [
+                    'nama' => $request->nama[$key],
+                    'ket' => $request->ket[$key],
+                    'harga_satuan' => $request->harga_satuan[$key] ?? null,
+                    'jumlah_item' => $request->jumlah_item[$key] ?? null,
+                    'jumlah_stok' => $jumlah,
+                    'sub_total' => $subTotal,
+                    'spending_unit_id' => $request->spending_unit_id[$key],
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                ];
+
+                $stok[$key] = [
+                    'product_id' => $id,
+                    'color_id' => $request->color_id[$key],
+                    'size_id' => $request->size_id[$key],
+                    'stok_ready' => ($productStock)
+                        ? $jumlah + ($productStock->stok_ready - $oldProduct->pivot->jumlah_stok)
+                        : $jumlah,
+                ];
+            }
+        }
+
+        $spending->products()->detach();
+
+        $input->put('total', $total);
+        $spending->update($input->toArray());
+        $spending->products()->attach($pivot);
+
+        ProductStock::upsert($stok, ['product_id', 'color_id', 'size_id'], ['stok_ready']);
 
         flash('Spending updated successfully.', 'success');
 
@@ -111,6 +236,7 @@ class SpendingController extends Controller
      */
     public function destroy(Spending $spending)
     {
+        $spending->products()->detach();
         $spending->delete();
 
         flash('Spending deleted successfully.', 'success');

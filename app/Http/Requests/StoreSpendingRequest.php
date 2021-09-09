@@ -38,7 +38,7 @@ class StoreSpendingRequest extends FormRequest
             'nama.*'             => ['required', 'string', 'max:255'],
             'ket'                => ['required', 'array'],
             'ket.*'              => ['nullable', 'string', 'max:65535'],
-            'harga_satuan'       => ['required', 'array'],
+            'harga_satuan'       => ['nullable', 'array'],
             'harga_satuan.*'     => ['nullable', 'numeric'],
             'jumlah_item'        => ['required', 'array'],
             'jumlah_item.*'      => ['required', 'numeric'],
@@ -54,7 +54,7 @@ class StoreSpendingRequest extends FormRequest
             'size_id.*'          => ['required'],
         ];
 
-        if ($request->has(['product_id', 'nama', 'ket', 'harga_satuan', 'jumlah_item', 'jumlah_stok', 'spending_unit_id', 'color_id', 'size_id'])) {
+        if ($request->has(['product_id', 'nama', 'ket', 'harga_satuan', 'jumlah_item', 'jumlah_stok', 'sub_total', 'spending_unit_id', 'color_id', 'size_id'])) {
             return array_merge($spending, $spendingDetail);
         }
 

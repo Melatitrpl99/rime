@@ -32,12 +32,12 @@
 
 <div class="form-group col-12 col-sm-6 col-md-4">
     {!! Form::label('price', 'Harga satuan') !!}
-    {!! Form::number('price', null, ['class' => 'form-control']) !!}
+    {!! Form::number('price', null, ['class' => 'form-control', 'oninput' => 'updateHarga(this)']) !!}
 </div>
 
 <div class="form-group col-12 col-sm-6 col-md-2">
     {!! Form::label('qty_mat', 'Jumlah') !!}
-    {!! Form::number('qty_mat', null, ['class' => 'form-control']) !!}
+    {!! Form::number('qty_mat', null, ['class' => 'form-control', 'oninput' => 'updateJumlah(this)']) !!}
 </div>
 
 <div class="form-group col-12 col-sm-6 col-md-2">
@@ -56,17 +56,17 @@
 
 <div class="form-group col-12 col-sm-6 col-md-4">
     {!! Form::label('product', 'Untuk produk') !!}
-    {!! Form::select('product', $productItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
+    {!! Form::select('product', $productItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%', 'placeholder' => 'Pilih produk...']) !!}
 </div>
 
 <div class="form-group col-12 col-sm-6 col-md-3">
     {!! Form::label('color', 'Warna') !!}
-    {!! Form::select('color', $colorItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
+    {!! Form::select('color', $colorItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%', 'placeholder' => 'Pilih warna...']) !!}
 </div>
 
 <div class="form-group col-12 col-sm-6 col-md-3">
     {!! Form::label('size', 'Ukuran') !!}
-    {!! Form::select('size', $sizeItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%']) !!}
+    {!! Form::select('size', $sizeItems, null, ['class' => 'form-control select2-dropdown', 'style' => 'width: 100%', 'placeholder' => 'Pilih ukuran...']) !!}
 </div>
 
 <div class="form-group col-12 col-sm-3 col-md-2">
@@ -111,12 +111,13 @@
                         </td>
                         <td class="text-right">
                             <span>{{ $product->pivot->jumlah_item . ' ' . $product->pivot->spendingUnit->name }}</span>
-                            {!! Form::hidden('jumlah[]', $product->pivot->jumlah_item) !!}
+                            {!! Form::hidden('jumlah_item[]', $product->pivot->jumlah_item) !!}
                             {!! Form::hidden('spending_unit_id[]', $product->pivot->spending_unit_id) !!}
                         </td>
                         <td class="text-right">
                             <span>{{ rp($product->pivot->sub_total) }}</span>
                             {!! Form::hidden('harga_satuan[]', $product->pivot->harga_satuan) !!}
+                            {!! Form::hidden('sub_total[]', $product->pivot->sub_total) !!}
                         </td>
                         <td>
                             <span class="d-block mb-2">{{ $product->nama }}</span>
@@ -135,7 +136,13 @@
             @endif
         </tbody>
         <tfoot>
-
+            <tr>
+                <th colspan="3" class="text-right">Total pengeluaran</th>
+                <th class="text-right">
+                    {!! Form::hidden('total', null) !!}
+                    <span id="calc">{{ Route::currentRouteName() == 'admin.spendings.edit' ? rp($spending->total) : '' }}</span>
+                </th>
+            </tr>
         </tfoot>
     </table>
 </div>
