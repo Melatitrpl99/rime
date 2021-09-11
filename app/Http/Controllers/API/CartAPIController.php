@@ -148,7 +148,6 @@ class CartAPIController extends Controller
             $products = Product::whereIn('id', $request->product_id)->get();
             $hasRole = $user->hasRole('reseller');
 
-            $pivot = [];
             $total = 0;
             $productId = array_values($request->only('product_id'))[0];
             $colorId = array_values($request->only('color_id'))[0];
@@ -171,26 +170,18 @@ class CartAPIController extends Controller
                 $subTotal = $product->harga * $jumlah[$key];
                 $total = $total + $subTotal;
 
-                $pivot[$id] = [
+                $cart->products()->attach($id, [
                     'color_id' => $colorId[$key],
                     'size_id' => $sizeId[$key],
                     'jumlah' => $jumlah[$key],
                     'sub_total' => $subTotal,
-                ];
+                ]);
             }
 
             $input->put('total', $total);
         }
 
-        DB::enableQueryLog();
-        $cart->products()->attach($pivot);
         $cart->update($input->toArray());
-
-        $log = DB::getQueryLog();
-
-        Log::debug($log);
-
-        $cart->loadSum('products as jumlah', 'cart_details.jumlah');
 
         return response()->json(new CartResource(
             $cart

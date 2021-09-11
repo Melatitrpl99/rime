@@ -25,6 +25,7 @@ class UpdateProfileAPIRequest extends FormRequest
     {
         return [
             'nama_lengkap' => ['sometimes', 'required', 'string', 'max:255'],
+            'jk'           => ['sometimes', 'required', 'string', 'max:1'],
             'tempat_lahir' => ['sometimes', 'required', 'string', 'max:255'],
             'tgl_lahir'    => ['sometimes', 'required', 'string', 'max:255'],
             'no_hp'        => ['sometimes', 'required', 'string', 'max:255'],

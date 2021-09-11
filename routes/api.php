@@ -91,7 +91,7 @@ Route::group(['middleware' => 'api'], function () {
             });
 
         Route::apiResource('orders', OrderAPIController::class)
-            ->except(['destroy'])
+            ->except(['update', 'destroy'])
             ->missing(function () {
                 return response()->json(['message' => 'Tidak ditemukan']);
             });

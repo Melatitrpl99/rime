@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\RegisterRequest;
+use App\Http\Requests\API\LoginAPIRequest;
+use App\Http\Requests\API\RegisterAPIRequest;
 use App\Http\Requests\API\UpdateProfileAPIRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthAPIController extends Controller
 {
-    public function login()
+    public function login(LoginAPIRequest $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->validated();
 
         if (!$token = auth('api')->attempt($credentials)) {
             return response()->unauthorized('Email atau password salah');
@@ -28,7 +28,7 @@ class AuthAPIController extends Controller
         ], 200);
     }
 
-    public function register(RegisterRequest $request)
+    public function register(RegisterAPIRequest $request)
     {
         $register = $request->validated();
         $register['password'] = Hash::make($register['password']);
