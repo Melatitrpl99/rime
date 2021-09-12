@@ -203,7 +203,7 @@
                                 <i class="fas fa-plus mr-1"></i>
                                 <span>Buat laporan baru</span>
                             </a>
-                            <a href="{{ route('admin.laba_rugi.index') }}" class="btn btn-primary btn-sm btn-block text-left">
+                            <a href="{{ route('admin.laba_rugi') }}" class="btn btn-primary btn-sm btn-block text-left">
                                 <i class="fas fa-file-invoice mr-1"></i>
                                 <span>Laporan Laba Rugi</span>
                             </a>

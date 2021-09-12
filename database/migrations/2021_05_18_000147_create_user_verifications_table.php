@@ -19,14 +19,12 @@ class CreateUserVerificationsTable extends Migration
             $table->foreignId('user_id')->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-
             $table->text('face_path')->nullable();
             $table->text('id_card_path')->nullable();
-            $table->text('result_id');
-            $table->double('similarity');
-            $table->string('status');
+            $table->longText('result')->nullable();
+            $table->double('similarity')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

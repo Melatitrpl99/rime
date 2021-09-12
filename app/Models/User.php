@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable, HasFactory, HasRoles;
+    use Notifiable, HasFactory, HasRoles, HasApiTokens;
 
     public $fillable = [
         'email',
@@ -41,45 +41,6 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'tgl_lahir' => 'date',
     ];
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     */
-    public function getJWTCustomClaims(): array
-    {
-        return [];
-    }
-
-    public function setJenisKelaminAttribute(string $value)
-    {
-        if (strtolower(trim($value)) == 'laki-laki') {
-            $this->attributes['jk'] = 'l';
-        }
-
-        if (strtolower(trim($value)) == 'perempuan') {
-            $this->attributes['jk'] = 'p';
-        }
-    }
-
-    public function getJenisKelaminAttribute(): string
-    {
-        switch ($this->jk) {
-            case 'l':
-                return 'Laki-laki';
-            case 'p':
-                return 'Perempuan';
-            default:
-                return 'Tidak diketahui';
-        }
-    }
 
     public function carts(): HasMany
     {

@@ -3,30 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class UserVerification extends Model
 {
-    use SoftDeletes;
-
-    public $table = 'user_verifications';
-
     public $fillable = [
         'user_id',
-        'result_token',
+        'face_path',
+        'id_card_path',
+        'result',
         'similarity',
-        'accuracy',
         'status',
     ];
 
     protected $casts = [
-        'result_token' => 'string',
+        'face_path'    => 'string',
+        'id_card_path' => 'string',
+        'result'       => 'string',
         'similarity'   => 'double',
-        'accuracy'     => 'double',
     ];
 
     protected $hidden = [
-        'deleted_at',
+        'created_at',
+        'updated_at',
     ];
 
     public function user()

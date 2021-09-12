@@ -12,7 +12,6 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ColorController;
-use App\Http\Controllers\Laporan\BukuBesarController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Misc\CekDiskonController;
 use App\Http\Controllers\Misc\FilepondController;
@@ -40,14 +39,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'login');
 
 Auth::routes();
-
-Route::get('/laporan', function () {
-    return view('laporan.index');
-});
-
-Route::get('/pengeluaran', function () {
-    return view('laporan.pengeluaran');
-});
 
 Route::post('import', [ExcelController::class, 'import'])->name('import');
 
@@ -209,13 +200,8 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
                 return redirect()->route('admin.testimonies.index');
             });
 
-        Route::resource('laba_rugi', LabaRugiController::class)
-            ->parameters(['laba_rugi' => 'laba_rugis'])
-            ->names('laba_rugi');
-
-        Route::resource('buku_besar', BukuBesarController::class)
-            ->parameters(['buku_besar' => 'besar'])
-            ->names('buku_besar');
+        Route::get('laba_rugi', LabaRugiController::class)
+            ->name('laba_rugi');
 
         Route::resource('user_verifications', UserVerificationController::class)
             ->missing(function () {
@@ -258,5 +244,3 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             return redirect()->route('admin.delivery_costs.index');
         });
 });
-
-

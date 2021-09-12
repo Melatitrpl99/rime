@@ -8,15 +8,9 @@ use App\Http\Requests\API\UpdateCartAPIRequest;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
 use App\Models\Product;
-use DB;
-use Faker\Factory;
 use Illuminate\Http\Request;
-use Log;
 use Validator;
 
-/**
- * Class CartAPIController.
- */
 class CartAPIController extends Controller
 {
     /**
@@ -86,16 +80,14 @@ class CartAPIController extends Controller
 
         $total = $product->harga * $jumlah;
 
-        $pivot[$productId] = [
+        $input->put('total', $total);
+        $cart = Cart::create($input->toArray());
+        $cart->products()->attach($productId, [
             'color_id' => $colorId,
             'size_id' => $sizeId,
             'jumlah' => $jumlah,
             'sub_total' => $total,
-        ];
-
-        $input->put('total', $total);
-        $cart = Cart::create($input->toArray());
-        $cart->products()->sync($pivot);
+        ]);
 
         return response()->json(new CartResource(
             $cart

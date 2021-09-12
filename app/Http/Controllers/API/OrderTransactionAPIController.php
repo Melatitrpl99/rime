@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class OrderTransactionAPIController extends Controller
 {
-    //
+    public function __invoke(Request $request)
+    {
+        //
+    }
 }

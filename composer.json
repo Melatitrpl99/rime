@@ -19,6 +19,7 @@
         "infyomlabs/laravel-generator": "^3.0",
         "infyomlabs/routes-explorer": "dev-master",
         "laravel/framework": "^8.12",
+        "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "laravelcollective/html": "^6.2",
@@ -26,8 +27,7 @@
         "spatie/laravel-permission": "^4.3",
         "staudenmeir/belongs-to-through": "^2.11",
         "staudenmeir/eloquent-eager-limit": "^1.6",
-        "staudenmeir/eloquent-has-many-deep": "^1.13",
-        "tymon/jwt-auth": "1.0.*"
+        "staudenmeir/eloquent-has-many-deep": "^1.13"
     },
     "require-dev": {
         "azishapidin/indoregion": "^3.0",

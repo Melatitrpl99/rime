@@ -109,14 +109,7 @@
 <li class="nav-header text-xs">LAPORAN</li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.buku_besar.index') }}" class="nav-link {{ Request::is('admin/buku_besar*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-book"></i>
-        <p>Buku Besar</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.laba_rugi.index') }}" class="nav-link {{ Request::is('admin/laba_rugi*') ? 'active' : '' }}">
+    <a href="{{ route('admin.laba_rugi') }}" class="nav-link {{ Request::is('admin/laba_rugi*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-calculator"></i>
         <p>Laba Rugi</p>
     </a>
@@ -220,5 +213,3 @@
         <p>Delivery Costs</p>
     </a>
 </li>
-
-

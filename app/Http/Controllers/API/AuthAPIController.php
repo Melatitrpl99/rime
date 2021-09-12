@@ -16,15 +16,15 @@ class AuthAPIController extends Controller
     {
         $credentials = $request->validated();
 
-        if (!$token = auth('api')->attempt($credentials)) {
-            return response()->unauthorized('Email atau password salah');
+        $user = User::firstWhere('email', $credentials['email']);
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return response()->json(['message' => 'Email atau password salah']);
         }
 
         return response()->json([
-            'access_token'  => $token,
+            'access_token'  => $user->createToken($request->userAgent())->plainTextToken,
             'token_type'    => 'Bearer',
-            'expires_in'    => auth('api')->factory()->getTTL() * 60,
-            'expires_until' => now()->format('U') + (auth('api')->factory()->getTTL() * 60),
         ], 200);
     }
 
@@ -33,21 +33,19 @@ class AuthAPIController extends Controller
         $register = $request->validated();
         $register['password'] = Hash::make($register['password']);
 
-        $login = $request->safe()->only(['email', 'password']);
+        $credentials = $request->safe()->only(['email', 'password']);
 
         $user = User::create($register);
         $user->assignRole('customer');
 
-        if (!$token = auth('api')->attempt($login)) {
-            return response()->unauthorized('Email atau password salah');
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return response()->json(['message' => 'Email atau password salah']);
         }
 
         return response()->json([
-            'access_token'  => $token,
+            'access_token'  => $user->createToken($request->userAgent())->plainTextToken,
             'token_type'    => 'Bearer',
-            'expires_in'    => auth('api')->factory()->getTTL() * 60,
-            'expires_until' => now()->format('U') + (auth('api')->factory()->getTTL() * 60),
-        ]);
+        ], 200);
     }
 
     public function me()
@@ -59,21 +57,9 @@ class AuthAPIController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        auth()->user()->tokens()->delete();
 
         return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    public function refresh()
-    {
-        $token = auth('api')->refresh();
-
-        return response()->json([
-            'access_token'  => $token,
-            'token_type'    => 'Bearer',
-            'expires_in'    => auth('api')->factory()->getTTL() * 60,
-            'expires_until' => now()->format('U') + (auth('api')->factory()->getTTL() * 60),
-        ], 200);
     }
 
     public function updateProfile(UpdateProfileAPIRequest $request)

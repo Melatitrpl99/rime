@@ -38,7 +38,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::patch('login/update', [AuthAPIController::class, 'updateLogin']);
     Route::patch('profile/update', [AuthAPIController::class, 'updateProfile']);
 
-    Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::group(['prefix' => 'shipments', 'as' => 'shipments.'], function () {
             Route::get('provinces', [GetShipmentDetailsController::class, 'getProvinces'])
