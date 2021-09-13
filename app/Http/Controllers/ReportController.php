@@ -23,7 +23,7 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $reports = Report::all();
+        $reports = Report::paginate(15);
 
         return view('admin.reports.index')
             ->with('reports', $reports);

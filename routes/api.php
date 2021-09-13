@@ -11,10 +11,15 @@ use App\Http\Controllers\API\ColorAPIController;
 use App\Http\Controllers\API\Misc\GetPaymentMethodAPIController;
 use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
 use App\Http\Controllers\API\Product\ProductLikeController;
+use App\Http\Controllers\API\ProfileAPIController;
 use App\Http\Controllers\API\SizeAPIController;
 use App\Http\Controllers\API\TestimonyAPIController;
 use App\Http\Controllers\API\UserAPIController;
 use App\Http\Controllers\API\UserShipmentAPIController;
+use App\Http\Controllers\API\UserVerification\CheckIfUserIsElligibleAPIController;
+use App\Http\Controllers\API\UserVerification\CreateVerificationServiceAPIController;
+use App\Http\Controllers\API\UserVerification\GetVerificationResultAPIController;
+use App\Http\Controllers\API\UserVerification\UploadImageAPIController;
 use App\Http\Controllers\API\UserVerificationAPIController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,12 +38,13 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('login', [AuthAPIController::class, 'login']);
     Route::post('register', [AuthAPIController::class, 'register']);
     Route::post('logout', [AuthAPIController::class, 'logout']);
-    Route::post('refresh', [AuthAPIController::class, 'refresh']);
-    Route::get('me', [AuthAPIController::class, 'me']);
-    Route::patch('login/update', [AuthAPIController::class, 'updateLogin']);
-    Route::patch('profile/update', [AuthAPIController::class, 'updateProfile']);
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::group(['as' => 'profile.'], function () {
+            Route::get('me', [ProfileAPIController::class, 'me'])->name('me');
+            Route::patch('profile/update', [ProfileAPIController::class, 'updateProfile'])->name('update');
+            Route::patch('login/update', [AuthAPIController::class, 'updateLogin'])->name('update.login');
+        });
 
         Route::group(['prefix' => 'shipments', 'as' => 'shipments.'], function () {
             Route::get('provinces', [GetShipmentDetailsController::class, 'getProvinces'])
@@ -57,18 +63,6 @@ Route::group(['middleware' => 'api'], function () {
         Route::delete('products/{product}/likes', [ProductLikeController::class, 'destroy'])
             ->name('products.dislike');
 
-        Route::apiResource('colors', ColorAPIController::class)
-            ->only('index')
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('sizes', SizeAPIController::class)
-            ->only('index')
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
         Route::group(['prefix' => 'carts', 'as' => 'cart.details.'], function () {
             Route::post('{cart}/products', [CartDetailAPIController::class, 'addProduct'])
                 ->name('add');
@@ -81,53 +75,13 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('payment_methods', GetPaymentMethodAPIController::class)
             ->name('payment_methods');
 
-        Route::apiResource('carts', CartAPIController::class)
-            ->missing(response()->json(['message' => 'Tidak ditemukan']));
+        Route::group(['prefix' => 'verifications', 'as' => 'verifications.'], function () {
+            Route::post('verify', CheckIfUserIsElligibleAPIController::class)->name('verify');
+            Route::post('create', CreateVerificationServiceAPIController::class)->name('create');
+            Route::get('result', GetVerificationResultAPIController::class)->name('result');
+            Route::put('upload', UploadImageAPIController::class)->name('upload');
+        });
 
-        Route::apiResource('discounts', DiscountAPIController::class)
-            ->only(['index', 'show'])
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('orders', OrderAPIController::class)
-            ->except(['update', 'destroy'])
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('products', ProductAPIController::class)
-            ->only(['index', 'show'])
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('posts', PostAPIController::class)
-            ->only(['index', 'show'])
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('user_shipments', UserShipmentAPIController::class)
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('testimonies', TestimonyAPIController::class)
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('user_verifications', UserVerificationAPIController::class)
-            ->only(['index', 'store', 'show'])
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
-
-        Route::apiResource('users', UserAPIController::class)
-            ->except('index')
-            ->missing(function () {
-                return response()->json(['message' => 'Tidak ditemukan']);
-            });
+        require __DIR__ . '/api_resources.php';
     });
 });

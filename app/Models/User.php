@@ -42,6 +42,30 @@ class User extends Authenticatable
         'tgl_lahir' => 'date',
     ];
 
+    public function setJenisKelaminAttribute(string $value)
+    {
+        if ($value == 'Laki-laki') {
+            $this->attributes['jk'] = 'l';
+        } else {
+            $this->attributes['jk'] = 'p';
+        }
+    }
+
+    public function getJenisKelaminAttribute()
+    {
+        return $this->attributes['jk'] == 'l' ? 'Laki-laki' : 'Perempuan';
+    }
+
+    /**
+     * Specifies the user's FCM token
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFcm()
+    {
+        return $this->getDeviceTokens();
+    }
+
     public function carts(): HasMany
     {
         return $this->hasMany(Cart::class);

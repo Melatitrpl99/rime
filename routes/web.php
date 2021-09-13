@@ -1,38 +1,13 @@
 <?php
 
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\DiscountController;
-use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\Misc\ExcelController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PartnerController;
-use App\Http\Controllers\PostCategoryController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Misc\CekDiskonController;
 use App\Http\Controllers\Misc\FilepondController;
 use App\Http\Controllers\Misc\GetUserRelationController;
 use App\Http\Controllers\Misc\RegionController;
 use App\Http\Controllers\Misc\StokProdukController;
-use App\Http\Controllers\OrderTransactionController;
-use App\Http\Controllers\PaymentMethodController;
-use App\Http\Controllers\ProductCategoryController;
-use App\Http\Controllers\SizeController;
-use App\Http\Controllers\ProductStockController;
-use App\Http\Controllers\ReportCategoryController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\SpendingCategoryController;
-use App\Http\Controllers\SpendingController;
-use App\Http\Controllers\SpendingUnitController;
-use App\Http\Controllers\StatusController;
-use App\Http\Controllers\TestimonyController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserShipmentController;
-use App\Http\Controllers\UserVerificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -79,168 +54,13 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
     Route::get('get_order_details', [GetUserRelationController::class, 'getOrderDetails'])->name('get_order_details');
     Route::get('get_shipping_addresses', [GetUserRelationController::class, 'getShippingAddresses'])->name('get_shipping_addresses');
 
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-        Route::resource('activities', ActivityController::class)
-            ->missing(function () {
-                flash('Activity not found', 'danger');
-                return redirect()->route('admin.activities.index');
-            });
+    Route::view('reports/laba_rugi/pdf', 'admin.reports.laba_rugi.pdf', [
+        'pemasukan' => 13500000,
+        'pengeluaran' => 7500000,
+    ]);
 
-        Route::resource('carts', CartController::class)
-            ->missing(function () {
-                flash('Cart not found', 'danger');
-                return redirect()->route('admin.carts.index');
-            });
+    Route::get('laba_rugi', [LabaRugiController::class, 'index'])->name('laba_rugi.index');
+    Route::get('laba_rugi/pdf', [LabaRugiController::class, 'pdf'])->name('laba_rugi.pdf');
 
-        Route::resource('colors', ColorController::class)
-            ->missing(function () {
-                flash('Color not found', 'danger');
-                return redirect()->route('admin.colors.index');
-            });
-
-        Route::resource('discounts', DiscountController::class)
-            ->missing(function () {
-                flash('Discount not found', 'danger');
-                return redirect()->route('admin.discounts.index');
-            });
-
-        Route::resource('files', FileController::class)
-            ->missing(function () {
-                flash('File not found', 'danger');
-                return redirect()->route('admin.files.index');
-            });
-
-        Route::resource('orders', OrderController::class)
-            ->missing(function () {
-                flash('Order not found', 'danger');
-                return redirect()->route('admin.orders.index');
-            });
-
-        Route::resource('partners', PartnerController::class)
-            ->missing(function () {
-                flash('Partner not found', 'danger');
-                return redirect()->route('admin.partners.index');
-            });
-
-        Route::resource('posts', PostController::class)
-            ->missing(function () {
-                flash('Post not found', 'danger');
-                return redirect()->route('admin.posts.index');
-            });
-
-        Route::resource('post_categories', PostCategoryController::class)
-            ->missing(function () {
-                flash('Post categories not found', 'danger');
-                return redirect()->route('admin.post_categories.index');
-            });
-
-        Route::resource('products', ProductController::class)
-            ->missing(function () {
-                flash('Product not found', 'danger');
-                return redirect()->route('admin.products.index');
-            });
-
-        Route::resource('product_categories', ProductCategoryController::class)
-            ->missing(function () {
-                flash('Product Category not found', 'danger');
-                return redirect()->route('admin.product_categories.index');
-            });
-
-        Route::resource('product_stocks', ProductStockController::class)
-            ->missing(function () {
-                flash('Product stocks not found', 'danger');
-                return redirect()->route('admin.product_stocks.index');
-            });
-
-        Route::resource('reports', ReportController::class)
-            ->missing(function () {
-                flash('Report not found', 'danger');
-                return redirect()->route('admin.reports.index');
-            });
-
-        Route::resource('user_shipments', UserShipmentController::class)
-            ->missing(function () {
-                flash('User Shipment not found', 'danger');
-                return redirect()->route('admin.shipments.index');
-            });
-
-        Route::resource('sizes', SizeController::class)
-            ->missing(function () {
-                flash('Size not found', 'danger');
-                return redirect()->route('admin.sizes.index');
-            });
-
-        Route::resource('spendings', SpendingController::class)
-            ->missing(function () {
-                flash('Spending not found', 'danger');
-                return redirect()->route('admin.spendings.index');
-            });
-
-        Route::resource('statuses', StatusController::class)
-            ->missing(function () {
-                flash('Status not found', 'danger');
-                return redirect()->route('admin.statuses.index');
-            });
-
-        Route::resource('order_transactions', OrderTransactionController::class)
-            ->missing(function () {
-                flash('Transaction not found', 'danger');
-                return redirect()->route('admin.transactions.index');
-            });
-
-        Route::resource('users', UserController::class)
-            ->missing(function () {
-                flash('User not found', 'danger');
-                return redirect()->route('admin.users.index');
-            });
-
-        Route::resource('testimonies', TestimonyController::class)
-            ->missing(function () {
-                flash('Testimony not found', 'danger');
-                return redirect()->route('admin.testimonies.index');
-            });
-
-        Route::get('laba_rugi', LabaRugiController::class)
-            ->name('laba_rugi');
-
-        Route::resource('user_verifications', UserVerificationController::class)
-            ->missing(function () {
-                flash('User Verification not found', 'danger');
-                return redirect()->route('admin.user_verifications.index');
-            });
-
-        Route::resource('spending_categories', SpendingCategoryController::class)
-            ->missing(function () {
-                flash('Spending Category not found', 'danger');
-                return redirect()->route('admin.spending_categories.index');
-            });
-
-        Route::resource('spending_units', SpendingUnitController::class)
-            ->missing(function () {
-                flash('Spending Unit not found', 'danger');
-                return redirect()->route('admin.spending_units.index');
-            });
-
-        Route::resource('payment_methods', PaymentMethodController::class)
-            ->missing(function () {
-                flash('Payment Method not found', 'danger');
-                return redirect()->route('admin.payment_methods.index');
-            });
-
-        Route::resource('report_categories', ReportCategoryController::class)
-            ->missing(function () {
-                flash('Report Category not found', 'danger');
-                return redirect()->route('admin.report_categories.index');
-            });
-    });
-});
-
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('delivery_costs', App\Http\Controllers\DeliveryCostController::class)
-        ->missing(function () {
-            flash('Delivery Cost not found', 'danger');
-
-            return redirect()->route('admin.delivery_costs.index');
-        });
+    require __DIR__ . '/web_resources.php';
 });
