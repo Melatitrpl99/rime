@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\UserVerification;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserVerificationResource;
 use Illuminate\Http\Request;
+use Str;
 
 class CreateVerificationServiceAPIController extends Controller
 {
@@ -19,6 +20,7 @@ class CreateVerificationServiceAPIController extends Controller
         if (!$userVerification) {
             $userVerification = $user->userVerification()->create([
                 'verification_status_id' => 1,
+                'base_path'              => 'public/verifications/' . Str::random(),
             ]);
         }
 

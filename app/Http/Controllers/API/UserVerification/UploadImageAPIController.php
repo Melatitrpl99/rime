@@ -15,6 +15,8 @@ class UploadImageAPIController extends Controller
 
     public function __invoke(Request $request)
     {
+        // return response()->json($request->all(), 404);
+
         if (!$request->has(['image_type', 'path']) || $request->image_type > 2 || $request->image_type < 0) {
             return response()->json(['message' => 'unprocessable'], 422);
         }
@@ -26,18 +28,13 @@ class UploadImageAPIController extends Controller
         }
 
         $file = $request->file('path');
-
-        $rand = Str::random();
-        $dir = !is_null($userVerification->base_path)
-            ? $userVerification->base_path
-            : 'public/verifications/' . $rand;
         $format = $file->getClientOriginalExtension();
 
         $name = $request->image_type == 1
             ? '0001.' . $format
             : '0002.' . $format;
 
-        $path = $file->storePubliclyAs($dir, $name);
+        $path = $file->storePubliclyAs($userVerification->base_path, $name);
 
         if ($request->image_type == 1) {
             $userVerification->face_path = $path;
