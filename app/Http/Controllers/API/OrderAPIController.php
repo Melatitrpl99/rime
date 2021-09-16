@@ -37,21 +37,23 @@ class OrderAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        if ($request->has('status_id') && $request->get('status_id') != 0) {
-            $query->where('status_id', $request->get('status_id'));
-
-            if ($request->get('status_id') > 7) {
-                return response()->json(null, 422);
-            }
-        }
-
-        if ($request->get('is_completed') == 'true') {
-            $query->allProcessed();
-        } else if ($request->get('is_completed') == 'false') {
+        if ($request->get('status_id') == 0) {
             $query->isOngoing();
         }
 
-        $orders = $query->where('user_id', auth()->id())
+        if ($request->get('status_id') > 0 && $request->get('status_id') < 8) {
+            $query->whereStatusId($request->get('status_id'));
+        }
+
+        if ($request->get('status_id') == 8) {
+            $query->allProcessed();
+        }
+
+        if ($request->get('status_id') > 8) {
+            return response()->json(['message' => 'Unknown query'], 422);
+        }
+
+        $orders = $query->whereUserId(auth()->id())
             ->orderByDesc('updated_at')
             ->with(['status', 'userShipment'])
             ->withSum('products as jumlah', 'order_details.jumlah')
@@ -179,6 +181,7 @@ class OrderAPIController extends Controller
             'userShipment',
             'paymentMethod',
         ])
+            ->loadExists('invoice as is_paid')
             ->loadSum('products as jumlah', 'order_details.jumlah');
 
         return response()->json(new OrderResource($order), 200);

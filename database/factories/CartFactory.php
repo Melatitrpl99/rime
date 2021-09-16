@@ -22,9 +22,11 @@ class CartFactory extends Factory
     {
         $userIds = User::pluck('id')->toArray();
         return [
-            'judul'     => $this->faker->words(rand(3, 6), true),
-            'deskripsi' => $this->faker->text,
-            'user_id'   => $this->faker->randomElement($userIds),
+            'judul'      => $this->faker->words(rand(3, 6), true),
+            'deskripsi'  => $this->faker->text,
+            'user_id'    => $this->faker->randomElement($userIds),
+            'created_at' => $this->faker->dateTimeBetween('-2 months', 'now'),
+            'updated_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }
 }

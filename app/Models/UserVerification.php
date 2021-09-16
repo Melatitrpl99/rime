@@ -3,15 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class UserVerification extends Model
 {
     public $fillable = [
         'user_id',
+        'base_path',
         'face_path',
         'id_card_path',
         'result',
         'similarity',
-        'status',
+        'verification_status_id',
     ];
 
     protected $casts = [
@@ -26,8 +29,13 @@ class UserVerification extends Model
         'updated_at',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function verificationStatus(): BelongsTo
+    {
+        return $this->belongsTo(VerificationStatus::class);
     }
 }

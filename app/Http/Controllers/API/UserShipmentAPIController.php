@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserShipmentController;
 use App\Http\Requests\API\StoreUserShipmentAPIRequest;
 use App\Http\Requests\API\UpdateUserShipmentAPIRequest;
 use App\Http\Resources\UserShipmentResource;
 use App\Models\UserShipment;
-use DB;
+use App\Models\Village;
 use Illuminate\Http\Request;
 use Log;
 
@@ -36,9 +37,9 @@ class UserShipmentAPIController extends Controller
             $query->limit($request->get('limit'));
         }
 
-        $UserShipments = $query->where('user_id', auth()->id())->get();
+        $userShipments = $query->where('user_id', auth()->id())->get();
 
-        return response()->json(UserShipmentResource::collection($UserShipments), 200);
+        return response()->json(UserShipmentResource::collection($userShipments), 200);
     }
 
     /**
@@ -51,23 +52,38 @@ class UserShipmentAPIController extends Controller
      */
     public function store(StoreUserShipmentAPIRequest $request)
     {
-        $UserShipment = UserShipment::create($request->validated());
+        $input = collect($request->validated());
+        $input->put('user_id', auth()->id());
 
-        return response()->json(new UserShipmentResource($UserShipment), 201);
+        $village = Village::whereRelation('district', 'name', 'LIKE', $request->district)
+            ->where('name', 'LIKE', $request->village)
+            ->first();
+
+        $input->put('village_id', $village->id);
+
+        if ($request->boolean('is_default')) {
+            UserShipment::whereUserId(auth()->id())
+                ->where('is_default', true)
+                ->update(['is_default' => false]);
+        }
+
+        $userShipment = UserShipment::create($input->toArray());
+
+        return response()->json(new UserShipmentResource($userShipment->load('village.district.regency.province')), 201);
     }
 
     /**
      * Display the specified UserShipment.
      * GET|HEAD /UserShipments/{UserShipment}.
      *
-     * @param \App\Models\UserShipment $UserShipment
+     * @param \App\Models\UserShipment $userShipment
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show(UserShipment $UserShipment)
+    public function show(UserShipment $userShipment)
     {
-        return $UserShipment->user_id == auth()->id()
-            ? response()->json(new UserShipmentResource($UserShipment), 200)
+        return $userShipment->user_id == auth()->id()
+            ? response()->json(new UserShipmentResource($userShipment->load('village.district.regency.province')), 200)
             : response()->json(['message' => 'Not allowed'], 403);
     }
 
@@ -75,49 +91,52 @@ class UserShipmentAPIController extends Controller
      * Update the specified UserShipment in storage.
      * PUT/PATCH /UserShipments/{UserShipment}.
      *
-     * @param \App\Models\UserShipment $UserShipment
+     * @param \App\Models\UserShipment $userShipment
      * @param \App\Http\Requests\UpdateUserShipmentRequest $request
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function update(UserShipment $UserShipment, UpdateUserShipmentAPIRequest $request)
+    public function update(UserShipment $userShipment, UpdateUserShipmentAPIRequest $request)
     {
         Log::debug($request->validated());
-        if ($UserShipment->user_id != auth()->id()) {
+        if ($userShipment->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
         }
 
-        $query = UserShipment::where('user_id', auth()->id())
-            ->where('is_default', true);
+        $input = collect($request->validated());
 
-        $exist = $query->exists();
+        $village = Village::whereRelation('district', 'name', 'LIKE', $request->district)
+            ->where('name', 'LIKE', $request->village)
+            ->first();
 
-        if ($exist) {
-            $old = $query->first();
-            $old->update(['is_default' => false]);
+        $input->put('village_id', $village->id);
+
+        if ($request->boolean('is_default')) {
+            UserShipment::whereUserId(auth()->id())
+                ->where('is_default', true)
+                ->update(['is_default' => false]);
         }
-        DB::enableQueryLog();
-        $UserShipment->update($request->validated());
 
-        Log::debug(DB::getQueryLog());
-        return response()->json(new UserShipmentResource($UserShipment), 200);
+        $userShipment->update($input->toArray());
+
+        return response()->json(new UserShipmentResource($userShipment->load('village.district.regency.province')), 200);
     }
 
     /**
      * Remove the specified UserShipment from storage.
      * DELETE /UserShipments/{UserShipment}.
      *
-     * @param \App\Models\UserShipment $UserShipment
+     * @param \App\Models\UserShipment $userShipment
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function destroy(UserShipment $UserShipment)
+    public function destroy(UserShipment $userShipment)
     {
-        if ($UserShipment->user_id != auth()->id()) {
+        if ($userShipment->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
         }
 
-        $UserShipment->delete();
+        $userShipment->delete();
 
         return response()->json(null, 204);
     }

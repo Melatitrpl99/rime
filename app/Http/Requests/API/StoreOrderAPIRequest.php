@@ -29,7 +29,7 @@ class StoreOrderAPIRequest extends FormRequest
             'kode_resi'         => ['nullable', 'string'],
             'discount_id'       => ['nullable'],
             'kode_diskon'       => ['nullable', 'string', 'max:255'],
-            'user_shipment_id'  => ['required'],
+            'user_shipment_id'  => ['nullable'],
             'payment_method_id' => ['required'],
             'product_id'        => ['required', 'array'],
             'product_id.*'      => ['required'],

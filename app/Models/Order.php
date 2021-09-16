@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,6 +23,7 @@ class Order extends Model
         'total',
         'biaya_pengiriman',
         'berat',
+        'expiry_date',
         'kode_resi',
         'discount_id',
         'status_id',
@@ -31,7 +33,8 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'immutable_date'
+        'created_at' => 'immutable_date',
+        'expiry_date' => 'immutable_date',
     ];
 
     protected $hidden = [
@@ -40,12 +43,12 @@ class Order extends Model
 
     public function scopeIsOngoing(Builder $query): Builder
     {
-        return $query->whereIn('status_id', [1, 2, 3, 4]);
+        return $query->whereIntegerInRaw('status_id', [1, 2, 3, 4]);
     }
 
     public function scopeAllProcessed(Builder $query): Builder
     {
-        return $query->whereIn('status_id', [5, 6, 7]);
+        return $query->whereIntegerInRaw('status_id', [5, 6, 7]);
     }
 
     public function scopeNotPaid(Builder $query): Builder
@@ -78,7 +81,7 @@ class Order extends Model
         return $query->where('status_id', 5);
     }
 
-    public function orderTransactions(): HasOne
+    public function orderTransaction(): HasOne
     {
         return $this->hasOne(OrderTransaction::class);
     }
@@ -115,13 +118,8 @@ class Order extends Model
             ->using(OrderDetail::class);
     }
 
-    public function invoices(): MorphMany
+    public function invoice(): MorphOne
     {
-        return $this->morphMany(File::class, 'fileable');
-    }
-
-    public function latestInvoice(): MorphOneOrMany
-    {
-        return $this->morphOne(File::class, 'fileable')->latestOfMany();
+        return $this->morphOne(File::class, 'fileable');
     }
 }

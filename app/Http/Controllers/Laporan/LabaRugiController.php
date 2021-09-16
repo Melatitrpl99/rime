@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class LabaRugiController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $pemasukan = OrderTransaction::sum('total');
         $pengeluaran = Spending::sum('total');
@@ -19,5 +19,10 @@ class LabaRugiController extends Controller
         return view('admin.reports.laba_rugi.index')
             ->with('pemasukan', $pemasukan)
             ->with('pengeluaran', $pengeluaran);
+    }
+
+    public function pdf()
+    {
+        return view('admin.reports.laba_rugi.pdf');
     }
 }

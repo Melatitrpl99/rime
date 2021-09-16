@@ -2,25 +2,14 @@
 
 use App\Http\Controllers\API\AuthAPIController;
 use App\Http\Controllers\API\Details\CartDetailAPIController;
-use App\Http\Controllers\API\CartAPIController;
-use App\Http\Controllers\API\DiscountAPIController;
-use App\Http\Controllers\API\OrderAPIController;
-use App\Http\Controllers\API\PostAPIController;
-use App\Http\Controllers\API\ProductAPIController;
-use App\Http\Controllers\API\ColorAPIController;
 use App\Http\Controllers\API\Misc\GetPaymentMethodAPIController;
 use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
 use App\Http\Controllers\API\Product\ProductLikeController;
 use App\Http\Controllers\API\ProfileAPIController;
-use App\Http\Controllers\API\SizeAPIController;
-use App\Http\Controllers\API\TestimonyAPIController;
-use App\Http\Controllers\API\UserAPIController;
-use App\Http\Controllers\API\UserShipmentAPIController;
 use App\Http\Controllers\API\UserVerification\CheckIfUserIsElligibleAPIController;
 use App\Http\Controllers\API\UserVerification\CreateVerificationServiceAPIController;
-use App\Http\Controllers\API\UserVerification\GetVerificationResultAPIController;
+use App\Http\Controllers\API\UserVerification\GetVerificationStatusAPIController;
 use App\Http\Controllers\API\UserVerification\UploadImageAPIController;
-use App\Http\Controllers\API\UserVerificationAPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,7 +32,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::group(['as' => 'profile.'], function () {
             Route::get('me', [ProfileAPIController::class, 'me'])->name('me');
             Route::patch('profile/update', [ProfileAPIController::class, 'updateProfile'])->name('update');
-            Route::patch('login/update', [AuthAPIController::class, 'updateLogin'])->name('update.login');
+            Route::patch('login/update', [ProfileAPIController::class, 'updateLogin'])->name('update.login');
         });
 
         Route::group(['prefix' => 'shipments', 'as' => 'shipments.'], function () {
@@ -77,9 +66,9 @@ Route::group(['middleware' => 'api'], function () {
 
         Route::group(['prefix' => 'verifications', 'as' => 'verifications.'], function () {
             Route::post('verify', CheckIfUserIsElligibleAPIController::class)->name('verify');
-            Route::post('create', CreateVerificationServiceAPIController::class)->name('create');
-            Route::get('result', GetVerificationResultAPIController::class)->name('result');
-            Route::put('upload', UploadImageAPIController::class)->name('upload');
+            Route::post('create', [CreateVerificationServiceAPIController::class, 'create'])->name('create');
+            Route::get('status', GetVerificationStatusAPIController::class)->name('status');
+            Route::post('upload', UploadImageAPIController::class)->name('upload');
         });
 
         require __DIR__ . '/api_resources.php';

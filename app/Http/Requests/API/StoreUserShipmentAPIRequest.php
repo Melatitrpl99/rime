@@ -14,12 +14,14 @@ class StoreUserShipmentAPIRequest extends FormRequest
     public function rules()
     {
         return [
-            'alamat'      => ['required'],
-            'village_id'  => ['required'],
-            'kode_pos'    => ['required'],
-            'catatan'     => ['nullable'],
-            'is_default'  => ['nullable'],
-            'user_id'     => ['required'],
+            'alamat'     => ['required', 'string', 'max:65535'],
+            'kode_pos'   => ['required', 'string', 'max:10'],
+            'catatan'    => ['nullable', 'string', 'max:65535'],
+            'is_default' => ['nullable', 'boolean'],
+            'village'    => ['required', 'string', 'max:255'],
+            'district'   => ['required', 'string', 'max:255'],
+            'regency'    => ['required', 'string', 'max:255'],
+            'province'   => ['required', 'string', 'max:255'],
         ];
     }
 }

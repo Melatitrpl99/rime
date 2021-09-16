@@ -86,14 +86,9 @@ class User extends Authenticatable
         return $this->hasMany(Testimony::class);
     }
 
-    public function userVerifications(): HasMany
+    public function userVerification(): HasOne
     {
-        return $this->hasMany(UserVerification::class);
-    }
-
-    public function latestUserVerification(): HasOneOrMany
-    {
-        return $this->hasOne(UserVerification::class)->latestOfMany();
+        return $this->hasOne(UserVerification::class);
     }
 
     public function defaultUserShipment(): HasOne

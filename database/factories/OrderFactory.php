@@ -43,6 +43,8 @@ class OrderFactory extends Factory
             'status_id'         => $this->faker->randomElement($statusIds),
             'user_shipment_id'  => $this->faker->randomElement($shipmentIds),
             'user_id'           => $userId,
+            'created_at'        => $this->faker->dateTimeBetween('-2 months', 'now'),
+            'updated_at'        => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }
 }

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'login');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::post('import', [ExcelController::class, 'import'])->name('import');
 
@@ -54,13 +54,8 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
     Route::get('get_order_details', [GetUserRelationController::class, 'getOrderDetails'])->name('get_order_details');
     Route::get('get_shipping_addresses', [GetUserRelationController::class, 'getShippingAddresses'])->name('get_shipping_addresses');
 
-    Route::view('reports/laba_rugi/pdf', 'admin.reports.laba_rugi.pdf', [
-        'pemasukan' => 13500000,
-        'pengeluaran' => 7500000,
-    ]);
-
-    Route::get('laba_rugi', [LabaRugiController::class, 'index'])->name('laba_rugi.index');
-    Route::get('laba_rugi/pdf', [LabaRugiController::class, 'pdf'])->name('laba_rugi.pdf');
+    Route::get('admin/laba_rugi', [LabaRugiController::class, 'index'])->name('admin.laba_rugi.index');
+    Route::get('admin/laba_rugi/pdf', [LabaRugiController::class, 'pdf'])->name('admin.laba_rugi.pdf');
 
     require __DIR__ . '/web_resources.php';
 });

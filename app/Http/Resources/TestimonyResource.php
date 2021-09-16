@@ -21,7 +21,7 @@ class TestimonyResource extends JsonResource
             'user'       => new UserListResource($this->whenLoaded('user')),
             'judul'      => $this->judul,
             'isi'        => $this->isi,
-            'review'     => $this->review,
+            'rating'     => $this->rating,
         ];
     }
 }

@@ -15,13 +15,12 @@ class UserVerificationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'result_token' => $this->result_token,
-            'similarity' => $this->similarity,
-            'accuracy' => $this->accuracy,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'base_path'           => $this->base_path,
+            'face_path'           => $this->face_path,
+            'id_card_path'        => $this->id_card_path,
+            'result'              => $this->result,
+            'similarity'          => $this->similarity,
+            'verification_status' => $this->whenLoaded('verificationStatus'),
         ];
     }
 }

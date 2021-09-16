@@ -29,6 +29,8 @@ class SpendingFactory extends Factory
             'judul'                => $this->faker->words(rand(3, 6), true),
             'deskripsi'            => $this->faker->text,
             'spending_category_id' => $this->faker->randomElement($spendingCategoryIds),
+            'created_at'           => $this->faker->dateTimeBetween('-2 months', 'now'),
+            'updated_at'           => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }
 }
