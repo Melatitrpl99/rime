@@ -122,13 +122,6 @@
     </a>
 </li>
 
-<li class="nav-item">
-    <a href="{{ route('admin.report_categories.index') }}" class="nav-link {{ Request::is('admin/report_categories*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-bars"></i>
-        <p>Kategori Laporan</p>
-    </a>
-</li>
-
 <li class="nav-header"></li>
 <li class="nav-header text-xs">POST</li>
 
@@ -174,20 +167,6 @@
 <li class="nav-header text-xs">ADMIN</li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.activities.index') }}" class="nav-link {{ Request::is('admin/activities*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-list-ul"></i>
-        <p>Aktivitas</p>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ route('admin.partners.index') }}" class="nav-link {{ Request::is('admin/partners*') ? 'active' : '' }}">
-        <i class="nav-icon far fa-handshake"></i>
-        <p>Partner</p>
-    </a>
-</li>
-
-<li class="nav-item">
     <a href="{{ route('admin.files.index') }}" class="nav-link {{ Request::is('admin/files*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file-alt"></i>
         <p>File</p>
@@ -205,11 +184,5 @@
     <a href="/admin/routes" class="nav-link {{ Request::is('admin/routes*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-paperclip"></i>
         <p>Route Explorer</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="{{ route('admin.delivery_costs.index') }}" class="nav-link {{ Request::is('admin/delivery_costs*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-edit"></i>
-        <p>Delivery Costs</p>
     </a>
 </li>
