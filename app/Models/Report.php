@@ -16,14 +16,20 @@ class Report extends Model
         'deskripsi',
         'laporan_mulai',
         'laporan_selesai',
+        'report_category_id',
         'is_import',
         'slug',
-        'user_id'
+        'user_id',
     ];
 
     protected $casts = [
         'is_import' => 'boolean',
     ];
+
+    public function reportCategory(): BelongsTo
+    {
+        return $this->belongsTo(ReportCategory::class);
+    }
 
     public function user(): BelongsTo
     {

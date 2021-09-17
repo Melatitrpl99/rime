@@ -26,11 +26,12 @@ class UpdateReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'path'      => ['sometimes', 'required'],
-            'judul'     => ['required', 'string', 'max:255'],
-            'deskripsi' => ['nullable', 'string', 'max:65535'],
-            'is_import' => ['required', 'boolean'],
-            'user_id'   => ['required'],
+            'judul'              => ['required', 'string', 'max:255'],
+            'deskripsi'          => ['nullable', 'string', 'max:65535'],
+            'laporan_mulai'      => ['required', 'date'],
+            'laporan_selesai'    => ['required', 'date'],
+            'report_category_id' => ['required'],
+            'is_import'          => ['nullable', 'boolean'],
         ];
     }
 }
