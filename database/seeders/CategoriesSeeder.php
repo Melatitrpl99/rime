@@ -6,10 +6,12 @@ use App\Models\Color;
 use App\Models\PaymentMethod;
 use App\Models\PostCategory;
 use App\Models\ProductCategory;
+use App\Models\ReportCategory;
 use App\Models\Size;
 use App\Models\SpendingCategory;
 use App\Models\SpendingUnit;
 use App\Models\Status;
+use App\Models\VerificationStatus;
 use Illuminate\Database\Seeder;
 
 class CategoriesSeeder extends Seeder
@@ -30,6 +32,14 @@ class CategoriesSeeder extends Seeder
             ['name' => 'selesai', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'ditunda', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'dibatalkan', 'created_at' => now(), 'updated_at' => now()]
+        ]);
+
+        VerificationStatus::insert([
+            ['name' => 'Sedang memenuhi persyaratan', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Melakukan verifikasi', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Selesai', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Gagal', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Batal', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         PaymentMethod::insert([
@@ -79,6 +89,10 @@ class CategoriesSeeder extends Seeder
             ['name' => 'lembar', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'g', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'kg', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        ReportCategory::insert([
+            ['name' => 'Laba rugi', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

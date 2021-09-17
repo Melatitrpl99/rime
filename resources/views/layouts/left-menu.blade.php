@@ -181,6 +181,13 @@
 </li>
 
 <li class="nav-item">
+    <a href="{{ route('admin.verification_statuses.index') }}" class="nav-link {{ Request::is('admin/statuses*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-check"></i>
+        <p>Status Verifikasi</p>
+    </a>
+</li>
+
+<li class="nav-item">
     <a href="/admin/routes" class="nav-link {{ Request::is('admin/routes*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-paperclip"></i>
         <p>Route Explorer</p>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNewColumnsToReportsTable extends Migration
+class CreateVerificationStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AddNewColumnsToReportsTable extends Migration
      */
     public function up()
     {
-        Schema::table('reports', function (Blueprint $table) {
-            $table->date('laporan_mulai');
-            $table->date('laporan_selesai');
+        Schema::create('verification_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,8 +28,6 @@ class AddNewColumnsToReportsTable extends Migration
      */
     public function down()
     {
-        Schema::table('reports', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('verification_statuses');
     }
 }

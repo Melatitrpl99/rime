@@ -6,7 +6,6 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\DeliveryCostController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderTransactionController;
 use App\Http\Controllers\PartnerController;
@@ -26,6 +25,7 @@ use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserShipmentController;
 use App\Http\Controllers\UserVerificationController;
+use App\Http\Controllers\VerificationStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -177,5 +177,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         ->missing(function () {
             flash('Delivery Cost not found', 'danger');
             return redirect()->route('admin.delivery_costs.index');
+        });
+
+    Route::resource('verification_statuses', VerificationStatusController::class)
+        ->missing(function () {
+            flash('Verification Status not found', 'danger');
+            return redirect()->route('admin.verification_statuses.index');
         });
 });

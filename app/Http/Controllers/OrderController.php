@@ -30,7 +30,7 @@ class OrderController extends Controller
             'status:id,name',
             'user:id,nama_lengkap',
         ])
-            ->doesntHave('orderTransactions')
+            ->doesntHave('orderTransaction')
             ->orderByDesc('id')
             ->paginate($request->get('per_page') ?? 15);
 

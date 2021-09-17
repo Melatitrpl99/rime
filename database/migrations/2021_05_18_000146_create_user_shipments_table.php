@@ -23,7 +23,9 @@ class CreateUserShipmentsTable extends Migration
             $table->char('village_id', 10)
                 ->nullable()
                 ->index();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
 

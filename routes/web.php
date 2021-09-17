@@ -59,15 +59,5 @@ Route::group(['middleware' => ['auth', 'auth.admin']], function () {
     Route::get('admin/laba_rugi', [LabaRugiController::class, 'index'])->name('admin.laba_rugi.index');
     Route::get('admin/laba_rugi/pdf', [LabaRugiController::class, 'pdf'])->name('admin.laba_rugi.pdf');
 
-    Route::get('admin/_misc/_create_verification_status', function () {
-        Schema::disableForeignKeyConstraints();
-        VerificationStatus::truncate();
-        VerificationStatus::create(['name' => 'Sedang memenuhi persyaratan']);
-        VerificationStatus::create(['name' => 'Melakukan verifikasi']);
-        VerificationStatus::create(['name' => 'Selesai']);
-        VerificationStatus::create(['name' => 'Batal']);
-        Schema::enableForeignKeyConstraints();
-    });
-
     require __DIR__ . '/web_resources.php';
 });
