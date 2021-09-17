@@ -25,7 +25,6 @@ class VerificationStatusController extends Controller
      */
     public function create()
     {
-
         return view('admin.verification_statuses.create');
     }
 
