@@ -25,9 +25,8 @@ class UpdateDeliveryCostRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama'  => ['required'],
-            'harga' => ['required'],
-            'jarak' => ['required'],
+            'harga'      => ['required'],
+            'regency_id' => ['required'],
         ];
     }
 }

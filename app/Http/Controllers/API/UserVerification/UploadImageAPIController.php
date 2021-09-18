@@ -15,8 +15,6 @@ class UploadImageAPIController extends Controller
 
     public function __invoke(Request $request)
     {
-        // return response()->json($request->all(), 404);
-
         if (!$request->has(['image_type', 'path']) || $request->image_type > 2 || $request->image_type < 0) {
             return response()->json(['message' => 'unprocessable'], 422);
         }

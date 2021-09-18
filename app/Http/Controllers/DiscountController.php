@@ -46,7 +46,6 @@ class DiscountController extends Controller
      */
     public function store(StoreDiscountRequest $request)
     {
-        // dd($request->all());
         $discount = Discount::create($request->validated());
 
         if ($request->has(['product_id', 'diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
@@ -105,7 +104,7 @@ class DiscountController extends Controller
         $discount->update($request->validated());
 
         if ($request->has(['product_id', 'diskon_harga', 'minimal_produk', 'maksimal_produk'])) {
-            $discount->products()->detach(null, false);
+            $discount->products()->detach();
             foreach ($request->product_id as $key => $productId) {
                 $discount->products()->attach($productId, [
                     'diskon_harga'    => $request->diskon_harga[$key],
@@ -129,7 +128,7 @@ class DiscountController extends Controller
      */
     public function destroy(Discount $discount)
     {
-        $discount->products()->detach(null, false);
+        $discount->products()->detach();
         $discount->delete();
 
         flash('Discount deleted successfully.', 'success');

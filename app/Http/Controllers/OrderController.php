@@ -75,7 +75,6 @@ class OrderController extends Controller
         }
 
         $total = 0;
-        $pivot = [];
         $productId = array_values($request->only('product_id'))[0];
         $colorId = array_values($request->only('color_id'))[0];
         $sizeId = array_values($request->only('size_id'))[0];
@@ -83,6 +82,8 @@ class OrderController extends Controller
 
         $products = Product::whereIn('id', $productId)
             ->get(['id', 'nama', 'harga_customer', 'harga_reseller', 'reseller_minimum']);
+
+        $order = Order::create($input->toArray());
 
         foreach ($productId as $key => $id) {
             $product = $products->find($id);
@@ -122,18 +123,16 @@ class OrderController extends Controller
 
             $productStock->update(['stok_ready' => $productStock->stok_ready - $jumlah[$key]]);
 
-            $pivot[$id] = [
+            $order->products()->attach($id, [
                 'color_id' => $colorId[$key],
                 'size_id' => $sizeId[$key],
                 'jumlah' => $jumlah[$key],
                 'sub_total' => $subTotal,
                 'diskon' => $diskon,
-            ];
+            ]);
         }
 
-        $input->put('total', $total);
-        $order = Order::create($input->toArray());
-        $order->products()->sync($pivot);
+        $order->update(['total' => $total]);
 
         flash('Order saved successfully.', 'success');
 
@@ -211,6 +210,8 @@ class OrderController extends Controller
             $productStock->update(['stok_ready' => $productStock->stok_ready + $product->pivot->jumlah]);
         });
 
+        $order->products()->detach();
+
         foreach ($productId as $key => $id) {
             $product = $products->find($id);
 
@@ -247,21 +248,19 @@ class OrderController extends Controller
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 
-            // dd($order->products->find($id)->pivot->jumlah);
             $productStock->update(['stok_ready' => $productStock->stok_ready - $jumlah[$key]]);
 
-            $pivot[$id] = [
-                'color_id' => $colorId[$key],
-                'size_id' => $sizeId[$key],
-                'jumlah' => $jumlah[$key],
+            $order->products()->attach($id, [
+                'color_id'  => $colorId[$key],
+                'size_id'   => $sizeId[$key],
+                'jumlah'    => $jumlah[$key],
                 'sub_total' => $subTotal,
-                'diskon' => $diskon,
-            ];
+                'diskon'    => $diskon,
+            ]);
         }
 
         $input->put('total', $total);
         $order->update($input->toArray());
-        $order->products()->sync($pivot);
 
         flash('Order updated successfully.', 'success');
 

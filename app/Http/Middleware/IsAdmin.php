@@ -18,7 +18,8 @@ class IsAdmin
     {
         if (!auth()->user()->hasRole('admin')) {
             auth()->logout();
-            abort(404);
+
+            return redirect()->route('login');
         }
 
         return $next($request);

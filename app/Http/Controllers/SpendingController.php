@@ -57,9 +57,10 @@ class SpendingController extends Controller
         $input = collect($request->validated())
             ->put('nomor', $nomor);
 
-        $pivot = [];
         $stok = [];
         $total = 0;
+
+        $spending = Spending::create($input->toArray());
 
         if ($request->hasAny(['product_id', 'nama', 'ket', 'jumlah_item', 'jumlah_stok', 'spending_unit_id', 'color_id', 'size_id'])) {
 
@@ -81,7 +82,7 @@ class SpendingController extends Controller
 
                 $total += $subTotal;
 
-                $pivot[$id] = [
+                $spending->products()->attach($id, [
                     'nama' => $request->nama[$key],
                     'ket' => $request->ket[$key],
                     'harga_satuan' => $request->harga_satuan[$key] ?? null,
@@ -91,7 +92,7 @@ class SpendingController extends Controller
                     'spending_unit_id' => $request->spending_unit_id[$key],
                     'color_id' => $request->color_id[$key],
                     'size_id' => $request->size_id[$key],
-                ];
+                ]);
 
                 $stok[$key] = [
                     'product_id' => $id,
@@ -104,11 +105,8 @@ class SpendingController extends Controller
             }
         }
 
-        $input->put('total', $total);
-
-        $spending = Spending::create($input->toArray());
-        $spending->products()->attach($pivot);
-        ProductStock::upsert($stok, ['product_id', 'color_id', 'size_id', 'stok_ready']);
+        $spending->update(['total' => $total]);
+        ProductStock::upsert($stok, ['product_id', 'color_id', 'size_id'], ['stok_ready']);
 
         flash('Spending saved successfully.', 'success');
 
@@ -161,7 +159,10 @@ class SpendingController extends Controller
         $stok = [];
         $total = 0;
 
+
         if ($request->hasAny(['product_id', 'nama', 'ket', 'jumlah_item', 'jumlah_stok', 'spending_unit_id', 'color_id', 'size_id'])) {
+
+            $spending->products()->detach();
             $productStocks = ProductStock::whereIn('product_id', $request->product_id)->get();
 
             foreach ($request->product_id as $key => $id) {
@@ -170,16 +171,11 @@ class SpendingController extends Controller
                     ->where('size_id', $request->size_id[$key])
                     ->first();
 
-                DB::enableQueryLog();
                 $oldProduct = $spending->products()
                     ->wherePivot('product_id', $id)
                     ->wherePivot('color_id', $request->color_id[$key])
                     ->wherePivot('size_id', $request->size_id[$key])
                     ->first();
-
-                $log = DB::getQueryLog();
-
-                // dd($spending->load('products'));
 
                 $subTotal = $request->sub_total[$key] ?? 0;
                 $hargaSatuan = (int) $request->harga_satuan[$key] ?? 0;
@@ -191,7 +187,7 @@ class SpendingController extends Controller
 
                 $total += $subTotal;
 
-                $pivot[$id] = [
+                $spending->products()->attach($id, [
                     'nama' => $request->nama[$key],
                     'ket' => $request->ket[$key],
                     'harga_satuan' => $request->harga_satuan[$key] ?? null,
@@ -201,7 +197,7 @@ class SpendingController extends Controller
                     'spending_unit_id' => $request->spending_unit_id[$key],
                     'color_id' => $request->color_id[$key],
                     'size_id' => $request->size_id[$key],
-                ];
+                ]);
 
                 $stok[$key] = [
                     'product_id' => $id,
@@ -214,11 +210,8 @@ class SpendingController extends Controller
             }
         }
 
-        $spending->products()->detach();
-
         $input->put('total', $total);
         $spending->update($input->toArray());
-        $spending->products()->attach($pivot);
 
         ProductStock::upsert($stok, ['product_id', 'color_id', 'size_id'], ['stok_ready']);
 

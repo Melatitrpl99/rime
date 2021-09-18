@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthAPIController;
 use App\Http\Controllers\API\Details\CartDetailAPIController;
 use App\Http\Controllers\API\Misc\GetPaymentMethodAPIController;
 use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
+use App\Http\Controllers\API\Order\UploadInvoiceAPIController;
 use App\Http\Controllers\API\Product\ProductLikeController;
 use App\Http\Controllers\API\ProfileAPIController;
 use App\Http\Controllers\API\UserVerification\CheckIfUserIsElligibleAPIController;
@@ -71,6 +72,8 @@ Route::group(['middleware' => 'api'], function () {
             Route::get('status', GetVerificationStatusAPIController::class)->name('status');
             Route::post('upload', UploadImageAPIController::class)->name('upload');
         });
+
+        Route::post('orders/{order}/upload', UploadInvoiceAPIController::class);
 
         require __DIR__ . '/api_resources.php';
     });

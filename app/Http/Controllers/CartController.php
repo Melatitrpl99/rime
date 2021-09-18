@@ -56,7 +56,6 @@ class CartController extends Controller
     {
         $input = collect($request->validated());
 
-        $pivot = [];
         $total = 0;
         $productId = array_values($request->only('product_id'))[0];
         $colorId = array_values($request->only('color_id'))[0];
@@ -65,6 +64,8 @@ class CartController extends Controller
 
         $products = Product::whereIn('id', $productId)->get();
         $hasRole = User::where('id', $request->user_id)->first()->hasRole('reseller');
+
+        $cart = Cart::create($input->toArray());
 
         foreach ($productId as $key => $id) {
             $product = $products->find($id);
@@ -83,17 +84,15 @@ class CartController extends Controller
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 
-            $pivot[$id] = [
+            $cart->products()->attach($id, [
                 'color_id' => $colorId[$key],
                 'size_id' => $sizeId[$key],
                 'jumlah' => $jumlah[$key],
                 'sub_total' => $subTotal,
-            ];
+            ]);
         }
 
-        $input->put('total', $total);
-        $cart = Cart::create($input->toArray());
-        $cart->products()->sync($pivot);
+        $cart->update(['total' => $total]);
 
         flash('Cart saved successfully.', 'success');
 
@@ -148,13 +147,13 @@ class CartController extends Controller
         $products = Product::whereIn('id', $request->product_id)->get();
         $hasRole = User::where('id', $request->user_id)->first()->hasRole('reseller');
 
-        $pivot = [];
         $total = 0;
         $productId = array_values($request->only('product_id'))[0];
         $colorId = array_values($request->only('color_id'))[0];
         $sizeId = array_values($request->only('size_id'))[0];
         $jumlah = array_values($request->only('jumlah'))[0];
 
+        $cart->products()->detach();
         foreach ($productId as $key => $id) {
             $product = $products->find($id);
 
@@ -172,17 +171,16 @@ class CartController extends Controller
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 
-            $pivot[$id] = [
+            $cart->products()->attach($id, [
                 'color_id' => $colorId[$key],
                 'size_id' => $sizeId[$key],
                 'jumlah' => $jumlah[$key],
                 'sub_total' => $subTotal,
-            ];
+            ]);
         }
 
         $input->put('total', $total);
         $cart->update($input->toArray());
-        $cart->products()->sync($pivot);
 
         flash('Cart updated successfully.', 'success');
 

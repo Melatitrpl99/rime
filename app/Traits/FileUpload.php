@@ -21,19 +21,19 @@ trait FileUpload
      */
     protected function saveFile($files, string $name, string $location, Model $model)
     {
-        foreach ($files as $file) {
-            $name = Str::slug($name);
-            $format = Str::afterLast($file, '.');
+        foreach ($files as $f) {
+            $n = Str::slug($name);
+            $format = Str::afterLast($f, '.');
 
             $storage = Storage::putFile(
                 "public/{$location}/{$name}",
-                storage_path('app/' . $file)
+                storage_path('app/' . $f)
             );
 
             $path = Storage::url($storage);
 
-            $nama = new File();
-            $nama->fill([
+            $file = new File();
+            $file->fill([
                 'name'      => $name,
                 'mime_type' => Storage::mimeType($storage),
                 'format'    => $format,
@@ -42,10 +42,10 @@ trait FileUpload
                 'url'       => asset($path),
             ]);
 
-            $nama->fileable()->associate($model);
-            $nama->save();
+            $file->fileable()->associate($model);
+            $file->save();
 
-            Storage::disk('local')->delete($file);
+            Storage::disk('local')->delete($f);
         }
     }
 }
