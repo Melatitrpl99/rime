@@ -98,7 +98,6 @@ class UserShipmentAPIController extends Controller
      */
     public function update(UserShipment $userShipment, UpdateUserShipmentAPIRequest $request)
     {
-        Log::debug($request->validated());
         if ($userShipment->user_id != auth()->id()) {
             return response()->json(['message' => 'Not allowed'], 403);
         }

@@ -34,7 +34,7 @@ class ProductAPIController extends Controller
 
         $products = $products->withSum('productStocks', 'stok_ready')
             ->withAvg('testimonies', 'rating')
-            ->withCount('testimonies')
+            ->withCount(['testimonies', 'users as likes'])
             ->with('image')
             ->get();
 
@@ -49,9 +49,8 @@ class ProductAPIController extends Controller
      *
      * @return \Illuminate\Support\Facades\Response
      */
-    public function show(Product $product)
+    public function show(Product $product, Request $request)
     {
-        // dd($product->harga);
         $product->load([
             'productCategory',
             'productStocks',

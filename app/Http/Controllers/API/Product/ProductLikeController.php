@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductDetailResource;
 use App\Models\Product;
 use DB;
-use Illuminate\Http\Request;
 
 class ProductLikeController extends Controller
 {
-    public function store(Product $product, Request $request)
+    public function like(Product $product)
     {
         $product->users()->syncWithoutDetaching(auth()->id(), ['liked_at' => now()]);
 
@@ -22,7 +21,7 @@ class ProductLikeController extends Controller
         return response()->json($likes->likes);
     }
 
-    public function destroy(Product $product)
+    public function dislike(Product $product)
     {
         $product->users()->detach(auth()->id());
 

@@ -68,17 +68,9 @@ class CartAPIController extends Controller
         $product = Product::find($productId);
         $hasRole = $user->hasRole('reseller');
 
-        if ($hasRole) {
-            $validator = Validator::make([
-                'jumlah' => $jumlah,
-            ], [
-                'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
-            ], $messages = [
-                'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
-            ])->validate();
-        }
-
-        $total = $product->harga * $jumlah;
+        $total = ($hasRole && $jumlah >= $product->reseller_minimum)
+            ? $product->harga_reseller * $jumlah
+            : $product->harga_customer * $jumlah;
 
         $input->put('total', $total);
         $cart = Cart::create($input->toArray());
@@ -149,18 +141,11 @@ class CartAPIController extends Controller
             foreach ($productId as $key => $id) {
                 $product = $products->find($id);
 
-                if ($hasRole) {
-                    $validator = Validator::make([
-                        'jumlah' => $jumlah[$key],
-                    ], [
-                        'jumlah' => ['numeric', 'min:' . $product->reseller_minimum],
-                    ], $messages = [
-                        'min' => 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min',
-                    ])->validate();
-                }
+                $subTotal = ($hasRole && $jumlah[$key] >= $product->reseller_minimum)
+                    ? $product->harga_reseller * $jumlah[$key]
+                    : $product->harga_customer * $jumlah[$key];
 
-                $subTotal = $product->harga * $jumlah[$key];
-                $total = $total + $subTotal;
+                $total += $subTotal;
 
                 $cart->products()->attach($id, [
                     'color_id' => $colorId[$key],

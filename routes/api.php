@@ -5,8 +5,10 @@ use App\Http\Controllers\API\Details\CartDetailAPIController;
 use App\Http\Controllers\API\Misc\GetPaymentMethodAPIController;
 use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
 use App\Http\Controllers\API\Order\UploadInvoiceAPIController;
+use App\Http\Controllers\API\Product\NewCartProductAPIController;
 use App\Http\Controllers\API\Product\ProductLikeController;
 use App\Http\Controllers\API\ProfileAPIController;
+use App\Http\Controllers\API\UserShipment\SetAsDefaultUserShipmentAPIController;
 use App\Http\Controllers\API\UserVerification\CheckIfUserIsElligibleAPIController;
 use App\Http\Controllers\API\UserVerification\CreateVerificationServiceAPIController;
 use App\Http\Controllers\API\UserVerification\GetVerificationStatusAPIController;
@@ -48,11 +50,14 @@ Route::group(['middleware' => 'api'], function () {
                 ->name('villages');
         });
 
-        Route::post('products/{product}/likes', [ProductLikeController::class, 'store'])
-            ->name('products.like');
-
-        Route::delete('products/{product}/likes', [ProductLikeController::class, 'destroy'])
-            ->name('products.dislike');
+        Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+            Route::post('/{product}/likes', [ProductLikeController::class, 'like'])
+                ->name('products.like');
+            Route::delete('{product}/likes', [ProductLikeController::class, 'dislike'])
+                ->name('products.dislike');
+            Route::get('/{products}/{color:id}/{size:id}', NewCartProductAPIController::class)
+                ->name('products.new_cart');
+        });
 
         Route::group(['prefix' => 'carts', 'as' => 'cart.details.'], function () {
             Route::post('{cart}/products', [CartDetailAPIController::class, 'addProduct'])
@@ -72,6 +77,8 @@ Route::group(['middleware' => 'api'], function () {
             Route::get('status', GetVerificationStatusAPIController::class)->name('status');
             Route::post('upload', UploadImageAPIController::class)->name('upload');
         });
+
+        Route::patch('user_shipments/{user_shipment}/default', SetAsDefaultUserShipmentAPIController::class);
 
         Route::post('orders/{order}/upload', UploadInvoiceAPIController::class);
 

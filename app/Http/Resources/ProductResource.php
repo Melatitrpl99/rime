@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
             'harga'               => $this->harga,
             'reseller_minimum'    => $this->reseller_minimum,
             'product_category_id' => $this->product_category_id,
-            'suka'                => $this->suka,
+            'likes_count'         => $this->likes,
             'review_avg'          => (float) number_format($this->testimonies_avg_rating, 2),
             'review_count'        => (int) $this->testimonies_count,
             'total_stok'          => (int) $this->product_stocks_sum_stok_ready,

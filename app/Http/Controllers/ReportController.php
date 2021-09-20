@@ -48,7 +48,7 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request)
     {
-        Report::create($request->validated());
+        $report = Report::create($request->validated());
 
         flash('Report saved successfully.', 'success');
 

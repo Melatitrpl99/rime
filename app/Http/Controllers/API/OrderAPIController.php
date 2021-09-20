@@ -115,18 +115,10 @@ class OrderAPIController extends Controller
                 return response()->json(['message' => 'tidak dapat menemukan produk dengan warna dan ukuran yang dipesan'], 422);
             }
 
-            $validateRules['jumlah'] = ['numeric', 'max:' . $productStock->stok_ready];
-            $validateMessages['jumlah.max'] = 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok ready';
-
-            if ($hasRole) {
-                $validateRules['jumlah'] = ['numeric', 'min:' . $product->reseller_minimum, 'max:' . $productStock->stok_ready];
-                $validateMessages['jumlah.min'] = 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min';
-            }
-
             $validator = Validator::make(
                 ['jumlah' => $jumlah[$key]],
-                $validateRules,
-                $validateMessages
+                ['jumlah' => ['numeric', 'max:' . $productStock->stok_ready]],
+                ['jumlah.max' => 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok tersedia']
             )->validate();
 
             $discountPivot = $discount
@@ -139,8 +131,11 @@ class OrderAPIController extends Controller
                 ? $discountPivot->diskon_harga
                 : null;
 
-            $subTotal = $product->harga * $jumlah[$key];
-            $total = $total + $subTotal;
+            $subTotal = ($hasRole && $jumlah[$key] >= $product->reseller_minimum)
+                ? $product->harga_reseller * $jumlah[$key]
+                : $product->harga_customer * $jumlah[$key];
+
+            $total += $subTotal;
 
             $productStock->update(['stok_ready' => $productStock->stok_ready - $jumlah[$key]]);
 

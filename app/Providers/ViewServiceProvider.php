@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductStock;
 use App\Models\Province;
+use App\Models\ReportCategory;
 use App\Models\Size;
 use App\Models\SpendingCategory;
 use App\Models\SpendingUnit;
@@ -38,8 +39,10 @@ class ViewServiceProvider extends ServiceProvider
     {
         view()->composer('admin.reports.fields', function ($view) {
             $userItems = User::pluck('nama_lengkap', 'id')->toArray();
+            $reportCategoryItems = ReportCategory::pluck('name', 'id')->toArray();
 
-            $view->with('userItems', $userItems);
+            $view->with('userItems', $userItems)
+                ->with('reportCategoryItems', $reportCategoryItems);
         });
         // predefined here already //
         view()->composer('admin.user_verifications.fields', function ($view) {

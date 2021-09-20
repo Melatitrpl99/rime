@@ -18,7 +18,6 @@ class Report extends Model
         'laporan_selesai',
         'report_category_id',
         'is_import',
-        'slug',
         'user_id',
     ];
 
