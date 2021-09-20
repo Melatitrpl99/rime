@@ -36,7 +36,7 @@ class VerificationStatusController extends Controller
      */
     public function store(Request $request)
     {
-        VerificationStatus::create($request->name);
+        VerificationStatus::create($request->only(['name']));
 
         flash('Verification status created successfully', 'success');
 
