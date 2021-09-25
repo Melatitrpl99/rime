@@ -32,6 +32,7 @@ class StoreReportRequest extends FormRequest
             'laporan_selesai'    => ['required', 'date'],
             'report_category_id' => ['required'],
             'is_import'          => ['nullable', 'boolean'],
+            'path'               => ['nullable', 'array'],
         ];
     }
 }

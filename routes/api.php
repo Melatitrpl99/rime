@@ -35,8 +35,11 @@ Route::group(['middleware' => 'api'], function () {
 
         Route::group(['as' => 'profile.'], function () {
             Route::get('me', [ProfileAPIController::class, 'me'])->name('me');
-            Route::patch('profile/update', [ProfileAPIController::class, 'updateProfile'])->name('update');
-            Route::patch('login/update', [ProfileAPIController::class, 'updateLogin'])->name('update.login');
+            Route::patch('profile/update', [ProfileAPIController::class, 'updateProfile'])
+                ->name('update');
+            Route::patch('profile/update_login', [ProfileAPIController::class, 'updateLogin'])
+                ->name('update.login');
+            Route::post('profile/upload_avatar', [ProfileAPIController::class, 'uploadAvatar'])->name('upload.avatar');
         });
 
         Route::group(['prefix' => 'shipments', 'as' => 'shipments.'], function () {

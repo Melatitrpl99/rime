@@ -21,8 +21,16 @@ class LabaRugiController extends Controller
             ->with('pengeluaran', $pengeluaran);
     }
 
-    public function pdf()
+    public function pdf(Request $request)
     {
-        return view('admin.reports.laba_rugi.pdf');
+        $pemasukan = OrderTransaction::whereBetween('tanggal_masuk', [now()->subMonth(), now()])
+            ->sum('total');
+        $pengeluaran = Spending::sum('total');
+
+        $pengeluaran = Spending::all()->sum('total');
+
+        return view('admin.reports.laba_rugi.pdf')
+            ->with('pemasukan', $pemasukan)
+            ->with('pengeluaran', $pengeluaran);
     }
 }

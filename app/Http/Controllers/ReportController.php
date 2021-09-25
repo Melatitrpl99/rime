@@ -6,6 +6,7 @@ use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Report;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 /**
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class ReportController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the Report.
      *
@@ -49,6 +51,10 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request)
     {
         $report = Report::create($request->validated());
+
+        if ($request->filled('path')) {
+            $this->saveFile($request->input('path'), $request->judul, 'laporan', $report);
+        }
 
         flash('Report saved successfully.', 'success');
 

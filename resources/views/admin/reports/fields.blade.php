@@ -14,6 +14,7 @@
 <div class="form-group col-12 col-sm-6">
     {!! Form::label('report_category_id', 'Kategori:') !!}
     {!! Form::select('report_category_id', $reportCategoryItems, null, ['class' => 'form-control custom-select']) !!}
+    <a href="{{ route('admin.laba_rugi.index') }}" class="d-block mt-2" target="_blank">Buka laporan</a>
 </div>
 
 <!-- Is Import Field -->
@@ -42,7 +43,7 @@
 <!-- Path Field -->
 <div class="form-group col-12 h-100">
     {!! Form::label('path', 'Upload laporan (.zip, .pdf)') !!}
-    {!! Form::file('path', ['class' => 'fileupload', 'multiple' => false]) !!}
+    {!! Form::file('path', ['class' => 'fileupload', 'multiple' => true]) !!}
 </div>
 
 @include('admin.reports.field_js')

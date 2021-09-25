@@ -13,7 +13,7 @@
                             <span class="d-none d-sm-inline">Ekspor</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" id="rime">File Dokumen (.PDF)</a>
+                            <a class="dropdown-item" href="{{ route('admin.laba_rugi.pdf') }}" target="_blank">File Dokumen (.PDF)</a>
                             <a class="dropdown-item" href="#">File Excel (.XLS)</a>
                             <a class="dropdown-item" href="#">File CSV</a>
                         </div>
@@ -41,11 +41,3 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script>
-        $('#rime').click(() => {
-            window.print();
-        })
-    </script>
-@endpush

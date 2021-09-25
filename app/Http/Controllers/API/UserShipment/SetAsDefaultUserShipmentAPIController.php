@@ -11,7 +11,6 @@ class SetAsDefaultUserShipmentAPIController extends Controller
 {
     public function __invoke(UserShipment $userShipment, Request $request)
     {
-        //
         $userShipments = UserShipment::whereUserId(auth()->id())
             ->whereIsDefault(true)
             ->update(['is_default' => false]);
