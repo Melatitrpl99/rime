@@ -35,11 +35,11 @@ class UploadImageAPIController extends Controller
         $path = $file->storePubliclyAs($userVerification->base_path, $name);
 
         if ($request->image_type == 1) {
-            $userVerification->face_path = $path;
+            $userVerification->face_path = $name;
         }
 
         if ($request->image_type == 2) {
-            $userVerification->id_card_path = $path;
+            $userVerification->id_card_path = $name;
         }
 
         $userVerification->save();

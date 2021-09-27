@@ -20,7 +20,7 @@ class CreateVerificationServiceAPIController extends Controller
         if (!$userVerification) {
             $userVerification = $user->userVerification()->create([
                 'verification_status_id' => 1,
-                'base_path'              => 'public/verifications/' . Str::random(),
+                'base_path'              => 'verifications/' . Str::random(),
             ]);
         }
 

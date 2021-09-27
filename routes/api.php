@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Details\CartDetailAPIController;
 use App\Http\Controllers\API\Misc\GetPaymentMethodAPIController;
 use App\Http\Controllers\API\Misc\GetShipmentDetailsController;
 use App\Http\Controllers\API\Order\UploadInvoiceAPIController;
+use App\Http\Controllers\API\OrderTransactionAPIController;
 use App\Http\Controllers\API\Product\NewCartProductAPIController;
 use App\Http\Controllers\API\Product\ProductLikeController;
 use App\Http\Controllers\API\ProfileAPIController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\API\UserShipment\SetAsDefaultUserShipmentAPIController;
 use App\Http\Controllers\API\UserVerification\CheckIfUserIsElligibleAPIController;
 use App\Http\Controllers\API\UserVerification\CreateVerificationServiceAPIController;
 use App\Http\Controllers\API\UserVerification\GetVerificationStatusAPIController;
+use App\Http\Controllers\API\UserVerification\StartVerificationServiceAPIController;
 use App\Http\Controllers\API\UserVerification\UploadImageAPIController;
 use Illuminate\Support\Facades\Route;
 
@@ -79,11 +81,12 @@ Route::group(['middleware' => 'api'], function () {
             Route::post('create', [CreateVerificationServiceAPIController::class, 'create'])->name('create');
             Route::get('status', GetVerificationStatusAPIController::class)->name('status');
             Route::post('upload', UploadImageAPIController::class)->name('upload');
+            Route::post('begin', StartVerificationServiceAPIController::class)->name('begin');
         });
 
         Route::patch('user_shipments/{user_shipment}/default', SetAsDefaultUserShipmentAPIController::class);
 
-        Route::post('orders/{order}/upload', UploadInvoiceAPIController::class);
+        Route::post('orders/{order}/upload', OrderTransactionAPIController::class);
 
         require __DIR__ . '/api_resources.php';
     });

@@ -117,9 +117,4 @@ class Order extends Model
             ->withPivot(OrderDetail::$pivotColumns)
             ->using(OrderDetail::class);
     }
-
-    public function invoice(): MorphOne
-    {
-        return $this->morphOne(File::class, 'fileable');
-    }
 }

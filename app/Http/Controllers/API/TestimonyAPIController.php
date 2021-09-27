@@ -40,7 +40,9 @@ class TestimonyAPIController extends Controller
             return response()->json(TestimonyResource::collection($testimonies), 200);
         }
 
-        $testimonies = $query->where('user_id', auth()->id())->get();
+        $testimonies = $query->where('user_id', auth()->id())
+            ->with('product')
+            ->get();
 
         return response()->json(TestimonyResource::collection($testimonies), 200);
     }

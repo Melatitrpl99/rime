@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Validator;
 
 /**
@@ -96,16 +97,20 @@ class OrderController extends Controller
             $validateRules['jumlah'] = ['numeric', 'max:' . $productStock->stok_ready];
             $validateMessages['jumlah.max'] = 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok ready';
 
-            if ($hasRole) {
-                $validateRules['jumlah'] = ['numeric', 'min:' . $product->reseller_minimum, 'max:' . $productStock->stok_ready];
-                $validateMessages['jumlah.min'] = 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min';
-            }
+            $harga = ($hasRole && $jumlah[$key] >= $product->reseller_minimum)
+                ? $product->harga_reseller
+                : $product->harga_customer;
 
-            $validator = Validator::make(
-                ['jumlah' => $jumlah[$key]],
-                $validateRules,
-                $validateMessages
-            )->validate();
+            try {
+                $validator = Validator::make(
+                    ['jumlah' => $jumlah[$key]],
+                    ['jumlah' => ['numeric', 'max:' . $productStock->stok_ready]],
+                    ['jumlah.max' => 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok tersedia']
+                )->validate();
+            } catch (ValidationException $e) {
+                $order->products()->detach();
+                $order->forceDelete();
+            }
 
             $discountPivot = $discount
                 ? optional($discount->products->find($id))->pivot
@@ -117,9 +122,8 @@ class OrderController extends Controller
                 ? $discountPivot->diskon_harga
                 : null;
 
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_customer;
             $subTotal = $harga * $jumlah[$key];
-            $total = $total + $subTotal;
+            $total += $subTotal;
 
             $productStock->update(['stok_ready' => $productStock->stok_ready - $jumlah[$key]]);
 
@@ -181,7 +185,7 @@ class OrderController extends Controller
      */
     public function update(Order $order, UpdateOrderRequest $request)
     {
-        $order->load('products');
+        $order->load('products')->replicate();
         $input = collect($request->validated());
 
         $products = Product::whereIn('id', $request->product_id)->get();
@@ -194,7 +198,6 @@ class OrderController extends Controller
             $input->put('discount_id', $discount->id);
         }
 
-        $pivot = [];
         $total = 0;
         $productId = array_values($request->only('product_id'))[0];
         $colorId = array_values($request->only('color_id'))[0];
@@ -223,16 +226,20 @@ class OrderController extends Controller
             $validateRules['jumlah'] = ['numeric', 'max:' . $productStock->stok_ready];
             $validateMessages['jumlah.max'] = 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok ready';
 
-            if ($hasRole) {
-                $validateRules['jumlah'] = ['numeric', 'min:' . $product->reseller_minimum, 'max:' . $productStock->stok_ready];
-                $validateMessages['jumlah.min'] = 'Jumlah pembelian barang ' . $product->nama . ' untuk reseller minimal :min';
-            }
+            $harga = ($hasRole && $jumlah[$key] >= $product->reseller_minimum)
+                ? $product->harga_reseller
+                : $product->harga_customer;
 
-            $validator = Validator::make(
-                ['jumlah' => $jumlah[$key]],
-                $validateRules,
-                $validateMessages
-            )->validate();
+            try {
+                $validator = Validator::make(
+                    ['jumlah' => $jumlah[$key]],
+                    ['jumlah' => ['numeric', 'max:' . $productStock->stok_ready]],
+                    ['jumlah.max' => 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok tersedia']
+                )->validate();
+            } catch (ValidationException $e) {
+                $order->products()->detach();
+                $order->forceDelete();
+            }
 
             $discountPivot = $discount
                 ? optional($discount->products->find($id))->pivot
@@ -244,7 +251,6 @@ class OrderController extends Controller
                 ? $discountPivot->diskon_harga
                 : null;
 
-            $harga = $hasRole ? $product->harga_reseller : $product->harga_customer;
             $subTotal = $harga * $jumlah[$key];
             $total = $total + $subTotal;
 

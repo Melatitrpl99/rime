@@ -36,7 +36,7 @@ class GetUserRelationController extends Controller
         Debugbar::disable();
 
         $orders = Order::where('user_id', $request->get('user_id'))
-            ->doesntHave('orderTransactions')
+            ->doesntHave('orderTransaction')
             ->pluck('nomor', 'id');
 
         return $orders;

@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Validator;
 
 /**
@@ -115,11 +116,16 @@ class OrderAPIController extends Controller
                 return response()->json(['message' => 'tidak dapat menemukan produk dengan warna dan ukuran yang dipesan'], 422);
             }
 
-            $validator = Validator::make(
-                ['jumlah' => $jumlah[$key]],
-                ['jumlah' => ['numeric', 'max:' . $productStock->stok_ready]],
-                ['jumlah.max' => 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok tersedia']
-            )->validate();
+            try {
+                $validator = Validator::make(
+                    ['jumlah' => $jumlah[$key]],
+                    ['jumlah' => ['numeric', 'max:' . $productStock->stok_ready]],
+                    ['jumlah.max' => 'Jumlah pembelian barang ' . $product->nama . 'melewati batas stok tersedia']
+                )->validate();
+            } catch (ValidationException $e) {
+                $order->products()->detach();
+                $order->forceDelete();
+            }
 
             $discountPivot = $discount
                 ? optional($discount->products->find($id))->pivot
@@ -176,7 +182,7 @@ class OrderAPIController extends Controller
             'userShipment',
             'paymentMethod',
         ])
-            ->loadExists('invoice as is_paid')
+            ->loadExists('orderTransaction as is_paid')
             ->loadSum('products as jumlah', 'order_details.jumlah');
 
         return response()->json(new OrderResource($order), 200);

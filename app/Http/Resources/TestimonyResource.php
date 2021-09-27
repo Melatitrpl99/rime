@@ -22,6 +22,7 @@ class TestimonyResource extends JsonResource
             'judul'      => $this->judul,
             'isi'        => $this->isi,
             'rating'     => $this->rating,
+            'product'    => new ProductResource($this->whenLoaded('product')),
         ];
     }
 }
