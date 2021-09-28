@@ -25,8 +25,6 @@ class StartVerificationServiceAPIController extends Controller
             'idcard_path' => env('APP_URL') . '/' . $userVerification->id_card_path,
         ]);
 
-        dd($response);
-
         if ($response->failed()) {
             return response()->json(['message' => 'unprocessable'], 422);
         }
