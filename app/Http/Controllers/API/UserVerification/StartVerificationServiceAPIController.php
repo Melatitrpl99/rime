@@ -22,7 +22,7 @@ class StartVerificationServiceAPIController extends Controller
         $response = Http::asForm()->post(env('KYC_URL') . '/api/facenet/verify', [
             'uuid' => $userVerification->uuid,
             'face_path' => env('APP_URL') . '/' .  $userVerification->face_path,
-            'idcard_path' => env('APP_URL') . '/' . $userVerification->idcard_path,
+            'idcard_path' => env('APP_URL') . '/' . $userVerification->id_card_path,
         ]);
 
         dd($response);
