@@ -9,6 +9,7 @@ class UserVerification extends Model
 {
     public $fillable = [
         'user_id',
+        'uuid',
         'base_path',
         'face_path',
         'id_card_path',

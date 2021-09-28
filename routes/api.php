@@ -81,7 +81,7 @@ Route::group(['middleware' => 'api'], function () {
             Route::post('create', [CreateVerificationServiceAPIController::class, 'create'])->name('create');
             Route::get('status', GetVerificationStatusAPIController::class)->name('status');
             Route::post('upload', UploadImageAPIController::class)->name('upload');
-            Route::post('begin', StartVerificationServiceAPIController::class)->name('begin');
+            Route::post('start', StartVerificationServiceAPIController::class)->name('start');
         });
 
         Route::patch('user_shipments/{user_shipment}/default', SetAsDefaultUserShipmentAPIController::class);

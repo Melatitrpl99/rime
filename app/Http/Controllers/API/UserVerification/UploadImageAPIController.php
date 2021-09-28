@@ -32,7 +32,9 @@ class UploadImageAPIController extends Controller
             ? '0001.' . $format
             : '0002.' . $format;
 
-        $path = $file->storePubliclyAs($userVerification->base_path, $name);
+        $basePath = Str::after($userVerification->base_path, 'storage/');
+
+        $file->storePubliclyAs('public/' . $basePath, $name);
 
         if ($request->image_type == 1) {
             $userVerification->face_path = $name;

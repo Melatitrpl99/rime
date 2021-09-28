@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\UserVerification;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserVerificationResource;
+use Http;
 use Illuminate\Http\Request;
 use Str;
 
@@ -17,10 +18,20 @@ class CreateVerificationServiceAPIController extends Controller
         }
 
         $userVerification = $user->userVerification;
+
         if (!$userVerification) {
+            $facenet = Http::post(env('KYC_URL') . '/api/facenet/create');
+
+            if ($facenet->failed()) {
+                return response()->json(['message' => 'unprocessable'], 422);
+            }
+
+            $response = json_decode($facenet->body());
+
             $userVerification = $user->userVerification()->create([
                 'verification_status_id' => 1,
-                'base_path'              => 'verifications/' . Str::random(),
+                'base_path'              => 'storage/verifications/' . Str::random(),
+                'uuid'                   => $response->id,
             ]);
         }
 

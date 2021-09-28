@@ -24,14 +24,14 @@ class UpdateProfileAPIRequest extends FormRequest
     public function rules()
     {
         return [
-            'nik'          => ['sometimes', 'required', 'string', 'max:20'],
-            'nama_lengkap' => ['sometimes', 'required', 'string', 'max:255'],
-            'jk'           => ['sometimes', 'required', 'string', 'max:1'],
-            'tempat_lahir' => ['sometimes', 'required', 'string', 'max:255'],
-            'tgl_lahir'    => ['sometimes', 'required', 'date', 'max:255'],
-            'no_hp'        => ['sometimes', 'required', 'string', 'max:255'],
-            'no_wa'        => ['sometimes', 'required', 'string', 'max:255'],
-            'alamat'       => ['sometimes', 'required', 'string', 'max:65535'],
+            'nik'          => ['nullable', 'string', 'max:20'],
+            'nama_lengkap' => ['nullable', 'string', 'max:255'],
+            'jk'           => ['nullable', 'string', 'max:1'],
+            'tempat_lahir' => ['nullable', 'string', 'max:255'],
+            'tgl_lahir'    => ['nullable', 'date', 'max:255'],
+            'no_hp'        => ['nullable', 'string', 'max:255'],
+            'no_wa'        => ['nullable', 'string', 'max:255'],
+            'alamat'       => ['nullable', 'string', 'max:65535'],
         ];
     }
 }

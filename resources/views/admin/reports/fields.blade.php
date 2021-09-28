@@ -42,8 +42,8 @@
 
 <!-- Path Field -->
 <div class="form-group col-12 h-100">
-    {!! Form::label('path', 'Upload laporan (.zip, .pdf)') !!}
-    {!! Form::file('path', ['class' => 'fileupload', 'multiple' => true]) !!}
+    {!! Form::label('path[]', 'Upload laporan (.zip, .pdf)') !!}
+    {!! Form::file('path[]', ['class' => 'fileupload', 'multiple' => true]) !!}
 </div>
 
 @include('admin.reports.field_js')
