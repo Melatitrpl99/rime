@@ -39,8 +39,10 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'tgl_lahir' => 'date',
+        'tgl_lahir' => 'datetime:Y-m-d',
     ];
+
+    protected $dateFormat = 'Y-m-d';
 
     public function setJenisKelaminAttribute(string $value)
     {

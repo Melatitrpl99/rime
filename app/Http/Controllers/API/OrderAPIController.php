@@ -8,6 +8,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\UserShipment;
 use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -92,6 +93,18 @@ class OrderAPIController extends Controller
         if ($discount) {
             $input->put('discount_id', $discount->id);
         }
+
+        $deliveryFee = 40000;
+
+        if ($request->filled('user_shipment_id')) {
+            $userShipment = UserShipment::find($request->user_shipment_id);
+
+            $deliveryFee = $userShipment->village->regency->id == 6472
+                ? 15000
+                : 40000;
+        }
+
+        $input->put('biaya_pengiriman', $deliveryFee);
 
         $total = 0;
         $productId = array_values($request->only('product_id'))[0];

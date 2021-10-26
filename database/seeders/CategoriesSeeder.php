@@ -43,8 +43,8 @@ class CategoriesSeeder extends Seeder
         ]);
 
         PaymentMethod::insert([
-            ['name' => 'transfer', 'ket' => null, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'COD', 'ket' => null, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'transfer', 'ket' => "<p>Terima kasih telah mengorder di Rime Syar'i.</p><p>&nbsp;</p><p>Silahkan melakukan pembayaran sebelum tanggal <strong>::tgl_expire</strong> sebesar ::total_order dengan melampirkan <strong>bukti transfer</strong>. Anda dapat membayar order dengan mentransfer ke salah satu rekening bank dibawah ini:</p><ol><li>73528808090 BANK SYARIAH INDONESIA A.N. Melati</li><li>01004977132540 BANK BRI A.N. Melati</li></ol><p>&nbsp;</p><p>Masukkan keterangan / berita dengan <strong>::no_order</strong></p><p>&nbsp;</p><p>Upload bukti transfer anda dalam halaman detail order pada aplikasi.</p>", 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'COD', 'ket' => "<p>Terima kasih telah mengorder di Rime Syar'i.</p><p>&nbsp;</p><p>Silahkan melakukan kepada kurir pada saat menerima produk anda.</p>", 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         Size::insert([
