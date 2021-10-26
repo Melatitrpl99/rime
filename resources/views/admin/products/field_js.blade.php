@@ -1,8 +1,8 @@
-@include('layouts.plugins.filepond', ['multiple' => true])
+@include('admin._layouts.plugins.filepond', ['multiple' => true])
 
-@include('layouts.plugins.select2')
+@include('admin._layouts.plugins.select2')
 
-@include('layouts.plugins.ckeditor5')
+@include('admin._layouts.plugins.ckeditor5')
 
 @push('scripts')
     <script>

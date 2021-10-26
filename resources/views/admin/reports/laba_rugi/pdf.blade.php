@@ -6,7 +6,7 @@
     <title>{{ env('APP_NAME') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-    @include('layouts.css')
+    @include('admin._layouts.css')
 </head>
 
 <body>

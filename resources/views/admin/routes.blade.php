@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin._layouts.app')
 
 @section('content')
     <section class="content-header">
@@ -46,4 +46,4 @@
     </section>
 @endsection
 
-@include('layouts.plugins.datatable', ['useButtons' => false])
+@include('admin._layouts.plugins.datatable', ['useButtons' => false])

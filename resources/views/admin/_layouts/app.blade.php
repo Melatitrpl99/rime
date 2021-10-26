@@ -5,16 +5,16 @@
     <title>{{ env('APP_NAME') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-    @include('layouts.css')
+    @include('admin._layouts.css')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Main Header -->
-        @include('layouts.header')
+        @include('admin._layouts.header')
 
         <!-- Left side column. contains the logo and sidebar -->
-        @include('layouts.sidebar')
+        @include('admin._layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper h-auto">
@@ -30,7 +30,7 @@
             </div>
         </footer>
     </div>
-    @include('layouts.js')
+    @include('admin._layouts.js')
 </body>
 
 </html>

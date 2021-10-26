@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin._layouts.app')
 <title>{{ env('APP_NAME') }} | Spending Units</title>
 
 @section('content')
@@ -26,7 +26,7 @@
                             @include('admin.spending_units.table')
                         </div>
                         <div class="card-footer">
-                            
+
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,8 @@
 <?php
 
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+
 /**
  * Convert numeric values to pre-formatted strings
  */
@@ -27,4 +30,17 @@ function rp(float $number = null, bool $useDecimal = true): string
     }
 
     return numerify($number, $useDecimal, 'Rp ');
+}
+
+/**
+ * Get list of months in current year until today.
+ */
+function getListOfMonth(Carbon $today)
+{
+    $months = array();
+    foreach (CarbonPeriod::create(now()->year . '-01-01', '1 month', $today) as $month) {
+        $months[((int) $month->format('m')) - 1] = $month->format('F');
+    }
+
+    return $months;
 }

@@ -56,7 +56,7 @@
     </div>
 </div>
 
-@include('layouts.plugins.select2')
+@include('admin._layouts.plugins.select2')
 
 @push('scripts')
     <script>

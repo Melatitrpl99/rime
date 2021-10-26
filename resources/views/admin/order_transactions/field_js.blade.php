@@ -1,6 +1,6 @@
-@include('layouts.plugins.select2')
+@include('admin._layouts.plugins.select2')
 
-@include('layouts.plugins.datetimepicker')
+@include('admin._layouts.plugins.datetimepicker')
 
 @once
     @push('scripts')

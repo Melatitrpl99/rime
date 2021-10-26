@@ -1,8 +1,8 @@
-@include('layouts.plugins.ckeditor5')
+@include('admin._layouts.plugins.ckeditor5')
 
-@include('layouts.plugins.filepond', ['multiple' => true])
+@include('admin._layouts.plugins.filepond', ['multiple' => true])
 
-@include('layouts.plugins.datetimepicker')
+@include('admin._layouts.plugins.datetimepicker')
 
 @once
     @push('scripts')

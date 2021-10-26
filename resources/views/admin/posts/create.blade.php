@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin._layouts.app')
 <title>{{ env('APP_NAME') }} | Tulis postingan baru</title>
 
 @section('content')

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin._layouts.app')
 
 @section('content')
     <section class="content-header">
@@ -56,7 +56,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Penjualan bulan ini</h5>
+                            <h5 class="card-title">Penjualan tahun {{ now()->year }}</h5>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool my-auto" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
@@ -67,7 +67,7 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <p class="text-center">
-                                        <strong>Penjualan: {{ now()->startOfMonth()->format('d F Y') }} - {{ now()->endOfMonth()->format('d F Y') }}</strong>
+                                        <strong>Pertumbuhan penjualan sampai {{ now()->format('d F Y') }}</strong>
                                     </p>
                                     <div class="chart">
                                         <div class="chartjs-size-monitor">
@@ -91,17 +91,10 @@
                                         </div>
                                     </div>
                                     <div class="progress-group">
-                                        <span class="progress-text">Gamis</span>
+                                        <span class="progress-text">Abaya</span>
                                         <span class="float-right"><b>72</b>/100</span>
                                         <div class="progress progress-sm">
                                             <div class="progress-bar bg-success" style="width: 72%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="progress-group">
-                                        <span class="progress-text">Masker</span>
-                                        <span class="float-right"><b>144</b>/300</span>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-info" style="width: 48%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -223,7 +216,7 @@
     </section>
 @endsection
 
-@include('layouts.plugins.chartjs')
+@include('admin._layouts.plugins.chartjs')
 @push('scripts')
     <script>
         var salesChartCanvas = $('#salesChart').get(0).getContext('2d')
@@ -231,22 +224,22 @@
         var salesChartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
-                    label: 'Digital Goods',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
+                    label: 'Abaya',
+                    backgroundColor: '#28A745',
+                    borderColor: '#28A745',
                     pointRadius: false,
-                    pointColor: '#3b8bba',
+                    pointColor: '#28A745',
                     pointStrokeColor: 'rgba(60,141,188,1)',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(60,141,188,1)',
                     data: [28, 48, 40, 19, 86, 27, 90]
                 },
                 {
-                    label: 'Electronics',
-                    backgroundColor: 'rgba(210, 214, 222, 1)',
-                    borderColor: 'rgba(210, 214, 222, 1)',
+                    label: 'Khimar',
+                    backgroundColor: '#007BFF',
+                    borderColor: '#007BFF',
                     pointRadius: false,
-                    pointColor: 'rgba(210, 214, 222, 1)',
+                    pointColor: '#007BFF',
                     pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(220,220,220,1)',

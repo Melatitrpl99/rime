@@ -32,6 +32,6 @@
     {!! Form::file('path[]', ['class' => 'fileupload', 'multiple' => false]) !!}
 </div>
 
-@include('layouts.plugins.ckeditor5')
+@include('admin._layouts.plugins.ckeditor5')
 
-@include('layouts.plugins.filepond', ['multiple' => false])
+@include('admin._layouts.plugins.filepond', ['multiple' => false])

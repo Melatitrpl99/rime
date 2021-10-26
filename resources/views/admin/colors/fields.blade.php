@@ -17,5 +17,5 @@
     </div>
 </div>
 
-@include('layouts.plugins.bootstrap-colorpicker')
+@include('admin._layouts.plugins.bootstrap-colorpicker')
 

@@ -6,7 +6,7 @@
     <title>{{ env('APP_NAME') }} | Register</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-    @include('layouts.css')
+    @include('admin._layouts.css')
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 </head>
 
@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-    @include('layouts.js')
+    @include('admin._layouts.js')
 </body>
 
 </html>

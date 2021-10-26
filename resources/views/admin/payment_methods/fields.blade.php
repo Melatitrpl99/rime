@@ -17,4 +17,4 @@
     {!! Form::textarea('ket', null, ['class' => 'form-control ckeditor']) !!}
 </div>
 
-@include('layouts.plugins.ckeditor5')
+@include('admin._layouts.plugins.ckeditor5')

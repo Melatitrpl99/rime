@@ -1,8 +1,8 @@
-@include('layouts.plugins.datetimepicker')
+@include('admin._layouts.plugins.datetimepicker')
 
-@include('layouts.plugins.select2')
+@include('admin._layouts.plugins.select2')
 
-@include('layouts.plugins.ckeditor5')
+@include('admin._layouts.plugins.ckeditor5')
 
 @once
     @push('scripts')

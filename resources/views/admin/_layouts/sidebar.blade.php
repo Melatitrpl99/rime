@@ -14,7 +14,7 @@
         </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                @include('layouts.left-menu')
+                @include('admin._layouts.left-menu')
             </ul>
         </nav>
     </div>

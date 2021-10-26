@@ -16,14 +16,14 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(IndoRegionSeeder::class);
         $this->call(CategoriesSeeder::class);
-        $this->call(ActivitiesSeeder::class);
-        $this->call(ProductsSeeder::class);
-        $this->call(DiscountsSeeder::class);
-        $this->call(CartsSeeder::class);
-        $this->call(UserShipmentsSeeder::class);
-        $this->call(OrdersSeeder::class);
-        $this->call(SpendingsSeeder::class);
-        $this->call(TestimoniesSeeder::class);
-        $this->call(PostsSeeder::class);
+        // $this->call(ActivitiesSeeder::class);
+        // $this->call(ProductsSeeder::class);
+        // $this->call(DiscountsSeeder::class);
+        // $this->call(CartsSeeder::class);
+        // $this->call(UserShipmentsSeeder::class);
+        // $this->call(OrdersSeeder::class);
+        // $this->call(SpendingsSeeder::class);
+        // $this->call(TestimoniesSeeder::class);
+        // $this->call(PostsSeeder::class);
     }
 }

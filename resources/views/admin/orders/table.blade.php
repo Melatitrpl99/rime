@@ -5,7 +5,6 @@
             <th>Nomor</th>
             <th width="150" class="text-right">Total</th>
             <th width="150" class="text-right">Pengiriman</th>
-            <th width="100" class="text-right">Berat</th>
             <th width="150">Status</th>
             <th width="120">User</th>
             <th width="120" class="text-center">Action</th>
@@ -20,7 +19,6 @@
             <td>{{ $order->nomor }}</td>
             <td class="text-right">{{ rp($order->total) }}</td>
             <td class="text-right">{{ rp($order->biaya_pengiriman) }}</td>
-            <td class="text-right">{{ $order->berat > 1000 ? numerify($order->berat / 1000, true) . ' Kg' : numerify($order->berat) . ' gram' }}</td>
             <td>{{ $order->status->name }}</td>
             <td>{{ $order->user->nama_lengkap }}</td>
             <td>
